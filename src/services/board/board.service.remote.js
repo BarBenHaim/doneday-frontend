@@ -1,36 +1,36 @@
 import { httpService } from '../http.service'
 
-export const carService = {
+export const boardService = {
     query,
     getById,
     save,
     remove,
-    addCarMsg,
+    addBoardMsg,
 }
 
-async function query(filterBy = { txt: '', price: 0 }) {
-    return httpService.get(`car`, filterBy)
+async function query() {
+    return httpService.get(`board`)
 }
 
-function getById(carId) {
-    return httpService.get(`car/${carId}`)
+function getById(boardId) {
+    return httpService.get(`board/${boardId}`)
 }
 
-async function remove(carId) {
-    return httpService.delete(`car/${carId}`)
+async function remove(boardId) {
+    return httpService.delete(`board/${boardId}`)
 }
 
-async function save(car) {
-    var savedCar
-    if (car._id) {
-        savedCar = await httpService.put(`car/${car._id}`, car)
+async function save(board) {
+    var savedBoard
+    if (board._id) {
+        savedBoard = await httpService.put(`board/${board._id}`, board)
     } else {
-        savedCar = await httpService.post('car', car)
+        savedBoard = await httpService.post('board', board)
     }
-    return savedCar
+    return savedBoard
 }
 
-async function addCarMsg(carId, txt) {
-    const savedMsg = await httpService.post(`car/${carId}/msg`, { txt })
+async function addBoardMsg(boardId, txt) {
+    const savedMsg = await httpService.post(`board/${boardId}/msg`, { txt })
     return savedMsg
 }
