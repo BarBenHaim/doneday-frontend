@@ -130,7 +130,7 @@ function createGroup(title, tasks = [], archivedAt = null) {
     }
 }
 
-function createBoard(title, createdBy, labels = [], members = [], groups = [], activities = []) {
+export function createBoard(title, createdBy, labels = [], members = [], groups = [], activities = []) {
     return {
         _id: makeId(),
         title,
