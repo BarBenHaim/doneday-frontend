@@ -22,7 +22,6 @@ export async function loadCar(carId) {
     }
 }
 
-
 export async function removeCar(carId) {
     try {
         await carService.remove(carId)
@@ -70,37 +69,37 @@ export async function addCarMsg(carId, txt) {
 function getCmdSetCars(cars) {
     return {
         type: SET_CARS,
-        cars
+        cars,
     }
 }
 function getCmdSetCar(car) {
     return {
         type: SET_CAR,
-        car
+        car,
     }
 }
 function getCmdRemoveCar(carId) {
     return {
         type: REMOVE_CAR,
-        carId
+        carId,
     }
 }
 function getCmdAddCar(car) {
     return {
         type: ADD_CAR,
-        car
+        car,
     }
 }
 function getCmdUpdateCar(car) {
     return {
         type: UPDATE_CAR,
-        car
+        car,
     }
 }
 function getCmdAddCarMsg(msg) {
     return {
         type: ADD_CAR_MSG,
-        msg
+        msg,
     }
 }
 
