@@ -3,11 +3,10 @@ import { useSelector } from 'react-redux'
 
 import { addBoard, loadBoards, removeBoard } from '../store/actions/board.action'
 
-import { showSuccessMsg, showErrorMsg } from '../services/board'
+import { showSuccessMsg, showErrorMsg  } from '../services/event-bus.service' 
 
 import { BoardList } from '../cmps/BoardList'
-import { boardService } from '../services/board/board.service.local'
-import { loadBoards } from '../store/actions/board.action'
+import { boardService } from '../services/board/'
 
 export function BoardIndex() {
 
