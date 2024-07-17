@@ -5,7 +5,7 @@ function TaskList({ tasks, members, labels }) {
     return (
         <div className='task-list '>
             {tasks.map(task => (
-                <TaskPreview key={task.id} task={task} members={members} labels={labels} />
+                <TaskPreview key={task._id} task={task} members={members} labels={labels} />
             ))}
         </div>
     )

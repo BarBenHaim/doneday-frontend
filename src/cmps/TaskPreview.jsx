@@ -24,7 +24,7 @@ function TaskPreview({ task, members, labels }) {
                 {task.labelIds.length > 0
                     ? task.labelIds
                           .map(id => {
-                              const label = labels.find(label => label.id === id)
+                              const label = labels.find(label => label._id === id)
                               return label ? label.title : ''
                           })
                           .join(', ')
@@ -34,7 +34,7 @@ function TaskPreview({ task, members, labels }) {
             <ul>
                 {task.comments.length > 0
                     ? task.comments.map(comment => (
-                          <li key={comment.id}>
+                          <li key={comment._id}>
                               <p>{comment.title}</p>
                               <p>By: {comment.byMember ? comment.byMember.fullname : ''}</p>
                               <p>At: {new Date(comment.createdAt).toLocaleString()}</p>
@@ -46,11 +46,11 @@ function TaskPreview({ task, members, labels }) {
             <ul>
                 {task.checklists.length > 0
                     ? task.checklists.map(checklist => (
-                          <li key={checklist.id}>
+                          <li key={checklist._id}>
                               <p>{checklist.title}</p>
                               <ul>
                                   {checklist.todos.map(todo => (
-                                      <li key={todo.id}>
+                                      <li key={todo._id}>
                                           <p>
                                               {todo.title} - {todo.isDone ? 'Done' : 'Not Done'}
                                           </p>

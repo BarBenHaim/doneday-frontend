@@ -1,9 +1,9 @@
-import GroupList from './GroupList'
+import { GroupList } from './GroupList'
 
 export function BoardDetails() {
-  return (
-    <section>
-      <GroupList />
-    </section>
-  )
+    return (
+        <section>
+            <GroupList />
+        </section>
+    )
 }

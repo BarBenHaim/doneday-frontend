@@ -5,9 +5,16 @@ export const ADD_BOARD = 'ADD_BOARD'
 export const UPDATE_BOARD = 'UPDATE_BOARD'
 export const ADD_BOARD_MSG = 'ADD_BOARD_MSG'
 
+export const ADD_GROUP = 'ADD_GROUP'
+export const UPDATE_GROUP = 'UPDATE_GROUP'
+export const DELETE_GROUP = 'DELETE_GROUP'
+export const ADD_TASK = 'ADD_TASK'
+export const UPDATE_TASK = 'UPDATE_TASK'
+export const DELETE_TASK = 'DELETE_TASK'
+
 const initialState = {
     boards: [],
-    board: null
+    board: null,
 }
 
 export function boardReducer(state = initialState, action) {
@@ -29,41 +36,104 @@ export function boardReducer(state = initialState, action) {
             newState = { ...state, boards: [...state.boards, action.board] }
             break
         case UPDATE_BOARD:
-            boards = state.boards.map(board => (board._id === action.board._id) ? action.board : board)
+            boards = state.boards.map(board => (board._id === action.board._id ? action.board : board))
             newState = { ...state, boards }
             break
         case ADD_BOARD_MSG:
-            newState = { ...state, board: { ...state.board, msgs: [...state.board.msgs || [], action.msg] } }
+            newState = { ...state, board: { ...state.board, msgs: [...(state.board.msgs || []), action.msg] } }
+            break
+        case ADD_GROUP:
+            boards = state.boards.map(board =>
+                board._id === action.payload.boardId
+                    ? {
+                          ...board,
+                          groups: [...board.groups, action.payload.group],
+                      }
+                    : board
+            )
+            newState = { ...state, boards }
+            break
+        case UPDATE_GROUP:
+            boards = state.boards.map(board =>
+                board._id === action.payload.boardId
+                    ? {
+                          ...board,
+                          groups: board.groups.map(group =>
+                              group._id === action.payload.groupId ? action.payload.group : group
+                          ),
+                      }
+                    : board
+            )
+            newState = { ...state, boards }
+            break
+        case DELETE_GROUP:
+            boards = state.boards.map(board =>
+                board._id === action.payload.boardId
+                    ? {
+                          ...board,
+                          groups: board.groups.filter(group => group._id !== action.payload.groupId),
+                      }
+                    : board
+            )
+            newState = { ...state, boards }
+            break
+        case ADD_TASK:
+            boards = state.boards.map(board =>
+                board._id === action.payload.boardId
+                    ? {
+                          ...board,
+                          groups: board.groups.map(group =>
+                              group._id === action.payload.groupId
+                                  ? {
+                                        ...group,
+                                        tasks: [...group.tasks, action.payload.task],
+                                    }
+                                  : group
+                          ),
+                      }
+                    : board
+            )
+            newState = { ...state, boards }
+            break
+        case UPDATE_TASK:
+            boards = state.boards.map(board =>
+                board._id === action.payload.boardId
+                    ? {
+                          ...board,
+                          groups: board.groups.map(group =>
+                              group._id === action.payload.groupId
+                                  ? {
+                                        ...group,
+                                        tasks: group.tasks.map(task =>
+                                            task._id === action.payload.taskId ? action.payload.task : task
+                                        ),
+                                    }
+                                  : group
+                          ),
+                      }
+                    : board
+            )
+            newState = { ...state, boards }
+            break
+        case DELETE_TASK:
+            boards = state.boards.map(board =>
+                board._id === action.payload.boardId
+                    ? {
+                          ...board,
+                          groups: board.groups.map(group =>
+                              group._id === action.payload.groupId
+                                  ? {
+                                        ...group,
+                                        tasks: group.tasks.filter(task => task._id !== action.payload.taskId),
+                                    }
+                                  : group
+                          ),
+                      }
+                    : board
+            )
+            newState = { ...state, boards }
             break
         default:
     }
     return newState
 }
-
-// unitTestReducer()
-
-// function unitTestReducer() {
-//     var state = initialState
-//     const board1 = { _id: 'b101', vendor: 'board ' + parseInt(Math.random() * 10), msgs: [] }
-//     const board2 = { _id: 'b102', vendor: 'board ' + parseInt(Math.random() * 10), msgs: [] }
-
-//     state = carReducer(state, { type: SET_CARS, cars: [car1] })
-//     console.log('After SET_CARS:', state)
-
-//     state = carReducer(state, { type: ADD_CAR, car: car2 })
-//     console.log('After ADD_CAR:', state)
-
-//     state = carReducer(state, { type: UPDATE_CAR, car: { ...car2, vendor: 'Good' } })
-//     console.log('After UPDATE_CAR:', state)
-
-//     state = carReducer(state, { type: REMOVE_CAR, carId: car2._id })
-//     console.log('After REMOVE_CAR:', state)
-
-//     const msg = { id: 'm' + parseInt(Math.random() * 100), txt: 'Some msg' }
-//     state = carReducer(state, { type: ADD_CAR_MSG, carId: car1._id, msg })
-//     console.log('After ADD_CAR_MSG:', state)
-
-//     state = carReducer(state, { type: REMOVE_CAR, carId: car1._id })
-//     console.log('After REMOVE_CAR:', state)
-// }
-

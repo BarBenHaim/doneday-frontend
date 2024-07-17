@@ -88,7 +88,7 @@ export function loadFromStorage(key) {
 
 function createLabel(title, color) {
     return {
-        id: makeId(),
+        _id: makeId(),
         title,
         color,
     }
@@ -104,7 +104,7 @@ function createMember(fullname, imgUrl) {
 
 function createTask(title, options = {}) {
     return {
-        id: makeId(),
+        _id: makeId(),
         title,
         archivedAt: options.archivedAt || null,
         status: options.status || null,
@@ -122,7 +122,7 @@ function createTask(title, options = {}) {
 
 function createGroup(title, tasks = [], archivedAt = null) {
     return {
-        id: makeId(),
+        _id: makeId(),
         title,
         archivedAt,
         tasks,
@@ -159,16 +159,16 @@ export function createBoards() {
     const task1 = createTask('Replace logo', {
         description: 'Replace the current logo with the new design provided by the marketing team.',
         memberIds: [member1._id, member2._id],
-        labelIds: [label1.id],
+        labelIds: [label1._id],
         comments: [
             {
-                id: makeId(),
+                _id: makeId(),
                 title: 'Initial comment',
                 createdAt: randomPastTime(),
                 byMember: member1,
             },
             {
-                id: makeId(),
+                _id: makeId(),
                 title: 'Logo draft looks good.',
                 createdAt: randomPastTime(),
                 byMember: member2,
@@ -176,11 +176,11 @@ export function createBoards() {
         ],
         checklists: [
             {
-                id: makeId(),
+                _id: makeId(),
                 title: 'Logo Replacement Checklist',
                 todos: [
-                    { id: makeId(), title: 'Get approval from marketing', isDone: false },
-                    { id: makeId(), title: 'Update logo on website', isDone: false },
+                    { _id: makeId(), title: 'Get approval from marketing', isDone: false },
+                    { _id: makeId(), title: 'Update logo on website', isDone: false },
                 ],
             },
         ],
@@ -193,10 +193,10 @@ export function createBoards() {
     const task2 = createTask('Add Samples', {
         description: 'Add sample products to the store for testing purposes.',
         memberIds: [member2._id],
-        labelIds: [label2.id],
+        labelIds: [label2._id],
         comments: [
             {
-                id: makeId(),
+                _id: makeId(),
                 title: 'Samples need to be added by next week.',
                 createdAt: randomPastTime(),
                 byMember: member3,
@@ -204,11 +204,11 @@ export function createBoards() {
         ],
         checklists: [
             {
-                id: makeId(),
+                _id: makeId(),
                 title: 'Sample Products Checklist',
                 todos: [
-                    { id: makeId(), title: 'Gather sample data', isDone: true },
-                    { id: makeId(), title: 'Upload to store', isDone: false },
+                    { _id: makeId(), title: 'Gather sample data', isDone: true },
+                    { _id: makeId(), title: 'Upload to store', isDone: false },
                 ],
             },
         ],
@@ -222,10 +222,10 @@ export function createBoards() {
         archivedAt: randomPastTime(),
         description: 'This task involves performing a specific set of actions.',
         memberIds: [member1._id, member3._id],
-        labelIds: [label1.id, label2.id],
+        labelIds: [label1._id, label2._id],
         comments: [
             {
-                id: makeId(),
+                _id: makeId(),
                 title: 'Please complete this task by end of the month.',
                 createdAt: randomPastTime(),
                 byMember: member2,
@@ -233,11 +233,11 @@ export function createBoards() {
         ],
         checklists: [
             {
-                id: makeId(),
+                _id: makeId(),
                 title: 'Action Items',
                 todos: [
-                    { id: makeId(), title: 'Action 1', isDone: false },
-                    { id: makeId(), title: 'Action 2', isDone: false },
+                    { _id: makeId(), title: 'Action 1', isDone: false },
+                    { _id: makeId(), title: 'Action 2', isDone: false },
                 ],
             },
         ],
@@ -254,7 +254,7 @@ export function createBoards() {
         description: makeLorem(20),
         comments: [
             {
-                id: makeId(),
+                _id: makeId(),
                 title: 'also @yaronb please CR this',
                 createdAt: randomPastTime(),
                 byMember: member1,
@@ -262,13 +262,13 @@ export function createBoards() {
         ],
         checklists: [
             {
-                id: makeId(),
+                _id: makeId(),
                 title: 'Checklist',
-                todos: [{ id: makeId(), title: 'To Do 1', isDone: false }],
+                todos: [{ _id: makeId(), title: 'To Do 1', isDone: false }],
             },
         ],
         memberIds: [member1._id],
-        labelIds: [label1.id, label2.id],
+        labelIds: [label1._id, label2._id],
         byMember: member1,
         style: { backgroundColor: '#26de81' },
     })
@@ -277,16 +277,16 @@ export function createBoards() {
     const group2 = createGroup('Group 2', [task3, task4])
 
     const activity1 = {
-        id: makeId(),
+        _id: makeId(),
         title: 'Changed Color',
         createdAt: randomPastTime(),
         byMember: member1,
         group: {
-            id: group1.id,
+            _id: group1._id,
             title: 'Urgent Stuff',
         },
         task: {
-            id: task1.id,
+            _id: task1._id,
             title: 'Replace Logo',
         },
     }

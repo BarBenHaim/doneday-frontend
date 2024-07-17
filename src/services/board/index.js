@@ -6,11 +6,20 @@ import { boardService as remote } from './board.service.remote'
 function getEmptyBoard() {
     return {
         title: '',
-         createdBy, 
-         labels: [], 
-         members: [], 
-         groups: [], 
-         activities: [],
+        createdBy,
+        labels: [],
+        members: [],
+        groups: [],
+        activities: [],
+    }
+}
+
+function getEmptyGroup() {
+    return {
+        title: '',
+        archivedAt: null,
+        style: {},
+        tasks: [],
     }
 }
 
@@ -24,7 +33,7 @@ function getDefaultFilter() {
 }
 
 const service = VITE_LOCAL === 'true' ? local : remote
-export const boardService = { getEmptyBoard, getDefaultFilter, ...service }
+export const boardService = { getEmptyBoard, getEmptyGroup, getDefaultFilter, ...service }
 
 // Easy access to this service from the dev tools console
 // when using script - dev / dev:local
