@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+
 // import boardPreviewImg from '../assets/img/board-preview/board-preview-01.png'
 
 export function BoardPreview({ board }) {
