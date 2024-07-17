@@ -1,6 +1,5 @@
-
 import { storageService } from '../async-storage.service'
-import { makeId } from '../util.service'
+import { getRandomIntInclusive, makeId } from '../util.service'
 import { userService } from '../user'
 
 const STORAGE_KEY = 'car'
@@ -10,10 +9,9 @@ export const carService = {
     getById,
     save,
     remove,
-    addCarMsg
+    addCarMsg,
 }
 window.cs = carService
-
 
 async function query(filterBy = { txt: '', price: 0 }) {
     var cars = await storageService.query(STORAGE_KEY)
@@ -26,17 +24,25 @@ async function query(filterBy = { txt: '', price: 0 }) {
     if (minSpeed) {
         cars = cars.filter(car => car.speed >= minSpeed)
     }
-    if(sortField === 'vendor' || sortField === 'owner'){
-        cars.sort((car1, car2) => 
-            car1[sortField].localeCompare(car2[sortField]) * +sortDir)
+    if (sortField === 'vendor' || sortField === 'owner') {
+        cars.sort((car1, car2) => car1[sortField].localeCompare(car2[sortField]) * +sortDir)
     }
-    if(sortField === 'price' || sortField === 'speed'){
-        cars.sort((car1, car2) => 
-            (car1[sortField] - car2[sortField]) * +sortDir)
+    if (sortField === 'price' || sortField === 'speed') {
+        cars.sort((car1, car2) => (car1[sortField] - car2[sortField]) * +sortDir)
     }
-    
+
     cars = cars.map(({ _id, vendor, price, speed, owner }) => ({ _id, vendor, price, speed, owner }))
+    if (!cars.length || !cars) cars = [_getEmptyCar(), _getEmptyCar(), _getEmptyCar()]
+
     return cars
+}
+
+function _getEmptyCar() {
+    return {
+        vendor: makeId(),
+        speed: getRandomIntInclusive(80, 240),
+        msgs: [],
+    }
 }
 
 function getById(carId) {
@@ -64,7 +70,7 @@ async function save(car) {
             speed: car.speed,
             // Later, owner is set by the backend
             owner: userService.getLoggedinUser(),
-            msgs: []
+            msgs: [],
         }
         savedCar = await storageService.post(STORAGE_KEY, carToSave)
     }
@@ -78,7 +84,7 @@ async function addCarMsg(carId, txt) {
     const msg = {
         id: makeId(),
         by: userService.getLoggedinUser(),
-        txt
+        txt,
     }
     car.msgs.push(msg)
     await storageService.put(STORAGE_KEY, car)
