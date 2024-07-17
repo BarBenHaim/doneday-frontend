@@ -86,140 +86,160 @@ export function loadFromStorage(key) {
     return data ? JSON.parse(data) : undefined
 }
 
-export function createBoard() {
-    return [
-        {
-            title: 'Robot dev proj',
-            isStarred: false,
-            archivedAt: 1589983468418,
-            createdBy: {
-                _id: 'u101',
-                fullname: 'Abi Abambi',
-                imgUrl: 'http://some-img',
-            },
-            style: {
-                backgroundImage: '',
-            },
-            labels: [
-                {
-                    id: 'l101',
-                    title: 'Done',
-                    color: '#61bd4f',
-                },
-                {
-                    id: 'l102',
-                    title: 'Progress',
-                    color: '#61bd33',
-                },
-            ],
-            members: [
-                {
-                    _id: 'u101',
-                    fullname: 'Tal Taltal',
-                    imgUrl: 'https://www.google.com',
-                },
-                {
-                    _id: 'u102',
-                    fullname: 'Josh Ga',
-                    imgUrl: 'https://www.google.com',
-                },
-            ],
-            groups: [
-                {
-                    id: 'g101',
-                    title: 'Group 1',
-                    archivedAt: 1589983468418,
-                    tasks: [
-                        {
-                            id: 'c101',
-                            title: 'Replace logo',
-                        },
-                        {
-                            id: 'c102',
-                            title: 'Add Samples',
-                        },
-                    ],
-                    style: {},
-                },
-                {
-                    id: 'g102',
-                    title: 'Group 2',
-                    tasks: [
-                        {
-                            id: 'c103',
-                            title: 'Do that',
-                            archivedAt: 1589983468418,
-                        },
-                        {
-                            id: 'c104',
-                            title: 'Help me',
-                            status: 'inProgress', // monday / both
-                            priority: 'high', // monday / both
-                            dueDate: '2024-09-24',
-                            description: 'description',
-                            comments: [
-                                // in Trello this is easier implemented as an activity
-                                {
-                                    id: 'ZdPnm',
-                                    title: 'also @yaronb please CR this',
-                                    createdAt: 1590999817436,
-                                    byMember: {
-                                        _id: 'u101',
-                                        fullname: 'Tal Tarablus',
-                                        imgUrl: '',
-                                    },
-                                },
-                            ],
-                            checklists: [
-                                {
-                                    id: 'YEhmF',
-                                    title: 'Checklist',
-                                    todos: [
-                                        {
-                                            id: '212jX',
-                                            title: 'To Do 1',
-                                            isDone: false,
-                                        },
-                                    ],
-                                },
-                            ],
-                            memberIds: ['u101'],
-                            labelIds: ['l101', 'l102'],
-                            byMember: {
-                                _id: 'u101',
-                                fullname: 'Tal Tarablus',
-                                imgUrl: '',
-                            },
-                            style: {
-                                backgroundColor: '#26de81',
-                            },
-                        },
-                    ],
-                    style: {},
-                },
-            ],
-            activities: [
-                {
-                    id: 'a101',
-                    title: 'Changed Color',
-                    createdAt: 154514,
-                    byMember: {
-                        _id: 'u101',
-                        fullname: 'Abi Abambi',
-                        imgUrl: 'http://some-img',
-                    },
-                    group: {
-                        id: 'g101',
-                        title: 'Urgent Stuff',
-                    },
-                    task: {
-                        id: 'c101',
-                        title: 'Replace Logo',
-                    },
-                },
-            ],
+function createLabel(title, color) {
+    return {
+        id: makeId(),
+        title,
+        color,
+    }
+}
 
-            cmpsOrder: ['StatusPicker', 'MemberPicker', 'DatePicker'],
+function createMember(fullname, imgUrl) {
+    return {
+        _id: makeId(),
+        fullname,
+        imgUrl,
+    }
+}
+
+function createTask(title, options = {}) {
+    return {
+        id: makeId(),
+        title,
+        archivedAt: options.archivedAt || null,
+        status: options.status || null,
+        priority: options.priority || null,
+        dueDate: options.dueDate || null,
+        description: options.description || null,
+        comments: options.comments || [],
+        checklists: options.checklists || [],
+        memberIds: options.memberIds || [],
+        labelIds: options.labelIds || [],
+        byMember: options.byMember || null,
+        style: options.style || {},
+    }
+}
+
+function createGroup(title, tasks = [], archivedAt = null) {
+    return {
+        id: makeId(),
+        title,
+        archivedAt,
+        tasks,
+        style: {},
+    }
+}
+
+function createBoard(title, createdBy, labels = [], members = [], groups = [], activities = []) {
+    return {
+        title,
+        isStarred: false,
+        archivedAt: null,
+        createdBy,
+        style: {
+            backgroundImage: '',
         },
-    ]
+        labels,
+        members,
+        groups,
+        activities,
+        cmpsOrder: ['StatusPicker', 'MemberPicker', 'DatePicker'],
+    }
+}
+
+export function createBoards() {
+    const member1 = createMember('Abi Abambi', 'http://some-img')
+    const member2 = createMember('Tal Taltal', 'https://www.google.com')
+    const member3 = createMember('Josh Ga', 'https://www.google.com')
+
+    const label1 = createLabel('Done', '#61bd4f')
+    const label2 = createLabel('Progress', '#61bd33')
+
+    const task1 = createTask('Replace logo')
+    const task2 = createTask('Add Samples')
+    const task3 = createTask('Do that', { archivedAt: randomPastTime() })
+    const task4 = createTask('Help me', {
+        status: 'inProgress',
+        priority: 'high',
+        dueDate: '2024-09-24',
+        description: makeLorem(20),
+        comments: [
+            {
+                id: makeId(),
+                title: 'also @yaronb please CR this',
+                createdAt: randomPastTime(),
+                byMember: member1,
+            },
+        ],
+        checklists: [
+            {
+                id: makeId(),
+                title: 'Checklist',
+                todos: [
+                    {
+                        id: makeId(),
+                        title: 'To Do 1',
+                        isDone: false,
+                    },
+                ],
+            },
+        ],
+        memberIds: [member1._id],
+        labelIds: [label1.id, label2.id],
+        byMember: member1,
+        style: {
+            backgroundColor: '#26de81',
+        },
+    })
+
+    const group1 = createGroup('Group 1', [task1, task2], randomPastTime())
+    const group2 = createGroup('Group 2', [task3, task4])
+
+    const activity1 = {
+        id: makeId(),
+        title: 'Changed Color',
+        createdAt: randomPastTime(),
+        byMember: member1,
+        group: {
+            id: group1.id,
+            title: 'Urgent Stuff',
+        },
+        task: {
+            id: task1.id,
+            title: 'Replace Logo',
+        },
+    }
+
+    const board1 = createBoard(
+        'Robot dev proj',
+        member1,
+        [label1, label2],
+        [member2, member3],
+        [group1, group2],
+        [activity1]
+    )
+
+    const board2 = createBoard(
+        'Marketing Campaign',
+        member2,
+        [label1, label2],
+        [member1, member3],
+        [
+            createGroup('Planning', [createTask('Define goals'), createTask('Research market')]),
+            createGroup('Execution', [createTask('Launch campaign'), createTask('Monitor results')]),
+        ]
+    )
+
+    const board3 = createBoard(
+        'Website Redesign',
+        member3,
+        [label1, label2],
+        [member1, member2],
+        [
+            createGroup('Initial Setup', [createTask('Gather requirements'), createTask('Create wireframes')]),
+            createGroup('Development', [createTask('Develop frontend'), createTask('Integrate backend')]),
+        ]
+    )
+
+    return [board1, board2, board3]
 }
