@@ -155,9 +155,97 @@ export function createBoards() {
     const label1 = createLabel('Done', '#61bd4f')
     const label2 = createLabel('Progress', '#61bd33')
 
-    const task1 = createTask('Replace logo')
-    const task2 = createTask('Add Samples')
-    const task3 = createTask('Do that', { archivedAt: randomPastTime() })
+    const task1 = createTask('Replace logo', {
+        description: 'Replace the current logo with the new design provided by the marketing team.',
+        memberIds: [member1._id, member2._id],
+        labelIds: [label1.id],
+        comments: [
+            {
+                id: makeId(),
+                title: 'Initial comment',
+                createdAt: randomPastTime(),
+                byMember: member1,
+            },
+            {
+                id: makeId(),
+                title: 'Logo draft looks good.',
+                createdAt: randomPastTime(),
+                byMember: member2,
+            },
+        ],
+        checklists: [
+            {
+                id: makeId(),
+                title: 'Logo Replacement Checklist',
+                todos: [
+                    { id: makeId(), title: 'Get approval from marketing', isDone: false },
+                    { id: makeId(), title: 'Update logo on website', isDone: false },
+                ],
+            },
+        ],
+        dueDate: '2024-10-10',
+        status: 'not started',
+        priority: 'medium',
+        style: { backgroundColor: '#f0f0f0' },
+    })
+
+    const task2 = createTask('Add Samples', {
+        description: 'Add sample products to the store for testing purposes.',
+        memberIds: [member2._id],
+        labelIds: [label2.id],
+        comments: [
+            {
+                id: makeId(),
+                title: 'Samples need to be added by next week.',
+                createdAt: randomPastTime(),
+                byMember: member3,
+            },
+        ],
+        checklists: [
+            {
+                id: makeId(),
+                title: 'Sample Products Checklist',
+                todos: [
+                    { id: makeId(), title: 'Gather sample data', isDone: true },
+                    { id: makeId(), title: 'Upload to store', isDone: false },
+                ],
+            },
+        ],
+        dueDate: '2024-08-15',
+        status: 'inProgress',
+        priority: 'high',
+        style: { backgroundColor: '#e0f7fa' },
+    })
+
+    const task3 = createTask('Do that', {
+        archivedAt: randomPastTime(),
+        description: 'This task involves performing a specific set of actions.',
+        memberIds: [member1._id, member3._id],
+        labelIds: [label1.id, label2.id],
+        comments: [
+            {
+                id: makeId(),
+                title: 'Please complete this task by end of the month.',
+                createdAt: randomPastTime(),
+                byMember: member2,
+            },
+        ],
+        checklists: [
+            {
+                id: makeId(),
+                title: 'Action Items',
+                todos: [
+                    { id: makeId(), title: 'Action 1', isDone: false },
+                    { id: makeId(), title: 'Action 2', isDone: false },
+                ],
+            },
+        ],
+        dueDate: '2024-07-31',
+        status: 'inProgress',
+        priority: 'low',
+        style: { backgroundColor: '#ffeb3b' },
+    })
+
     const task4 = createTask('Help me', {
         status: 'inProgress',
         priority: 'high',
@@ -175,21 +263,13 @@ export function createBoards() {
             {
                 id: makeId(),
                 title: 'Checklist',
-                todos: [
-                    {
-                        id: makeId(),
-                        title: 'To Do 1',
-                        isDone: false,
-                    },
-                ],
+                todos: [{ id: makeId(), title: 'To Do 1', isDone: false }],
             },
         ],
         memberIds: [member1._id],
         labelIds: [label1.id, label2.id],
         byMember: member1,
-        style: {
-            backgroundColor: '#26de81',
-        },
+        style: { backgroundColor: '#26de81' },
     })
 
     const group1 = createGroup('Group 1', [task1, task2], randomPastTime())
@@ -224,10 +304,7 @@ export function createBoards() {
         member2,
         [label1, label2],
         [member1, member3],
-        [
-            createGroup('Planning', [createTask('Define goals'), createTask('Research market')]),
-            createGroup('Execution', [createTask('Launch campaign'), createTask('Monitor results')]),
-        ]
+        [createGroup('Planning', [task1, task2]), createGroup('Execution', [task3, task4])]
     )
 
     const board3 = createBoard(
@@ -235,10 +312,7 @@ export function createBoards() {
         member3,
         [label1, label2],
         [member1, member2],
-        [
-            createGroup('Initial Setup', [createTask('Gather requirements'), createTask('Create wireframes')]),
-            createGroup('Development', [createTask('Develop frontend'), createTask('Integrate backend')]),
-        ]
+        [createGroup('Initial Setup', [task3, task4]), createGroup('Development', [task4, task1])]
     )
 
     return [board1, board2, board3]
