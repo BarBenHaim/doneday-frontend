@@ -1,5 +1,4 @@
 import { BoardList } from '../cmps/BoardList'
-import { boardService } from '../services/board/board.service.local'
 
 export function BoardIndex() {
     return (
