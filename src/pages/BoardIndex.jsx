@@ -54,7 +54,7 @@ export function BoardIndex() {
                 )}
                 <h1 className='collapsible-title'>Recently visited</h1>
             </div>
-            {!isCollapsed && <BoardList boards={boards} />}
+            {!isCollapsed && <BoardList boards={boards} onRemoveBoard={onRemoveBoard}/>}
         </section>
     )
 }
