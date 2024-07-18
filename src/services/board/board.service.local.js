@@ -74,6 +74,20 @@ async function addGroup(boardId, groupTitle) {
   board.groups.push(group)
   await storageService.put(STORAGE_KEY, board)
   return group
+  const board = await getById(boardId)
+  const group = getEmptyGroup(groupTitle)
+  board.groups.push(group)
+  await storageService.put(STORAGE_KEY, board)
+  return group
+}
+
+async function updateGroup(boardId, groupId, updatedGroup) {
+  const board = await getById(boardId)
+  const groupIdx = board.groups.findIndex((group) => group._id === groupId)
+  if (groupIdx === -1) throw new Error('Group not found')
+  board.groups[groupIdx] = { ...board.groups[groupIdx], ...updatedGroup }
+  await storageService.put(STORAGE_KEY, board)
+  return board.groups[groupIdx]
 }
 
 async function removeGroup(boardId, groupId) {
