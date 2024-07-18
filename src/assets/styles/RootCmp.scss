@@ -1,4 +1,14 @@
-.main-container main {
-    min-height: calc(100vh - 7rem);
-    overflow: hidden; // Quick fix for JSONs in <pre>
-}
+.main-container {
+    main {
+      min-height: calc(100vh - 7rem);
+      overflow: hidden; // Quick fix for JSONs in <pre>
+  
+      .main-container-sidebar {
+        grid-column: 1; // Sidebar in the first column
+      }
+  
+      .main-container-primary-content {
+        grid-column: 2; // Main content in the second column
+      }
+    }
+  }
