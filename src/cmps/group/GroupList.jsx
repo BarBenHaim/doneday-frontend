@@ -9,6 +9,7 @@ import {
   removeGroup,
   updateGroup,
 } from '../../store/actions/board.action'
+import { GroupFilter } from './GroupFilter'
 
 export function GroupList() {
   const { boardId } = useParams()
@@ -47,6 +48,7 @@ export function GroupList() {
 
   return (
     <div className="group-list">
+      <GroupFilter />
       {currBoard.groups.map((group) => (
         <div key={group._id}>
           <GroupPreview
