@@ -15,27 +15,41 @@ export const REMOVE_TASK = 'REMOVE_TASK'
 const initialState = {
     boards: [],
     board: null,
+    groupTaskFilterBy: {},
+    boardFilterBy: {},
 }
 
-export const boardReducer = (state = initialState, action) => {
-    let newState = state
-    let boards
+export function boardReducer(state = initialState, action) {
+    var newState = state
+    var boards
     switch (action.type) {
         case SET_BOARDS:
-            return { ...state, boards: action.boards }
+            newState = { ...state, boards: action.boards }
+            break
         case SET_BOARD:
-            return { ...state, board: action.board }
+            newState = { ...state, board: action.board }
+            break
         case REMOVE_BOARD:
             const lastRemovedBoard = state.boards.find(board => board._id === action.boardId)
             boards = state.boards.filter(board => board._id !== action.boardId)
-            return { ...state, boards, lastRemovedBoard }
+            newState = { ...state, boards, lastRemovedBoard: lastRemovedBoard }
+            break
         case ADD_BOARD:
-            return { ...state, boards: [...state.boards, action.board] }
+            newState = { ...state, boards: [...state.boards, action.board] }
+            break
         case UPDATE_BOARD:
             boards = state.boards.map(board => (board._id === action.board._id ? action.board : board))
-            return { ...state, boards }
+            newState = { ...state, boards }
+            break
         case ADD_BOARD_MSG:
-            return { ...state, board: { ...state.board, msgs: [...(state.board.msgs || []), action.msg] } }
+            newState = {
+                ...state,
+                board: {
+                    ...state.board,
+                    msgs: [...(state.board.msgs || []), action.msg],
+                },
+            }
+            break
         case ADD_GROUP:
             boards = state.boards.map(board =>
                 board._id === action.payload.boardId
@@ -45,7 +59,8 @@ export const boardReducer = (state = initialState, action) => {
                       }
                     : board
             )
-            return { ...state, boards }
+            newState = { ...state, boards }
+            break
         case UPDATE_GROUP:
             boards = state.boards.map(board =>
                 board._id === action.payload.boardId
@@ -57,7 +72,8 @@ export const boardReducer = (state = initialState, action) => {
                       }
                     : board
             )
-            return { ...state, boards }
+            newState = { ...state, boards }
+            break
         case REMOVE_GROUP:
             boards = state.boards.map(board =>
                 board._id === action.payload.boardId
@@ -67,8 +83,8 @@ export const boardReducer = (state = initialState, action) => {
                       }
                     : board
             )
-            return { ...state, boards }
-
+            newState = { ...state, boards }
+            break
         case ADD_TASK:
             boards = state.boards.map(board =>
                 board._id === action.payload.boardId
@@ -85,7 +101,8 @@ export const boardReducer = (state = initialState, action) => {
                       }
                     : board
             )
-            return { ...state, boards }
+            newState = { ...state, boards }
+            break
         case UPDATE_TASK:
             boards = state.boards.map(board =>
                 board._id === action.payload.boardId
@@ -104,7 +121,8 @@ export const boardReducer = (state = initialState, action) => {
                       }
                     : board
             )
-            return { ...state, boards }
+            newState = { ...state, boards }
+            break
         case REMOVE_TASK:
             boards = state.boards.map(board =>
                 board._id === action.payload.boardId
@@ -121,8 +139,9 @@ export const boardReducer = (state = initialState, action) => {
                       }
                     : board
             )
-            return { ...state, boards }
+            newState = { ...state, boards }
+            break
         default:
-            return newState
     }
+    return newState
 }

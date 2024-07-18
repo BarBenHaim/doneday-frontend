@@ -15,7 +15,7 @@ export const boardService = {
     removeGroup,
 }
 
-async function query() {
+async function query(filterBy) {
     var boards = await storageService.query(STORAGE_KEY)
     if (!boards || !boards.length) boards = createBoards()
     saveToStorage(STORAGE_KEY, boards)

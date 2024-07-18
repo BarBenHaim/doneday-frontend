@@ -17,7 +17,9 @@ import {
 
 export async function loadBoards(filterBy) {
     try {
-        const boards = await boardService.query(filterBy)
+        const { groupTaskFilterBy } = store.getState()
+        // const boards = await boardService.query(groupTaskFilterBy)
+        const boards = await boardService.query(groupTaskFilterBy)
         store.dispatch(getCmdSetBoards(boards))
     } catch (err) {
         console.log('Cannot load boards', err)
@@ -27,7 +29,10 @@ export async function loadBoards(filterBy) {
 
 export async function loadBoard(boardId) {
     try {
+        const { groupTaskFilterBy } = store.getState()
+
         const board = await boardService.getById(boardId)
+        // const filteredBoard = boardService.getFilteredBoard(groupTaskFilterBy)
         store.dispatch(getCmdSetBoard(board))
     } catch (err) {
         console.log('Cannot load board', err)
@@ -162,10 +167,37 @@ function getCmdUpdateGroup(boardId, groupId, group) {
     }
 }
 
+function getCmdDeleteGroup(boardId, groupId) {
+    return {
+        type: DELETE_GROUP,
+        payload: { boardId, groupId },
+    }
+}
 function getCmdRemoveGroup(boardId, groupId) {
     return {
         type: REMOVE_GROUP,
         payload: { boardId, groupId },
+    }
+}
+
+function getCmdAddTask(boardId, groupId, task) {
+    return {
+        type: ADD_TASK,
+        payload: { boardId, groupId, task },
+    }
+}
+
+function getCmdUpdateTask(boardId, groupId, taskId, task) {
+    return {
+        type: UPDATE_TASK,
+        payload: { boardId, groupId, taskId, task },
+    }
+}
+
+function getCmdDeleteTask(boardId, groupId, taskId) {
+    return {
+        type: DELETE_TASK,
+        payload: { boardId, groupId, taskId },
     }
 }
 
