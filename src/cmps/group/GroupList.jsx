@@ -3,13 +3,12 @@ import GroupPreview from './GroupPreview'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { addGroup, removeGroup, updateGroup } from '../store/actions/board.action'
+import { showErrorMsg, showSuccessMsg } from '../../services/event-bus.service'
+import { addGroup, removeGroup, updateGroup } from '../../store/actions/board.action'
 
 export function GroupList() {
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
-
     async function onRemoveGroup(groupId) {
         try {
             await removeGroup(boardId, groupId)
@@ -29,6 +28,7 @@ export function GroupList() {
     }
 
     async function onUpdateGroup(groupId, updatedGroup) {
+        console.log(updatedGroup)
         try {
             await updateGroup(boardId, groupId, updatedGroup)
             showSuccessMsg('Group updated')
@@ -41,7 +41,6 @@ export function GroupList() {
 
     return (
         <div className='group-list'>
-            <button onClick={onAddGroup}>Add Group</button>
             {currBoard.groups.map(group => (
                 <div key={group._id}>
                     <GroupPreview
@@ -49,11 +48,12 @@ export function GroupList() {
                         members={currBoard.members}
                         labels={currBoard.labels}
                         onUpdateGroup={onUpdateGroup}
+                        board={currBoard}
                     />
-                    <button onClick={() => onUpdateGroup(group._id, { title: 'Updated Title' })}>Update</button>
                     <button onClick={() => onRemoveGroup(group._id)}>Delete</button>
                 </div>
             ))}
+            <button onClick={onAddGroup}>Add Group</button>
         </div>
     )
 }
