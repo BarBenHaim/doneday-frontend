@@ -16,6 +16,8 @@ export function BoardPreview({ board }) {
 
     function handleToggleStarred() {
         dispatch(toggleStarredBoard(board._id));
+        board.isStarred = !board.isStarred
+        onChangeBoard(board)
     }
 
     return (
@@ -27,7 +29,7 @@ export function BoardPreview({ board }) {
                 <span className="board-preview-item-wrapper flex">
                 <Board iconSize={18} iconLabel="Expand list" />
                 <div className="board-preview-title" >{board.title}</div>
-                <button className='starred-btn' title='Starred' onClick={handleToggleStarred}>
+                <button className='starred-btn' title='Starred' onClick={() => handleToggleStarred()}>
             {/* <span>
               {board.isStarred ? (
                 <span> <FontAwesomeIcon icon={faStar} style={{ color: '#FFD43B' }} title='Favorite' /></span>
