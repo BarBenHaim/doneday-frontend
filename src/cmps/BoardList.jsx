@@ -5,8 +5,7 @@ export function BoardList({ boards }) {
 
   return (
     <section>
-      <ul className='board-list'>
-        <h1>Recently visited</h1>
+      <ul className='board-list-container'>
         {boards.map((board) => (
           <li key={board._id}>
             <BoardPreview board={board} />

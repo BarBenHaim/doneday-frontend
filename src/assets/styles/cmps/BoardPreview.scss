@@ -1,0 +1,44 @@
+.board-preview-container {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #fff;
+  transition: box-shadow 0.3s ease;
+  padding: 8px;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .board-preview-img {
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .board-preview-item-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: $Mgray4;
+
+    .board-preview-title {
+      margin-left: 8px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+  }
+
+  .board-preview-navigation {
+    padding: 10px;
+    font-size: 0.9em;
+    color: $Mgray3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

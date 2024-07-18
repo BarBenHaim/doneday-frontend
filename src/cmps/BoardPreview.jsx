@@ -8,7 +8,7 @@ import boardPreviewImg from '../assets/img/board-preview/board-preview-01.png'
 
 export function BoardPreview({ board }) {
     return (
-        <article className='board-preview'>
+        <article className='board-preview-container'>
             <Link to={`/board/${board._id}`}>
             <div class="board-preview-img">
             <img src={boardPreviewImg} alt='boardPreviewImg' />
