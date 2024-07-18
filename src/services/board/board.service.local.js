@@ -106,7 +106,7 @@ async function addTask(boardId, groupId, task = getEmptyTask()) {
     const board = await getById(boardId)
     const group = board.groups.find(group => group._id === groupId)
     if (!group) throw new Error('Group not found')
-    group.tasks.push(task)
+    group.tasks.unshift(task)
     await storageService.put(STORAGE_KEY, board)
     return task
 }
