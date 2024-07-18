@@ -14,7 +14,7 @@ export function Sidebar() {
  }
  
   return (
-    <div className="sidebar">
+    <div className="sidebar main-container">
     <DialogContentContainer>
       <Menu>
       <MenuItem icon={Home} title='Home'  onClick={() => handleOnClick('/board')} />

@@ -42,7 +42,7 @@ export function BoardIndex() {
   }
 
   return (
-    <section className="board-index">
+    <section className="board-index main-container">
       <div className="collapsible-header flex align-center" onClick={toggleCollapse}>
       {isCollapsed ? (
           <NavigationChevronRight iconSize={16} iconLabel="Expand list" />

@@ -27,14 +27,11 @@ export function RootCmp() {
       <AppHeader />
       <UserMsg />
 
-      <main>
-          <Sidebar />
-          <Routes>
-            <Route path='' element={<HomePage />} />
-            <Route path='about' element={<AboutUs />}>
-              <Route path='team' element={<AboutTeam />} />
-              <Route path='vision' element={<AboutVision />} />
-            </Route>
+      <div className="first-level">
+    
+          
+      <Sidebar />
+         
 
             <Route path='board' element={<BoardIndex />} />
             {/* <Route path='board/details' element={<BoardDetails />} /> */}
@@ -48,7 +45,7 @@ export function RootCmp() {
               <Route path='signup' element={<Signup />} />
             </Route>
           </Routes>
-      </main>
+      </div>
       {/* <AppFooter /> */}
     </div>
   )
