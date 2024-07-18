@@ -1,5 +1,5 @@
 import { storageService } from '../async-storage.service'
-import { createBoards, makeId } from '../util.service'
+import { createBoards, saveToStorage } from '../util.service'
 import { userService } from '../user'
 
 const STORAGE_KEY = 'board'
@@ -21,6 +21,7 @@ export const boardService = {
 async function query() {
     var boards = await storageService.query(STORAGE_KEY)
     if (!boards || !boards.length) boards = createBoards()
+    saveToStorage(STORAGE_KEY, boards)
     return boards
 }
 
@@ -36,7 +37,6 @@ async function save(board) {
     if (board._id) {
         return await storageService.put(STORAGE_KEY, board)
     } else {
-        board._id = makeId()
         return await storageService.post(STORAGE_KEY, board)
     }
 }
@@ -44,7 +44,6 @@ async function save(board) {
 async function addBoardMsg(boardId, txt) {
     const board = await getById(boardId)
     const msg = {
-        _id: makeId(),
         by: userService.getLoggedinUser(),
         txt,
     }
@@ -113,8 +112,7 @@ async function deleteTask(boardId, groupId, taskId) {
 
 function getEmptyGroup(title = '') {
     return {
-        _id: makeId(),
-        title: title,
+        title,
         archivedAt: null,
         style: {},
         tasks: [],
@@ -123,8 +121,7 @@ function getEmptyGroup(title = '') {
 
 function getEmptyTask(title = '') {
     return {
-        _id: makeId(),
-        title: title,
+        title,
         description: '',
         status: '',
         priority: '',
