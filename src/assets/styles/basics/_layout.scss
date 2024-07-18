@@ -4,13 +4,13 @@
 
 
     > * {
-        &:first-child {
-          grid-column: 1; // Sidebar in the first column
-        }
+        // &:first-child {
+        //   grid-column: 1; // Sidebar in the first column
+        // }
     
-        &:nth-child(2) {
-          grid-column: 2; // Main content in the second column
-        }
+        // &:nth-child(2) {
+        //   grid-column: 2; // Main content in the second column
+        // }
 
         &.full {
             grid-column: 1 / -1;
