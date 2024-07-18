@@ -1,119 +1,149 @@
 import { useState, useEffect } from 'react'
+import { Favorite, Home } from 'monday-ui-react-core/icons'
+export function GroupFilter({ filterBy, setFilterBy, handleSetFilterBy }) {
+  // const [filterToEdit, setFilterToEdit] = useState(structuredClone(filterBy))
 
-export function GroupFilter({ filterBy, setFilterBy }) {
-  const [filterToEdit, setFilterToEdit] = useState(structuredClone(filterBy))
+  // useEffect(() => {
+  //   setFilterBy(filterToEdit)
+  // }, [filterToEdit])
 
-  useEffect(() => {
-    setFilterBy(filterToEdit)
-  }, [filterToEdit])
+  // function handleChange(ev) {
+  //   console.log(ev.target.value)
 
-  function handleChange(ev) {
-    const type = ev.target.type
-    const field = ev.target.name
-    let value
+  //   const value = ev.target.value
 
-    switch (type) {
-      case 'text':
-      case 'radio':
-        value = field === 'sortDir' ? +ev.target.value : ev.target.value
-        if (!filterToEdit.sortDir) filterToEdit.sortDir = 1
-        break
-      case 'number':
-        value = +ev.target.value || ''
-        break
-    }
-    setFilterToEdit({ ...filterToEdit, [field]: value })
+  //   setFilterToEdit(value)
+  //   console.log(filterToEdit)
+  // }
+
+  // function clearFilter() {
+  //   setFilterToEdit({ ...filterToEdit, txt: '', minSpeed: '', maxPrice: '' })
+  // }
+
+  // function clearSort() {
+  //   setFilterToEdit({ ...filterToEdit, sortField: '', sortDir: '' })
+  // }
+
+  const [isFilterModalOpen, setFilterModalOpen] = useState(false)
+  const [isSortModalOpen, setSortModalOpen] = useState(false)
+
+  const handleFilterClick = () => {
+    setFilterModalOpen(true)
   }
 
-  function clearFilter() {
-    setFilterToEdit({ ...filterToEdit, txt: '', minSpeed: '', maxPrice: '' })
+  const handleSortClick = () => {
+    setSortModalOpen(true)
   }
 
-  function clearSort() {
-    setFilterToEdit({ ...filterToEdit, sortField: '', sortDir: '' })
+  const handleCloseModal = () => {
+    setFilterModalOpen(false)
+    setSortModalOpen(false)
   }
 
   return (
-    <section className="car-filter">
-      <h3>Filter:</h3>
-      <input
-        type="text"
-        name="txt"
-        value={filterToEdit.txt}
-        placeholder="Free text"
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="number"
-        min="0"
-        name="minSpeed"
-        value={filterToEdit.minSpeed}
-        placeholder="min. speed"
-        onChange={handleChange}
-        required
-      />
-      <button className="btn-clear" onClick={clearFilter}>
-        Clear
-      </button>
-      <h3>Sort:</h3>
-      <div className="sort-field">
-        <label>
-          <span>Speed</span>
+    <>
+      <section className="group-filter">
+        <div className="filter-item search">
           <input
-            type="radio"
-            name="sortField"
-            value="speed"
-            checked={filterToEdit.sortField === 'speed'}
-            onChange={handleChange}
+            type="text"
+            name="txt"
+            placeholder="Search"
+            onChange={(ev) => handleSetFilterBy(ev)}
+            required
           />
-        </label>
-        <label>
-          <span>Vendor</span>
-          <input
-            type="radio"
-            name="sortField"
-            value="vendor"
-            checked={filterToEdit.sortField === 'vendor'}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          <span>Owner</span>
-          <input
-            type="radio"
-            name="sortField"
-            value="owner"
-            checked={filterToEdit.sortField === 'owner'}
-            onChange={handleChange}
-          />
-        </label>
-      </div>
-      <div className="sort-dir">
-        <label>
-          <span>Asce</span>
-          <input
-            type="radio"
-            name="sortDir"
-            value="1"
-            checked={filterToEdit.sortDir === 1}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          <span>Desc</span>
-          <input
-            type="radio"
-            name="sortDir"
-            value="-1"
-            onChange={handleChange}
-            checked={filterToEdit.sortDir === -1}
-          />
-        </label>
-      </div>
-      <button className="btn-clear" onClick={clearSort}>
-        Clear
-      </button>
-    </section>
+        </div>
+        <div className="person">
+          <button className="filter-item person">
+            <i className="fa-regular fa-circle-user"></i> Person
+          </button>
+        </div>
+        <div className="filter">
+          <button className="filter-item filter" onClick={handleFilterClick}>
+            <i className="fa-solid fa-filter"></i> Filter
+          </button>
+        </div>
+        <div className="sort">
+          <button className="filter-item sort" onClick={handleSortClick}>
+            <i className="fa-solid fa-sort"></i> Sort
+          </button>
+        </div>
+      </section>
+
+      {isFilterModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <span
+              style={{ cursor: 'pointer' }}
+              className="close"
+              onClick={handleCloseModal}
+            >
+              &times;
+            </span>
+            <h2>Advanced filters</h2>
+            <p>Showing all of X tasks</p>
+            <div className="filter-options">
+              <div className="filter-option">
+                <label>Where</label>
+                <select>
+                  <option value="collaborators">Collaborators</option>
+                  <option value="name">Name</option>
+                  <option value="owner">Owner</option>
+                  <option value="status">Status</option>
+                </select>
+                <select>
+                  <option value="is">is</option>
+                  <option value="is_not">is not</option>
+                  <option value="contains">contains</option>
+                  <option value="does_not_contain">does not contain</option>
+                </select>
+                <input type="text" placeholder="Value" />
+              </div>
+              <button className="new-filter-button">+ New filter</button>
+              <button className="new-group-button">+ New group</button>
+            </div>
+            <div className="modal-footer">
+              <button className="clear-button">Clear all</button>
+              <button className="save-button">Save as new view</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isSortModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <span
+              style={{ cursor: 'pointer' }}
+              className="close"
+              onClick={handleCloseModal}
+            >
+              &times;
+            </span>
+            <h2>Sort by</h2>
+            <div className="sort-options">
+              <div className="sort-option">
+                <label>Choose column:</label>
+                <select>
+                  <option value="name">Name</option>
+                  <option value="owner">Owner</option>
+                  <option value="collaboration">Collaboration</option>
+                  <option value="status">Status</option>
+                </select>
+              </div>
+              <div className="sort-option">
+                <label>Order:</label>
+                <select>
+                  <option value="ascending">Ascending</option>
+                  <option value="descending">Descending</option>
+                </select>
+              </div>
+            </div>
+            <button className="save-button" onClick={handleCloseModal}>
+              Save
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
