@@ -13,6 +13,9 @@ export const boardService = {
     addGroup,
     updateGroup,
     removeGroup,
+    addTask,
+    updateTask,
+    removeTask,
 }
 
 async function query(filterBy) {
@@ -59,6 +62,20 @@ function getEmptyGroup(title = '') {
     }
 }
 
+function getEmptyTask(title = '') {
+    return {
+        _id: makeId(),
+        title: 'New Task',
+        description: '',
+        status: '',
+        priority: '',
+        dueDate: null,
+        members: [],
+        labels: [],
+        comments: [],
+    }
+}
+
 async function updateGroup(boardId, groupId, updatedGroup) {
     const board = await getById(boardId)
     const groupIdx = board.groups.findIndex(group => group._id === groupId)
@@ -85,16 +102,33 @@ async function removeGroup(boardId, groupId) {
     return removedGroup
 }
 
-function getEmptyTask(title = '') {
-    return {
-        _id: makeId(),
-        title,
-        description: '',
-        status: '',
-        priority: '',
-        dueDate: null,
-        members: [],
-        labels: [],
-        comments: [],
-    }
+async function addTask(boardId, groupId, task = getEmptyTask()) {
+    const board = await getById(boardId)
+    const group = board.groups.find(group => group._id === groupId)
+    if (!group) throw new Error('Group not found')
+    group.tasks.push(task)
+    await storageService.put(STORAGE_KEY, board)
+    return task
+}
+
+async function updateTask(boardId, groupId, taskId, taskChanges) {
+    const board = await getById(boardId)
+    const group = board.groups.find(group => group._id === groupId)
+    if (!group) throw new Error('Group not found')
+    const taskIdx = group.tasks.findIndex(task => task._id === taskId)
+    if (taskIdx === -1) throw new Error('Task not found')
+    group.tasks[taskIdx] = { ...group.tasks[taskIdx], ...taskChanges }
+    await storageService.put(STORAGE_KEY, board)
+    return group.tasks[taskIdx]
+}
+
+async function removeTask(boardId, groupId, taskId) {
+    const board = await getById(boardId)
+    const group = board.groups.find(group => group._id === groupId)
+    if (!group) throw new Error('Group not found')
+    const taskIdx = group.tasks.findIndex(task => task._id === taskId)
+    if (taskIdx === -1) throw new Error('Task not found')
+    const removedTask = group.tasks.splice(taskIdx, 1)
+    await storageService.put(STORAGE_KEY, board)
+    return removedTask
 }

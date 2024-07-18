@@ -8,8 +8,7 @@ import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { socketService, SOCKET_EVENT_REVIEW_ADDED, SOCKET_EVENT_REVIEW_REMOVED } from '../services/socket.service'
 import { ReviewList } from '../cmps/ReviewList'
 import { ReviewEdit } from '../cmps/ReviewEdit'
-import { GroupList } from '../cmps/GroupList'
-
+import { GroupList } from '../cmps/group/GroupList'
 export function ReviewIndex() {
     const loggedInUser = useSelector(storeState => storeState.userModule.user)
     const reviews = useSelector(storeState => storeState.reviewModule.reviews)
