@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Table,
     TableHeader,
@@ -12,9 +12,25 @@ import {
 } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 
-function GroupPreview({ group, members, labels }) {
-    if (!group || !group.tasks) {
-        return <div>Loading...</div>
+function GroupPreview({ group, members, labels, onUpdateGroup }) {
+    const [isEditingTitle, setIsEditingTitle] = useState(false)
+    const [updatedGroupTitle, setUpdatedGroupTitle] = useState(group.title)
+
+    const handleTitleChange = e => {
+        setUpdatedGroupTitle(e.target.value)
+    }
+
+    const handleTitleBlur = () => {
+        if (updatedGroupTitle !== group.title) {
+            onUpdateGroup(group._id, { title: updatedGroupTitle })
+        }
+        setIsEditingTitle(false)
+    }
+
+    const handleKeyPress = e => {
+        if (e.key === 'Enter') {
+            handleTitleBlur()
+        }
     }
 
     const columns = [
@@ -28,7 +44,19 @@ function GroupPreview({ group, members, labels }) {
 
     return (
         <div className='group-preview'>
-            <h2>{group.title}</h2>
+            {isEditingTitle ? (
+                <input
+                    type='text'
+                    value={updatedGroupTitle}
+                    onChange={handleTitleChange}
+                    onBlur={handleTitleBlur}
+                    onKeyPress={handleKeyPress}
+                    autoFocus
+                    className='editable-title'
+                />
+            ) : (
+                <h2 onClick={() => setIsEditingTitle(true)}>{group.title}</h2>
+            )}
             <div className='table-wrapper'>
                 <Table columns={columns}>
                     <TableHeader>
@@ -36,14 +64,14 @@ function GroupPreview({ group, members, labels }) {
                             <TableHeaderCell
                                 key={index}
                                 title={headerCell.title}
-                                className={index === 0 ? 'sticky-col' : ''}
+                                className={index === 0 ? 'sticky-col task-col' : ''}
                             />
                         ))}
                     </TableHeader>
                     <TableBody>
                         {group.tasks.map((task, index) => (
                             <TableRow key={index}>
-                                <TableCell className='sticky-col'>
+                                <TableCell className='sticky-col task-col'>
                                     <Text>{task.title}</Text>
                                 </TableCell>
                                 <TableCell>
