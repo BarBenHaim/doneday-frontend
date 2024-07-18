@@ -9,10 +9,10 @@ import {
     ADD_BOARD_MSG,
     ADD_GROUP,
     UPDATE_GROUP,
-    DELETE_GROUP,
+    REMOVE_GROUP,
     ADD_TASK,
     UPDATE_TASK,
-    DELETE_TASK,
+    REMOVE_TASK,
 } from '../reducers/board.reducer'
 
 export async function loadBoards(filterBy) {
@@ -78,19 +78,6 @@ export async function addBoardMsg(boardId, txt) {
     }
 }
 
-export function addGroup(boardId, groupTitle) {
-    return async dispatch => {
-        try {
-            const group = await boardService.addGroup(boardId, groupTitle)
-            dispatch(getCmdAddGroup(boardId, group))
-            return group
-        } catch (err) {
-            console.log('Cannot add group', err)
-            throw err
-        }
-    }
-}
-
 export async function updateGroup(boardId, groupId, updatedGroup) {
     try {
         const group = await boardService.updateGroup(boardId, groupId, updatedGroup)
@@ -102,44 +89,23 @@ export async function updateGroup(boardId, groupId, updatedGroup) {
     }
 }
 
-export async function deleteGroup(boardId, groupId) {
+export async function addGroup(boardId, groupTitle) {
     try {
-        await boardService.deleteGroup(boardId, groupId)
-        store.dispatch(getCmdDeleteGroup(boardId, groupId))
+        const group = await boardService.addGroup(boardId, groupTitle)
+        store.dispatch(getCmdAddGroup(boardId, group))
+        return group
+    } catch (err) {
+        console.log('Cannot add group', err)
+        throw err
+    }
+}
+
+export async function removeGroup(boardId, groupId) {
+    try {
+        await boardService.removeGroup(boardId, groupId)
+        store.dispatch(getCmdRemoveGroup(boardId, groupId))
     } catch (err) {
         console.log('Cannot delete group', err)
-        throw err
-    }
-}
-
-export async function addTask(boardId, groupId, taskTitle) {
-    try {
-        const task = await boardService.addTask(boardId, groupId, taskTitle)
-        store.dispatch(getCmdAddTask(boardId, groupId, task))
-        return task
-    } catch (err) {
-        console.log('Cannot add task', err)
-        throw err
-    }
-}
-
-export async function updateTask(boardId, groupId, taskId, updatedTask) {
-    try {
-        const task = await boardService.updateTask(boardId, groupId, taskId, updatedTask)
-        store.dispatch(getCmdUpdateTask(boardId, groupId, taskId, task))
-        return task
-    } catch (err) {
-        console.log('Cannot update task', err)
-        throw err
-    }
-}
-
-export async function deleteTask(boardId, groupId, taskId) {
-    try {
-        await boardService.deleteTask(boardId, groupId, taskId)
-        store.dispatch(getCmdDeleteTask(boardId, groupId, taskId))
-    } catch (err) {
-        console.log('Cannot delete task', err)
         throw err
     }
 }
@@ -196,31 +162,10 @@ function getCmdUpdateGroup(boardId, groupId, group) {
     }
 }
 
-function getCmdDeleteGroup(boardId, groupId) {
+function getCmdRemoveGroup(boardId, groupId) {
     return {
-        type: DELETE_GROUP,
+        type: REMOVE_GROUP,
         payload: { boardId, groupId },
-    }
-}
-
-function getCmdAddTask(boardId, groupId, task) {
-    return {
-        type: ADD_TASK,
-        payload: { boardId, groupId, task },
-    }
-}
-
-function getCmdUpdateTask(boardId, groupId, taskId, task) {
-    return {
-        type: UPDATE_TASK,
-        payload: { boardId, groupId, taskId, task },
-    }
-}
-
-function getCmdDeleteTask(boardId, groupId, taskId) {
-    return {
-        type: DELETE_TASK,
-        payload: { boardId, groupId, taskId },
     }
 }
 
