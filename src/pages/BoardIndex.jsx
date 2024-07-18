@@ -43,13 +43,13 @@ export function BoardIndex() {
 
   return (
     <section className="board-index">
-      <div class="collapsible-header flex align-center" onClick={toggleCollapse}>
+      <div className="collapsible-header flex align-center" onClick={toggleCollapse}>
       {isCollapsed ? (
           <NavigationChevronRight iconSize={16} iconLabel="Expand list" />
         ) : (
           <NavigationChevronDown iconSize={16} iconLabel="Collapse list" />
         )}
-        <h1 class="collapsible-title">Recently visited</h1>
+        <h1 className="collapsible-title">Recently visited</h1>
       </div>
       {!isCollapsed && <BoardList boards={boards} />}
     </section>
