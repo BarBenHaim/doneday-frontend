@@ -14,6 +14,7 @@ import {
     UPDATE_TASK,
     REMOVE_TASK,
 } from '../reducers/board.reducer'
+import { showSuccessMsg } from '../../services/event-bus.service'
 
 export async function loadBoards(filterBy) {
     try {
@@ -115,6 +116,42 @@ export async function removeGroup(boardId, groupId) {
     }
 }
 
+export async function addTask(boardId, groupId, task) {
+    try {
+        const newTask = await boardService.addTask(boardId, groupId, task)
+        store.dispatch(getCmdAddTask(boardId, groupId, newTask))
+        showSuccessMsg('Task added successfully')
+        return newTask
+    } catch (err) {
+        showErrorMsg('Cannot add task')
+        console.error('Cannot add task', err)
+        throw err
+    }
+}
+
+export async function updateTask(boardId, groupId, taskId, taskChanges, actionType) {
+    try {
+        const updatedTask = await boardService.updateTask(boardId, groupId, taskId, taskChanges)
+        store.dispatch(getCmdUpdateTask(boardId, groupId, taskId, updatedTask))
+        showSuccessMsg('Task updated successfully')
+        return updatedTask
+    } catch (err) {
+        console.log('Cannot update task', err)
+        throw err
+    }
+}
+
+export async function removeTask(boardId, groupId, taskId) {
+    try {
+        await boardService.removeTask(boardId, groupId, taskId)
+        store.dispatch(getCmdRemoveTask(boardId, groupId, taskId))
+        showSuccessMsg('Task removed successfully')
+    } catch (err) {
+        console.log('Cannot remove task', err)
+        throw err
+    }
+}
+
 // Command Creators:
 function getCmdSetBoards(boards) {
     return {
@@ -194,13 +231,12 @@ function getCmdUpdateTask(boardId, groupId, taskId, task) {
     }
 }
 
-function getCmdDeleteTask(boardId, groupId, taskId) {
+function getCmdRemoveTask(boardId, groupId, taskId) {
     return {
-        type: DELETE_TASK,
+        type: REMOVE_TASK,
         payload: { boardId, groupId, taskId },
     }
 }
-
 // unitTestActions()
 async function unitTestActions() {
     await loadBoards()
