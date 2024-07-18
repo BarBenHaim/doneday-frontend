@@ -6,14 +6,24 @@ import { MenuItem, Menu, MenuDivider, DialogContentContainer } from 'monday-ui-r
 import { Favorite, Home } from 'monday-ui-react-core/icons'
 
 export function Sidebar() {
+  const navigate = useNavigate();
+
+
+ function handleOnClick(route) {
+  navigate(route)
+ }
+ 
   return (
+    <div className="sidebar">
     <DialogContentContainer>
       <Menu>
-      <MenuItem icon={Home} title='Home'  />
+      <MenuItem icon={Home} title='Home'  onClick={() => handleOnClick('/board')} />
 
         <MenuItem icon={Favorite} title='Favorite'  />
         <MenuDivider />
       </Menu>
     </DialogContentContainer>
+    </div>
+
   )
 }
