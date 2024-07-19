@@ -5,6 +5,10 @@
         .task-preview-menu-btn {
             opacity: 1;
         }
+        .cell-col.status-col,
+        .cell-col.priority-col {
+            opacity: 0.85;
+        }
     }
 }
 
@@ -12,4 +16,20 @@
     position: absolute;
     opacity: 0;
     z-index: 1;
+}
+
+.sticky-col {
+    position: sticky;
+    left: 0;
+    background-color: #fff;
+}
+
+.sticky-col.task-col {
+    border-inline-start: #579bfc 6px solid;
+}
+
+.cell-col.status-col,
+.cell-col.priority-col {
+    padding: 0;
+    font-size: 0.875em;
 }

@@ -1,65 +1,105 @@
 import React from 'react'
-import { Avatar, Label, EditableText } from 'monday-ui-react-core'
+import { Avatar, EditableText } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 
-const getLabelColor = value => {
+const getPriorityStyle = value => {
     switch (value) {
-        case 'high':
-            return 'negative'
-        case 'medium':
-            return 'primary'
-        case 'low':
-            return 'positive'
+        case 'Critical':
+            return { backgroundColor: '#563E3E', color: '#F7F7F8' }
+        case 'High':
+            return { backgroundColor: '#401694', color: '#F7F7F8' }
+        case 'Medium':
+            return { backgroundColor: '#5559df', color: '#F7F7F8' }
+        case 'Low':
+            return { backgroundColor: '#579BFC', color: '#F7F7F8' }
         default:
-            return 'dark'
+            return { backgroundColor: '#D3D3D3', color: '#F7F7F8' }
     }
+}
+
+const getStatusStyle = value => {
+    switch (value) {
+        case 'Done':
+            return { backgroundColor: '#00C875', color: '#F7F7F8' }
+        case 'Working on it':
+            return { backgroundColor: '#fdab3d', color: '#F7F7F8' }
+        case 'Stuck':
+            return { backgroundColor: '#DF2F4A', color: '#F7F7F8' }
+        case 'Not Started':
+            return { backgroundColor: '#C4C4C4', color: '#F7F7F8' }
+        case 'Important':
+            return { backgroundColor: '#007EB5', color: '#F7F7F8' }
+        default:
+            return { backgroundColor: '#C4C4C4', color: '#F7F7F8' }
+    }
+}
+
+const cellStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+    padding: '5px',
+    cursor: 'pointer',
 }
 
 const taskAttributesConfig = {
     title: {
         label: 'Task',
         render: (task, members, labels, onUpdateField) => (
-            <EditableText value={task.title} onFinishEditing={value => onUpdateField(task, 'title', value)} />
+            <EditableText value={task.title} onChange={value => onUpdateField(task, 'title', value)} />
         ),
         className: 'sticky-col task-col',
     },
+
     status: {
         label: 'Status',
         render: (task, members, labels, onUpdateField) => {
-            const statusColor = task.status === 'done' ? 'positive' : task.status === 'inProgress' ? 'primary' : 'dark'
             return (
-                <Label
-                    text={task.status || 'Pending'}
-                    color={statusColor}
+                <div
+                    style={{ ...cellStyle, ...getStatusStyle(task.status) }}
                     onClick={() => {
-                        const newStatus = prompt('Enter new status', task.status || 'Pending')
+                        const newStatus = prompt(
+                            'Enter new status (Done, Working on it, Stuck, Not Started, Important)',
+                            task.status || 'Not Started'
+                        )
                         if (newStatus) onUpdateField(task, 'status', newStatus)
                     }}
-                />
+                >
+                    {task.status || 'Not Started'}
+                </div>
             )
         },
+        className: 'cell-col status-col',
     },
     priority: {
         label: 'Priority',
         render: (task, members, labels, onUpdateField) => (
-            <Label
-                text={task.priority || 'Medium'}
-                color={getLabelColor(task.priority)}
+            <div
+                style={{ ...cellStyle, ...getPriorityStyle(task.priority) }}
                 onClick={() => {
-                    const newPriority = prompt('Enter new priority (low, medium, high)', task.priority || 'medium')
+                    const newPriority = prompt(
+                        'Enter new priority (low, medium, high, critical)',
+                        task.priority || 'medium'
+                    )
                     if (newPriority) onUpdateField(task, 'priority', newPriority)
                 }}
-            />
+            >
+                {task.priority || 'Medium'}
+            </div>
         ),
+        className: 'cell-col priority-col',
     },
     dueDate: {
         label: 'Due Date',
         render: (task, members, labels, onUpdateField) => (
             <EditableText
                 value={task.dueDate || 'No Due Date'}
-                onFinishEditing={value => onUpdateField(task, 'dueDate', value)}
+                onChange={value => onUpdateField(task, 'dueDate', value)}
             />
         ),
+        className: 'cell-col due-date-col',
     },
     memberIds: {
         label: 'Members',
@@ -90,7 +130,8 @@ const taskAttributesConfig = {
                 )
             })
         },
+        className: 'cell-col members-col',
     },
 }
 
-export { taskAttributesConfig, getLabelColor }
+export { taskAttributesConfig, getPriorityStyle, getStatusStyle }

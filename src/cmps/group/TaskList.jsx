@@ -19,7 +19,7 @@ function TasksList({ tasks, members, labels, board, group, openModal }) {
             title: 'New Task',
             memberIds: [],
             labelIds: [],
-            status: 'Pending',
+            status: '',
             dueDate: null,
             priority: 'Medium',
             comments: [],
@@ -59,7 +59,7 @@ function TasksList({ tasks, members, labels, board, group, openModal }) {
         <div className='tasks-list-container'>
             <Button onClick={onAddTask}>New task</Button>
             <div style={{ overflowX: 'auto' }}>
-                <Table columns={columns}>
+                <Table columns={columns} style={{ maxHeight: '220px' }}>
                     <TableHeader>
                         {columns.map((headerCell, index) => (
                             <TableHeaderCell
