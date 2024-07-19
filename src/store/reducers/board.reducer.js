@@ -51,12 +51,13 @@ export function boardReducer(state = initialState, action) {
         },
       }
       break
-    case TOGGLE_STARRED_BOARD:
-      boards = state.boards.map((board) =>
-        board._id === action.boardId ? { ...board, isStarred: !board.isStarred } : board
-      )
-      newState = { ...state, boards }
-      break
+      case TOGGLE_STARRED_BOARD:
+        boards = state.boards.map((board) =>
+          board._id === action.boardId ? { ...board, isStarred: !board.isStarred } : board
+        )
+        newState = { ...state, boards }
+        break
+        
     case ADD_GROUP:
       boards = state.boards.map((board) =>
         board._id === action.payload.boardId

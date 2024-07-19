@@ -31,6 +31,26 @@
       font-size: 1.2em;
       font-weight: bold;
     }
+
+    .starred-btn {
+      background: transparent; /* Transparent background */
+      border: none; /* Remove default button border */
+      cursor: pointer;
+      font-size: 1em; /* Adjust size as needed */
+      padding: 0;
+
+      &button {
+        background-color: transparent;
+            }
+
+      .fa-star {
+        font-size: 1em; /* Ensure this matches the Monday icon size */
+      }
+
+      .monday-icon {
+        font-size: 1em; /* Ensure this matches the Font Awesome icon size */
+      }
+    }
   }
 
   .board-preview-navigation {

@@ -13,6 +13,7 @@ import {
   ADD_TASK,
   UPDATE_TASK,
   REMOVE_TASK,
+  TOGGLE_STARRED_BOARD,
 } from '../reducers/board.reducer'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 
@@ -81,16 +82,14 @@ export async function addBoardMsg(boardId, txt) {
   }
 }
 
-export function toggleStarredBoard(boardId) {
-  return async (dispatch) => {
+export async function toggleStarredBoard(boardId) {
     try {
       const updatedBoard = await boardService.toggleStarred(boardId)
-      dispatch({ type: TOGGLE_STARRED_BOARD, boardId: updatedBoard._id })
+      store.dispatch(getCmdToggleStarredBoard(updatedBoard))
     } catch (err) {
       console.log('Cannot toggle starred status', err)
     }
   }
-}
 
 export async function updateGroup(boardId, groupId, updatedGroup) {
   try {
@@ -193,6 +192,11 @@ function getCmdUpdateBoard(board) {
     board,
   }
 }
+
+export function getCmdToggleStarredBoard(boardId) {
+  return { type: TOGGLE_STARRED_BOARD, boardId }
+}
+
 function getCmdAddBoardMsg(msg) {
   return {
     type: ADD_BOARD_MSG,

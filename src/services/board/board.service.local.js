@@ -55,6 +55,7 @@ async function addBoardMsg(boardId, txt) {
 
 async function toggleStarred(boardId) {
   try {
+    console.log('service toggle starred', boardId)
     const board = await getById(boardId)
     if (!board) throw new Error('Board not found')
 
