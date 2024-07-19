@@ -11,8 +11,7 @@ body {
     // max-width: 1024px;
     margin: 0 auto;
 
-    font-family: Figtree, Roboto, 'Noto Sans Hebrew', 'Noto Kufi Arabic', 'Noto Sans JP', sans-serif;
-
+    font-family: $font-family-primary;
     font-size: rem(18px);
 }
 
@@ -22,6 +21,7 @@ h3,
 h4,
 h5,
 h6 {
+    font-family: $font-family-secondary;
     margin: 0 0 0.6em;
 }
 

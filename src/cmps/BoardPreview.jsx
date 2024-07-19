@@ -7,6 +7,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 
 import boardPreviewImg from '../assets/img/board-preview/board-preview-01.png'
 import { toggleStarredBoard } from '../store/actions/board.action'
+import { Icon } from 'monday-ui-react-core'
 
 export function BoardPreview({ board }) {
   async function handleToggleStarred(event) {
@@ -30,7 +31,8 @@ export function BoardPreview({ board }) {
       <button className='starred-btn' title='Starred' onClick={handleToggleStarred}>   
 
         {board.isStarred ? (
-          <FontAwesomeIcon icon={faStar} className='fa-star' style={{ color: '#FFD43B' }} title='Favorite' />
+          // <FontAwesomeIcon icon={faStar} className='fa-star' style={{ color: '#FFD43B' }} title='Favorite' />
+          <Icon iconType={Icon.type.ICON_FONT} iconLabel="favorite" icon="fa fa-star" style={{ color: 'yellow' }}/>
         ) : (
           <Favorite className='monday-icon' style={{ color: 'black' }} />
         )}
