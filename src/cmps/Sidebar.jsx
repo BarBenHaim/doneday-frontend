@@ -1,10 +1,31 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { MenuItem, Menu, MenuDivider, DialogContentContainer } from 'monday-ui-react-core'
-import { Favorite, Home, NavigationChevronDown, NavigationChevronUp, DropdownChevronDown } from 'monday-ui-react-core/icons'
 import { useState } from 'react'
+
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
+import {
+  MenuItem,
+  Menu,
+  MenuDivider,
+  DialogContentContainer,
+  MenuButton,
+  SplitButton,
+  SplitButtonMenu,
+  MenuTitle,
+} from 'monday-ui-react-core'
+import {
+  Favorite,
+  Home,
+  NavigationChevronDown,
+  NavigationChevronUp,
+  DropdownChevronDown,
+  Board,
+  Add,
+} from 'monday-ui-react-core/icons'
+
+import { addBoard } from '../store/actions/board.action'
+import { boardService } from '../services/board'
 
 export function Sidebar() {
   const navigate = useNavigate()
@@ -20,26 +41,42 @@ export function Sidebar() {
     setIsCollapsed(!isCollapsed)
   }
 
+  async function onAddBoard() {
+    const board = boardService.getEmptyBoard()
+    try {
+      const savedBoard = await addBoard(board)
+      showSuccessMsg(`board added (id: ${savedBoard._id})`)
+    } catch (err) {
+      showErrorMsg('Cannot add board')
+    }
+  }
+
   return (
     <div className='sidebar main-container'>
       <DialogContentContainer>
         <Menu>
           <MenuItem icon={Home} title='Home' onClick={() => handleOnClick('/board')} />
           <MenuDivider />
-          <MenuItem 
-            icon={Favorite} 
-            title='Favorite' 
-            onClick={() => toggleCollapse()} 
-            rightIcon={isCollapsed ? <NavigationChevronDown icon={DropdownChevronDown} /> : <NavigationChevronUp  />} 
+          <MenuItem
+            icon={Favorite}
+            title='Favorite'
+            onClick={() => toggleCollapse()}
+            rightIcon={isCollapsed ? <NavigationChevronDown icon={DropdownChevronDown} /> : <NavigationChevronUp />}
           />
-          {!isCollapsed && starredBoards.map((board) => (
-            <MenuItem 
-              key={board._id} 
-              title={board.title} 
-              onClick={() => handleOnClick(`/board/${board._id}`)} 
-            />
-          ))}
-          <MenuDivider />
+          {!isCollapsed &&
+            starredBoards.map((board) => (
+              <MenuItem key={board._id} title={board.title} onClick={() => handleOnClick(`/board/${board._id}`)} />
+            ))}
+        </Menu>
+        <MenuDivider />
+
+        <Menu icon={Add} title='Add' className='add-board-menu' tooltipPosition='top' tooltipContent="Add item to workspace">
+          <MenuTitle caption='Add new' />
+          <MenuItem icon={Board} title='Board' splitMenuItem >
+            <Menu >
+              <MenuItem icon={Board} title='New Board'onClick={() => onAddBoard()}/>
+            </Menu>
+          </MenuItem>
         </Menu>
       </DialogContentContainer>
     </div>

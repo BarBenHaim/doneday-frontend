@@ -23,7 +23,7 @@ export function BoardPreview({ board }) {
           <img src={boardPreviewImg} alt='boardPreviewImg' />
         </div>
         <div className='board-preview-item-wrapper flex'>
-          <Board iconSize={18} iconLabel='Expand list' />
+          <Board size="18" label='Expand list' />
           <div className='board-preview-title'>{board.title}</div>
         </div>
       </Link>

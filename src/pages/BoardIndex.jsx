@@ -36,16 +36,6 @@ export function BoardIndex() {
     }
   }
 
-  async function onAddBoard() {
-    const board = boardService.getEmptyBoard()
-    try {
-      const savedBoard = await addBoard(board)
-      showSuccessMsg(`board added (id: ${savedBoard._id})`)
-    } catch (err) {
-      showErrorMsg('Cannot add board')
-    }
-  }
-
   async function handleSetFilterBy(ev) {
     const value = ev.target.value
   }
@@ -65,9 +55,9 @@ export function BoardIndex() {
         onClick={toggleCollapse}
       >
         {isCollapsed ? (
-          <NavigationChevronRight iconSize={16} iconLabel="Expand list" />
+          <NavigationChevronRight size="36" lable="Expand list" />
         ) : (
-          <NavigationChevronDown iconSize={16} iconLabel="Collapse list" />
+          <NavigationChevronDown size="36" lable="Collapse list" />
         )}
         <h1 className="collapsible-title">Recently visited</h1>
       </div>
