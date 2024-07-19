@@ -185,8 +185,8 @@ export function createBoards() {
             },
         ],
         dueDate: '2024-10-10',
-        status: 'not started',
-        priority: 'medium',
+        status: 'Done',
+        priority: 'Medium',
         style: { backgroundColor: '#f0f0f0' },
     })
 
@@ -213,8 +213,8 @@ export function createBoards() {
             },
         ],
         dueDate: '2024-08-15',
-        status: 'inProgress',
-        priority: 'high',
+        status: 'Working on it',
+        priority: 'High',
         style: { backgroundColor: '#e0f7fa' },
     })
 
@@ -242,14 +242,14 @@ export function createBoards() {
             },
         ],
         dueDate: '2024-07-31',
-        status: 'inProgress',
-        priority: 'low',
+        status: 'Stuck',
+        priority: 'Low',
         style: { backgroundColor: '#ffeb3b' },
     })
 
     const task4 = createTask('Help me', {
-        status: 'inProgress',
-        priority: 'high',
+        status: 'Important',
+        priority: 'Critical',
         dueDate: '2024-09-24',
         description: makeLorem(20),
         comments: [
