@@ -1,5 +1,15 @@
-.task-preview {
-    p {
-        padding: 10px;
+.task-preview-container {
+    position: relative;
+    cursor: grab;
+    &:hover {
+        .task-preview-menu-btn {
+            opacity: 1;
+        }
     }
+}
+
+.task-preview-menu-btn {
+    position: absolute;
+    opacity: 0;
+    z-index: 1;
 }

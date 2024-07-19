@@ -1,0 +1,47 @@
+.group-filter {
+  display: flex;
+  align-items: center;
+  background-color: $Mbgr1;
+  //   padding: 10px;
+  border-radius: 8px;
+  //   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filter-item {
+  margin: 0 10px;
+  padding: 8px 12px;
+  background-color: $Mbgr1;
+  //   border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filter-item:hover {
+  background-color: #ebf1f5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-item.search input {
+  width: 200px;
+  padding: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.person,
+.filter,
+.sort {
+  margin-left: auto;
+}
+
+button.filter-item {
+  background-color: transparent;
+  border: none;
+  color: #0073ea;
+  font-weight: bold;
+}
+
+button.filter-item:hover {
+  background-color: #e5f1ff;
+}
