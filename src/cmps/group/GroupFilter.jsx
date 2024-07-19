@@ -1,34 +1,37 @@
 import { useState, useEffect } from 'react'
-import { Favorite, Home } from 'monday-ui-react-core/icons'
-export function GroupFilter({ filterBy, setFilterBy, handleSetFilterBy }) {
-  // const [filterToEdit, setFilterToEdit] = useState(structuredClone(filterBy))
+import { useSelector } from 'react-redux'
+import { useParams } from 'react-router'
 
-  // useEffect(() => {
-  //   setFilterBy(filterToEdit)
-  // }, [filterToEdit])
-
-  // function handleChange(ev) {
-  //   console.log(ev.target.value)
-
-  //   const value = ev.target.value
-
-  //   setFilterToEdit(value)
-  //   console.log(filterToEdit)
-  // }
-
-  // function clearFilter() {
-  //   setFilterToEdit({ ...filterToEdit, txt: '', minSpeed: '', maxPrice: '' })
-  // }
-
-  // function clearSort() {
-  //   setFilterToEdit({ ...filterToEdit, sortField: '', sortDir: '' })
-  // }
+export function GroupFilter({
+  setArrayToDisplayfromfather,
+  filterBy,
+  setFilterBy,
+  handleSetFilterBy,
+}) {
+  const { boardId } = useParams()
+  const currBoard = useSelector((storeState) =>
+    storeState.boardModule.boards.find((board) => board._id === boardId)
+  )
+  const groups = currBoard.groups || []
+  const tasks = groups.flatMap((group) => group.tasks || [])
 
   const [isFilterModalOpen, setFilterModalOpen] = useState(false)
   const [isSortModalOpen, setSortModalOpen] = useState(false)
+  const [selectedColumn, setSelectedColumn] = useState([])
+  const [arrayToDisplay, setArrayToDisplay] = useState([])
+  const [selectedCondition, setselectedCondition] = useState('')
+  const [columnToFilter, setColumnToFilter] = useState('')
+  const [labelsToFilterBy, setLabelsToFilterBy] = useState('')
+  const [textToFilter, setTextToFilter] = useState('')
+  const [isTextField, setTextField] = useState(false)
 
   const handleFilterClick = () => {
-    setFilterModalOpen(true)
+    console.log({ isFilterModalOpen })
+    if (isFilterModalOpen) {
+      setFilterModalOpen(false)
+    } else {
+      setFilterModalOpen(true)
+    }
   }
 
   const handleSortClick = () => {
@@ -39,9 +42,122 @@ export function GroupFilter({ filterBy, setFilterBy, handleSetFilterBy }) {
     setFilterModalOpen(false)
     setSortModalOpen(false)
   }
+  const handleTextFilterChange = (ev) => {
+    const text = ev.target.value
+    setTextToFilter(text)
+  }
+  const getColumn = (ev) => {
+    const selectedValue = ev.target.value
+    console.log({ selectedValue })
+    let columnArray = []
+    setColumnToFilter(selectedValue)
+    switch (selectedValue) {
+      case 'status':
+        tasks.map((task) => {
+          columnArray.push(task.status)
+        })
+        break
+      case 'dueDate':
+        tasks.map((task) => {
+          columnArray.push(task.dueDate)
+        })
+        break
+      case 'owner':
+        tasks.map((task) => {
+          console.log(task.byMember?.fullname)
+          columnArray.push(task.byMember?.fullname)
+        })
+        break
 
+      case 'priority':
+        tasks.map((task) => {
+          columnArray.push(task.priority)
+        })
+        break
+      case 'title':
+        groups.map((group) => {
+          columnArray.push(group.title)
+        })
+        break
+
+      default:
+        break
+    }
+    const filteredColumnArray = columnArray.filter(
+      (value, index, self) =>
+        value !== null && value !== undefined && self.indexOf(value) === index
+    )
+    setSelectedColumn(filteredColumnArray)
+  }
+  const getCondition = (ev) => {
+    const selectedValue = ev.target.value
+    setselectedCondition(selectedValue)
+    if (selectedValue === 'does_not_contain' || selectedValue === 'contains') {
+      setTextField(true)
+      console.log(textToFilter)
+    } else {
+      setTextField(false)
+    }
+    console.log({ isTextField })
+  }
+  const handleLabelsToFilterBy = (ev) => {
+    const selectedValue = ev.target.value
+    setLabelsToFilterBy(selectedValue)
+  }
+  const getFilterdgroups = () => {
+    const filteredGroups = groups.map((group) => {
+      const filteredTasks = group.tasks.filter((task) => {
+        switch (selectedCondition) {
+          case 'is_not':
+            if (columnToFilter === 'title') {
+              return group[columnToFilter] !== labelsToFilterBy
+            } else {
+              return task[columnToFilter] !== labelsToFilterBy
+            }
+          case 'is':
+            if (columnToFilter === 'title') {
+              return group[columnToFilter] === labelsToFilterBy
+            } else {
+              return task[columnToFilter] === labelsToFilterBy
+            }
+          case 'contains':
+            if (columnToFilter === 'title') {
+              return group[columnToFilter]?.includes(textToFilter)
+            } else {
+              return task[columnToFilter]?.includes(textToFilter)
+            }
+          case 'does_not_contain':
+            if (columnToFilter === 'title') {
+              return !group[columnToFilter]?.includes(textToFilter)
+            } else {
+              return !task[columnToFilter]?.includes(textToFilter)
+            }
+          default:
+            return true
+        }
+      })
+
+      return {
+        ...group,
+        tasks: filteredTasks,
+      }
+    })
+
+    const nonEmptyGroups = filteredGroups.filter(
+      (group) => group.tasks.length > 0
+    )
+
+    setArrayToDisplay(nonEmptyGroups)
+
+    setArrayToDisplayfromfather(nonEmptyGroups)
+
+    return nonEmptyGroups
+  }
+  console.log(arrayToDisplay)
   return (
     <>
+      <button onClick={getFilterdgroups}>filter</button>
+      <button>X</button>
       <section className="group-filter">
         <div className="filter-item search">
           <input
@@ -62,11 +178,11 @@ export function GroupFilter({ filterBy, setFilterBy, handleSetFilterBy }) {
             <i className="fa-solid fa-filter"></i> Filter
           </button>
         </div>
-        <div className="sort">
+        {/* <div className="sort">
           <button className="filter-item sort" onClick={handleSortClick}>
             <i className="fa-solid fa-sort"></i> Sort
           </button>
-        </div>
+        </div> */}
       </section>
 
       {isFilterModalOpen && (
@@ -84,19 +200,46 @@ export function GroupFilter({ filterBy, setFilterBy, handleSetFilterBy }) {
             <div className="filter-options">
               <div className="filter-option">
                 <label>Where</label>
-                <select>
-                  <option value="collaborators">Collaborators</option>
-                  <option value="name">Name</option>
-                  <option value="owner">Owner</option>
+                <select onChange={getColumn}>
+                  <option value="" disabled selected>
+                    Column
+                  </option>
+                  <option value="title">Group</option>
+                  <option value="priority">Priority</option>
+                  {/* <option value="Collaboretors">Collaboretors</option> */}
                   <option value="status">Status</option>
+                  <option value="owner">Owner</option>
+                  <option value="dueDate">Due Date</option>
                 </select>
-                <select>
+
+                <select onChange={getCondition}>
+                  <option value="" disabled selected>
+                    Condition
+                  </option>
                   <option value="is">is</option>
                   <option value="is_not">is not</option>
                   <option value="contains">contains</option>
                   <option value="does_not_contain">does not contain</option>
                 </select>
-                <input type="text" placeholder="Value" />
+                {isTextField && (
+                  <input
+                    type="text"
+                    id="filterTextField"
+                    name="filterTextField"
+                    placeholder="Enter text to filter by"
+                    onChange={handleTextFilterChange}
+                  />
+                )}
+                {!isTextField && (
+                  <select onChange={handleLabelsToFilterBy}>
+                    <option value="" disabled selected>
+                      Value
+                    </option>
+                    {selectedColumn.map((lable, idx) => (
+                      <option key={idx}>{lable}</option>
+                    ))}
+                  </select>
+                )}
               </div>
               <button className="new-filter-button">+ New filter</button>
               <button className="new-group-button">+ New group</button>

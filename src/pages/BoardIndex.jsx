@@ -15,7 +15,7 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 
 import { BoardList } from '../cmps/BoardList'
 import { boardService } from '../services/board/'
-import { GroupFilter } from '../cmps/GroupFilter'
+// import { GroupFilter } from '../cmps/GroupFilter'
 
 export function BoardIndex() {
   const [isCollapsed, setIsCollapsed] = useState(false)

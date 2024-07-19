@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import GroupPreview from './GroupPreview'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
@@ -16,6 +16,9 @@ export function GroupList() {
   const currBoard = useSelector((storeState) =>
     storeState.boardModule.boards.find((board) => board._id === boardId)
   )
+  const [arrayToDisplay, setArrayToDisplay] = useState(currBoard?.groups || [])
+  console.log({ arrayToDisplay })
+  console.log(currBoard?.groups)
   async function onRemoveGroup(groupId) {
     try {
       await removeGroup(boardId, groupId)
@@ -45,11 +48,15 @@ export function GroupList() {
   }
 
   if (!currBoard) return <div>Loading...</div>
-
+  const handleSetArrayToDisplay = (arr) => {
+    console.log({ arr })
+    setArrayToDisplay(arr)
+  }
+  const groups = arrayToDisplay ? arrayToDisplay : currBoard?.groups
   return (
     <div className="group-list">
-      <GroupFilter />
-      {currBoard.groups.map((group) => (
+      <GroupFilter setArrayToDisplayfromfather={handleSetArrayToDisplay} />
+      {groups.map((group) => (
         <div key={group._id}>
           <GroupPreview
             group={group}
