@@ -14,12 +14,11 @@ import {
   UPDATE_TASK,
   REMOVE_TASK,
 } from '../reducers/board.reducer'
-import { showSuccessMsg } from '../../services/event-bus.service'
+import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 
 export async function loadBoards(filterBy) {
   try {
     const { groupTaskFilterBy } = store.getState()
-    // const boards = await boardService.query(groupTaskFilterBy)
     const boards = await boardService.query(groupTaskFilterBy)
     store.dispatch(getCmdSetBoards(boards))
   } catch (err) {
@@ -31,9 +30,7 @@ export async function loadBoards(filterBy) {
 export async function loadBoard(boardId) {
   try {
     const { groupTaskFilterBy } = store.getState()
-
     const board = await boardService.getById(boardId)
-    // const filteredBoard = boardService.getFilteredBoard(groupTaskFilterBy)
     store.dispatch(getCmdSetBoard(board))
   } catch (err) {
     console.log('Cannot load board', err)
@@ -128,39 +125,41 @@ export async function removeGroup(boardId, groupId) {
 }
 
 export async function addTask(boardId, groupId, task) {
-    try {
-        const newTask = await boardService.addTask(boardId, groupId, task)
-        store.dispatch(getCmdAddTask(boardId, groupId, newTask))
-        showSuccessMsg('Task added successfully')
-        return newTask
-    } catch (err) {
-        showErrorMsg('Cannot add task')
-        console.error('Cannot add task', err)
-        throw err
-    }
+  try {
+    const newTask = await boardService.addTask(boardId, groupId, task)
+    store.dispatch(getCmdAddTask(boardId, groupId, newTask))
+    showSuccessMsg('Task added successfully')
+    return newTask
+  } catch (err) {
+    showErrorMsg('Cannot add task')
+    console.error('Cannot add task', err)
+    throw err
+  }
 }
 
-export async function updateTask(boardId, groupId, taskId, taskChanges, actionType) {
-    try {
-        const updatedTask = await boardService.updateTask(boardId, groupId, taskId, taskChanges)
-        store.dispatch(getCmdUpdateTask(boardId, groupId, taskId, updatedTask))
-        showSuccessMsg('Task updated successfully')
-        return updatedTask
-    } catch (err) {
-        console.log('Cannot update task', err)
-        throw err
-    }
+export async function updateTask(boardId, groupId, taskId, taskChanges) {
+  try {
+    const updatedTask = await boardService.updateTask(boardId, groupId, taskId, taskChanges)
+    store.dispatch(getCmdUpdateTask(boardId, groupId, taskId, updatedTask))
+    showSuccessMsg('Task updated successfully')
+    return updatedTask
+  } catch (err) {
+    showErrorMsg('Cannot update task')
+    console.log('Cannot update task', err)
+    throw err
+  }
 }
 
 export async function removeTask(boardId, groupId, taskId) {
-    try {
-        await boardService.removeTask(boardId, groupId, taskId)
-        store.dispatch(getCmdRemoveTask(boardId, groupId, taskId))
-        showSuccessMsg('Task removed successfully')
-    } catch (err) {
-        console.log('Cannot remove task', err)
-        throw err
-    }
+  try {
+    await boardService.removeTask(boardId, groupId, taskId)
+    store.dispatch(getCmdRemoveTask(boardId, groupId, taskId))
+    showSuccessMsg('Task removed successfully')
+  } catch (err) {
+    showErrorMsg('Cannot remove task')
+    console.log('Cannot remove task', err)
+    throw err
+  }
 }
 
 // Command Creators:
@@ -215,12 +214,6 @@ function getCmdUpdateGroup(boardId, groupId, group) {
   }
 }
 
-function getCmdDeleteGroup(boardId, groupId) {
-  return {
-    type: DELETE_GROUP,
-    payload: { boardId, groupId },
-  }
-}
 function getCmdRemoveGroup(boardId, groupId) {
   return {
     type: REMOVE_GROUP,
@@ -243,11 +236,12 @@ function getCmdUpdateTask(boardId, groupId, taskId, task) {
 }
 
 function getCmdRemoveTask(boardId, groupId, taskId) {
-    return {
-        type: REMOVE_TASK,
-        payload: { boardId, groupId, taskId },
-    }
+  return {
+    type: REMOVE_TASK,
+    payload: { boardId, groupId, taskId },
+  }
 }
+
 // unitTestActions()
 async function unitTestActions() {
   await loadBoards()
