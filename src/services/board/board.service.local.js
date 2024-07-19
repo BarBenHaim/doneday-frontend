@@ -13,9 +13,9 @@ export const boardService = {
   addGroup,
   updateGroup,
   removeGroup,
-    addTask,
-    updateTask,
-    removeTask,
+  addTask,
+  updateTask,
+  removeTask,
   toggleStarred,
 }
 
@@ -59,7 +59,7 @@ async function toggleStarred(boardId) {
     if (!board) throw new Error('Board not found')
 
     board.isStarred = !board.isStarred
-    
+
     const updatedBoard = await save(board)
     return updatedBoard
   } catch (err) {
@@ -79,19 +79,18 @@ function getEmptyGroup(title = '') {
 }
 
 function getEmptyTask(title = '') {
-    return {
-        _id: makeId(),
-        title: 'New Task',
-        description: '',
-        status: '',
-        priority: '',
-        dueDate: null,
-        members: [],
-        labels: [],
-        comments: [],
-    }
+  return {
+    _id: makeId(),
+    title: 'New Task',
+    description: '',
+    status: '',
+    priority: '',
+    dueDate: null,
+    members: [],
+    labels: [],
+    comments: [],
+  }
 }
-
 
 async function updateGroup(boardId, groupId, updatedGroup) {
   const board = await getById(boardId)
@@ -120,32 +119,32 @@ async function removeGroup(boardId, groupId) {
 }
 
 async function addTask(boardId, groupId, task = getEmptyTask()) {
-    const board = await getById(boardId)
-    const group = board.groups.find(group => group._id === groupId)
-    if (!group) throw new Error('Group not found')
-    group.tasks.push(task)
-    await storageService.put(STORAGE_KEY, board)
-    return task
+  const board = await getById(boardId)
+  const group = board.groups.find((group) => group._id === groupId)
+  if (!group) throw new Error('Group not found')
+  group.tasks.push(task)
+  await storageService.put(STORAGE_KEY, board)
+  return task
 }
 
 async function updateTask(boardId, groupId, taskId, taskChanges) {
-    const board = await getById(boardId)
-    const group = board.groups.find(group => group._id === groupId)
-    if (!group) throw new Error('Group not found')
-    const taskIdx = group.tasks.findIndex(task => task._id === taskId)
-    if (taskIdx === -1) throw new Error('Task not found')
-    group.tasks[taskIdx] = { ...group.tasks[taskIdx], ...taskChanges }
-    await storageService.put(STORAGE_KEY, board)
-    return group.tasks[taskIdx]
+  const board = await getById(boardId)
+  const group = board.groups.find((group) => group._id === groupId)
+  if (!group) throw new Error('Group not found')
+  const taskIdx = group.tasks.findIndex((task) => task._id === taskId)
+  if (taskIdx === -1) throw new Error('Task not found')
+  group.tasks[taskIdx] = { ...group.tasks[taskIdx], ...taskChanges }
+  await storageService.put(STORAGE_KEY, board)
+  return group.tasks[taskIdx]
 }
 
 async function removeTask(boardId, groupId, taskId) {
-    const board = await getById(boardId)
-    const group = board.groups.find(group => group._id === groupId)
-    if (!group) throw new Error('Group not found')
-    const taskIdx = group.tasks.findIndex(task => task._id === taskId)
-    if (taskIdx === -1) throw new Error('Task not found')
-    const removedTask = group.tasks.splice(taskIdx, 1)
-    await storageService.put(STORAGE_KEY, board)
-    return removedTask
-
+  const board = await getById(boardId)
+  const group = board.groups.find((group) => group._id === groupId)
+  if (!group) throw new Error('Group not found')
+  const taskIdx = group.tasks.findIndex((task) => task._id === taskId)
+  if (taskIdx === -1) throw new Error('Task not found')
+  const removedTask = group.tasks.splice(taskIdx, 1)
+  await storageService.put(STORAGE_KEY, board)
+  return removedTask
+}

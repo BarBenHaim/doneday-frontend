@@ -163,42 +163,6 @@ export async function removeTask(boardId, groupId, taskId) {
     }
 }
 
-export async function addTask(boardId, groupId, task) {
-    try {
-        const newTask = await boardService.addTask(boardId, groupId, task)
-        store.dispatch(getCmdAddTask(boardId, groupId, newTask))
-        showSuccessMsg('Task added successfully')
-        return newTask
-    } catch (err) {
-        showErrorMsg('Cannot add task')
-        console.error('Cannot add task', err)
-        throw err
-    }
-}
-
-export async function updateTask(boardId, groupId, taskId, taskChanges, actionType) {
-    try {
-        const updatedTask = await boardService.updateTask(boardId, groupId, taskId, taskChanges)
-        store.dispatch(getCmdUpdateTask(boardId, groupId, taskId, updatedTask))
-        showSuccessMsg('Task updated successfully')
-        return updatedTask
-    } catch (err) {
-        console.log('Cannot update task', err)
-        throw err
-    }
-}
-
-export async function removeTask(boardId, groupId, taskId) {
-    try {
-        await boardService.removeTask(boardId, groupId, taskId)
-        store.dispatch(getCmdRemoveTask(boardId, groupId, taskId))
-        showSuccessMsg('Task removed successfully')
-    } catch (err) {
-        console.log('Cannot remove task', err)
-        throw err
-    }
-}
-
 // Command Creators:
 function getCmdSetBoards(boards) {
   return {
