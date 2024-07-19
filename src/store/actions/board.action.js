@@ -13,6 +13,7 @@ import {
     ADD_TASK,
     UPDATE_TASK,
     REMOVE_TASK,
+    TOGGLE_STARRED_BOARD,
 } from '../reducers/board.reducer'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 
@@ -81,6 +82,15 @@ export async function addBoardMsg(boardId, txt) {
     }
 }
 
+export async function toggleStarredBoard(boardId) {
+    try {
+        const updatedBoard = await boardService.toggleStarred(boardId)
+        store.dispatch(getCmdToggleStarredBoard(updatedBoard))
+    } catch (err) {
+        console.log('Cannot toggle starred status', err)
+    }
+}
+
 export async function updateGroup(boardId, groupId, updatedGroup) {
     try {
         const group = await boardService.updateGroup(boardId, groupId, updatedGroup)
@@ -105,52 +115,48 @@ export async function addGroup(boardId, groupTitle) {
 
 export async function removeGroup(boardId, groupId) {
     try {
-        store.dispatch(getCmdRemoveGroup(boardId, groupId))
         await boardService.removeGroup(boardId, groupId)
-        showSuccessMsg('Group removed successfully')
+        store.dispatch(getCmdRemoveGroup(boardId, groupId))
     } catch (err) {
-        showErrorMsg('Cannot remove group')
-        loadBoard(boardId)
+        console.log('Cannot delete group', err)
         throw err
     }
 }
 
 export async function addTask(boardId, groupId, task) {
-    const taskId = `t${Date.now()}`
-    const newTask = { ...task, _id: taskId }
-    store.dispatch(getCmdAddTask(boardId, groupId, newTask))
     try {
-        const savedTask = await boardService.addTask(boardId, groupId, newTask)
+        const newTask = await boardService.addTask(boardId, groupId, task)
+        store.dispatch(getCmdAddTask(boardId, groupId, newTask))
         showSuccessMsg('Task added successfully')
-        return savedTask
+        return newTask
     } catch (err) {
         showErrorMsg('Cannot add task')
-        loadBoard(boardId)
+        console.error('Cannot add task', err)
         throw err
     }
 }
 
-export async function updateTask(boardId, groupId, taskId, taskChanges, actionType) {
-    store.dispatch(getCmdUpdateTask(boardId, groupId, taskId, { ...taskChanges, _id: taskId }))
+export async function updateTask(boardId, groupId, taskId, taskChanges) {
     try {
-        const updatedTask = await boardService.updateTask(boardId, groupId, taskId, taskChanges, actionType)
+        const updatedTask = await boardService.updateTask(boardId, groupId, taskId, taskChanges)
+        store.dispatch(getCmdUpdateTask(boardId, groupId, taskId, updatedTask))
         showSuccessMsg('Task updated successfully')
         return updatedTask
     } catch (err) {
         showErrorMsg('Cannot update task')
-        loadBoard(boardId)
+        console.log('Cannot update task', err)
         throw err
     }
 }
 
 export async function removeTask(boardId, groupId, taskId) {
-    store.dispatch(getCmdRemoveTask(boardId, groupId, taskId))
     try {
         await boardService.removeTask(boardId, groupId, taskId)
+        store.dispatch(getCmdRemoveTask(boardId, groupId, taskId))
         showSuccessMsg('Task removed successfully')
     } catch (err) {
         showErrorMsg('Cannot remove task')
-        loadBoard(boardId)
+        console.log('Cannot remove task', err)
         throw err
     }
 }
@@ -189,6 +195,10 @@ function getCmdUpdateBoard(board) {
         type: UPDATE_BOARD,
         board,
     }
+}
+
+export function getCmdToggleStarredBoard(boardId) {
+    return { type: TOGGLE_STARRED_BOARD, boardId }
 }
 
 function getCmdAddBoardMsg(msg) {

@@ -130,11 +130,11 @@ function createGroup(title, tasks = [], archivedAt = null) {
     }
 }
 
-export function createBoard(title, createdBy, labels = [], members = [], groups = [], activities = []) {
+export function createBoard(title, createdBy, labels = [], members = [], groups = [], activities = [], isStarred = true) {
     return {
         _id: makeId(),
         title,
-        isStarred: false,
+        isStarred: isStarred || false,
         archivedAt: null,
         createdBy,
         style: {

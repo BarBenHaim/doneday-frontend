@@ -12,7 +12,6 @@ import { AdminIndex } from './pages/AdminIndex.jsx'
 import { UserDetails } from './pages/UserDetails'
 
 import { AppHeader } from './cmps/AppHeader'
-import { AppFooter } from './cmps/AppFooter'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { LoginSignup } from './pages/LoginSignup.jsx'
 import { Login } from './pages/Login.jsx'
@@ -25,13 +24,12 @@ export function RootCmp() {
   return (
     <div className='main-container'>
       <AppHeader />
-      <UserMsg />
+      {/* <UserMsg /> */}
 
       <Sidebar />
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/about' element={<AboutUs />} />
-        <Route path='board' element={<BoardIndex />} />
         <Route path='board' element={<BoardIndex />} />
         {/* <Route path='board/details' element={<BoardDetails />} /> */}
         <Route path='board/:boardId' element={<BoardDetails />} />
