@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import { Table, TableHeader, TableBody, TableHeaderCell, Button } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
@@ -8,7 +7,6 @@ import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 import { addTask, updateTask, removeTask } from '../../store/actions/board.action'
 
 function TasksList({ tasks, members, labels, board, group, openModal }) {
-    const dispatch = useDispatch()
     const [taskList, setTaskList] = useState(tasks)
 
     useEffect(() => {
@@ -21,14 +19,14 @@ function TasksList({ tasks, members, labels, board, group, openModal }) {
             title: 'New Task',
             memberIds: [],
             labelIds: [],
-            status: 'Pending',
+            status: '',
             dueDate: null,
             priority: 'Medium',
             comments: [],
         }
         try {
-            const addedTask = await dispatch(addTask(board._id, group._id, newTask))
-            setTaskList([...taskList, addedTask])
+            const addedTask = await addTask(board._id, group._id, newTask)
+            setTaskList([addedTask, ...taskList])
             showSuccessMsg('Task added successfully')
         } catch (err) {
             showErrorMsg('Cannot add task')
@@ -37,7 +35,7 @@ function TasksList({ tasks, members, labels, board, group, openModal }) {
 
     async function onUpdateTask(updatedTask) {
         try {
-            await dispatch(updateTask(board._id, group._id, updatedTask._id, updatedTask))
+            await updateTask(board._id, group._id, updatedTask._id, updatedTask)
             setTaskList(taskList.map(task => (task._id === updatedTask._id ? updatedTask : task)))
             showSuccessMsg('Task updated successfully')
         } catch (err) {
@@ -47,7 +45,7 @@ function TasksList({ tasks, members, labels, board, group, openModal }) {
 
     async function onDeleteTask(taskId) {
         try {
-            await dispatch(removeTask(board._id, group._id, taskId))
+            await removeTask(board._id, group._id, taskId)
             setTaskList(taskList.filter(task => task._id !== taskId))
             showSuccessMsg('Task deleted successfully')
         } catch (err) {
@@ -59,33 +57,35 @@ function TasksList({ tasks, members, labels, board, group, openModal }) {
 
     return (
         <div className='tasks-list-container'>
-            <Table columns={columns}>
-                <TableHeader>
-                    {columns.map((headerCell, index) => (
-                        <TableHeaderCell
-                            key={index}
-                            title={headerCell.title}
-                            className={index === 0 ? 'sticky-col task-col' : ''}
-                        />
-                    ))}
-                </TableHeader>
-                <TableBody>
-                    {taskList.map((task, index) => (
-                        <TaskPreview
-                            key={index}
-                            task={task}
-                            members={members}
-                            labels={labels}
-                            board={board}
-                            group={group}
-                            openModal={openModal}
-                            onUpdateTask={onUpdateTask}
-                            onDeleteTask={onDeleteTask}
-                        />
-                    ))}
-                </TableBody>
-            </Table>
-            <Button onClick={onAddTask}>Add Task</Button>
+            <Button onClick={onAddTask}>New task</Button>
+            <div style={{ overflowX: 'auto' }}>
+                <Table columns={columns} style={{ maxHeight: '220px' }}>
+                    <TableHeader>
+                        {columns.map((headerCell, index) => (
+                            <TableHeaderCell
+                                key={index}
+                                title={headerCell.title}
+                                className={index === 0 ? 'sticky-col task-col' : ''}
+                            />
+                        ))}
+                    </TableHeader>
+                    <TableBody>
+                        {taskList.map((task, index) => (
+                            <TaskPreview
+                                key={index}
+                                task={task}
+                                members={members}
+                                labels={labels}
+                                board={board}
+                                group={group}
+                                openModal={openModal}
+                                onUpdateTask={onUpdateTask}
+                                onDeleteTask={onDeleteTask}
+                            />
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
         </div>
     )
 }

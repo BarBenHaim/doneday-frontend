@@ -16,8 +16,12 @@
     "dependencies": {
         "@emotion/react": "^11.11.4",
         "@emotion/styled": "^11.11.5",
+        "@fortawesome/free-regular-svg-icons": "^6.6.0",
+        "@fortawesome/free-solid-svg-icons": "^6.6.0",
+        "@fortawesome/react-fontawesome": "^0.2.2",
         "@mui/material": "^5.16.4",
         "axios": "^1.5.0",
+        "date-fns": "^3.6.0",
         "monday-ui-react-core": "^2.120.0",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",

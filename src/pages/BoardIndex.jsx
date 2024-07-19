@@ -15,7 +15,7 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 
 import { BoardList } from '../cmps/BoardList'
 import { boardService } from '../services/board/'
-// import { GroupFilter } from '../cmps/GroupFilter'
+// import { GroupFilter } from '../cmps/group/GroupFilter'
 
 export function BoardIndex() {
   const [isCollapsed, setIsCollapsed] = useState(false)
@@ -33,16 +33,6 @@ export function BoardIndex() {
       showSuccessMsg('board removed')
     } catch (err) {
       showErrorMsg('Cannot remove board')
-    }
-  }
-
-  async function onAddBoard() {
-    const board = boardService.getEmptyBoard()
-    try {
-      const savedBoard = await addBoard(board)
-      showSuccessMsg(`board added (id: ${savedBoard._id})`)
-    } catch (err) {
-      showErrorMsg('Cannot add board')
     }
   }
 
@@ -65,13 +55,15 @@ export function BoardIndex() {
         onClick={toggleCollapse}
       >
         {isCollapsed ? (
-          <NavigationChevronRight iconSize={16} iconLabel="Expand list" />
+          <NavigationChevronRight size="36" lable="Expand list" />
         ) : (
-          <NavigationChevronDown iconSize={16} iconLabel="Collapse list" />
+          <NavigationChevronDown size="36" lable="Collapse list" />
         )}
         <h1 className="collapsible-title">Recently visited</h1>
       </div>
-      {!isCollapsed && <BoardList boards={boards} />}
+      {!isCollapsed && (
+        <BoardList boards={boards} onRemoveBoard={onRemoveBoard} />
+      )}
     </section>
   )
 }

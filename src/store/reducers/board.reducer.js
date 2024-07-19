@@ -4,6 +4,7 @@ export const REMOVE_BOARD = 'REMOVE_BOARD'
 export const ADD_BOARD = 'ADD_BOARD'
 export const UPDATE_BOARD = 'UPDATE_BOARD'
 export const ADD_BOARD_MSG = 'ADD_BOARD_MSG'
+export const TOGGLE_STARRED_BOARD = 'TOGGLE_STARRED_BOARD'
 
 export const ADD_GROUP = 'ADD_GROUP'
 export const UPDATE_GROUP = 'UPDATE_GROUP'
@@ -20,8 +21,8 @@ const initialState = {
 }
 
 export function boardReducer(state = initialState, action) {
-    var newState = state
-    var boards
+    let newState = state
+    let boards
     switch (action.type) {
         case SET_BOARDS:
             newState = { ...state, boards: action.boards }
@@ -49,6 +50,12 @@ export function boardReducer(state = initialState, action) {
                     msgs: [...(state.board.msgs || []), action.msg],
                 },
             }
+            break
+        case TOGGLE_STARRED_BOARD:
+            boards = state.boards.map(board =>
+                board._id === action.boardId ? { ...board, isStarred: !board.isStarred } : board
+            )
+            newState = { ...state, boards }
             break
         case ADD_GROUP:
             boards = state.boards.map(board =>
@@ -94,63 +101,7 @@ export function boardReducer(state = initialState, action) {
                               group._id === action.payload.groupId
                                   ? {
                                         ...group,
-                                        tasks: [...group.tasks, action.payload.task],
-                                    }
-                                  : group
-                          ),
-                      }
-                    : board
-            )
-            newState = { ...state, boards }
-            break
-        case UPDATE_TASK:
-            boards = state.boards.map(board =>
-                board._id === action.payload.boardId
-                    ? {
-                          ...board,
-                          groups: board.groups.map(group =>
-                              group._id === action.payload.groupId
-                                  ? {
-                                        ...group,
-                                        tasks: group.tasks.map(task =>
-                                            task._id === action.payload.taskId ? action.payload.task : task
-                                        ),
-                                    }
-                                  : group
-                          ),
-                      }
-                    : board
-            )
-            newState = { ...state, boards }
-            break
-        case REMOVE_TASK:
-            boards = state.boards.map(board =>
-                board._id === action.payload.boardId
-                    ? {
-                          ...board,
-                          groups: board.groups.map(group =>
-                              group._id === action.payload.groupId
-                                  ? {
-                                        ...group,
-                                        tasks: group.tasks.filter(task => task._id !== action.payload.taskId),
-                                    }
-                                  : group
-                          ),
-                      }
-                    : board
-            )
-            newState = { ...state, boards }
-            break
-        case ADD_TASK:
-            boards = state.boards.map(board =>
-                board._id === action.payload.boardId
-                    ? {
-                          ...board,
-                          groups: board.groups.map(group =>
-                              group._id === action.payload.groupId
-                                  ? {
-                                        ...group,
-                                        tasks: [...group.tasks, action.payload.task],
+                                        tasks: [action.payload.task, ...group.tasks],
                                     }
                                   : group
                           ),
@@ -198,6 +149,7 @@ export function boardReducer(state = initialState, action) {
             newState = { ...state, boards }
             break
         default:
+            return state
     }
     return newState
 }

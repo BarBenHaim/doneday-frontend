@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { logout } from '../store/actions/user.actions'
+import mondayLogoImg from '../assets/img/logo/monday-work-m-logo.png'
+import logoImg from '../assets/img/logo/only-logo.png'
+
 
 export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)
@@ -21,9 +24,16 @@ export function AppHeader() {
     return (
         <header className='app-header full'>
             <nav>
-                <NavLink to='/' className='logo'>
-                    E2E Demo
+                <div className="headline">
+                <NavLink to='/board' className='logo'>
+                <img src={logoImg} alt='logo' className="logo-img" />
+                <div className="headline-text">
+                <h1 className="componey-name fs16">Doneday</h1> 
+                <h1 className="app-name fs18">Work managment</h1>
+                </div>
+  
                 </NavLink>
+                </div>
                 <NavLink to='about'>About</NavLink>
                 <NavLink to='board'>Boards</NavLink>
                 <NavLink to='board/details'>Board Details</NavLink>

@@ -16,6 +16,7 @@ export const boardService = {
     addTask,
     updateTask,
     removeTask,
+    toggleStarred,
 }
 
 async function query(filterBy) {
@@ -50,6 +51,22 @@ async function addBoardMsg(boardId, txt) {
     board.msgs.push(msg)
     await storageService.put(STORAGE_KEY, board)
     return msg
+}
+
+async function toggleStarred(boardId) {
+    try {
+        console.log('service toggle starred', boardId)
+        const board = await getById(boardId)
+        if (!board) throw new Error('Board not found')
+
+        board.isStarred = !board.isStarred
+
+        const updatedBoard = await save(board)
+        return updatedBoard
+    } catch (err) {
+        console.log('Cannot toggle starred status', err)
+        throw err
+    }
 }
 
 function getEmptyGroup(title = '') {
@@ -106,7 +123,7 @@ async function addTask(boardId, groupId, task = getEmptyTask()) {
     const board = await getById(boardId)
     const group = board.groups.find(group => group._id === groupId)
     if (!group) throw new Error('Group not found')
-    group.tasks.push(task)
+    group.tasks.unshift(task)
     await storageService.put(STORAGE_KEY, board)
     return task
 }
