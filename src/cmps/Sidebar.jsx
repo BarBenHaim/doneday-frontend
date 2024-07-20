@@ -24,12 +24,12 @@ import {
   Add,
 } from 'monday-ui-react-core/icons'
 
-import { addBoard } from '../store/actions/board.action'
-import { boardService } from '../services/board'
+import { AddBoard } from './AddBoard' 
 
 export function Sidebar() {
   const navigate = useNavigate()
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isAddBoardModalOpen, setIsAddBoardModalOpen] = useState(false); 
   const boards = useSelector((storeState) => storeState.boardModule.boards)
   const starredBoards = boards.filter((board) => board.isStarred)
 
@@ -41,15 +41,10 @@ export function Sidebar() {
     setIsCollapsed(!isCollapsed)
   }
 
-  async function onAddBoard() {
-    const board = boardService.getEmptyBoard()
-    try {
-      const savedBoard = await addBoard(board)
-      showSuccessMsg(`board added (id: ${savedBoard._id})`)
-    } catch (err) {
-      showErrorMsg('Cannot add board')
-    }
+  function toggleAddBoard() {
+    setIsAddBoardModalOpen(!isAddBoardModalOpen)
   }
+
 
   return (
     <div className='sidebar main-container'>
@@ -72,11 +67,15 @@ export function Sidebar() {
           <MenuTitle caption='Add new' />
           <MenuItem icon={Board} title='Board' splitMenuItem >
             <Menu >
-              <MenuItem icon={Board} title='New Board'onClick={() => onAddBoard()}/>
+              <MenuItem icon={Board} title='New Board' onClick={toggleAddBoard}/>
             </Menu>
           </MenuItem>
         </Menu>
         </DialogContentContainer>
+
+        {isAddBoardModalOpen && (
+        <AddBoard isOpen={isAddBoardModalOpen} onClose={toggleAddBoard} />
+      )}
     </div>
   )
 }

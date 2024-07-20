@@ -17,11 +17,12 @@ export const boardService = {
     updateTask,
     removeTask,
     toggleStarred,
+    addBoard,
 }
 
 async function query(filterBy) {
     var boards = await storageService.query(STORAGE_KEY)
-    if (!boards || !boards.length) boards = createBoards()
+    if (!boards || !boards.length) boards = createBoards() 
     saveToStorage(STORAGE_KEY, boards)
     return boards
 }
@@ -149,3 +150,22 @@ async function removeTask(boardId, groupId, taskId) {
     await storageService.put(STORAGE_KEY, board)
     return removedTask
 }
+
+function getEmptyBoard(title= '', label= '') {
+    return {
+        _id: makeId(),
+        title,
+        // createdBy,
+        label,
+        members: [],
+        groups: [],
+        activities: [],
+    }
+}
+
+async function addBoard(boardTitle, boardLabel) {
+    const board = getEmptyBoard(boardTitle, boardLabel)
+    await storageService.post(STORAGE_KEY, board)
+    return board
+}
+

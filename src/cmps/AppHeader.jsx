@@ -23,15 +23,12 @@ export function AppHeader() {
   return (
     <header className='app-header full'>
       <nav>
-        <div className='headline'>
-          <NavLink to='/board' className='logo'>
+        <NavLink to='/board' className='logo'>
+          <div className='headline'>
             <img src={logoImg} alt='logo' className='logo-img' />
-            <div className='headline-text'>
-              <h1 className='company-name fs16'>Doneday</h1>
-              <h1 className='app-name fs18'>Work management</h1>
-            </div>
-          </NavLink>
-        </div>
+              <h1 className='company-name fs16'>Doneday <span className='app-name fs18'>Work management</span></h1>
+          </div>
+        </NavLink>
 
         {user?.isAdmin && <NavLink to='/admin'>Admin</NavLink>}
 

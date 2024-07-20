@@ -49,11 +49,11 @@ export async function removeBoard(boardId) {
     }
 }
 
-export async function addBoard(board) {
+export async function addBoard(boardTitle, boardLabel) {
     try {
-        const savedBoard = await boardService.save(board)
-        store.dispatch(getCmdAddBoard(savedBoard))
-        return savedBoard
+        const board = await boardService.addBoard(boardTitle, boardLabel)
+        store.dispatch(getCmdAddBoard(board))
+        return board
     } catch (err) {
         console.log('Cannot add board', err)
         throw err
