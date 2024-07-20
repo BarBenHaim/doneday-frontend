@@ -51,8 +51,8 @@ const taskAttributesConfig = {
         render: (task, members, labels, onUpdateField) => (
             <EditableText value={task.title} onChange={value => onUpdateField(task, 'title', value)} />
         ),
-        className: 'sticky-col task-col',
-        width: '200px', // Set the desired width for the column
+        className: 'table-cell sticky-col task-col',
+        width: '200px',
     },
     status: {
         label: 'Status',
@@ -70,8 +70,8 @@ const taskAttributesConfig = {
                 {task.status || 'Not Started'}
             </div>
         ),
-        className: 'cell-col status-col',
-        width: '120px', // Set the desired width for the column
+        className: 'table-cell  status-col',
+        width: '120px',
     },
     priority: {
         label: 'Priority',
@@ -89,7 +89,7 @@ const taskAttributesConfig = {
                 {task.priority || 'Medium'}
             </div>
         ),
-        className: 'cell-col priority-col',
+        className: 'table-cell priority-col',
         width: '120px',
     },
     dueDate: {
@@ -101,6 +101,7 @@ const taskAttributesConfig = {
             return (
                 <div className='monday-storybook-dialog--story-padding'>
                     <Dialog
+                        zIndex={2}
                         content={
                             <DialogContentContainer>
                                 <DatePicker
@@ -127,7 +128,7 @@ const taskAttributesConfig = {
                 </div>
             )
         },
-        className: 'cell-col due-date-col',
+        className: 'table-cell due-date-col',
         width: '150px',
     },
     memberIds: {
@@ -159,7 +160,7 @@ const taskAttributesConfig = {
                 )
             })
         },
-        className: 'cell-col members-col',
+        className: 'table-cell members-col',
         width: '100px',
     },
 }

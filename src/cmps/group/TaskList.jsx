@@ -71,12 +71,12 @@ function TasksList({ tasks, members, labels, board, group, openModal, formattedD
                         borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
                     }}
                 >
-                    <TableHeader zIndex='0'>
+                    <TableHeader>
                         {columns.map((headerCell, index) => (
                             <TableHeaderCell
                                 key={index}
                                 title={headerCell.title}
-                                className={index === 0 ? 'sticky-col task-col' : ''}
+                                className={index === 0 ? 'table-header-cell sticky-col task-col' : 'table-header-cell'}
                                 style={{ width: headerCell.width }}
                             />
                         ))}
