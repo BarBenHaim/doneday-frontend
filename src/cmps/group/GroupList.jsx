@@ -17,8 +17,7 @@ export function GroupList() {
     storeState.boardModule.boards.find((board) => board._id === boardId)
   )
   const [arrayToDisplay, setArrayToDisplay] = useState(currBoard?.groups || [])
-  console.log({ arrayToDisplay })
-  console.log(currBoard?.groups)
+
   async function onRemoveGroup(groupId) {
     try {
       await removeGroup(boardId, groupId)
@@ -48,14 +47,15 @@ export function GroupList() {
   }
 
   if (!currBoard) return <div>Loading...</div>
-  const handleSetArrayToDisplay = (arr) => {
-    console.log({ arr })
+
+  function handleSetArrayToDisplay(arr) {
     setArrayToDisplay(arr)
   }
+
   const groups = arrayToDisplay ? arrayToDisplay : currBoard?.groups
   return (
     <div className="group-list">
-      <GroupFilter setArrayToDisplayfromfather={handleSetArrayToDisplay} />
+      <GroupFilter setFilterBy={handleSetArrayToDisplay} />
       {groups.map((group) => (
         <div key={group._id}>
           <GroupPreview

@@ -1,13 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 
-export function GroupFilter({
-  setArrayToDisplayfromfather,
-  filterBy,
-  setFilterBy,
-  handleSetFilterBy,
-}) {
+export function GroupFilter({ setFilterBy }) {
   const { boardId } = useParams()
   const currBoard = useSelector((storeState) =>
     storeState.boardModule.boards.find((board) => board._id === boardId)
@@ -15,40 +10,52 @@ export function GroupFilter({
   const groups = currBoard.groups || []
   const tasks = groups.flatMap((group) => group.tasks || [])
 
+  const [arrayToDisplay, setArrayToDisplay] = useState([])
+
+  const [isSearchActive, setSearchActive] = useState(false)
   const [isFilterModalOpen, setFilterModalOpen] = useState(false)
   const [isSortModalOpen, setSortModalOpen] = useState(false)
+
   const [selectedColumn, setSelectedColumn] = useState([])
-  const [arrayToDisplay, setArrayToDisplay] = useState([])
   const [selectedCondition, setselectedCondition] = useState('')
+
   const [columnToFilter, setColumnToFilter] = useState('')
   const [labelsToFilterBy, setLabelsToFilterBy] = useState('')
-  const [textToFilter, setTextToFilter] = useState('')
+
   const [isTextField, setTextField] = useState(false)
+  const [textToFilter, setTextToFilter] = useState('')
 
-  const handleFilterClick = () => {
-    console.log({ isFilterModalOpen })
-    if (isFilterModalOpen) {
-      setFilterModalOpen(false)
-    } else {
-      setFilterModalOpen(true)
-    }
+  function handleSearchClick() {
+    setSearchActive(true)
+  }
+  function handleFilterClick() {
+    setFilterModalOpen(!isFilterModalOpen)
   }
 
-  const handleSortClick = () => {
-    setSortModalOpen(true)
+  function handleSortClick() {
+    setSortModalOpen(!isSortModalOpen)
   }
 
-  const handleCloseModal = () => {
+  function handleCloseModal() {
     setFilterModalOpen(false)
     setSortModalOpen(false)
   }
-  const handleTextFilterChange = (ev) => {
+
+  function onClearFilter() {
+    console.log('hi')
+
+    setColumnToFilter('')
+    setLabelsToFilterBy('')
+  }
+
+  function handleTextFilterChange(ev) {
     const text = ev.target.value
     setTextToFilter(text)
   }
-  const getColumn = (ev) => {
+
+  function getColumn(ev) {
     const selectedValue = ev.target.value
-    console.log({ selectedValue })
+
     let columnArray = []
     setColumnToFilter(selectedValue)
     switch (selectedValue) {
@@ -57,14 +64,15 @@ export function GroupFilter({
           columnArray.push(task.status)
         })
         break
+
       case 'dueDate':
         tasks.map((task) => {
           columnArray.push(task.dueDate)
         })
         break
+
       case 'owner':
         tasks.map((task) => {
-          console.log(task.byMember?.fullname)
           columnArray.push(task.byMember?.fullname)
         })
         break
@@ -74,6 +82,7 @@ export function GroupFilter({
           columnArray.push(task.priority)
         })
         break
+
       case 'title':
         groups.map((group) => {
           columnArray.push(group.title)
@@ -83,55 +92,53 @@ export function GroupFilter({
       default:
         break
     }
+
     const filteredColumnArray = columnArray.filter(
       (value, index, self) =>
         value !== null && value !== undefined && self.indexOf(value) === index
     )
     setSelectedColumn(filteredColumnArray)
   }
-  const getCondition = (ev) => {
+
+  function getCondition(ev) {
     const selectedValue = ev.target.value
     setselectedCondition(selectedValue)
-    if (selectedValue === 'does_not_contain' || selectedValue === 'contains') {
-      setTextField(true)
-      console.log(textToFilter)
-    } else {
-      setTextField(false)
-    }
-    console.log({ isTextField })
+
+    setTextField(
+      selectedValue === 'does_not_contain' || selectedValue === 'contains'
+    )
   }
-  const handleLabelsToFilterBy = (ev) => {
+
+  function handleLabelsToFilterBy(ev) {
     const selectedValue = ev.target.value
+
     setLabelsToFilterBy(selectedValue)
   }
-  const getFilterdgroups = () => {
+
+  function getFilterdgroups() {
     const filteredGroups = groups.map((group) => {
       const filteredTasks = group.tasks.filter((task) => {
         switch (selectedCondition) {
           case 'is_not':
-            if (columnToFilter === 'title') {
-              return group[columnToFilter] !== labelsToFilterBy
-            } else {
-              return task[columnToFilter] !== labelsToFilterBy
-            }
+            return columnToFilter === 'title'
+              ? group[columnToFilter] !== labelsToFilterBy
+              : task[columnToFilter] !== labelsToFilterBy
+
           case 'is':
-            if (columnToFilter === 'title') {
-              return group[columnToFilter] === labelsToFilterBy
-            } else {
-              return task[columnToFilter] === labelsToFilterBy
-            }
+            return columnToFilter === 'title'
+              ? group[columnToFilter] === labelsToFilterBy
+              : task[columnToFilter] === labelsToFilterBy
+
           case 'contains':
-            if (columnToFilter === 'title') {
-              return group[columnToFilter]?.includes(textToFilter)
-            } else {
-              return task[columnToFilter]?.includes(textToFilter)
-            }
+            return columnToFilter === 'title'
+              ? group[columnToFilter]?.includes(textToFilter)
+              : task[columnToFilter]?.includes(textToFilter)
+
           case 'does_not_contain':
-            if (columnToFilter === 'title') {
-              return !group[columnToFilter]?.includes(textToFilter)
-            } else {
-              return !task[columnToFilter]?.includes(textToFilter)
-            }
+            return columnToFilter === 'title'
+              ? !group[columnToFilter]?.includes(textToFilter)
+              : !task[columnToFilter]?.includes(textToFilter)
+
           default:
             return true
         }
@@ -149,25 +156,33 @@ export function GroupFilter({
 
     setArrayToDisplay(nonEmptyGroups)
 
-    setArrayToDisplayfromfather(nonEmptyGroups)
+    setFilterBy(nonEmptyGroups)
 
     return nonEmptyGroups
   }
-  console.log(arrayToDisplay)
+
   return (
     <>
-      <button onClick={getFilterdgroups}>filter</button>
-      <button>X</button>
-      <section className="group-filter">
-        <div className="filter-item search">
-          <input
-            type="text"
-            name="txt"
-            placeholder="Search"
-            onChange={(ev) => handleSetFilterBy(ev)}
-            required
-          />
-        </div>
+      <section className="board-filter">
+        {isSearchActive && (
+          <div className={`filter-item search active`}>
+            <input
+              type="text"
+              name="txt"
+              placeholder="Search this board"
+              onFocus={() => setSearchActive(true)}
+              onBlur={() => setSearchActive(false)}
+              onChange={(ev) => handleSearchClick(ev)}
+            />
+          </div>
+        )}
+        {!isSearchActive && (
+          <div className="search">
+            <button className="filter-item search">
+              <i className="fa-solid fa-magnifying-glass"></i> Search
+            </button>
+          </div>
+        )}
         <div className="person">
           <button className="filter-item person">
             <i className="fa-regular fa-circle-user"></i> Person
@@ -178,41 +193,55 @@ export function GroupFilter({
             <i className="fa-solid fa-filter"></i> Filter
           </button>
         </div>
-        {/* <div className="sort">
+
+        <div className="sort">
           <button className="filter-item sort" onClick={handleSortClick}>
             <i className="fa-solid fa-sort"></i> Sort
           </button>
-        </div> */}
+        </div>
+        <div className="Hide">
+          <button className="filter-item hide">
+            <i class="fa-regular fa-eye-slash"></i> Hide
+          </button>
+        </div>
       </section>
 
       {isFilterModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <span
-              style={{ cursor: 'pointer' }}
-              className="close"
-              onClick={handleCloseModal}
-            >
-              &times;
-            </span>
-            <h2>Advanced filters</h2>
-            <p>Showing all of X tasks</p>
-            <div className="filter-options">
-              <div className="filter-option">
+        <div className="advanced-filter-modal">
+          <div className="advanced-filter-content">
+            <saction className="filter-header">
+              <div className="left-side">
+                <h2 className="main-header">
+                  Advanced filters
+                  <span className="main-header second">
+                    Showing all of X tasks
+                  </span>
+                </h2>
+                {/* <p className="second-header">Showing all of X tasks</p> */}
+              </div>
+
+              <div className="right-side">
+                <button className="clear-btn">Clear all</button>
+                <button className="save-btn">Save as new view</button>
+              </div>
+            </saction>
+
+            <div className="column-filter">
+              <div>
                 <label>Where</label>
-                <select onChange={getColumn}>
+                <select className="column" onChange={getColumn}>
                   <option value="" disabled selected>
                     Column
                   </option>
                   <option value="title">Group</option>
                   <option value="priority">Priority</option>
-                  {/* <option value="Collaboretors">Collaboretors</option> */}
+
                   <option value="status">Status</option>
                   <option value="owner">Owner</option>
                   <option value="dueDate">Due Date</option>
                 </select>
 
-                <select onChange={getCondition}>
+                <select className="column" onChange={getCondition}>
                   <option value="" disabled selected>
                     Condition
                   </option>
@@ -231,7 +260,7 @@ export function GroupFilter({
                   />
                 )}
                 {!isTextField && (
-                  <select onChange={handleLabelsToFilterBy}>
+                  <select className="column" onChange={handleLabelsToFilterBy}>
                     <option value="" disabled selected>
                       Value
                     </option>
@@ -240,13 +269,19 @@ export function GroupFilter({
                     ))}
                   </select>
                 )}
+                <button onClick={getFilterdgroups}>filter</button>
+                <span
+                  style={{ cursor: 'pointer' }}
+                  className="close"
+                  onClick={handleCloseModal}
+                >
+                  &times;
+                </span>
               </div>
-              <button className="new-filter-button">+ New filter</button>
-              <button className="new-group-button">+ New group</button>
-            </div>
-            <div className="modal-footer">
-              <button className="clear-button">Clear all</button>
-              <button className="save-button">Save as new view</button>
+              <div>
+                <button className="filter-button">+ New filter</button>
+                <button className="filter-button">+ New group</button>
+              </div>
             </div>
           </div>
         </div>
