@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, DatePicker, Dialog, DialogContentContainer, EditableText } from 'monday-ui-react-core'
+import { Avatar, DatePicker, Dialog, DialogContentContainer, EditableText, Button } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import moment from 'moment'
 
@@ -41,7 +41,6 @@ const cellStyle = {
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    padding: '5px',
     cursor: 'pointer',
 }
 
@@ -57,36 +56,66 @@ const taskAttributesConfig = {
     status: {
         label: 'Status',
         render: (task, members, labels, onUpdateField) => (
-            <div
-                style={{ ...cellStyle, ...getStatusStyle(task.status) }}
-                onClick={() => {
-                    const newStatus = prompt(
-                        'Enter new status (Done, Working on it, Stuck, Not Started, Important)',
-                        task.status || 'Not Started'
-                    )
-                    if (newStatus) onUpdateField(task, 'status', newStatus)
-                }}
-            >
-                {task.status || 'Not Started'}
+            <div style={cellStyle}>
+                <Dialog
+                    zIndex={2}
+                    content={
+                        <DialogContentContainer style={{ width: '150px' }}>
+                            <ul className='change-label-container flex align-center '>
+                                {['Done', 'Working on it', 'Stuck', 'Not Started', 'Important'].map(status => (
+                                    <li
+                                        key={status}
+                                        style={getStatusStyle(status)}
+                                        onClick={() => onUpdateField(task, 'status', status)}
+                                    >
+                                        {status}
+                                    </li>
+                                ))}
+                            </ul>
+                        </DialogContentContainer>
+                    }
+                    hideTrigger={['clickoutside']}
+                    position='bottom'
+                    showTrigger={['click']}
+                >
+                    <div style={{ ...cellStyle, ...getStatusStyle(task.status || 'Not Started') }}>
+                        {task.status || 'Not Started'}
+                    </div>
+                </Dialog>
             </div>
         ),
-        className: 'table-cell  status-col',
+        className: 'table-cell status-col',
         width: '120px',
     },
     priority: {
         label: 'Priority',
         render: (task, members, labels, onUpdateField) => (
-            <div
-                style={{ ...cellStyle, ...getPriorityStyle(task.priority) }}
-                onClick={() => {
-                    const newPriority = prompt(
-                        'Enter new priority (low, medium, high, critical)',
-                        task.priority || 'medium'
-                    )
-                    if (newPriority) onUpdateField(task, 'priority', newPriority)
-                }}
-            >
-                {task.priority || 'Medium'}
+            <div style={cellStyle}>
+                <Dialog
+                    zIndex={2}
+                    content={
+                        <DialogContentContainer style={{ width: '150px' }}>
+                            <ul className='change-label-container flex align-center '>
+                                {['Critical', 'High', 'Medium', 'Low'].map(priority => (
+                                    <li
+                                        key={priority}
+                                        style={getPriorityStyle(priority)}
+                                        onClick={() => onUpdateField(task, 'priority', priority)}
+                                    >
+                                        {priority}
+                                    </li>
+                                ))}
+                            </ul>
+                        </DialogContentContainer>
+                    }
+                    hideTrigger={['clickoutside']}
+                    position='bottom'
+                    showTrigger={['click']}
+                >
+                    <div style={{ ...cellStyle, ...getPriorityStyle(task.priority || 'Medium') }}>
+                        {task.priority || 'Medium'}
+                    </div>
+                </Dialog>
             </div>
         ),
         className: 'table-cell priority-col',
