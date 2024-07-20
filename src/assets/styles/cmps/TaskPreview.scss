@@ -4,6 +4,7 @@
     &:hover {
         .task-preview-menu-btn {
             opacity: 1;
+            translate: -40px;
         }
         .table-cell.status-col,
         .table-cell.priority-col {
@@ -13,6 +14,10 @@
 }
 
 .task-preview-menu-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    margin: auto;
     position: absolute;
     opacity: 0;
     z-index: 1;
