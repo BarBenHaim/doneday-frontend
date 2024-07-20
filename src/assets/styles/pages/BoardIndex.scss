@@ -1,6 +1,7 @@
 .board-index {
     grid-column: 2/3; 
     margin-left: 10px;
+    overflow: scroll;
 
     .collapsible-header{
 margin-top: 10px;
