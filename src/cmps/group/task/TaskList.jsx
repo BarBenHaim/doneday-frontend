@@ -106,11 +106,10 @@ function TasksList({ tasks, members, labels, board, group, openModal }) {
     return (
         <div className='tasks-list-container'>
             <Button onClick={onAddTask}>New task</Button>
-            <div style={{ overflowX: 'auto' }}>
+            <div>
                 <Table
                     columns={columns}
                     style={{
-                        position: 'relative',
                         borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
                     }}
                 >

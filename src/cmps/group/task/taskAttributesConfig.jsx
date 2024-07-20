@@ -244,7 +244,7 @@ const taskAttributesConfig = {
             )
         },
         className: 'table-cell files-col',
-        width: '150px',
+        width: '950px',
     },
 }
 
