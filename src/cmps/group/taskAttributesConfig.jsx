@@ -52,27 +52,26 @@ const taskAttributesConfig = {
             <EditableText value={task.title} onChange={value => onUpdateField(task, 'title', value)} />
         ),
         className: 'sticky-col task-col',
+        width: '200px', // Set the desired width for the column
     },
-
     status: {
         label: 'Status',
-        render: (task, members, labels, onUpdateField) => {
-            return (
-                <div
-                    style={{ ...cellStyle, ...getStatusStyle(task.status) }}
-                    onClick={() => {
-                        const newStatus = prompt(
-                            'Enter new status (Done, Working on it, Stuck, Not Started, Important)',
-                            task.status || 'Not Started'
-                        )
-                        if (newStatus) onUpdateField(task, 'status', newStatus)
-                    }}
-                >
-                    {task.status || 'Not Started'}
-                </div>
-            )
-        },
+        render: (task, members, labels, onUpdateField) => (
+            <div
+                style={{ ...cellStyle, ...getStatusStyle(task.status) }}
+                onClick={() => {
+                    const newStatus = prompt(
+                        'Enter new status (Done, Working on it, Stuck, Not Started, Important)',
+                        task.status || 'Not Started'
+                    )
+                    if (newStatus) onUpdateField(task, 'status', newStatus)
+                }}
+            >
+                {task.status || 'Not Started'}
+            </div>
+        ),
         className: 'cell-col status-col',
+        width: '120px', // Set the desired width for the column
     },
     priority: {
         label: 'Priority',
@@ -91,6 +90,7 @@ const taskAttributesConfig = {
             </div>
         ),
         className: 'cell-col priority-col',
+        width: '120px',
     },
     dueDate: {
         label: 'Due Date',
@@ -128,6 +128,7 @@ const taskAttributesConfig = {
             )
         },
         className: 'cell-col due-date-col',
+        width: '150px',
     },
     memberIds: {
         label: 'Members',
@@ -159,6 +160,7 @@ const taskAttributesConfig = {
             })
         },
         className: 'cell-col members-col',
+        width: '100px',
     },
 }
 

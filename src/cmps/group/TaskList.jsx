@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Table, TableHeader, TableBody, TableHeaderCell, Button } from 'monday-ui-react-core'
+import { Table, TableHeader, TableBody, TableHeaderCell, Button, TableRow } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
 import { taskAttributesConfig } from './taskAttributesConfig'
@@ -53,8 +53,13 @@ function TasksList({ tasks, members, labels, board, group, openModal, formattedD
         }
     }
 
-    const columns = Object.keys(taskAttributesConfig).map(key => ({ title: taskAttributesConfig[key].label }))
-
+    const columns = Object.keys(taskAttributesConfig).map(key => ({
+        title: taskAttributesConfig[key].label,
+        width: taskAttributesConfig[key].width || 'auto',
+    }))
+    {
+        console.log(columns)
+    }
     return (
         <div className='tasks-list-container'>
             <Button onClick={onAddTask}>New task</Button>
@@ -72,22 +77,24 @@ function TasksList({ tasks, members, labels, board, group, openModal, formattedD
                                 key={index}
                                 title={headerCell.title}
                                 className={index === 0 ? 'sticky-col task-col' : ''}
+                                style={{ width: headerCell.width }}
                             />
                         ))}
                     </TableHeader>
                     <TableBody>
                         {taskList.map((task, index) => (
-                            <TaskPreview
-                                key={index}
-                                task={task}
-                                members={members}
-                                labels={labels}
-                                board={board}
-                                group={group}
-                                openModal={openModal}
-                                onUpdateTask={onUpdateTask}
-                                onDeleteTask={onDeleteTask}
-                            />
+                            <TableRow key={index}>
+                                <TaskPreview
+                                    task={task}
+                                    members={members}
+                                    labels={labels}
+                                    board={board}
+                                    group={group}
+                                    openModal={openModal}
+                                    onUpdateTask={onUpdateTask}
+                                    onDeleteTask={onDeleteTask}
+                                />
+                            </TableRow>
                         ))}
                     </TableBody>
                 </Table>

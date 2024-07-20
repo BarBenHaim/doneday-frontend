@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import 'monday-ui-react-core/dist/main.css'
-// import TasksList from './TaskList'
-import { ColorPicker } from 'monday-ui-react-core'
 import TasksList from './TaskList'
+import { ColorPicker, Button } from 'monday-ui-react-core'
 
-function GroupPreview({ group, members, labels, board, openModal, onUpdateGroup }) {
+function GroupPreview({ group, members, labels, board, openModal, onUpdateGroup, onSort, sorting, onAddColumn }) {
     const [isEditingTitle, setIsEditingTitle] = useState(false)
     const [isColorsModal, setIsColorsModal] = useState(false)
     const [updatedGroupTitle, setUpdatedGroupTitle] = useState(group.title)
+
     const handleTitleChange = e => {
         setUpdatedGroupTitle(e.target.value)
     }
@@ -38,7 +38,6 @@ function GroupPreview({ group, members, labels, board, openModal, onUpdateGroup 
                         onKeyPress={handleKeyPress}
                         autoFocus
                         className='editable-title'
-                        a
                         style={{ color: `${group.style.backgroundColor || '#579bfc'}` }}
                     />
                     {isColorsModal && <ColorPicker onSave={function noRefCheck() {}} />}
@@ -51,6 +50,7 @@ function GroupPreview({ group, members, labels, board, openModal, onUpdateGroup 
                     {group.title}{' '}
                 </h2>
             )}
+            <Button onClick={() => onAddColumn(board._id)}>+ Add Column</Button>
             <div className='table-wrapper'>
                 <TasksList
                     tasks={group.tasks}
@@ -59,6 +59,8 @@ function GroupPreview({ group, members, labels, board, openModal, onUpdateGroup 
                     board={board}
                     group={group}
                     openModal={openModal}
+                    onSort={onSort}
+                    sorting={sorting}
                 />
             </div>
         </div>

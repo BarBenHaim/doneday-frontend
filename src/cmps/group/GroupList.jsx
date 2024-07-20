@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react'
 import GroupPreview from './GroupPreview'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
-
 import { showErrorMsg, showSuccessMsg } from '../../services/event-bus.service'
-import { addGroup, removeGroup, updateGroup } from '../../store/actions/board.action'
+import { addGroup, removeGroup, updateGroup, updateBoard } from '../../store/actions/board.action'
 import { GroupFilter } from './GroupFilter'
 
 export function GroupList() {
@@ -44,6 +43,26 @@ export function GroupList() {
         }
     }
 
+    async function onAddColumn(groupId) {
+        const columnType = prompt('Enter column type (priority, status, due date, members)')
+        if (!columnType) return
+
+        const updatedGroups = currBoard.groups.map(group => {
+            if (!group.columns) group.columns = []
+            if (!group.columns.includes(columnType)) group.columns.push(columnType)
+            return group
+        })
+
+        const updatedBoard = { ...currBoard, groups: updatedGroups }
+
+        try {
+            await dispatch(updateBoard(updatedBoard))
+            showSuccessMsg('Column added successfully')
+        } catch (err) {
+            showErrorMsg('Cannot add column')
+        }
+    }
+
     if (!currBoard) return <div>Loading...</div>
 
     const handleSetArrayToDisplay = arr => {
@@ -63,6 +82,7 @@ export function GroupList() {
                         labels={currBoard.labels}
                         onUpdateGroup={onUpdateGroup}
                         board={currBoard}
+                        onAddColumn={onAddColumn}
                     />
                     <button onClick={() => onRemoveGroup(group._id)}>Delete</button>
                 </div>
