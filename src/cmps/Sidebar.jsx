@@ -67,10 +67,8 @@ export function Sidebar() {
             starredBoards.map((board) => (
               <MenuItem key={board._id} title={board.title} onClick={() => handleOnClick(`/board/${board._id}`)} />
             ))}
-        </Menu>
         <MenuDivider />
-
-        <Menu icon={Add} title='Add' className='add-board-menu' tooltipPosition='top' tooltipContent="Add item to workspace">
+        <MenuItem icon={Add} className='add-board-menu' tooltipPosition='top' tooltipContent="Add item to workspace"/>
           <MenuTitle caption='Add new' />
           <MenuItem icon={Board} title='Board' splitMenuItem >
             <Menu >
@@ -78,7 +76,7 @@ export function Sidebar() {
             </Menu>
           </MenuItem>
         </Menu>
-      </DialogContentContainer>
+        </DialogContentContainer>
     </div>
   )
 }
