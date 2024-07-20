@@ -1,12 +1,53 @@
 import React, { useState, useEffect } from 'react'
-import { Table, TableHeader, TableBody, TableHeaderCell, Button, TableRow } from 'monday-ui-react-core'
+import { Table, TableHeader, TableBody, TableHeaderCell, Button, TableRow, TableCell } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
-import { taskAttributesConfig } from './taskAttributesConfig'
+import { taskAttributesConfig, getStatusStyle, getPriorityStyle } from './taskAttributesConfig'
 import { showSuccessMsg, showErrorMsg } from '../../../services/event-bus.service'
 import { addTask, updateTask, removeTask } from '../../../store/actions/board.action'
 
-function TasksList({ tasks, members, labels, board, group, openModal, formattedDateRange, handleDateChange }) {
+const calculateSummary = taskList => {
+    const summary = {
+        files: 0,
+        status: {},
+        priority: {},
+    }
+
+    taskList.forEach(task => {
+        summary.files += task.files ? task.files.length : 0
+        if (task.status) summary.status[task.status] = (summary.status[task.status] || 0) + 1
+        if (task.priority) summary.priority[task.priority] = (summary.priority[task.priority] || 0) + 1
+    })
+
+    const totalTasks = taskList.length
+    for (const key in summary.status) {
+        summary.status[key] = (summary.status[key] / totalTasks) * 100
+    }
+    for (const key in summary.priority) {
+        summary.priority[key] = (summary.priority[key] / totalTasks) * 100
+    }
+
+    return summary
+}
+
+const renderProgressBar = (distribution, colorGetter) => {
+    const segments = Object.keys(distribution).map(key => (
+        <div
+            className='progress-bar'
+            key={key}
+            style={{
+                width: `${distribution[key]}%`,
+                backgroundColor: colorGetter(key).backgroundColor,
+                height: '100%',
+            }}
+            title={`${key}: ${distribution[key].toFixed(0)}%`}
+        />
+    ))
+
+    return <div style={{ display: 'flex', width: '100%', height: '20px' }}>{segments}</div>
+}
+
+function TasksList({ tasks, members, labels, board, group, openModal }) {
     const [taskList, setTaskList] = useState(tasks)
 
     useEffect(() => {
@@ -19,10 +60,11 @@ function TasksList({ tasks, members, labels, board, group, openModal, formattedD
             title: 'New Task',
             memberIds: [],
             labelIds: [],
-            status: '',
+            status: 'Not Started',
             dueDate: null,
             priority: 'Medium',
             comments: [],
+            files: [],
         }
         try {
             const addedTask = await addTask(board._id, group._id, newTask)
@@ -54,12 +96,13 @@ function TasksList({ tasks, members, labels, board, group, openModal, formattedD
     }
 
     const columns = Object.keys(taskAttributesConfig).map(key => ({
+        key,
         title: taskAttributesConfig[key].label,
         width: taskAttributesConfig[key].width || 'auto',
     }))
-    {
-        console.log(columns)
-    }
+
+    const summary = calculateSummary(taskList)
+
     return (
         <div className='tasks-list-container'>
             <Button onClick={onAddTask}>New task</Button>
@@ -67,7 +110,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, formattedD
                 <Table
                     columns={columns}
                     style={{
-                        maxHeight: '220px',
+                        position: 'relative',
                         borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
                     }}
                 >
@@ -97,6 +140,15 @@ function TasksList({ tasks, members, labels, board, group, openModal, formattedD
                             </TableRow>
                         ))}
                     </TableBody>
+                    <TableRow>
+                        {columns.map(col => (
+                            <TableCell key={col.key} className='table-cell'>
+                                {col.key === 'files' && `${summary.files} files`}
+                                {col.key === 'status' && renderProgressBar(summary.status, getStatusStyle)}
+                                {col.key === 'priority' && renderProgressBar(summary.priority, getPriorityStyle)}
+                            </TableCell>
+                        ))}
+                    </TableRow>
                 </Table>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Avatar, DatePicker, Dialog, DialogContentContainer, EditableText, Button } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import moment from 'moment'
@@ -191,6 +191,60 @@ const taskAttributesConfig = {
         },
         className: 'table-cell members-col',
         width: '100px',
+    },
+    files: {
+        label: 'Files',
+        render: (task, members, labels, onUpdateField) => {
+            const [isDialogOpen, setIsDialogOpen] = useState(false)
+            const [fileList, setFileList] = useState(task.files || [])
+
+            const handleFileChange = event => {
+                const files = Array.from(event.target.files)
+                const updatedFiles = [...fileList, ...files]
+                onUpdateField(task, 'files', updatedFiles)
+                setFileList(updatedFiles)
+                setIsDialogOpen(false)
+            }
+
+            useEffect(() => {
+                setFileList(task.files || [])
+            }, [task.files])
+
+            return (
+                <div style={cellStyle}>
+                    <Dialog
+                        zIndex={2}
+                        isOpen={isDialogOpen}
+                        onDialogDidHide={() => setIsDialogOpen(false)}
+                        content={
+                            <DialogContentContainer>
+                                <input
+                                    type='file'
+                                    multiple
+                                    onChange={handleFileChange}
+                                    style={{ display: 'block', marginBottom: '10px' }}
+                                />
+                                <ul>
+                                    {fileList.map((file, index) => (
+                                        <li key={index}>{file.name}</li>
+                                    ))}
+                                </ul>
+                            </DialogContentContainer>
+                        }
+                        hideTrigger={['clickoutside']}
+                        position='bottom'
+                        showTrigger={['click']}
+                    >
+                        <div onClick={() => setIsDialogOpen(true)}>
+                            <Button>+</Button>
+                            <span>{fileList.length} files</span>
+                        </div>
+                    </Dialog>
+                </div>
+            )
+        },
+        className: 'table-cell files-col',
+        width: '150px',
     },
 }
 
