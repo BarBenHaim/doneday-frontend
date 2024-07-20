@@ -148,6 +148,24 @@ export function boardReducer(state = initialState, action) {
             )
             newState = { ...state, boards }
             break
+        case REMOVE_TASK:
+            boards = state.boards.map(board =>
+                board._id === action.payload.boardId
+                    ? {
+                          ...board,
+                          groups: board.groups.map(group =>
+                              group._id === action.payload.groupId
+                                  ? {
+                                        ...group,
+                                        tasks: group.tasks.filter(task => task._id !== action.payload.taskId),
+                                    }
+                                  : group
+                          ),
+                      }
+                    : board
+            )
+            newState = { ...state, boards }
+            break
         default:
             return state
     }

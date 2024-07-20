@@ -12,16 +12,16 @@ button {
 }
 
 form > * {
-	display: block;
-	// width: 200px;
-	margin: 10px 0px;
+  display: block;
+  // width: 200px;
+  margin: 10px 0px;
 }
 
 .btn-link {
-	border: 0;
-	background-color: transparent;
-	// text-decoration: underline;
-	transition: 0.5s;
+  border: 0;
+  background-color: transparent;
+  // text-decoration: underline;
+  transition: 0.5s;
 }
 .btn-link:hover {
 	background-color: $Mbgr4;

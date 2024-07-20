@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Table, TableHeader, TableBody, TableHeaderCell, Button } from 'monday-ui-react-core'
+import { Table, TableHeader, TableBody, TableHeaderCell, Button, TableRow } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
 import { taskAttributesConfig } from './taskAttributesConfig'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 import { addTask, updateTask, removeTask } from '../../store/actions/board.action'
 
-function TasksList({ tasks, members, labels, board, group, openModal }) {
+function TasksList({ tasks, members, labels, board, group, openModal, formattedDateRange, handleDateChange }) {
     const [taskList, setTaskList] = useState(tasks)
 
     useEffect(() => {
@@ -53,35 +53,48 @@ function TasksList({ tasks, members, labels, board, group, openModal }) {
         }
     }
 
-    const columns = Object.keys(taskAttributesConfig).map(key => ({ title: taskAttributesConfig[key].label }))
-
+    const columns = Object.keys(taskAttributesConfig).map(key => ({
+        title: taskAttributesConfig[key].label,
+        width: taskAttributesConfig[key].width || 'auto',
+    }))
+    {
+        console.log(columns)
+    }
     return (
         <div className='tasks-list-container'>
             <Button onClick={onAddTask}>New task</Button>
             <div style={{ overflowX: 'auto' }}>
-                <Table columns={columns} style={{ maxHeight: '220px' }}>
-                    <TableHeader>
+                <Table
+                    columns={columns}
+                    style={{
+                        maxHeight: '220px',
+                        borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
+                    }}
+                >
+                    <TableHeader zIndex='0'>
                         {columns.map((headerCell, index) => (
                             <TableHeaderCell
                                 key={index}
                                 title={headerCell.title}
                                 className={index === 0 ? 'sticky-col task-col' : ''}
+                                style={{ width: headerCell.width }}
                             />
                         ))}
                     </TableHeader>
                     <TableBody>
                         {taskList.map((task, index) => (
-                            <TaskPreview
-                                key={index}
-                                task={task}
-                                members={members}
-                                labels={labels}
-                                board={board}
-                                group={group}
-                                openModal={openModal}
-                                onUpdateTask={onUpdateTask}
-                                onDeleteTask={onDeleteTask}
-                            />
+                            <TableRow key={index}>
+                                <TaskPreview
+                                    task={task}
+                                    members={members}
+                                    labels={labels}
+                                    board={board}
+                                    group={group}
+                                    openModal={openModal}
+                                    onUpdateTask={onUpdateTask}
+                                    onDeleteTask={onDeleteTask}
+                                />
+                            </TableRow>
                         ))}
                     </TableBody>
                 </Table>

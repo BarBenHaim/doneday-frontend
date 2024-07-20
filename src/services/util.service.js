@@ -126,11 +126,19 @@ function createGroup(title, tasks = [], archivedAt = null) {
         title,
         archivedAt,
         tasks,
-        style: {},
+        style: { backgroundColor: getRandomColor() },
     }
 }
 
-export function createBoard(title, createdBy, labels = [], members = [], groups = [], activities = [], isStarred = true) {
+export function createBoard(
+    title,
+    createdBy,
+    labels = [],
+    members = [],
+    groups = [],
+    activities = [],
+    isStarred = true
+) {
     return {
         _id: makeId(),
         title,
@@ -317,4 +325,13 @@ export function createBoards() {
     )
 
     return [board1, board2, board3]
+}
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'
+    var color = '#'
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)]
+    }
+    return color
 }
