@@ -6,7 +6,7 @@ import { taskAttributesConfig } from './taskAttributesConfig'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 import { addTask, updateTask, removeTask } from '../../store/actions/board.action'
 
-function TasksList({ tasks, members, labels, board, group, openModal }) {
+function TasksList({ tasks, members, labels, board, group, openModal, formattedDateRange, handleDateChange }) {
     const [taskList, setTaskList] = useState(tasks)
 
     useEffect(() => {
@@ -59,8 +59,14 @@ function TasksList({ tasks, members, labels, board, group, openModal }) {
         <div className='tasks-list-container'>
             <Button onClick={onAddTask}>New task</Button>
             <div style={{ overflowX: 'auto' }}>
-                <Table columns={columns} style={{ maxHeight: '220px' }}>
-                    <TableHeader>
+                <Table
+                    columns={columns}
+                    style={{
+                        maxHeight: '220px',
+                        borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
+                    }}
+                >
+                    <TableHeader zIndex='0'>
                         {columns.map((headerCell, index) => (
                             <TableHeaderCell
                                 key={index}

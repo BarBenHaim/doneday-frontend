@@ -1,6 +1,7 @@
 import React from 'react'
-import { Avatar, EditableText } from 'monday-ui-react-core'
+import { Avatar, DatePicker, Dialog, DialogContentContainer, EditableText } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
+import moment from 'moment'
 
 const getPriorityStyle = value => {
     switch (value) {
@@ -93,12 +94,39 @@ const taskAttributesConfig = {
     },
     dueDate: {
         label: 'Due Date',
-        render: (task, members, labels, onUpdateField) => (
-            <EditableText
-                value={task.dueDate || 'No Due Date'}
-                onChange={value => onUpdateField(task, 'dueDate', value)}
-            />
-        ),
+        render: (task, members, labels, onUpdateField) => {
+            const dueDate = task.dueDate ? moment(task.dueDate) : null
+            const formattedDueDate = dueDate ? dueDate.format('YYYY-MM-DD') : 'No Due Date'
+
+            return (
+                <div className='monday-storybook-dialog--story-padding'>
+                    <Dialog
+                        content={
+                            <DialogContentContainer>
+                                <DatePicker
+                                    data-testid='date-picker'
+                                    date={dueDate}
+                                    onPickDate={value => onUpdateField(task, 'dueDate', value.format('YYYY-MM-DD'))}
+                                />
+                            </DialogContentContainer>
+                        }
+                        hideTrigger={['clickoutside']}
+                        modifiers={[
+                            {
+                                name: 'preventOverflow',
+                                options: {
+                                    mainAxis: false,
+                                },
+                            },
+                        ]}
+                        position='bottom'
+                        showTrigger={['click']}
+                    >
+                        <button className='timeline'>{formattedDueDate}</button>
+                    </Dialog>
+                </div>
+            )
+        },
         className: 'cell-col due-date-col',
     },
     memberIds: {
