@@ -14,9 +14,9 @@ export function TaskPreview({ task, members, labels, onUpdateTask, onDeleteTask 
     }
 
     const renderCell = (config, task, members, labels, key) => {
-        const { render, className } = config
+        const { render, className, width } = config
         return (
-            <TableCell key={key} className={className || ''}>
+            <TableCell key={key} className={className || ''} style={{ width }}>
                 {render(task, members, labels, onUpdateField)}
             </TableCell>
         )
