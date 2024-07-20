@@ -8,12 +8,17 @@
   background-color: #fff;
   transition: box-shadow 0.3s ease;
   padding: 8px;
+  width: 270px;  
+  height: 223px; 
+  z-index: -1;
 
   &:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
 
   .board-preview-img {
+    @include aspect-ratio(260, 140); 
+    
     img {
       width: 100%;
       height: auto;
@@ -22,21 +27,23 @@
 
   .board-preview-item-wrapper {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     padding: 10px;
     color: $Mgray4;
 
+
     .board-preview-title {
       margin-left: 8px;
-      font-size: 1.2em;
+      font-size: rem(16px);
       font-weight: bold;
     }
 
     .starred-btn {
-      background: transparent; /* Transparent background */
-      border: none; /* Remove default button border */
+      background: transparent; 
+      border: none;
       cursor: pointer;
-      font-size: 1em; /* Adjust size as needed */
+      font-size: rem(16px); 
       padding: 0;
 
       &button {
@@ -47,19 +54,29 @@
 
   .board-preview-navigation {
     padding: 10px;
-    font-size: 0.9em;
+    font-size: rem(14px);
     color: $Mgray3;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    img {
+      width: rem(14px);  
+      height: auto; 
+      margin-right: 5px;  
+
+    p {
+      margin: 0; 
+    }
   }
 }
 
 .yellow-star-icon {
   color: #ffcb00 !important;
-  font-size: 18px;
+  font-size: rem(16px);
 }
 
 .monday-icon {
-  font-size: 18px !important;
+  font-size: rem(16px) !important;
+}
 }

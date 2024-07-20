@@ -6,6 +6,7 @@ import 'monday-ui-react-core/dist/main.css'
 import boardPreviewImg from '../assets/img/board-preview/board-preview-01.png'
 import { toggleStarredBoard } from '../store/actions/board.action'
 import { Icon } from 'monday-ui-react-core'
+import logoImg from '../assets/img/logo/only-logo.png'
 
 export function BoardPreview({ board }) {
   async function handleToggleStarred(event) {
@@ -16,7 +17,7 @@ export function BoardPreview({ board }) {
 
   return (
     <article className='board-preview-container'>
-    <div className='board-preview-content'>
+    <div className='board-preview-content '>
       <Link to={`/board/${board._id}`} className='board-preview-link'>
         <div className='board-preview-img'>
           <img src={boardPreviewImg} alt='boardPreviewImg' />
@@ -38,6 +39,7 @@ export function BoardPreview({ board }) {
     </div>
     <Link to={`/board/${board._id}`}>
       <div className='board-preview-navigation'>
+        <img src={logoImg} alt="" />
         <p>
           work management {'>'} Main workspace {'>'} {board.title}{' '}
         </p>

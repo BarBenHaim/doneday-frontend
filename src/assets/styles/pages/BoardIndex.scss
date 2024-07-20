@@ -1,4 +1,14 @@
 .board-index {
-    display:flex;
     grid-column: 2/3; 
+    margin-left: 10px;
+
+    .collapsible-header{
+margin-top: 10px;
+
+      .collapsible-title {
+        font-size: rem(18px);
+        margin-left: 5px;
+      }
+    }
+
   }
