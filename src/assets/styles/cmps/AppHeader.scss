@@ -8,6 +8,7 @@
   background-color: $Mbgr3;
   padding: rem(10px) 1rem;
   grid-template-areas: '. logo company app login . ';
+  z-index: 1; 
 
   nav {
     display: flex;
