@@ -235,16 +235,15 @@ const taskAttributesConfig = {
                         position='bottom'
                         showTrigger={['click']}
                     >
-                        <div onClick={() => setIsDialogOpen(true)}>
-                            <Button>+</Button>
-                            <span>{fileList.length} files</span>
+                        <div style={{ width: '100%', textAlign: 'center' }} onClick={() => setIsDialogOpen(true)}>
+                            +
                         </div>
                     </Dialog>
                 </div>
             )
         },
         className: 'table-cell files-col',
-        width: '950px',
+        width: '140px',
     },
 }
 

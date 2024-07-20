@@ -111,6 +111,7 @@ function TasksList({ tasks, members, labels, board, group, openModal }) {
                     columns={columns}
                     style={{
                         borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
+                        overflow: 'visible',
                     }}
                 >
                     <TableHeader>
@@ -118,7 +119,11 @@ function TasksList({ tasks, members, labels, board, group, openModal }) {
                             <TableHeaderCell
                                 key={index}
                                 title={headerCell.title}
-                                className={index === 0 ? 'table-header-cell sticky-col task-col' : 'table-header-cell'}
+                                className={
+                                    index === 0
+                                        ? 'table-header-cell sticky-col task-col flex align-center justify-center'
+                                        : 'table-header-cell flex align-center justify-center'
+                                }
                                 style={{ width: headerCell.width }}
                             />
                         ))}
@@ -140,8 +145,12 @@ function TasksList({ tasks, members, labels, board, group, openModal }) {
                         ))}
                     </TableBody>
                     <TableRow>
-                        {columns.map(col => (
-                            <TableCell key={col.key} className='table-cell'>
+                        {columns.map((col, index) => (
+                            <TableCell
+                                key={col.key}
+                                className={`summary-cell ${index === 0 ? 'task-summary-cell' : ''}`}
+                                style={{ width: col.width }}
+                            >
                                 {col.key === 'files' && `${summary.files} files`}
                                 {col.key === 'status' && renderProgressBar(summary.status, getStatusStyle)}
                                 {col.key === 'priority' && renderProgressBar(summary.priority, getPriorityStyle)}
