@@ -2,8 +2,6 @@ import { Link } from 'react-router-dom'
 import { Favorite } from 'monday-ui-react-core/icons'
 import { Board } from 'monday-ui-react-core/icons'
 import 'monday-ui-react-core/dist/main.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 
 import boardPreviewImg from '../assets/img/board-preview/board-preview-01.png'
 import { toggleStarredBoard } from '../store/actions/board.action'
@@ -32,9 +30,9 @@ export function BoardPreview({ board }) {
 
         {board.isStarred ? (
           // <FontAwesomeIcon icon={faStar} className='fa-star' style={{ color: '#FFD43B' }} title='Favorite' />
-          <Icon iconType={Icon.type.ICON_FONT} iconLabel="favorite" icon="fa fa-star" style={{ color: 'yellow' }}/>
+          <Icon iconType={Icon.type.ICON_FONT} icon="fa fa-star" className='yellow-star-icon'/>
         ) : (
-          <Favorite className='monday-icon' style={{ color: 'black' }} />
+          <Favorite className='monday-icon' />
         )}
            </button>
     </div>

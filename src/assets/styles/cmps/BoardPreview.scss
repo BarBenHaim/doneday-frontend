@@ -42,14 +42,6 @@
       &button {
         background-color: transparent;
             }
-
-      .fa-star {
-        font-size: 1em; /* Ensure this matches the Monday icon size */
-      }
-
-      .monday-icon {
-        font-size: 1em; /* Ensure this matches the Font Awesome icon size */
-      }
     }
   }
 
@@ -61,4 +53,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+}
+
+.yellow-star-icon {
+  color: #ffcb00 !important;
+  font-size: 18px;
+}
+
+.monday-icon {
+  font-size: 18px !important;
 }
