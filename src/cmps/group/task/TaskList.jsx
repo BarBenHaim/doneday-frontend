@@ -3,8 +3,8 @@ import { Table, TableHeader, TableBody, TableHeaderCell, Button, TableRow } from
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
 import { taskAttributesConfig } from './taskAttributesConfig'
-import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
-import { addTask, updateTask, removeTask } from '../../store/actions/board.action'
+import { showSuccessMsg, showErrorMsg } from '../../../services/event-bus.service'
+import { addTask, updateTask, removeTask } from '../../../store/actions/board.action'
 
 function TasksList({ tasks, members, labels, board, group, openModal, formattedDateRange, handleDateChange }) {
     const [taskList, setTaskList] = useState(tasks)
