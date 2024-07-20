@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
+import { GruopSort } from './GroupSort'
 
 export function GroupFilter({ setFilterBy }) {
   const { boardId } = useParams()
   const currBoard = useSelector((storeState) =>
     storeState.boardModule.boards.find((board) => board._id === boardId)
   )
+
   const groups = currBoard.groups || []
   const tasks = groups.flatMap((group) => group.tasks || [])
 
@@ -39,13 +41,6 @@ export function GroupFilter({ setFilterBy }) {
   function handleCloseModal() {
     setFilterModalOpen(false)
     setSortModalOpen(false)
-  }
-
-  function onClearFilter() {
-    console.log('hi')
-
-    setColumnToFilter('')
-    setLabelsToFilterBy('')
   }
 
   function handleTextFilterChange(ev) {
@@ -217,7 +212,6 @@ export function GroupFilter({ setFilterBy }) {
                     Showing all of X tasks
                   </span>
                 </h2>
-                {/* <p className="second-header">Showing all of X tasks</p> */}
               </div>
 
               <div className="right-side">
@@ -287,41 +281,7 @@ export function GroupFilter({ setFilterBy }) {
         </div>
       )}
 
-      {isSortModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <span
-              style={{ cursor: 'pointer' }}
-              className="close"
-              onClick={handleCloseModal}
-            >
-              &times;
-            </span>
-            <h2>Sort by</h2>
-            <div className="sort-options">
-              <div className="sort-option">
-                <label>Choose column:</label>
-                <select>
-                  <option value="name">Name</option>
-                  <option value="owner">Owner</option>
-                  <option value="collaboration">Collaboration</option>
-                  <option value="status">Status</option>
-                </select>
-              </div>
-              <div className="sort-option">
-                <label>Order:</label>
-                <select>
-                  <option value="ascending">Ascending</option>
-                  <option value="descending">Descending</option>
-                </select>
-              </div>
-            </div>
-            <button className="save-button" onClick={handleCloseModal}>
-              Save
-            </button>
-          </div>
-        </div>
-      )}
+      {isSortModalOpen && <GruopSort />}
     </>
   )
 }
