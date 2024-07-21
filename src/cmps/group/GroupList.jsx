@@ -11,19 +11,19 @@ import {
 } from '../../store/actions/board.action'
 import { GroupFilter } from './GroupsFilter/GroupFilter'
 
-export function GroupList() {
+export function GroupList({ boardsToDisplay }) {
   const { boardId } = useParams()
   const dispatch = useDispatch()
   const currBoard = useSelector((storeState) =>
     storeState.boardModule.boards.find((board) => board._id === boardId)
   )
-  const [boardsToDisplay, setBoardsToDisplay] = useState(
-    currBoard?.groups || []
-  )
+  // const [boardsToDisplay, setBoardsToDisplay] = useState(
+  //   currBoard?.groups || []
+  // )
 
-  useEffect(() => {
-    setBoardsToDisplay(currBoard?.groups || [])
-  }, [currBoard])
+  // useEffect(() => {
+  //   setBoardsToDisplay(currBoard?.groups || [])
+  // }, [currBoard])
 
   async function onRemoveGroup(groupId) {
     try {
@@ -74,14 +74,14 @@ export function GroupList() {
     }
   }
 
-  const setFilterBy = (arr) => {
-    setBoardsToDisplay(arr)
-  }
+  // const setFilterBy = (arr) => {
+  //   setBoardsToDisplay(arr)
+  // }
   const groups = boardsToDisplay ? boardsToDisplay : currBoard?.groups
   if (!currBoard) return <div>Loading...</div>
   return (
     <div className="group-list">
-      <GroupFilter setFilterBy={setFilterBy} />
+      {/* <GroupFilter setFilterBy={setFilterBy} /> */}
       {groups.map((group) => (
         <div key={group._id}>
           <GroupPreview
