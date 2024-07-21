@@ -86,7 +86,7 @@ export function loadFromStorage(key) {
     return data ? JSON.parse(data) : undefined
 }
 
-function createLabel(title, color) {
+export function createLabel(title, color) {
     return {
         _id: makeId(),
         title,
@@ -94,7 +94,7 @@ function createLabel(title, color) {
     }
 }
 
-function createMember(fullname, imgUrl) {
+export function createMember(fullname, imgUrl) {
     return {
         _id: makeId(),
         fullname,
@@ -102,7 +102,7 @@ function createMember(fullname, imgUrl) {
     }
 }
 
-function createTask(title, options = {}) {
+export function createTask(title, options = {}) {
     return {
         _id: makeId(),
         title,
@@ -120,7 +120,7 @@ function createTask(title, options = {}) {
     }
 }
 
-function createGroup(title, tasks = [], archivedAt = null) {
+export function createGroup(title, tasks = [], archivedAt = null) {
     return {
         _id: makeId(),
         title,
@@ -334,4 +334,38 @@ function getRandomColor() {
         color += letters[Math.floor(Math.random() * 16)]
     }
     return color
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+export function createBoardDemo(
+    title,
+    label,
+) {
+    const member1 = createMember('Abi Abambi', 'http://some-img')
+
+    // const label1 = createLabel('Done', '#61bd4f')
+    // const label2 = createLabel('Progress', '#61bd33')
+
+    const task1 = createTask(label)
+    const task2 = createTask(label)
+    const task3 = createTask(label)
+    const task4 = createTask(label)
+
+    const board = createBoard(
+        title,
+        member1,
+        label,
+        [member1],
+        [createGroup('Group Title', [task1, task2]), createGroup('Group Title', [task3, task4])]
+    )
+
+
+    
+   
+    return board
 }

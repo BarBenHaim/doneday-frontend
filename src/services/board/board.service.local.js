@@ -1,5 +1,5 @@
 import { storageService } from '../async-storage.service'
-import { createBoards, makeId, saveToStorage } from '../util.service'
+import { createBoard, createBoards, createGroup, createMember, createTask, makeId, saveToStorage } from '../util.service'
 import { userService } from '../user'
 
 const STORAGE_KEY = 'board'
@@ -164,8 +164,33 @@ function getEmptyBoard(title= '', label= '') {
 }
 
 async function addBoard(boardTitle, boardLabel) {
-    const board = getEmptyBoard(boardTitle, boardLabel)
+    const board = _createBoardDemo(boardTitle, boardLabel)
     await storageService.post(STORAGE_KEY, board)
     return board
 }
 
+ function _createBoardDemo(
+    title,
+    label,
+) {
+    const member1 = createMember('Abi Abambi', 'http://some-img')
+
+    const task1 = createTask(label+ " 1")
+    const task2 = createTask(label+ " 2")
+    const task3 = createTask(label+ " 3")
+    const task4 = createTask(label+ " 4")
+    const task5 = createTask(label+ " 5")
+
+    const board = createBoard(
+        title,
+        member1,
+        label,
+        [member1],
+        [createGroup('Group Title', [task1, task2, task3]), createGroup('Group Title', [task4, task5])]
+    )
+
+
+    
+   
+    return board
+}
