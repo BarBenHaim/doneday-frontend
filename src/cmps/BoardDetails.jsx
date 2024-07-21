@@ -4,7 +4,9 @@ import { useParams } from 'react-router'
 import { GroupList } from './group/GroupList'
 import { GroupFilter } from './group/GroupsFilter/GroupFilter'
 import { useSelector } from 'react-redux'
-
+import {
+  NavigationChevronDown,
+} from 'monday-ui-react-core/icons'
 export function BoardDetails() {
     const { boardId } = useParams()
 
@@ -31,7 +33,7 @@ export function BoardDetails() {
         <section className='board-details'>
             <header className='board-details-header'>
                 <div className='board-details-title'>
-                    <h1>{currBoard.title}</h1>
+                    <h1>{currBoard.title}<span><NavigationChevronDown size="18" lable="Collapse list" /></span></h1>
                 </div>
                 <div>
                     <GroupFilter setFilterBy={setFilterBy} />

@@ -15,6 +15,10 @@
                 font-size: rem(24px);
                 font-weight: $font-weight-normal;
             }
+            
+            & span{
+                margin-left: 5px;
+            }
 
         }
     }
