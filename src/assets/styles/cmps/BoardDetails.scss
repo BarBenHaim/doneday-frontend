@@ -1,6 +1,21 @@
 .board-details {
+    margin-left: 40px;
     overflow: scroll;
     ::-webkit-scrollbar {
         display: block;
+    }
+
+    .board-details-header{
+        // margin-left: 42px;
+
+        .board-details-title{
+            margin-left: 8px;
+
+            & h1{
+                font-size: rem(24px);
+                font-weight: $font-weight-normal;
+            }
+
+        }
     }
 }
