@@ -15,7 +15,7 @@ export function BoardDetails() {
     }
 
     return (
-        <section>
+        <section className='board-details'>
             <GroupList />
         </section>
     )
