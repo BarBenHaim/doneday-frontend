@@ -1,6 +1,6 @@
 import React from 'react'
 import { TableCell, TableRow, MenuButton, Menu, MenuItem } from 'monday-ui-react-core'
-import { Duplicate, Delete } from 'monday-ui-react-core/icons'
+import { Delete } from 'monday-ui-react-core/icons'
 import { taskAttributesConfig } from './taskAttributesConfig'
 
 export function TaskPreview({ task, members, labels, onUpdateTask, onDeleteTask, provided }) {

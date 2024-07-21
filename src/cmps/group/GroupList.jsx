@@ -5,22 +5,45 @@ import { useParams } from 'react-router'
 import { showErrorMsg, showSuccessMsg } from '../../services/event-bus.service'
 import { addGroup, removeGroup, updateGroup, updateBoard } from '../../store/actions/board.action'
 import { GroupFilter } from './GroupFilter'
-import { DragDropContext } from 'react-beautiful-dnd'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
 export function GroupList() {
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
     const [arrayToDisplay, setArrayToDisplay] = useState(currBoard?.groups || [])
+    const [isDragging, setIsDragging] = useState(false)
 
     useEffect(() => {
         setArrayToDisplay(currBoard?.groups || [])
     }, [currBoard])
 
+    const onDragStart = result => {
+        if (result.type === 'GROUP') {
+            setIsDragging(true)
+        }
+    }
+
     const onDragEnd = async result => {
-        const { source, destination } = result
+        setIsDragging(false)
+        const { source, destination, type } = result
 
         if (!destination) return
-        if (source.droppableId === destination.droppableId && source.index === destination.index) return
+
+        if (type === 'GROUP') {
+            const newGroups = Array.from(arrayToDisplay)
+            const [movedGroup] = newGroups.splice(source.index, 1)
+            newGroups.splice(destination.index, 0, movedGroup)
+            setArrayToDisplay(newGroups)
+
+            try {
+                const updatedBoard = { ...currBoard, groups: newGroups }
+                await updateBoard(updatedBoard)
+                showSuccessMsg('Group order updated successfully')
+            } catch (err) {
+                showErrorMsg('Cannot update group order')
+            }
+            return
+        }
 
         const sourceGroup = currBoard.groups.find(group => group._id === source.droppableId)
         const destinationGroup = currBoard.groups.find(group => group._id === destination.droppableId)
@@ -79,23 +102,37 @@ export function GroupList() {
     }
     const groups = arrayToDisplay ? arrayToDisplay : currBoard?.groups
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            <div className='group-list'>
-                <GroupFilter setFilterBy={handleSetArrayToDisplay} />
-                {groups.map(group => (
-                    <div key={group._id}>
-                        <GroupPreview
-                            group={group}
-                            members={currBoard.members}
-                            labels={currBoard.labels}
-                            onUpdateGroup={onUpdateGroup}
-                            board={currBoard}
-                        />
-                        <button onClick={() => onRemoveGroup(group._id)}>Delete</button>
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+            <Droppable droppableId='all-groups' type='GROUP' direction='vertical'>
+                {provided => (
+                    <div {...provided.droppableProps} ref={provided.innerRef}>
+                        <GroupFilter setFilterBy={handleSetArrayToDisplay} />
+                        {groups.map((group, index) => (
+                            <Draggable key={group._id} draggableId={group._id} index={index}>
+                                {provided => (
+                                    <div
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                    >
+                                        <GroupPreview
+                                            group={group}
+                                            members={currBoard.members}
+                                            labels={currBoard.labels}
+                                            onUpdateGroup={onUpdateGroup}
+                                            board={currBoard}
+                                            isDragging={isDragging}
+                                        />
+                                        <button onClick={() => onRemoveGroup(group._id)}>Delete</button>
+                                    </div>
+                                )}
+                            </Draggable>
+                        ))}
+                        {provided.placeholder}
                     </div>
-                ))}
-                <button onClick={onAddGroup}>Add Group</button>
-            </div>
+                )}
+            </Droppable>
+            <button onClick={onAddGroup}>Add Group</button>
         </DragDropContext>
     )
 }

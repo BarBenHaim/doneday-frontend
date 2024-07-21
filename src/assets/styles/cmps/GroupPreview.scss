@@ -1,6 +1,5 @@
 .group-preview {
-    padding: 20px;
-    border-radius: 8px;
+    padding: 10px;
 
     h2 {
         color: #333;
@@ -17,14 +16,89 @@
     }
 }
 
+.group-preview {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+
+    &.collapsed {
+        border: 1px solid #ccc;
+    }
+
+    &:hover {
+        .group-preview-menu-btn {
+            opacity: 1;
+            translate: -40px;
+        }
+    }
+}
+
+.table-wrapper {
+    margin-top: 10px;
+}
+
 .editable-title {
-    font-size: 1.5em;
-    font-weight: bold;
     border: none;
-    background: none;
-    margin-block-end: 0.83em;
-    width: 100%;
-    outline: none;
-    box-sizing: border-box;
-    padding: 0;
+    border-bottom: 1px solid #ccc;
+    font-size: 1.5rem;
+}
+
+.summary-row {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: auto;
+
+    h2 {
+        margin: 0;
+    }
+}
+
+.expand-icon {
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.group-summary {
+    display: flex;
+    align-items: center;
+
+    .summary-cell {
+        margin-left: 20px;
+    }
+}
+
+.group-preview-menu-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    margin: auto;
+    position: absolute;
+    opacity: 0;
+    z-index: 1;
+
+    &::after {
+        content: '';
+        width: 40px;
+        height: 40px;
+        background: transparent;
+    }
+}
+
+.group-header:hover .group-preview-menu-btn {
+    opacity: 1;
+}
+
+.task-preview-container:hover .task-preview-menu-btn {
+    opacity: 1;
+}
+
+.progress-bar {
+    display: inline-block;
+    height: 10px;
 }

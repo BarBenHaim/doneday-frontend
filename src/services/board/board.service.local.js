@@ -22,7 +22,7 @@ export const boardService = {
 
 async function query(filterBy) {
     var boards = await storageService.query(STORAGE_KEY)
-    if (!boards || !boards.length) boards = createBoards() 
+    if (!boards || !boards.length) boards = createBoards()
     saveToStorage(STORAGE_KEY, boards)
     return boards
 }
@@ -151,7 +151,7 @@ async function removeTask(boardId, groupId, taskId) {
     return removedTask
 }
 
-function getEmptyBoard(title= '', label= '') {
+function getEmptyBoard(title = '', label = '') {
     return {
         _id: makeId(),
         title,
@@ -168,4 +168,3 @@ async function addBoard(boardTitle, boardLabel) {
     await storageService.post(STORAGE_KEY, board)
     return board
 }
-

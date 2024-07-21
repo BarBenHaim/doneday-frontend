@@ -5,7 +5,7 @@ import TaskPreview from './TaskPreview'
 import { taskAttributesConfig, getStatusStyle, getPriorityStyle } from './taskAttributesConfig'
 import { showSuccessMsg, showErrorMsg } from '../../../services/event-bus.service'
 import { addTask, updateTask, removeTask, updateGroup } from '../../../store/actions/board.action'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { Droppable, Draggable } from 'react-beautiful-dnd'
 
 const calculateSummary = taskList => {
     const summary = {
@@ -48,7 +48,7 @@ const renderProgressBar = (distribution, colorGetter) => {
     return <div style={{ display: 'flex', width: '100%', height: '20px' }}>{segments}</div>
 }
 
-function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTask, onDeleteTask }) {
+function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTask, onDeleteTask, isCollapsed }) {
     const [taskList, setTaskList] = useState(tasks)
 
     useEffect(() => {
@@ -61,18 +61,38 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
         if (!destination) return
         if (source.droppableId === destination.droppableId && source.index === destination.index) return
 
-        const updatedTasks = Array.from(taskList)
-        const [movedTask] = updatedTasks.splice(source.index, 1)
-        updatedTasks.splice(destination.index, 0, movedTask)
+        const sourceGroup = board.groups.find(g => g._id === source.droppableId)
+        const destinationGroup = board.groups.find(g => g._id === destination.droppableId)
 
-        setTaskList(updatedTasks)
+        const sourceTasks = Array.from(sourceGroup.tasks)
+        const [movedTask] = sourceTasks.splice(source.index, 1)
 
-        try {
-            const updatedGroup = { ...group, tasks: updatedTasks }
-            await updateGroup(board._id, group._id, updatedGroup)
-            showSuccessMsg('Task order updated successfully')
-        } catch (err) {
-            showErrorMsg('Cannot update task order')
+        if (source.droppableId === destination.droppableId) {
+            sourceTasks.splice(destination.index, 0, movedTask)
+            setTaskList(sourceTasks)
+
+            try {
+                const updatedGroup = { ...sourceGroup, tasks: sourceTasks }
+                await updateGroup(board._id, sourceGroup._id, updatedGroup)
+                showSuccessMsg('Task order updated successfully')
+            } catch (err) {
+                showErrorMsg('Cannot update task order')
+            }
+        } else {
+            const destinationTasks = Array.from(destinationGroup.tasks)
+            destinationTasks.splice(destination.index, 0, movedTask)
+
+            try {
+                const updatedSourceGroup = { ...sourceGroup, tasks: sourceTasks }
+                await updateGroup(board._id, sourceGroup._id, updatedSourceGroup)
+
+                const updatedDestinationGroup = { ...destinationGroup, tasks: destinationTasks }
+                await updateGroup(board._id, destination.droppableId, updatedDestinationGroup)
+
+                showSuccessMsg('Task moved successfully')
+            } catch (err) {
+                showErrorMsg('Cannot move task')
+            }
         }
     }
 
@@ -126,35 +146,35 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
     const summary = calculateSummary(taskList)
 
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId={group._id} type='TASK'>
-                {provided => (
-                    <div {...provided.droppableProps} ref={provided.innerRef}>
-                        <div className='tasks-list-container'>
-                            <Button onClick={onAddTask}>New task</Button>
-                            <Table
-                                columns={columns}
-                                style={{
-                                    borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
-                                    overflow: 'visible',
-                                }}
-                            >
-                                <TableHeader>
-                                    {columns.map((headerCell, index) => (
-                                        <TableHeaderCell
-                                            key={index}
-                                            title={headerCell.title}
-                                            className={
-                                                index === 0
-                                                    ? 'table-header-cell sticky-col task-col flex align-center justify-center'
-                                                    : 'table-header-cell flex align-center justify-center'
-                                            }
-                                            style={{ width: headerCell.width }}
-                                        />
-                                    ))}
-                                </TableHeader>
-                                <TableBody>
-                                    {taskList.map((task, index) => (
+        <Droppable droppableId={group._id} type='TASK'>
+            {provided => (
+                <div {...provided.droppableProps} ref={provided.innerRef}>
+                    <div className='tasks-list-container'>
+                        <Button onClick={onAddTask}>New task</Button>
+                        <Table
+                            columns={columns}
+                            style={{
+                                borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
+                                overflow: 'visible',
+                            }}
+                        >
+                            <TableHeader>
+                                {columns.map((headerCell, index) => (
+                                    <TableHeaderCell
+                                        key={index}
+                                        title={headerCell.title}
+                                        className={
+                                            index === 0
+                                                ? 'table-header-cell sticky-col task-col flex align-center justify-center'
+                                                : 'table-header-cell flex align-center justify-center'
+                                        }
+                                        style={{ width: headerCell.width }}
+                                    />
+                                ))}
+                            </TableHeader>
+                            <TableBody>
+                                {!isCollapsed &&
+                                    taskList.map((task, index) => (
                                         <Draggable key={task._id} draggableId={task._id} index={index}>
                                             {provided => (
                                                 <div
@@ -177,28 +197,27 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                                             )}
                                         </Draggable>
                                     ))}
-                                    {provided.placeholder}
-                                </TableBody>
-                                <TableRow>
-                                    {columns.map((col, index) => (
-                                        <TableCell
-                                            key={col.key}
-                                            className={`summary-cell ${index === 0 ? 'task-summary-cell' : ''}`}
-                                            style={{ width: col.width }}
-                                        >
-                                            {col.key === 'files' && `${summary.files} files`}
-                                            {col.key === 'status' && renderProgressBar(summary.status, getStatusStyle)}
-                                            {col.key === 'priority' &&
-                                                renderProgressBar(summary.priority, getPriorityStyle)}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </Table>
-                        </div>
+                                {provided.placeholder}
+                            </TableBody>
+                            <TableRow>
+                                {columns.map((col, index) => (
+                                    <TableCell
+                                        key={col.key}
+                                        className={`summary-cell ${index === 0 ? 'task-summary-cell' : ''}`}
+                                        style={{ width: col.width }}
+                                    >
+                                        {col.key === 'files' && `${summary.files} files`}
+                                        {col.key === 'status' && renderProgressBar(summary.status, getStatusStyle)}
+                                        {col.key === 'priority' &&
+                                            renderProgressBar(summary.priority, getPriorityStyle)}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        </Table>
                     </div>
-                )}
-            </Droppable>
-        </DragDropContext>
+                </div>
+            )}
+        </Droppable>
     )
 }
 
