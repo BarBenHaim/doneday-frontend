@@ -133,7 +133,7 @@ function createGroup(title, tasks = [], archivedAt = null) {
 export function createBoard(
     title,
     createdBy,
-    labels = [],
+    label,
     members = [],
     groups = [],
     activities = [],
@@ -148,7 +148,7 @@ export function createBoard(
         style: {
             backgroundImage: '',
         },
-        labels,
+        label,
         members,
         groups,
         activities,
@@ -302,7 +302,7 @@ export function createBoards() {
     const board1 = createBoard(
         'Robot dev proj',
         member1,
-        [label1, label2],
+        'Tasks',
         [member2, member3],
         [group1, group2],
         [activity1]
@@ -311,7 +311,7 @@ export function createBoards() {
     const board2 = createBoard(
         'Marketing Campaign',
         member2,
-        [label1, label2],
+        'Projects',
         [member1, member3],
         [createGroup('Planning', [task1, task2]), createGroup('Execution', [task3, task4])]
     )
@@ -319,7 +319,7 @@ export function createBoards() {
     const board3 = createBoard(
         'Website Redesign',
         member3,
-        [label1, label2],
+        'Tasks',
         [member1, member2],
         [createGroup('Initial Setup', [task3, task4]), createGroup('Development', [task4, task1])]
     )
