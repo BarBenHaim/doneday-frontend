@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import 'monday-ui-react-core/dist/main.css'
 import { ColorPicker, Button } from 'monday-ui-react-core'
 import TasksList from './task/TaskList'
@@ -14,17 +14,12 @@ function GroupPreview({
     sorting,
     onAddColumn,
     isDragging,
+    isCollapsed,
+    toggleCollapse,
 }) {
     const [isEditingTitle, setIsEditingTitle] = useState(false)
     const [isColorsModal, setIsColorsModal] = useState(false)
-    const [isCollapsed, setIsCollapsed] = useState(false)
     const [updatedGroupTitle, setUpdatedGroupTitle] = useState(group.title)
-
-    useEffect(() => {
-        if (isDragging) {
-            setIsCollapsed(true)
-        }
-    }, [isDragging])
 
     const handleTitleChange = e => {
         setUpdatedGroupTitle(e.target.value)
@@ -41,10 +36,6 @@ function GroupPreview({
         if (e.key === 'Enter') {
             handleTitleBlur()
         }
-    }
-
-    const toggleCollapse = () => {
-        setIsCollapsed(!isCollapsed)
     }
 
     return (

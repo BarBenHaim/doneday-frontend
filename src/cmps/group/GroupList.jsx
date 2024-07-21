@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import GroupPreview from './GroupPreview'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { showErrorMsg, showSuccessMsg } from '../../services/event-bus.service'
 import { addGroup, removeGroup, updateGroup, updateBoard } from '../../store/actions/board.action'
@@ -11,20 +11,41 @@ export function GroupList() {
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
     const [arrayToDisplay, setArrayToDisplay] = useState(currBoard?.groups || [])
+    const [collapsedStates, setCollapsedStates] = useState({})
     const [isDragging, setIsDragging] = useState(false)
+    const [initialCollapsedStates, setInitialCollapsedStates] = useState({})
 
     useEffect(() => {
         setArrayToDisplay(currBoard?.groups || [])
     }, [currBoard])
 
+    useEffect(() => {
+        const initialCollapsedStates = {}
+        currBoard?.groups.forEach(group => {
+            initialCollapsedStates[group._id] = false
+        })
+        setCollapsedStates(initialCollapsedStates)
+    }, [currBoard])
+
     const onDragStart = result => {
         if (result.type === 'GROUP') {
+            const statesBeforeDrag = {}
+            arrayToDisplay.forEach(group => {
+                statesBeforeDrag[group._id] = collapsedStates[group._id] || false
+            })
+            setInitialCollapsedStates(statesBeforeDrag)
+            const collapsedDuringDrag = {}
+            arrayToDisplay.forEach(group => {
+                collapsedDuringDrag[group._id] = true
+            })
+            setCollapsedStates(collapsedDuringDrag)
             setIsDragging(true)
         }
     }
 
     const onDragEnd = async result => {
         setIsDragging(false)
+        setCollapsedStates(initialCollapsedStates)
         const { source, destination, type } = result
 
         if (!destination) return
@@ -96,18 +117,22 @@ export function GroupList() {
         }
     }
 
-    if (!currBoard) return <div>Loading...</div>
-    const handleSetArrayToDisplay = arr => {
-        setArrayToDisplay(arr)
+    const handleToggleCollapse = groupId => {
+        setCollapsedStates(prevState => ({
+            ...prevState,
+            [groupId]: !prevState[groupId],
+        }))
     }
-    const groups = arrayToDisplay ? arrayToDisplay : currBoard?.groups
+
+    if (!currBoard) return <div>Loading...</div>
+
     return (
         <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
             <Droppable droppableId='all-groups' type='GROUP' direction='vertical'>
                 {provided => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
-                        <GroupFilter setFilterBy={handleSetArrayToDisplay} />
-                        {groups.map((group, index) => (
+                        <GroupFilter setFilterBy={setArrayToDisplay} />
+                        {arrayToDisplay.map((group, index) => (
                             <Draggable key={group._id} draggableId={group._id} index={index}>
                                 {provided => (
                                     <div
@@ -122,6 +147,8 @@ export function GroupList() {
                                             onUpdateGroup={onUpdateGroup}
                                             board={currBoard}
                                             isDragging={isDragging}
+                                            isCollapsed={collapsedStates[group._id]}
+                                            toggleCollapse={() => handleToggleCollapse(group._id)}
                                         />
                                         <button onClick={() => onRemoveGroup(group._id)}>Delete</button>
                                     </div>

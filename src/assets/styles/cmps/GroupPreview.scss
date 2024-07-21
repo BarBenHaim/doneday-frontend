@@ -23,6 +23,9 @@
 
     &.collapsed {
         border: 1px solid #ccc;
+        .group-preview.collapsed {
+            overflow: hidden;
+        }
     }
 
     &:hover {
