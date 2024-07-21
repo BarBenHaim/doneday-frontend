@@ -58,9 +58,9 @@ export function BoardIndex() {
         onClick={toggleCollapse}
       >
         {isCollapsed ? (
-          <NavigationChevronRight size="18" lable="Expand list" />
+          <NavigationChevronRight size="24" lable="Expand list" />
         ) : (
-          <NavigationChevronDown size="18" lable="Collapse list" />
+          <NavigationChevronDown size="24" lable="Collapse list" />
         )}
         <h1 className="collapsible-title">Recently visited</h1>
       </div>

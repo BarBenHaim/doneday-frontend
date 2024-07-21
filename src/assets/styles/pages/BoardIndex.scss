@@ -1,15 +1,16 @@
 .board-index {
-    grid-column: 2/3; 
+    grid-column: 2/3;
     margin-left: 10px;
     overflow: scroll;
 
-    .collapsible-header{
-margin-top: 10px;
+    .collapsible-header {
+        margin-top: 24px;
+        margin-bottom: 0;
+        margin-left: 24px;
 
-      .collapsible-title {
-        font-size: rem(18px);
-        margin-left: 5px;
-      }
+        .collapsible-title {
+            font-size: rem(18px);
+            margin-left: 5px;
+        }
     }
-
-  }
+}
