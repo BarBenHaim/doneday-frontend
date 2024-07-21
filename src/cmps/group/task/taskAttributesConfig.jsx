@@ -8,6 +8,7 @@ import {
     Button,
     Checkbox,
     LinearProgressBar,
+    AvatarGroup,
 } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import moment from 'moment'
@@ -197,7 +198,7 @@ const taskAttributesConfig = {
     memberIds: {
         label: 'Members',
         render: (task, members, labels, onUpdateField) => {
-            return task.memberIds.map(memberId => {
+            const avatars = task.memberIds.map(memberId => {
                 const member = members.find(member => member._id === memberId)
                 const fullName = member ? member.fullname : 'Unknown'
                 const nameParts = fullName.split(' ')
@@ -205,12 +206,29 @@ const taskAttributesConfig = {
                     nameParts.length >= 2
                         ? `${nameParts[0].charAt(0).toUpperCase()}${nameParts[1].charAt(0).toUpperCase()}`
                         : fullName.charAt(0).toUpperCase()
-                return (
+
+                return member && member.imageUrl ? (
                     <Avatar
                         key={memberId}
-                        size={Avatar.sizes.SMALL}
-                        type={Avatar.types.TEXT}
+                        ariaLabel={fullName}
+                        src={member.imageUrl}
+                        type='img'
+                        size='small'
+                        onClick={() => {
+                            const newMemberId = prompt('Enter new member ID', memberId)
+                            if (newMemberId) {
+                                const newMemberIds = task.memberIds.map(id => (id === memberId ? newMemberId : id))
+                                onUpdateField(task, 'memberIds', newMemberIds)
+                            }
+                        }}
+                    />
+                ) : (
+                    <Avatar
+                        key={memberId}
+                        ariaLabel={fullName}
                         text={initials}
+                        type='text'
+                        size='small'
                         backgroundColor={Avatar.colors.AQUAMARINE}
                         onClick={() => {
                             const newMemberId = prompt('Enter new member ID', memberId)
@@ -222,10 +240,17 @@ const taskAttributesConfig = {
                     />
                 )
             })
+
+            return (
+                <AvatarGroup max={3} size='small'>
+                    {avatars}
+                </AvatarGroup>
+            )
         },
         className: 'table-cell members-col',
         width: '100px',
     },
+
     files: {
         label: 'Files',
         render: (task, members, labels, onUpdateField) => {

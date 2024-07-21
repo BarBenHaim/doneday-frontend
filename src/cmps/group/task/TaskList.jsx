@@ -59,18 +59,7 @@ const renderProgressBar = (distribution, colorGetter) => {
     return <div style={{ display: 'flex', width: '100%', height: '20px' }}>{segments}</div>
 }
 
-function TasksList({
-    tasks,
-    members,
-    labels,
-    board,
-    group,
-    openModal,
-    onUpdateTask,
-    onDeleteTask,
-    isCollapsed,
-    onAddGroup,
-}) {
+function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTask, onDeleteTask, isCollapsed }) {
     const [taskList, setTaskList] = useState(tasks)
 
     useEffect(() => {
@@ -121,7 +110,7 @@ function TasksList({
         }
     }
 
-    const columns = Object.keys(taskAttributesConfig).map(key => ({
+    const columns = board.cmpsOrder.map(key => ({
         key,
         title: taskAttributesConfig[key].label,
         width: taskAttributesConfig[key].width || 'auto',
@@ -185,6 +174,7 @@ function TasksList({
                                                         onUpdateTask={onUpdateTask}
                                                         onDeleteTask={onDeleteTask}
                                                         provided={provided}
+                                                        cmpsOrder={board.cmpsOrder}
                                                     />
                                                 </div>
                                             )}
