@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
 import GroupPreview from './GroupPreview'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { showErrorMsg, showSuccessMsg } from '../../services/event-bus.service'
 import { addGroup, removeGroup, updateGroup, updateBoard } from '../../store/actions/board.action'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { useEffect, useState } from 'react'
 
 export function GroupList({ boardsToDisplay }) {
     const { boardId } = useParams()
@@ -24,12 +24,12 @@ export function GroupList({ boardsToDisplay }) {
     const onDragStart = result => {
         if (result.type === 'GROUP') {
             const statesBeforeDrag = {}
-            arrayToDisplay.forEach(group => {
+            boardsToDisplay.forEach(group => {
                 statesBeforeDrag[group._id] = collapsedStates[group._id] || false
             })
             setInitialCollapsedStates(statesBeforeDrag)
             const collapsedDuringDrag = {}
-            arrayToDisplay.forEach(group => {
+            boardsToDisplay.forEach(group => {
                 collapsedDuringDrag[group._id] = true
             })
             setCollapsedStates(collapsedDuringDrag)
@@ -45,10 +45,10 @@ export function GroupList({ boardsToDisplay }) {
         if (!destination) return
 
         if (type === 'GROUP') {
-            const newGroups = Array.from(arrayToDisplay)
+            const newGroups = Array.from(boardsToDisplay)
             const [movedGroup] = newGroups.splice(source.index, 1)
             newGroups.splice(destination.index, 0, movedGroup)
-            setArrayToDisplay(newGroups)
+            boardsToDisplay = [...newGroups]
 
             try {
                 const updatedBoard = { ...currBoard, groups: newGroups }
