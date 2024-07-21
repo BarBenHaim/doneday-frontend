@@ -30,7 +30,7 @@
 @import 'cmps/AppFooter';
 @import 'cmps/UserMsg';
 
-@import 'cmps/GroupFilter';
+@import 'cmps/Groupfilters/GroupFilter.scss';
 @import 'cmps/ReviewEdit';
 @import 'cmps/ReviewList';
 @import 'cmps/ReviewPreview';
@@ -45,3 +45,5 @@
 @import 'cmps/BoardPreview';
 @import 'cmps/BoardList';
 @import 'cmps/BoardDetails';
+@import 'cmps/Groupfilters/GroupPersonFilter.scss';
+@import 'cmps/Groupfilters/GroupSort.scss';

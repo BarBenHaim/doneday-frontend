@@ -11,6 +11,7 @@ export function GroupFilter({ setFilterBy }) {
   )
   const groups = currBoard.groups || []
   const tasks = groups.flatMap((group) => group.tasks || [])
+  console.log(groups)
 
   const [isSearchFilterOpen, setSearchFilterOpen] = useState(false)
   const [isPersonFilterOpen, setPersonFilterOpen] = useState(false)
@@ -206,7 +207,7 @@ export function GroupFilter({ setFilterBy }) {
             <i className="fa-regular fa-circle-user"></i> Person
           </button>
         </div>
-        {isPersonFilterOpen && <GroupPersonFilter />}
+        {isPersonFilterOpen && <GroupPersonFilter setFilterBy={setFilterBy} />}
 
         <div className="filter">
           <button className="filter-item filter" onClick={handleFilterClick}>

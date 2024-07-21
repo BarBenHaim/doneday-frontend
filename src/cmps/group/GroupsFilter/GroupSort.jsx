@@ -10,7 +10,6 @@ export function GruopSort({ setFilterBy }) {
 
   const groups = currBoard.groups || []
   const tasks = groups.flatMap((group) => group.tasks || [])
-  console.log(tasks)
 
   const [sortColumn, setSortColumn] = useState('')
   const [sortOrder, setSortOrder] = useState('')
@@ -21,11 +20,12 @@ export function GruopSort({ setFilterBy }) {
     High: 3,
     Critical: 4,
   }
+
   function getSotrOrder(ev) {
     const order = ev.target.value
     setSortOrder(order)
     if (!sortColumn) return tasks
-    console.log(`Sorting by ${sortColumn} in ${order} order`)
+
     const filteredGroups = groups.map((group) => {
       const sortedTasks = [...group.tasks].sort((a, b) => {
         if (sortColumn === 'priority') {
@@ -46,7 +46,7 @@ export function GruopSort({ setFilterBy }) {
           }
         }
       })
-      console.log({ sortedTasks })
+
       return { ...group, tasks: sortedTasks }
     })
 
@@ -54,13 +54,11 @@ export function GruopSort({ setFilterBy }) {
       (group) => group.tasks.length > 0
     )
 
-    // setArrayToDisplay(nonEmptyGroups)
     setFilterBy(nonEmptyGroups)
     console.log({ nonEmptyGroups })
     return nonEmptyGroups
   }
 
-  console.log({ sortColumn })
   return (
     <div className="modal">
       <div className="modal-content">
