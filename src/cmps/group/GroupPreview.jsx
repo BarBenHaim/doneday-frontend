@@ -50,7 +50,7 @@ function GroupPreview({ group, members, labels, board, openModal, onUpdateGroup,
                     {group.title}{' '}
                 </h2>
             )}
-            <Button onClick={() => onAddColumn(board._id)}>+ Add Column</Button>
+            <Button onClick={() => onAddColumn(group._id)}>+ Add Column</Button>
             <div className='table-wrapper'>
                 <TasksList
                     tasks={group.tasks}
