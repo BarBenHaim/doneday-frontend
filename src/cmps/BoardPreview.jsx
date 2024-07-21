@@ -3,9 +3,9 @@ import { Favorite } from 'monday-ui-react-core/icons'
 import { Board } from 'monday-ui-react-core/icons'
 import 'monday-ui-react-core/dist/main.css'
 
-import boardPreviewImg from '../assets/img/board-preview/board-preview-01.png'
 import { toggleStarredBoard } from '../store/actions/board.action'
 import { Icon } from 'monday-ui-react-core'
+import boardPreviewImg from '../assets/img/board-preview/board-preview-02.png'
 import logoImg from '../assets/img/logo/only-logo.png'
 
 export function BoardPreview({ board }) {
@@ -26,7 +26,7 @@ export function BoardPreview({ board }) {
                     </div>
                     <div className='board-preview-item-wrapper flex'>
                     <div className='board-preview-title-wrapper'>
-                        <Board size='18' label='Expand list' />
+                        <Board className='board-icon' label='Expand list' />
                         <span className='board-preview-title'>{board.title}</span>
                         </div>
 
