@@ -4,10 +4,9 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { showErrorMsg, showSuccessMsg } from '../../services/event-bus.service'
 import { addGroup, removeGroup, updateGroup, updateBoard } from '../../store/actions/board.action'
-import { GroupFilter } from './GroupFilter'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
-export function GroupList({ boardToDisplay }) {
+export function GroupList({ boardsToDisplay }) {
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
     const [collapsedStates, setCollapsedStates] = useState({})
@@ -126,7 +125,7 @@ export function GroupList({ boardToDisplay }) {
             <Droppable droppableId='all-groups' type='GROUP' direction='vertical'>
                 {provided => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
-                        {arrayToDisplay.map((group, index) => (
+                        {boardsToDisplay.map((group, index) => (
                             <Draggable key={group._id} draggableId={group._id} index={index}>
                                 {provided => (
                                     <div
