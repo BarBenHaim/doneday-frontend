@@ -83,12 +83,12 @@ export async function addBoardMsg(boardId, txt) {
 }
 
 export async function updateGroup(boardId, groupId, updatedGroup) {
+    store.dispatch(getCmdUpdateGroup(boardId, groupId, updatedGroup))
     try {
         const group = await boardService.updateGroup(boardId, groupId, updatedGroup)
-        store.dispatch(getCmdUpdateGroup(boardId, groupId, group))
         return group
     } catch (err) {
-        console.log('Cannot update group', err)
+        loadBoard(boardId)
         throw err
     }
 }
@@ -133,9 +133,10 @@ export async function addTask(boardId, groupId, task) {
 
 export async function updateTask(boardId, groupId, taskId, taskChanges, actionType) {
     store.dispatch(getCmdUpdateTask(boardId, groupId, taskId, { ...taskChanges, _id: taskId }))
+    showSuccessMsg('Task updated successfully')
+
     try {
         const updatedTask = await boardService.updateTask(boardId, groupId, taskId, taskChanges, actionType)
-        showSuccessMsg('Task updated successfully')
         return updatedTask
     } catch (err) {
         showErrorMsg('Cannot update task')

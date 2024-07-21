@@ -1,5 +1,13 @@
 import { storageService } from '../async-storage.service'
-import { createBoard, createBoards, createGroup, createMember, createTask, makeId, saveToStorage } from '../util.service'
+import {
+    createBoard,
+    createBoards,
+    createGroup,
+    createMember,
+    createTask,
+    makeId,
+    saveToStorage,
+} from '../util.service'
 import { userService } from '../user'
 
 const STORAGE_KEY = 'board'
@@ -22,7 +30,7 @@ export const boardService = {
 
 async function query(filterBy) {
     var boards = await storageService.query(STORAGE_KEY)
-    if (!boards || !boards.length) boards = createBoards() 
+    if (!boards || !boards.length) boards = createBoards()
     saveToStorage(STORAGE_KEY, boards)
     return boards
 }
@@ -151,7 +159,7 @@ async function removeTask(boardId, groupId, taskId) {
     return removedTask
 }
 
-function getEmptyBoard(title= '', label= '') {
+function getEmptyBoard(title = '', label = '') {
     return {
         _id: makeId(),
         title,
@@ -169,17 +177,14 @@ async function addBoard(boardTitle, boardLabel) {
     return board
 }
 
- function _createBoardDemo(
-    title,
-    label,
-) {
+function _createBoardDemo(title, label) {
     const member1 = createMember('Abi Abambi', 'http://some-img')
 
-    const task1 = createTask(label+ " 1")
-    const task2 = createTask(label+ " 2")
-    const task3 = createTask(label+ " 3")
-    const task4 = createTask(label+ " 4")
-    const task5 = createTask(label+ " 5")
+    const task1 = createTask(label + ' 1')
+    const task2 = createTask(label + ' 2')
+    const task3 = createTask(label + ' 3')
+    const task4 = createTask(label + ' 4')
+    const task5 = createTask(label + ' 5')
 
     const board = createBoard(
         title,
@@ -189,8 +194,5 @@ async function addBoard(boardTitle, boardLabel) {
         [createGroup('Group Title', [task1, task2, task3]), createGroup('Group Title', [task4, task5])]
     )
 
-
-    
-   
     return board
 }

@@ -1,3 +1,6 @@
 .board-details {
     overflow: scroll;
+    ::-webkit-scrollbar {
+        display: block;
+    }
 }

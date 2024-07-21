@@ -15,6 +15,10 @@ body {
     font-size: rem(18px);
 }
 
+::-webkit-scrollbar {
+    // display: none;
+}
+
 h1,
 h2,
 h3,
