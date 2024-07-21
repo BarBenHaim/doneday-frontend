@@ -62,6 +62,7 @@ const taskAttributesConfig = {
         className: 'table-cell sticky-col task-col',
         width: '200px',
     },
+
     status: {
         label: 'Status',
         render: (task, members, labels, onUpdateField) => (
@@ -87,14 +88,14 @@ const taskAttributesConfig = {
                     position='bottom'
                     showTrigger={['click']}
                 >
-                    <div style={{ ...cellStyle, ...getStatusStyle(task.status || 'Not Started') }}>
+                    <div style={{ ...cellStyle, ...getStatusStyle(task.status || 'Not Started'), fontSize: '0.875em' }}>
                         {task.status || 'Not Started'}
                     </div>
                 </Dialog>
             </div>
         ),
         className: 'table-cell status-col',
-        width: '120px',
+        width: '140px',
     },
     priority: {
         label: 'Priority',
@@ -121,17 +122,17 @@ const taskAttributesConfig = {
                     position='bottom'
                     showTrigger={['click']}
                 >
-                    <div style={{ ...cellStyle, ...getPriorityStyle(task.priority || 'Medium') }}>
+                    <div style={{ ...cellStyle, ...getPriorityStyle(task.priority || 'Medium'), fontSize: '0.875em' }}>
                         {task.priority || 'Medium'}
                     </div>
                 </Dialog>
             </div>
         ),
         className: 'table-cell priority-col',
-        width: '120px',
+        width: '140px',
     },
     dueDate: {
-        label: 'Due Date',
+        label: 'Date',
         render: (task, members, labels, onUpdateField) => {
             const dueDate = task.dueDate ? moment(task.dueDate) : null
             const formattedDueDate = dueDate ? dueDate.format('YYYY-MM-DD') : 'No Due Date'
@@ -191,7 +192,7 @@ const taskAttributesConfig = {
             )
         },
         className: 'table-cell due-date-col',
-        width: '150px',
+        width: '140px',
     },
     memberIds: {
         label: 'Members',
