@@ -37,6 +37,7 @@
         "redux": "^4.2.1",
         "socket.io-client": "^4.7.2"
     },
+    "homepage": "http://barbenhaim.github.io/Friday-Frontend",
     "devDependencies": {
         "@types/react": "^18.2.15",
         "@types/react-dom": "^18.2.7",
