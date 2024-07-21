@@ -1,9 +1,9 @@
 .board-preview-container {
     display: flex;
     flex-direction: column;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 5px;
     overflow: hidden;
     background-color: #fff;
     transition: box-shadow 0.3s ease;
@@ -13,12 +13,14 @@
     z-index: -1;
 
     &:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 6px 20px 0px rgba(0, 0, 0, 0.2);
     }
 
     .board-preview-img {
         width: 100%;
         height: auto;
+        border: 0.5px solid #ddd;
+        border-radius: 5px;
     }
 
     .board-preview-item-wrapper {
@@ -32,6 +34,10 @@
         .board-preview-title-wrapper {
             display: flex;
             align-items: center;
+
+            .board-icon {
+                margin-left: -5px;
+            }
 
             .board-preview-title {
                 margin-left: 8px;
@@ -60,20 +66,22 @@
         color: $Mgray3;
         white-space: nowrap;
         padding-block: 5px;
+        vertical-align: baseline;
 
         img {
             width: rem(16px);
             height: auto;
             margin-bottom: 3px;
             margin-right: 5px;
-
         }
         p {
-          margin: 0;
-          overflow: hidden;
-          text-overflow: ellipsis;
-  
-      }
+            margin: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 14px;
+            line-height: 21px;
+            text-align: start;
+        }
     }
 
     .yellow-star-icon {
