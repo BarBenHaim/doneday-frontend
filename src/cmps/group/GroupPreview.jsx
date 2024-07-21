@@ -17,6 +17,7 @@ function GroupPreview({
     toggleCollapse,
     onRemoveGroup,
     onAddGroup,
+    dragHandleProps,
 }) {
     const [isEditingTitle, setIsEditingTitle] = useState(false)
     const [updatedGroupTitle, setUpdatedGroupTitle] = useState(group.title)
@@ -49,7 +50,7 @@ function GroupPreview({
     return (
         <>
             <div className={`group-preview ${isCollapsed ? 'collapsed' : ''}`}>
-                <div className='group-header'>
+                <div className='group-header' {...dragHandleProps}>
                     <MenuButton className='group-preview-menu-btn'>
                         <Menu id='menu' size='medium'>
                             <MenuItem onClick={() => onRemoveGroup(group._id)} icon={Delete} title='Delete' />
