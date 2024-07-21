@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "predeploy": "npm run build",
-        "deploy": "gh-pages-d-build",
+        "deploy": "gh-pages -d-build",
         "dev": "vite",
         "dev:remote": "npm run dev",
         "dev:remote:mac": "npm run dev",
