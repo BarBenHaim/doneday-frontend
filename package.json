@@ -4,6 +4,8 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
+        "predeploy": "npm run build",
+        "deploy": "gh-pages-d-build",
         "dev": "vite",
         "dev:remote": "npm run dev",
         "dev:remote:mac": "npm run dev",
@@ -22,6 +24,7 @@
         "@mui/material": "^5.16.4",
         "axios": "^1.5.0",
         "date-fns": "^3.6.0",
+        "gh-pages": "^6.1.1",
         "lodash": "^4.17.21",
         "monday-ui-react-core": "^2.120.0",
         "react": "^18.3.1",
