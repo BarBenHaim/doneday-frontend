@@ -134,6 +134,8 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                     />
                     <div className='tasks-list-container'>
                         <Table
+                            className='group-table'
+                            withoutBorder
                             columns={columns}
                             style={{
                                 borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,

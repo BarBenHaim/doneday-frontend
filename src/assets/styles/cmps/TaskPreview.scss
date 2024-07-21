@@ -35,6 +35,10 @@
     border-inline-end: 1px solid #d0d4e4;
 }
 
+.table-header-cell {
+    border-block-start: 1px solid #d0d4e4;
+}
+
 .table-cell.status-col,
 .table-cell.priority-col {
     padding: 0;
