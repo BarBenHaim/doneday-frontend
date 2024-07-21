@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import 'monday-ui-react-core/dist/main.css'
-import { ColorPicker, Button } from 'monday-ui-react-core'
+import { ColorPicker, Button, MenuButton, Menu, MenuItem, EditableHeading } from 'monday-ui-react-core'
 import TasksList from './task/TaskList'
+import { Collapse, Delete } from 'monday-ui-react-core/icons'
 
 function GroupPreview({
     group,
@@ -12,63 +13,74 @@ function GroupPreview({
     onUpdateGroup,
     onSort,
     sorting,
-    onAddColumn,
-    isDragging,
     isCollapsed,
     toggleCollapse,
+    onRemoveGroup,
+    onAddGroup,
 }) {
     const [isEditingTitle, setIsEditingTitle] = useState(false)
-    const [isColorsModal, setIsColorsModal] = useState(false)
     const [updatedGroupTitle, setUpdatedGroupTitle] = useState(group.title)
+    const [groupColor, setGroupColor] = useState(group.style.backgroundColor || '#579bfc')
 
-    const handleTitleChange = e => {
-        setUpdatedGroupTitle(e.target.value)
+    const handleTitleChange = value => {
+        setUpdatedGroupTitle(value)
     }
 
     const handleTitleBlur = () => {
         if (updatedGroupTitle !== group.title) {
-            onUpdateGroup(board._id, group._id, { title: updatedGroupTitle })
+            onUpdateGroup(board._id, group._id, { ...group, title: updatedGroupTitle })
         }
         setIsEditingTitle(false)
     }
 
-    const handleKeyPress = e => {
-        if (e.key === 'Enter') {
-            handleTitleBlur()
-        }
+    const handleColorSave = color => {
+        setGroupColor(color.hex)
+        onUpdateGroup(board._id, group._id, { ...group, backgroundColor: color.hex })
+    }
+
+    const openColorPicker = () => {
+        ColorPicker.show({
+            onSave: handleColorSave,
+            initialColor: groupColor,
+            onClose: () => {},
+        })
     }
 
     return (
-        <div className={`group-preview ${isCollapsed ? 'collapsed' : ''}`}>
-            <div className='group-header'>
-                {isEditingTitle ? (
-                    <div className='flex align-center justify-center '>
-                        <button onClick={() => setIsColorsModal(true)}>Color</button>
-                        <input
-                            type='text'
+        <>
+            <div className={`group-preview ${isCollapsed ? 'collapsed' : ''}`}>
+                <div className='group-header'>
+                    <MenuButton className='group-preview-menu-btn'>
+                        <Menu id='menu' size='medium'>
+                            <MenuItem onClick={() => onRemoveGroup(group._id)} icon={Delete} title='Delete' />
+                            <MenuItem
+                                onClick={() => {
+                                    toggleCollapse()
+                                }}
+                                icon={Collapse}
+                                title='Collapse'
+                            />
+                        </Menu>
+                    </MenuButton>
+                    <div className='flex align-center justify-center'>
+                        {isEditingTitle && (
+                            <Button
+                                onClick={openColorPicker}
+                                size='small'
+                                style={{ backgroundColor: groupColor, width: '20px', height: '20px' }}
+                            />
+                        )}
+                        <EditableHeading
+                            type='h2'
                             value={updatedGroupTitle}
                             onChange={handleTitleChange}
-                            onBlur={handleTitleBlur}
-                            onKeyPress={handleKeyPress}
-                            autoFocus
-                            className='editable-title'
-                            style={{ color: `${group.style.backgroundColor || '#579bfc'}` }}
+                            onFinishEditing={handleTitleBlur}
+                            onStartEditing={() => setIsEditingTitle(true)}
+                            style={{ color: groupColor }}
                         />
-                        {isColorsModal && <ColorPicker onSave={function noRefCheck() {}} />}
                     </div>
-                ) : (
-                    <h2
-                        onClick={() => setIsEditingTitle(true)}
-                        style={{ color: `${group.style.backgroundColor || '#579bfc'}` }}
-                    >
-                        {group.title}
-                    </h2>
-                )}
-                <Button onClick={toggleCollapse}>{isCollapsed ? 'Expand' : 'Collapse'}</Button>
-            </div>
-            {!isCollapsed && (
-                <>
-                    <Button onClick={() => onAddColumn(group._id)}>+ Add Column</Button>
+                </div>
+                {!isCollapsed && (
                     <div className='table-wrapper'>
                         <TasksList
                             tasks={group.tasks}
@@ -79,11 +91,12 @@ function GroupPreview({
                             openModal={openModal}
                             onSort={onSort}
                             sorting={sorting}
+                            onAddGroup={onAddGroup}
                         />
                     </div>
-                </>
-            )}
-        </div>
+                )}
+            </div>
+        </>
     )
 }
 

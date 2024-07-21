@@ -130,15 +130,7 @@ export function createGroup(title, tasks = [], archivedAt = null) {
     }
 }
 
-export function createBoard(
-    title,
-    createdBy,
-    label,
-    members = [],
-    groups = [],
-    activities = [],
-    isStarred = true
-) {
+export function createBoard(title, createdBy, label, members = [], groups = [], activities = [], isStarred = true) {
     return {
         _id: makeId(),
         title,
@@ -152,7 +144,7 @@ export function createBoard(
         members,
         groups,
         activities,
-        cmpsOrder: ['StatusPicker', 'MemberPicker', 'DatePicker'],
+        cmpsOrder: ['title', 'status', 'description', 'dueDate', 'files', 'priority', 'comments'],
     }
 }
 
@@ -299,14 +291,7 @@ export function createBoards() {
         },
     }
 
-    const board1 = createBoard(
-        'Robot dev proj',
-        member1,
-        'Tasks',
-        [member2, member3],
-        [group1, group2],
-        [activity1]
-    )
+    const board1 = createBoard('Robot dev proj', member1, 'Tasks', [member2, member3], [group1, group2], [activity1])
 
     const board2 = createBoard(
         'Marketing Campaign',
@@ -336,16 +321,9 @@ function getRandomColor() {
     return color
 }
 
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-export function createBoardDemo(
-    title,
-    label,
-) {
+export function createBoardDemo(title, label) {
     const member1 = createMember('Abi Abambi', 'http://some-img')
 
     // const label1 = createLabel('Done', '#61bd4f')
@@ -364,8 +342,5 @@ export function createBoardDemo(
         [createGroup('Group Title', [task1, task2]), createGroup('Group Title', [task3, task4])]
     )
 
-
-    
-   
     return board
 }

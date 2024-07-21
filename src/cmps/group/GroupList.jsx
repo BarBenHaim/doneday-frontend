@@ -102,11 +102,12 @@ export function GroupList({ boardsToDisplay }) {
         }
     }
 
-    async function onUpdateGroup(groupId, updatedGroup) {
+    async function onUpdateGroup(boardId, groupId, updatedGroup) {
         try {
             await updateGroup(boardId, groupId, updatedGroup)
             showSuccessMsg('Group updated')
         } catch (err) {
+            console.log(err)
             showErrorMsg('Cannot update group')
         }
     }
@@ -142,8 +143,9 @@ export function GroupList({ boardsToDisplay }) {
                                             isDragging={isDragging}
                                             isCollapsed={collapsedStates[group._id]}
                                             toggleCollapse={() => handleToggleCollapse(group._id)}
+                                            onRemoveGroup={onRemoveGroup}
+                                            onAddGroup={onAddGroup}
                                         />
-                                        <button onClick={() => onRemoveGroup(group._id)}>Delete</button>
                                     </div>
                                 )}
                             </Draggable>

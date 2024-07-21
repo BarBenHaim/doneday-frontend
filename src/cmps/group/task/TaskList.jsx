@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { Table, TableHeader, TableBody, TableHeaderCell, Button, TableRow, TableCell } from 'monday-ui-react-core'
+import {
+    Table,
+    TableHeader,
+    TableBody,
+    TableHeaderCell,
+    TableRow,
+    TableCell,
+    SplitButton,
+    SplitButtonMenu,
+    MenuItem,
+} from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
 import { taskAttributesConfig, getStatusStyle, getPriorityStyle } from './taskAttributesConfig'
 import { showSuccessMsg, showErrorMsg } from '../../../services/event-bus.service'
 import { addTask, updateTask, removeTask, updateGroup } from '../../../store/actions/board.action'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
+import { Group } from 'monday-ui-react-core/icons'
 
 const calculateSummary = taskList => {
     const summary = {
@@ -48,55 +59,25 @@ const renderProgressBar = (distribution, colorGetter) => {
     return <div style={{ display: 'flex', width: '100%', height: '20px' }}>{segments}</div>
 }
 
-function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTask, onDeleteTask, isCollapsed }) {
+function TasksList({
+    tasks,
+    members,
+    labels,
+    board,
+    group,
+    openModal,
+    onUpdateTask,
+    onDeleteTask,
+    isCollapsed,
+    onAddGroup,
+}) {
     const [taskList, setTaskList] = useState(tasks)
 
     useEffect(() => {
         setTaskList(tasks)
     }, [tasks])
 
-    const onDragEnd = async result => {
-        const { source, destination } = result
-
-        if (!destination) return
-        if (source.droppableId === destination.droppableId && source.index === destination.index) return
-
-        const sourceGroup = board.groups.find(g => g._id === source.droppableId)
-        const destinationGroup = board.groups.find(g => g._id === destination.droppableId)
-
-        const sourceTasks = Array.from(sourceGroup.tasks)
-        const [movedTask] = sourceTasks.splice(source.index, 1)
-
-        if (source.droppableId === destination.droppableId) {
-            sourceTasks.splice(destination.index, 0, movedTask)
-            setTaskList(sourceTasks)
-
-            try {
-                const updatedGroup = { ...sourceGroup, tasks: sourceTasks }
-                await updateGroup(board._id, sourceGroup._id, updatedGroup)
-                showSuccessMsg('Task order updated successfully')
-            } catch (err) {
-                showErrorMsg('Cannot update task order')
-            }
-        } else {
-            const destinationTasks = Array.from(destinationGroup.tasks)
-            destinationTasks.splice(destination.index, 0, movedTask)
-
-            try {
-                const updatedSourceGroup = { ...sourceGroup, tasks: sourceTasks }
-                await updateGroup(board._id, sourceGroup._id, updatedSourceGroup)
-
-                const updatedDestinationGroup = { ...destinationGroup, tasks: destinationTasks }
-                await updateGroup(board._id, destination.droppableId, updatedDestinationGroup)
-
-                showSuccessMsg('Task moved successfully')
-            } catch (err) {
-                showErrorMsg('Cannot move task')
-            }
-        }
-    }
-
-    const onAddTask = async () => {
+    async function onAddTask() {
         const newTask = {
             _id: `t${Date.now()}`,
             title: 'New Task',
@@ -107,6 +88,9 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
             priority: 'Medium',
             comments: [],
             files: [],
+            checklists: [],
+            comments: [],
+            description: '',
         }
         try {
             const addedTask = await addTask(board._id, group._id, newTask)
@@ -149,8 +133,17 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
         <Droppable droppableId={group._id} type='TASK'>
             {provided => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
+                    <SplitButton
+                        children='New task'
+                        onClick={onAddTask}
+                        size='small'
+                        secondaryDialogContent={
+                            <SplitButtonMenu id='split-menu'>
+                                <MenuItem icon={Group} title='Add group' onClick={() => alert('in development...')} />
+                            </SplitButtonMenu>
+                        }
+                    />
                     <div className='tasks-list-container'>
-                        <Button onClick={onAddTask}>New task</Button>
                         <Table
                             columns={columns}
                             style={{
