@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import 'monday-ui-react-core/dist/main.css'
-import TasksList from './TaskList'
 import { ColorPicker, Button } from 'monday-ui-react-core'
+import TasksList from './task/TaskList'
 
 function GroupPreview({ group, members, labels, board, openModal, onUpdateGroup, onSort, sorting, onAddColumn }) {
     const [isEditingTitle, setIsEditingTitle] = useState(false)

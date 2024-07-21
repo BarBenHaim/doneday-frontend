@@ -1,18 +1,20 @@
 .group-preview {
     padding: 20px;
     border-radius: 8px;
+
+    h2 {
+        color: #333;
+        margin-bottom: 20px;
+    }
 }
 
-.group-preview h2 {
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.monday-style-table th,
-.monday-style-table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
+.monday-style-table {
+    th,
+    td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
 }
 
 .editable-title {

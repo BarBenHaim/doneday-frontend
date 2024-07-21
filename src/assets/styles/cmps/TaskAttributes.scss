@@ -1,0 +1,15 @@
+.change-label-container {
+    flex-direction: column;
+    gap: 7px;
+    li {
+        font-size: 0.875em;
+        align-self: stretch;
+        text-align: center;
+        padding: 4px 0;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        &:hover {
+            opacity: 0.85;
+        }
+    }
+}

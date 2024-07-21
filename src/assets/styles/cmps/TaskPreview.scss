@@ -4,15 +4,20 @@
     &:hover {
         .task-preview-menu-btn {
             opacity: 1;
+            translate: -40px;
         }
-        .cell-col.status-col,
-        .cell-col.priority-col {
+        .table-cell.status-col,
+        .table-cell.priority-col {
             opacity: 0.85;
         }
     }
 }
 
 .task-preview-menu-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    margin: auto;
     position: absolute;
     opacity: 0;
     z-index: 1;
@@ -24,12 +29,13 @@
     background-color: #fff;
 }
 
-// .sticky-col.task-col {
-//     border-inline-start: #579bfc 6px solid;
-// }
+.table-header-cell,
+.table-cell {
+    border-inline-end: 1px solid #d0d4e4;
+}
 
-.cell-col.status-col,
-.cell-col.priority-col {
+.table-cell.status-col,
+.table-cell.priority-col {
     padding: 0;
     font-size: 0.875em;
 }

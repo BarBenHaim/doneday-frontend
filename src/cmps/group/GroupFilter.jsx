@@ -281,7 +281,7 @@ export function GroupFilter({ setFilterBy }) {
         </div>
       )}
 
-      {isSortModalOpen && <GruopSort />}
+      {isSortModalOpen && <GruopSort tasks={tasks} />}
     </>
   )
 }
