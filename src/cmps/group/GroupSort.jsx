@@ -1,6 +1,17 @@
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useParams } from 'react-router'
 
-export function GruopSort() {
+export function GruopSort({ tasks }) {
+  // const { boardId } = useParams()
+  // const currBoard = useSelector((storeState) =>
+  //   storeState.boardModule.boards.find((board) => board._id === boardId)
+  // )
+
+  // const groups = currBoard.groups || []
+  // const tasks = groups.flatMap((group) => group.tasks || [])
+  console.log(tasks)
+
   const [sortColumn, setSortColumn] = useState('')
   const [sortOrder, setSortOrder] = useState('')
 
@@ -8,29 +19,34 @@ export function GruopSort() {
     const column = ev.target.value
     setSortColumn(column)
   }
+  console.log(sortColumn)
 
   function getSotrOrder(ev) {
     const order = ev.target.value
     setSortOrder(order)
   }
-  // function sortGroups(groups) {
-  //   if (!sortColumn) return groups
+  console.log(sortOrder)
+  sortTask(tasks)
 
-  //   return groups.slice().sort((a, b) => {
-  //     const aValue =
-  //       sortColumn === 'title' ? a[sortColumn] : a.tasks[0]?.[sortColumn]
-  //     const bValue =
-  //       sortColumn === 'title' ? b[sortColumn] : b.tasks[0]?.[sortColumn]
+  // function sortTask(tasks) {
+  //   if (!sortColumn) return tasks
+  //   console.log(tasks)
+
+  //   return tasks.slice().sort((a, b) => {
+  //     const aValue = a[sortColumn]
+  //     const bValue = b[sortColumn]
 
   //     if (aValue === bValue) return 0
 
   //     if (sortOrder === 'ascending') {
   //       return aValue > bValue ? 1 : -1
   //     } else {
+  //       console.log(tasks)
   //       return aValue < bValue ? 1 : -1
   //     }
   //   })
   // }
+
   return (
     <div className="modal">
       <div className="modal-content">
