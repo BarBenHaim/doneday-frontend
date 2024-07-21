@@ -6,15 +6,17 @@ import { taskAttributesConfig, getStatusStyle, getPriorityStyle } from './taskAt
 import { showSuccessMsg, showErrorMsg } from '../../../services/event-bus.service'
 import { addTask, updateTask, removeTask, updateGroup } from '../../../store/actions/board.action'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
+import { useParams } from 'react-router'
+import { useSelector } from 'react-redux'
 
-const calculateSummary = taskList => {
+const calculateSummary = (taskList) => {
     const summary = {
         files: 0,
         status: {},
         priority: {},
     }
 
-    taskList.forEach(task => {
+    taskList.forEach((task) => {
         summary.files += task.files ? task.files.length : 0
         if (task.status) summary.status[task.status] = (summary.status[task.status] || 0) + 1
         if (task.priority) summary.priority[task.priority] = (summary.priority[task.priority] || 0) + 1
@@ -32,7 +34,7 @@ const calculateSummary = taskList => {
 }
 
 const renderProgressBar = (distribution, colorGetter) => {
-    const segments = Object.keys(distribution).map(key => (
+    const segments = Object.keys(distribution).map((key) => (
         <div
             className='progress-bar'
             key={key}
@@ -50,19 +52,21 @@ const renderProgressBar = (distribution, colorGetter) => {
 
 function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTask, onDeleteTask, isCollapsed }) {
     const [taskList, setTaskList] = useState(tasks)
+    const { boardId } = useParams()
+    const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
 
     useEffect(() => {
         setTaskList(tasks)
-    }, [tasks])
+    }, [tasks,currBoard ])
 
-    const onDragEnd = async result => {
+    const onDragEnd = async (result) => {
         const { source, destination } = result
 
         if (!destination) return
         if (source.droppableId === destination.droppableId && source.index === destination.index) return
 
-        const sourceGroup = board.groups.find(g => g._id === source.droppableId)
-        const destinationGroup = board.groups.find(g => g._id === destination.droppableId)
+        const sourceGroup = board.groups.find((g) => g._id === source.droppableId)
+        const destinationGroup = board.groups.find((g) => g._id === destination.droppableId)
 
         const sourceTasks = Array.from(sourceGroup.tasks)
         const [movedTask] = sourceTasks.splice(source.index, 1)
@@ -99,7 +103,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
     const onAddTask = async () => {
         const newTask = {
             _id: `t${Date.now()}`,
-            title: 'New Task',
+            title: `New ${currBoard.label}`,
             memberIds: [],
             labelIds: [],
             status: 'Not Started',
@@ -120,7 +124,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
     async function onUpdateTask(updatedTask) {
         try {
             await updateTask(board._id, group._id, updatedTask._id, updatedTask)
-            setTaskList(taskList.map(task => (task._id === updatedTask._id ? updatedTask : task)))
+            setTaskList(taskList.map((task) => (task._id === updatedTask._id ? updatedTask : task)))
             showSuccessMsg('Task updated successfully')
         } catch (err) {
             showErrorMsg('Cannot update task')
@@ -130,14 +134,14 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
     async function onDeleteTask(taskId) {
         try {
             await removeTask(board._id, group._id, taskId)
-            setTaskList(taskList.filter(task => task._id !== taskId))
+            setTaskList(taskList.filter((task) => task._id !== taskId))
             showSuccessMsg('Task deleted successfully')
         } catch (err) {
             showErrorMsg('Cannot delete task')
         }
     }
 
-    const columns = Object.keys(taskAttributesConfig).map(key => ({
+    const columns = Object.keys(taskAttributesConfig).map((key) => ({
         key,
         title: taskAttributesConfig[key].label,
         width: taskAttributesConfig[key].width || 'auto',
@@ -147,22 +151,23 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
 
     return (
         <Droppable droppableId={group._id} type='TASK'>
-            {provided => (
+            {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
                     <div className='tasks-list-container'>
-                        <Button onClick={onAddTask}>New task</Button>
+                        <Button onClick={onAddTask}>New {currBoard.label}</Button>
                         <Table
                             columns={columns}
                             style={{
                                 borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
                                 overflow: 'visible',
-                            }}
-                        >
+                            }}>
                             <TableHeader>
                                 {columns.map((headerCell, index) => (
                                     <TableHeaderCell
                                         key={index}
-                                        title={headerCell.title}
+                                        title={index === 0 
+                                          ? currBoard.label
+                                          : headerCell.title}
                                         className={
                                             index === 0
                                                 ? 'table-header-cell sticky-col task-col flex align-center justify-center'
@@ -176,12 +181,11 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                                 {!isCollapsed &&
                                     taskList.map((task, index) => (
                                         <Draggable key={task._id} draggableId={task._id} index={index}>
-                                            {provided => (
+                                            {(provided) => (
                                                 <div
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                >
+                                                    {...provided.dragHandleProps}>
                                                     <TaskPreview
                                                         task={task}
                                                         members={members}
@@ -204,8 +208,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                                     <TableCell
                                         key={col.key}
                                         className={`summary-cell ${index === 0 ? 'task-summary-cell' : ''}`}
-                                        style={{ width: col.width }}
-                                    >
+                                        style={{ width: col.width }}>
                                         {col.key === 'files' && `${summary.files} files`}
                                         {col.key === 'status' && renderProgressBar(summary.status, getStatusStyle)}
                                         {col.key === 'priority' &&

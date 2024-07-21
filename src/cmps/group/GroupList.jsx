@@ -18,6 +18,7 @@ export function GroupList({ boardsToDisplay }) {
         currBoard?.groups.forEach(group => {
             initialCollapsedStates[group._id] = false
         })
+        console.log("currBoard", currBoard)
         setCollapsedStates(initialCollapsedStates)
     }, [currBoard])
 
