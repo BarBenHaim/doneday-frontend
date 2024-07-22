@@ -21,8 +21,7 @@
         .headline {
             display: flex;
             align-items: center;
-            gap: 0.5em; 
-
+            gap: 0.5em;
             .logo-img {
                 height: 100%;
                 width: 32px;
@@ -33,7 +32,7 @@
             }
             .headline-text {
                 display: flex;
-                gap: 5px; 
+                gap: 5px;
 
                 .company-name,
                 .app-name {

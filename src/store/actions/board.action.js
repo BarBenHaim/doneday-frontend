@@ -116,7 +116,7 @@ export async function removeGroup(boardId, groupId) {
     }
 }
 
-export async function addTask(boardId, groupId, task) {
+export async function addTask(boardId, groupId, task = getEmptyTask()) {
     const taskId = `t${Date.now()}`
     const newTask = { ...task, _id: taskId }
     store.dispatch(getCmdAddTask(boardId, groupId, newTask))
@@ -253,4 +253,19 @@ function getCmdRemoveTask(boardId, groupId, taskId) {
 
 export function getCmdToggleStarredBoard(boardId) {
     return { type: TOGGLE_STARRED_BOARD, boardId }
+}
+
+function getEmptyTask() {
+    return {
+        title: 'New Task',
+        memberIds: [],
+        labelIds: [],
+        status: 'Not Started',
+        dueDate: null,
+        priority: 'Medium',
+        comments: [],
+        files: [],
+        checklists: [],
+        description: '',
+    }
 }

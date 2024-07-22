@@ -1,3 +1,4 @@
+import { Link, NavLink } from 'react-router-dom'
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
@@ -15,59 +16,67 @@ import {
     MenuItemButton,
 } from 'monday-ui-react-core'
 import {
-    Favorite,
-    Home,
-    NavigationChevronDown,
-    NavigationChevronUp,
-    DropdownChevronDown,
-    Board,
-    Add,
+  Favorite,
+  Home,
+  NavigationChevronDown,
+  NavigationChevronUp,
+  DropdownChevronDown,
+  Board,
+  Add,
 } from 'monday-ui-react-core/icons'
 
 import { AddBoard } from './AddBoard'
 
 export function Sidebar() {
-    const navigate = useNavigate()
-    const [isCollapsed, setIsCollapsed] = useState(false)
-    const [isAddBoardModalOpen, setIsAddBoardModalOpen] = useState(false)
-    const boards = useSelector((storeState) => storeState.boardModule.boards)
-    const starredBoards = boards.filter((board) => board.isStarred)
+  const navigate = useNavigate()
+  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isAddBoardModalOpen, setIsAddBoardModalOpen] = useState(false)
+  const boards = useSelector((storeState) => storeState.boardModule.boards)
+  const starredBoards = boards.filter((board) => board.isStarred)
 
-    function handleOnClick(route) {
-        navigate(route)
-    }
+  function handleOnClick(route) {
+    navigate(route)
+  }
 
-    function toggleCollapse() {
-        setIsCollapsed(!isCollapsed)
-    }
+  function toggleCollapse() {
+    setIsCollapsed(!isCollapsed)
+  }
 
-    function toggleAddBoard() {
-        setIsAddBoardModalOpen(!isAddBoardModalOpen)
-    }
+  function toggleAddBoard() {
+    setIsAddBoardModalOpen(!isAddBoardModalOpen)
+  }
 
-    return (
-        <div className='sidebar main-container'>
-            <DialogContentContainer>
-                <Menu>
-                    <MenuItem icon={Home} title='Home' onClick={() => handleOnClick('/board')} />
-                    <MenuDivider />
-                    <MenuItem
-                        icon={Favorite}
-                        title='Favorite'
-                        onClick={() => toggleCollapse()}
-                        rightIcon={
-                            isCollapsed ? <NavigationChevronDown icon={DropdownChevronDown} /> : <NavigationChevronUp />
-                        }
-                    />
-                    {!isCollapsed &&
-                        starredBoards.map((board) => (
-                            <MenuItem
-                                key={board._id}
-                                title={board.title}
-                                onClick={() => handleOnClick(`/board/${board._id}`)}
-                            />
-                        ))}
-                    <MenuDivider />
+  return (
+    <div className="sidebar main-container">
+      <DialogContentContainer>
+        <Menu>
+          <MenuItem
+            icon={Home}
+            title="Home"
+            onClick={() => handleOnClick('/board')}
+          />
+          <MenuDivider />
+          <MenuItem
+            icon={Favorite}
+            title="Favorite"
+            onClick={() => toggleCollapse()}
+            rightIcon={
+              isCollapsed ? (
+                <NavigationChevronDown icon={DropdownChevronDown} />
+              ) : (
+                <NavigationChevronUp />
+              )
+            }
+          />
+          {!isCollapsed &&
+            starredBoards.map((board) => (
+              <MenuItem
+                key={board._id}
+                title={board.title}
+                onClick={() => handleOnClick(`/board/${board._id}`)}
+              />
+            ))}
+          <MenuDivider />
 
                     <MenuTitle caption='Main workspace' captionPosition='top' />
                     <MenuButton
@@ -94,7 +103,9 @@ export function Sidebar() {
                 </Menu>
             </DialogContentContainer>
 
-            {isAddBoardModalOpen && <AddBoard isOpen={isAddBoardModalOpen} onClose={toggleAddBoard} />}
-        </div>
-    )
+      {isAddBoardModalOpen && (
+        <AddBoard isOpen={isAddBoardModalOpen} onClose={toggleAddBoard} />
+      )}
+    </div>
+  )
 }

@@ -10,7 +10,7 @@ import { Dialog, DialogContentContainer, EditableText } from 'monday-ui-react-co
 export function BoardDetails() {
     const { boardId } = useParams()
 
-    const currBoard = useSelector((storeState) => storeState.boardModule.boards.find((board) => board._id === boardId))
+    const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
     const [boardsToDisplay, setBoardsToDisplay] = useState(currBoard?.groups || [])
     useEffect(() => {
         setBoardsToDisplay(currBoard?.groups || [])
@@ -20,7 +20,7 @@ export function BoardDetails() {
         // loadBoardById(boardId)
         {}, [boardId])
 
-    const setFilterBy = (arr) => {
+    const setFilterBy = arr => {
         setBoardsToDisplay(arr)
     }
 
@@ -47,7 +47,7 @@ export function BoardDetails() {
                                 <div className='board-details-title-edit'>
                                     <EditableText
                                         value={currBoard.title}
-                                        onChange={(value) => onUpdateField(currBoard, 'title', value)}
+                                        onChange={value => onUpdateField(currBoard, 'title', value)}
                                     />
                                 </div>
                             </DialogContentContainer>
@@ -64,11 +64,11 @@ export function BoardDetails() {
                             },
                         ]}
                         position='bottom-start'
-                        shouldShowOnMount
                         showTrigger={['click']}
                         startingEdge=''
                         wrapperClassName='board-details-header-board-info'
-                        zIndex={4}>
+                        zIndex={4}
+                    >
                         <h1>
                             {currBoard.title}
                             <span>

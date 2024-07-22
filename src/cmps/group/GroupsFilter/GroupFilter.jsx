@@ -4,6 +4,13 @@ import { useParams } from 'react-router'
 import { GruopSort } from './GroupSort'
 import { GroupPersonFilter } from './GroupPersonFilter'
 import { GroupHideFilter } from './GroupHideFilter'
+import {
+  Filter,
+  Hide,
+  Person,
+  Sort,
+  SortAscending,
+} from 'monday-ui-react-core/icons'
 
 export function GroupFilter({ setFilterBy }) {
   const { boardId } = useParams()
@@ -190,7 +197,8 @@ export function GroupFilter({ setFilterBy }) {
       <section className="board-filter">
         {/* <div className="search" onClick={handelSearchClick}>
           <button className="filter-item search">
-            <i className="fa-solid fa-magnifying-glass"></i> Search
+            <i className="fa-solid fa-magnifying-glass"></i>
+             Search
           </button>
         </div> */}
         {/* {isSearchFilterOpen && ( */}
@@ -208,14 +216,17 @@ export function GroupFilter({ setFilterBy }) {
 
         <div className="person" onClick={handelPersonClick}>
           <button className="filter-item person">
-            <i className="fa-regular fa-circle-user"></i> Person
+            <i className="fa-regular fa-circle-user"></i>
+            Person
           </button>
         </div>
+
         {isPersonFilterOpen && <GroupPersonFilter setFilterBy={setFilterBy} />}
 
         <div className="filter">
           <button className="filter-item filter" onClick={handleFilterClick}>
-            <i className="fa-solid fa-filter"></i> Filter
+            <Filter />
+            Filter
           </button>
         </div>
         {isFilterModalOpen && (
@@ -303,14 +314,17 @@ export function GroupFilter({ setFilterBy }) {
 
         <div className="sort">
           <button className="filter-item sort" onClick={handleSortClick}>
-            <i className="fa-solid fa-sort"></i> Sort
+            <Sort />
+            Sort
           </button>
         </div>
         {isSortFilterOpen && <GruopSort setFilterBy={setFilterBy} />}
 
         <div className="Hide" onClick={handleHideClick}>
           <button className="filter-item hide">
-            <i class="fa-regular fa-eye-slash"></i> Hide
+            {/* <i class="fa-regular fa-eye-slash"></i> */}
+            <Hide />
+            Hide
           </button>
         </div>
         {/* {isHideFilterOpen && <GroupHideFilter setFilterBy={setFilterBy} />} */}
