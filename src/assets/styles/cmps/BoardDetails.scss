@@ -1,25 +1,24 @@
 .board-details {
-    margin-left: 40px;
+    padding-left: 40px;
     overflow: scroll;
     ::-webkit-scrollbar {
         display: block;
     }
 
-    .board-details-header{
+    .board-details-header {
         // margin-left: 42px;
 
-        .board-details-title{
+        .board-details-title {
             margin-left: 8px;
 
-            & h1{
+            & h1 {
                 font-size: rem(24px);
                 font-weight: $font-weight-normal;
             }
-            
-            & span{
+
+            & span {
                 margin-left: 5px;
             }
-
         }
     }
 }

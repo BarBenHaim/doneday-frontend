@@ -16,8 +16,6 @@
 
 @import 'pages/AboutUs';
 @import 'pages/HomePage';
-@import 'pages/CarIndex';
-@import 'pages/ReviewIndex';
 @import 'pages/UserDetails';
 @import 'pages/TaskDetails';
 @import 'pages/LoginSignup';
@@ -31,9 +29,7 @@
 @import 'cmps/UserMsg';
 
 @import 'cmps/Groupfilters/GroupFilter.scss';
-@import 'cmps/ReviewEdit';
-@import 'cmps/ReviewList';
-@import 'cmps/ReviewPreview';
+
 
 @import 'cmps/TaskPreview';
 @import 'cmps/TaskList';
