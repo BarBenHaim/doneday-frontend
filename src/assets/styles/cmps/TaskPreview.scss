@@ -32,11 +32,11 @@
 
 .table-header-cell,
 .table-cell {
-    border-inline-end: 1px solid #d0d4e4;
+    border-inline-end: 1px solid $tableBorderClr;
 }
 
 .table-header-cell {
-    border-block-start: 1px solid #d0d4e4;
+    border-block-start: 1px solid $tableBorderClr;
 }
 
 .table-cell.status-col,
