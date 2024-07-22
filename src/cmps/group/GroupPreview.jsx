@@ -68,7 +68,7 @@ function GroupPreview({
                             />
                         </Menu>
                     </MenuButton>
-                    <div className='flex align-center justify-center'>
+                    <div className='flex align-center justify-center' style={{ position: 'sticky', left: '0' }}>
                         {isCollapsed ? (
                             <DropdownChevronRight
                                 size={30}

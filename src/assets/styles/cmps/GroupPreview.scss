@@ -11,6 +11,9 @@
     margin-bottom: 10px;
     border-radius: 5px;
     padding: 10px 0;
+    width: 1000px;
+    position: sticky;
+    top: 0;
     h2 {
         margin-bottom: 20px;
     }
@@ -19,10 +22,9 @@
     }
 
     &.collapsed {
-        border: 1px solid #ccc;
-        .group-preview.collapsed {
-            overflow: hidden;
-        }
+        border: 1px solid $tableBorderClr;
+        overflow: hidden;
+        width: 75vw;
     }
 }
 
