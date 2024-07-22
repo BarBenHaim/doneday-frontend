@@ -21,7 +21,7 @@
         .headline {
             display: flex;
             align-items: center;
-            gap: 0.5em; /* Space between logo and text */
+            gap: 0.5em; 
 
             .logo-img {
                 height: 100%;
@@ -33,7 +33,7 @@
             }
             .headline-text {
                 display: flex;
-                gap: 5px; // Space between company name and app name
+                gap: 5px; 
 
                 .company-name,
                 .app-name {
@@ -55,7 +55,7 @@
         }
 
         .login-link {
-            margin-inline-end: auto; // Push login link to the right if needed
+            margin-inline-end: auto;
             justify-self: end;
             grid-area: login;
         }

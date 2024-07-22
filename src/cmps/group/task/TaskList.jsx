@@ -108,13 +108,14 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
     }))
 
     const summary = calculateSummary(taskList)
+    const boardLabelName = currBoard.label.toLowerCase()
 
     return (
         <Droppable droppableId={group._id} type='TASK'>
             {provided => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
                     <SplitButton
-                        children='New task'
+                        children={'New ' + boardLabelName}
                         onClick={onAddTask}
                         size='small'
                         secondaryDialogContent={
