@@ -204,7 +204,6 @@ export function GroupFilter({ setFilterBy }) {
                 },
               },
             ]}
-            shouldShowOnMount
             withMaxWidth
           >
             <button
@@ -239,7 +238,6 @@ export function GroupFilter({ setFilterBy }) {
                 },
               },
             ]}
-            shouldShowOnMount
             withMaxWidth
           >
             <button
@@ -352,7 +350,6 @@ export function GroupFilter({ setFilterBy }) {
                 },
               },
             ]}
-            shouldShowOnMount
             withMaxWidth
           >
             <button
@@ -382,7 +379,6 @@ export function GroupFilter({ setFilterBy }) {
                 },
               },
             ]}
-            shouldShowOnMount
             withMaxWidth
           >
             <button
