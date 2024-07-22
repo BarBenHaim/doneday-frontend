@@ -155,7 +155,6 @@ export function GroupList({ boardsToDisplay }) {
                                             isCollapsed={collapsedStates[group._id]}
                                             toggleCollapse={() => handleToggleCollapse(group._id)}
                                         />
-                                        <button onClick={() => onRemoveGroup(group._id)}>Delete</button>
                                     </div>
                                 )}
                             </Draggable>
