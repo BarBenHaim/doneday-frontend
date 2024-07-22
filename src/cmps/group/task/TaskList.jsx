@@ -12,13 +12,14 @@ import {
 } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
-import { taskAttributesConfig, getStatusStyle, getPriorityStyle } from './taskAttributesConfig'
+import { taskAttributesConfig } from './taskAttributesConfig'
 import { showSuccessMsg, showErrorMsg } from '../../../services/event-bus.service'
 import { addTask, updateTask, removeTask } from '../../../store/actions/board.action'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { useParams } from 'react-router'
 import { useSelector } from 'react-redux'
 import { Group } from 'monday-ui-react-core/icons'
+import { getPriorityStyle, getStatusStyle } from './dynamicCmps/styleUtils'
 
 function calculateSummary(taskList) {
     const summary = {
