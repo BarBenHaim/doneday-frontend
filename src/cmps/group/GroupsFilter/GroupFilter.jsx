@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
 import { GruopSort } from './GroupSort'
 import { GroupPersonFilter } from './GroupPersonFilter'
+import { GroupHideFilter } from './GroupHideFilter'
 
 export function GroupFilter({ setFilterBy }) {
   const { boardId } = useParams()
@@ -11,12 +12,12 @@ export function GroupFilter({ setFilterBy }) {
   )
   const groups = currBoard.groups || []
   const tasks = groups.flatMap((group) => group.tasks || [])
-  console.log(groups)
 
   const [isSearchFilterOpen, setSearchFilterOpen] = useState(false)
   const [isPersonFilterOpen, setPersonFilterOpen] = useState(false)
   const [isFilterModalOpen, setFilterModalOpen] = useState(false)
-  const [isSortModalOpen, setSortModalOpen] = useState(false)
+  const [isSortFilterOpen, setSortFilterOpen] = useState(false)
+  const [isHideFilterOpen, setHideFilterOpen] = useState(false)
 
   const [selectedColumn, setSelectedColumn] = useState([])
   const [selectedCondition, setselectedCondition] = useState('')
@@ -29,8 +30,7 @@ export function GroupFilter({ setFilterBy }) {
 
   function handleSearchClick(ev) {
     const value = ev.target.value
-    console.log(value)
-    // setSearchActive(true)
+
     const filteredGroups = groups.map((group) => {
       const filteredTasks = group.tasks.filter((task) => {
         return task.title.toLowerCase().includes(value.toLowerCase())
@@ -40,6 +40,7 @@ export function GroupFilter({ setFilterBy }) {
         tasks: filteredTasks,
       }
     })
+
     const nonEmptyGroups = filteredGroups.filter(
       (group) => group.tasks.length > 0
     )
@@ -62,12 +63,15 @@ export function GroupFilter({ setFilterBy }) {
   }
 
   function handleSortClick() {
-    setSortModalOpen(!isSortModalOpen)
+    setSortFilterOpen(!isSortFilterOpen)
+  }
+  function handleHideClick() {
+    setHideFilterOpen(!isHideFilterOpen)
   }
 
   function handleCloseModal() {
     setFilterModalOpen(false)
-    setSortModalOpen(false)
+    setSortFilterOpen(false)
   }
 
   function handleTextFilterChange(ev) {
@@ -302,13 +306,14 @@ export function GroupFilter({ setFilterBy }) {
             <i className="fa-solid fa-sort"></i> Sort
           </button>
         </div>
-        {isSortModalOpen && <GruopSort setFilterBy={setFilterBy} />}
+        {isSortFilterOpen && <GruopSort setFilterBy={setFilterBy} />}
 
-        <div className="Hide">
+        <div className="Hide" onClick={handleHideClick}>
           <button className="filter-item hide">
             <i class="fa-regular fa-eye-slash"></i> Hide
           </button>
         </div>
+        {/* {isHideFilterOpen && <GroupHideFilter setFilterBy={setFilterBy} />} */}
       </section>
     </>
   )

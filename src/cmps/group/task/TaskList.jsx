@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Table, TableHeader, TableBody, TableHeaderCell, Button, TableRow, TableCell } from 'monday-ui-react-core'
+import {
+    Table,
+    TableHeader,
+    TableBody,
+    TableHeaderCell,
+    TableRow,
+    TableCell,
+    SplitButton,
+    SplitButtonMenu,
+    MenuItem,
+} from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
 import { taskAttributesConfig, getStatusStyle, getPriorityStyle } from './taskAttributesConfig'
@@ -8,6 +18,7 @@ import { addTask, updateTask, removeTask, updateGroup } from '../../../store/act
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { useParams } from 'react-router'
 import { useSelector } from 'react-redux'
+import { Group } from 'monday-ui-react-core/icons'
 
 const calculateSummary = (taskList) => {
     const summary = {
@@ -111,6 +122,9 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
             priority: 'Medium',
             comments: [],
             files: [],
+            checklists: [],
+            comments: [],
+            description: '',
         }
         try {
             const addedTask = await addTask(board._id, group._id, newTask)
@@ -141,7 +155,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
         }
     }
 
-    const columns = Object.keys(taskAttributesConfig).map((key) => ({
+    const columns = board.cmpsOrder.map(key => ({
         key,
         title: taskAttributesConfig[key].label,
         width: taskAttributesConfig[key].width || 'auto',
@@ -153,9 +167,21 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
         <Droppable droppableId={group._id} type='TASK'>
             {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
+                    <SplitButton
+                        children='New task'
+                        onClick={onAddTask}
+                        size='small'
+                        secondaryDialogContent={
+                            <SplitButtonMenu id='split-menu'>
+                                <MenuItem icon={Group} title='Add group' onClick={() => alert('in development...')} />
+                            </SplitButtonMenu>
+                        }
+                    />
                     <div className='tasks-list-container'>
-                        <Button onClick={onAddTask}>New {currBoard.label}</Button>
+                        <Button onClick={onAddTask}>New task</Button>
                         <Table
+                            className='group-table'
+                            withoutBorder
                             columns={columns}
                             style={{
                                 borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
@@ -196,6 +222,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                                                         onUpdateTask={onUpdateTask}
                                                         onDeleteTask={onDeleteTask}
                                                         provided={provided}
+                                                        cmpsOrder={board.cmpsOrder}
                                                     />
                                                 </div>
                                             )}
