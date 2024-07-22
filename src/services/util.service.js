@@ -1,3 +1,5 @@
+import { stubTrue } from "lodash"
+
 export function makeId(length = 6) {
     var txt = ''
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -130,11 +132,12 @@ export function createGroup(title, tasks = [], archivedAt = null) {
     }
 }
 
-export function createBoard(title, createdBy, label, members = [], groups = [], activities = [], isStarred = true) {
+export function createBoard(title, createdBy, label, members = [], groups = [], activities = [], isStarred = false) {
     return {
         _id: makeId(),
         title,
-        isStarred: isStarred || false,
+        description: 'Manage any type of project. Assign owners, set timelines and keep track of where your project stands.',
+        isStarred: isStarred || true,
         archivedAt: null,
         createdBy,
         style: {

@@ -26,6 +26,7 @@ export const boardService = {
     removeTask,
     toggleStarred,
     addBoard,
+    updateBoard,
 }
 
 async function query(filterBy) {
@@ -49,6 +50,17 @@ async function save(board) {
     } else {
         return await storageService.post(STORAGE_KEY, board)
     }
+}
+
+async function updateBoard(boardId, updatedBoard){
+    const board = await getById(boardId)
+    console.log('update board', board)
+    const boardIdx = board.findIndex(board => board._id === boardId)
+    if (boardIdx === -1) throw new Error('Board not found')
+        board[boardIdx] = {...board[boardIdx], ...updatedBoard}
+    await storageService.put(STORAGE_KEY, board)
+    return board[boardIdx]
+
 }
 
 async function addBoardMsg(boardId, txt) {
