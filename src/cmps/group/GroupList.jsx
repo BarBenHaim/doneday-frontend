@@ -5,6 +5,8 @@ import { showErrorMsg, showSuccessMsg } from '../../services/event-bus.service'
 import { addGroup, removeGroup, updateGroup, updateBoardOptimistic } from '../../store/actions/board.action'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useEffect, useState } from 'react'
+import { Button, IconButton } from 'monday-ui-react-core'
+import { Add } from 'monday-ui-react-core/icons'
 
 export function GroupList({ boardsToDisplay }) {
     const { boardId } = useParams()
@@ -164,7 +166,14 @@ export function GroupList({ boardsToDisplay }) {
                     </div>
                 )}
             </Droppable>
-            <button onClick={onAddGroup}>Add Group</button>
+            <Button onClick={onAddGroup} kind={Button.kinds.SECONDARY} size='small'>
+                <div className='flex align-center justify-center'>
+                    <Add size={18} />
+                    <span className='flex align-center justify-center' style={{ padding: '2px' }}>
+                        Add new group
+                    </span>
+                </div>
+            </Button>
         </DragDropContext>
     )
 }
