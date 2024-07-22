@@ -107,14 +107,6 @@ export function GroupList({ boardsToDisplay }) {
         }
     }
 
-    async function onUpdateGroup(groupId, updatedGroup) {
-        try {
-            await updateGroup(boardId, groupId, updatedGroup)
-            showSuccessMsg('Group updated')
-        } catch (err) {
-            showErrorMsg('Cannot update group')
-        }
-    }
     async function onUpdateGroup(boardId, groupId, updatedGroup) {
         try {
             await updateGroup(boardId, groupId, updatedGroup)
