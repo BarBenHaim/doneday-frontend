@@ -9,28 +9,25 @@ import {
     SplitButton,
     SplitButtonMenu,
     MenuItem,
-    Button,
 } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
 import { taskAttributesConfig, getStatusStyle, getPriorityStyle } from './taskAttributesConfig'
 import { showSuccessMsg, showErrorMsg } from '../../../services/event-bus.service'
-import { addTask, updateTask, removeTask, updateGroup } from '../../../store/actions/board.action'
+import { addTask, updateTask, removeTask } from '../../../store/actions/board.action'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { useParams } from 'react-router'
 import { useSelector } from 'react-redux'
 import { Group } from 'monday-ui-react-core/icons'
 
-
-
-const calculateSummary = (taskList) => {
+function calculateSummary(taskList) {
     const summary = {
         files: 0,
         status: {},
         priority: {},
     }
 
-    taskList.forEach((task) => {
+    taskList.forEach(task => {
         summary.files += task.files ? task.files.length : 0
         if (task.status) summary.status[task.status] = (summary.status[task.status] || 0) + 1
         if (task.priority) summary.priority[task.priority] = (summary.priority[task.priority] || 0) + 1
@@ -47,8 +44,8 @@ const calculateSummary = (taskList) => {
     return summary
 }
 
-const renderProgressBar = (distribution, colorGetter) => {
-    const segments = Object.keys(distribution).map((key) => (
+function renderProgressBar(distribution, colorGetter) {
+    const segments = Object.keys(distribution).map(key => (
         <div
             className='progress-bar'
             key={key}
@@ -71,66 +68,11 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
 
     useEffect(() => {
         setTaskList(tasks)
-    }, [tasks,currBoard ])
+    }, [tasks, currBoard])
 
-    const onDragEnd = async (result) => {
-        const { source, destination } = result
-
-        if (!destination) return
-        if (source.droppableId === destination.droppableId && source.index === destination.index) return
-
-        const sourceGroup = board.groups.find((g) => g._id === source.droppableId)
-        const destinationGroup = board.groups.find((g) => g._id === destination.droppableId)
-
-        const sourceTasks = Array.from(sourceGroup.tasks)
-        const [movedTask] = sourceTasks.splice(source.index, 1)
-
-        if (source.droppableId === destination.droppableId) {
-            sourceTasks.splice(destination.index, 0, movedTask)
-            setTaskList(sourceTasks)
-
-            try {
-                const updatedGroup = { ...sourceGroup, tasks: sourceTasks }
-                await updateGroup(board._id, sourceGroup._id, updatedGroup)
-                showSuccessMsg('Task order updated successfully')
-            } catch (err) {
-                showErrorMsg('Cannot update task order')
-            }
-        } else {
-            const destinationTasks = Array.from(destinationGroup.tasks)
-            destinationTasks.splice(destination.index, 0, movedTask)
-
-            try {
-                const updatedSourceGroup = { ...sourceGroup, tasks: sourceTasks }
-                await updateGroup(board._id, sourceGroup._id, updatedSourceGroup)
-
-                const updatedDestinationGroup = { ...destinationGroup, tasks: destinationTasks }
-                await updateGroup(board._id, destination.droppableId, updatedDestinationGroup)
-
-                showSuccessMsg('Task moved successfully')
-            } catch (err) {
-                showErrorMsg('Cannot move task')
-            }
-        }
-    }
-
-    const onAddTask = async () => {
-        const newTask = {
-            _id: `t${Date.now()}`,
-            title: `New ${currBoard.label}`,
-            memberIds: [],
-            labelIds: [],
-            status: 'Not Started',
-            dueDate: null,
-            priority: 'Medium',
-            comments: [],
-            files: [],
-            checklists: [],
-            comments: [],
-            description: '',
-        }
+    async function onAddTask() {
         try {
-            const addedTask = await addTask(board._id, group._id, newTask)
+            const addedTask = await addTask(board._id, group._id)
             setTaskList([addedTask, ...taskList])
             showSuccessMsg('Task added successfully')
         } catch (err) {
@@ -141,7 +83,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
     async function onUpdateTask(updatedTask) {
         try {
             await updateTask(board._id, group._id, updatedTask._id, updatedTask)
-            setTaskList(taskList.map((task) => (task._id === updatedTask._id ? updatedTask : task)))
+            setTaskList(taskList.map(task => (task._id === updatedTask._id ? updatedTask : task)))
             showSuccessMsg('Task updated successfully')
         } catch (err) {
             showErrorMsg('Cannot update task')
@@ -151,7 +93,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
     async function onDeleteTask(taskId) {
         try {
             await removeTask(board._id, group._id, taskId)
-            setTaskList(taskList.filter((task) => task._id !== taskId))
+            setTaskList(taskList.filter(task => task._id !== taskId))
             showSuccessMsg('Task deleted successfully')
         } catch (err) {
             showErrorMsg('Cannot delete task')
@@ -168,7 +110,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
 
     return (
         <Droppable droppableId={group._id} type='TASK'>
-            {(provided) => (
+            {provided => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
                     <SplitButton
                         children='New task'
@@ -188,14 +130,13 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                             style={{
                                 borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
                                 overflow: 'visible',
-                            }}>
+                            }}
+                        >
                             <TableHeader>
                                 {columns.map((headerCell, index) => (
                                     <TableHeaderCell
                                         key={index}
-                                        title={index === 0 
-                                          ? currBoard.label
-                                          : headerCell.title}
+                                        title={index === 0 ? currBoard.label : headerCell.title}
                                         className={
                                             index === 0
                                                 ? 'table-header-cell sticky-col task-col flex align-center justify-center'
@@ -209,11 +150,12 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                                 {!isCollapsed &&
                                     taskList.map((task, index) => (
                                         <Draggable key={task._id} draggableId={task._id} index={index}>
-                                            {(provided) => (
+                                            {provided => (
                                                 <div
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}>
+                                                    {...provided.dragHandleProps}
+                                                >
                                                     <TaskPreview
                                                         task={task}
                                                         members={members}
@@ -237,7 +179,8 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                                     <TableCell
                                         key={col.key}
                                         className={`summary-cell ${index === 0 ? 'task-summary-cell' : ''}`}
-                                        style={{ width: col.width }}>
+                                        style={{ width: col.width }}
+                                    >
                                         {col.key === 'files' && `${summary.files} files`}
                                         {col.key === 'status' && renderProgressBar(summary.status, getStatusStyle)}
                                         {col.key === 'priority' &&
