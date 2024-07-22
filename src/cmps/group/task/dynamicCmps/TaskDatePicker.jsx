@@ -1,16 +1,16 @@
 import React from 'react'
-import { DatePicker, Dialog, DialogContentContainer, LinearProgressBar } from 'monday-ui-react-core'
+import { DatePicker, Dialog, DialogContentContainer } from 'monday-ui-react-core'
 import moment from 'moment'
+import { getStatusStyle } from './styleUtils'
 
 function TaskDatePicker({ task, onUpdateField }) {
     const dueDate = task.dueDate ? moment(task.dueDate) : null
-    const formattedDueDate = dueDate ? dueDate.format('YYYY-MM-DD') : 'No Due Date'
+    const formattedDueDate = dueDate ? dueDate.format('D MMM') : 'No Due Date'
     const daysLeft = dueDate ? dueDate.diff(moment(), 'days') : null
-    const totalDays = dueDate ? dueDate.diff(moment().subtract(2, 'months'), 'days') : 1
-    const progress = daysLeft ? Math.max(((totalDays - daysLeft) / totalDays) * 100, 0) : 0
+    const statusStyle = getStatusStyle(task.status)
 
     return (
-        <div className='monday-storybook-dialog--story-padding '>
+        <div className='monday-storybook-dialog--story-padding ' style={{ display: 'flex', margin: '0 auto' }}>
             <Dialog
                 zIndex={2}
                 content={
@@ -34,8 +34,18 @@ function TaskDatePicker({ task, onUpdateField }) {
                 position='bottom'
                 showTrigger={['click']}
             >
-                <div className='timeline' style={{ position: 'relative' }}>
-                    <LinearProgressBar value={progress} />
+                <div
+                    className='timeline flex align-center justify-center'
+                    style={{
+                        position: 'relative',
+                        ...statusStyle,
+                        width: '108px',
+                        textAlign: 'center',
+                        borderRadius: '50px',
+                        height: '22px',
+                        fontSize: '0.875em',
+                    }}
+                >
                     <span style={{ fontSize: '0.875em' }}>{formattedDueDate}</span>
                     {dueDate && (
                         <div
