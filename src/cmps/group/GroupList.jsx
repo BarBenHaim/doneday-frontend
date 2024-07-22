@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react'
 import GroupPreview from './GroupPreview'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
@@ -10,6 +9,7 @@ import {
   updateBoard,
 } from '../../store/actions/board.action'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { useEffect, useState } from 'react'
 
 export function GroupList({ boardsToDisplay }) {
   const { boardId } = useParams()
@@ -121,6 +121,15 @@ export function GroupList({ boardsToDisplay }) {
       await updateGroup(boardId, groupId, updatedGroup)
       showSuccessMsg('Group updated')
     } catch (err) {
+      showErrorMsg('Cannot update group')
+    }
+  }
+  async function onUpdateGroup(boardId, groupId, updatedGroup) {
+    try {
+      await updateGroup(boardId, groupId, updatedGroup)
+      showSuccessMsg('Group updated')
+    } catch (err) {
+      console.log(err)
       showErrorMsg('Cannot update group')
     }
   }

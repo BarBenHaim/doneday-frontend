@@ -3,7 +3,7 @@ import { TableCell, TableRow, MenuButton, Menu, MenuItem } from 'monday-ui-react
 import { Delete } from 'monday-ui-react-core/icons'
 import { taskAttributesConfig } from './taskAttributesConfig'
 
-export function TaskPreview({ task, members, labels, onUpdateTask, onDeleteTask, provided }) {
+export function TaskPreview({ task, members, labels, onUpdateTask, onDeleteTask, provided, cmpsOrder }) {
     function onUpdateField(task, field, value) {
         const updatedTask = { ...task, [field]: value }
         onUpdateTask(updatedTask)
@@ -36,9 +36,7 @@ export function TaskPreview({ task, members, labels, onUpdateTask, onDeleteTask,
                 </Menu>
             </MenuButton>
             <TableRow className='task-preview-row'>
-                {Object.keys(taskAttributesConfig).map(key =>
-                    renderCell(taskAttributesConfig[key], task, members, labels, key)
-                )}
+                {cmpsOrder.map(key => renderCell(taskAttributesConfig[key], task, members, labels, key))}
             </TableRow>
         </div>
     )
