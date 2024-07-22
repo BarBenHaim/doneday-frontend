@@ -1,4 +1,5 @@
 import { storageService } from '../async-storage.service'
+import { makeId } from '../util.service'
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 
@@ -15,12 +16,13 @@ export const userService = {
 }
 
 async function getUsers() {
-    const users = await storageService.query('user')
+    let users = await storageService.query('user');
+    if (!users || !users.length) users = await createUsers();
     return users.map(user => {
-        delete user.password
-        return user
-    })
-}
+      delete user.password;
+      return user;
+    });
+  }
 
 async function getById(userId) {
     return await storageService.get('user', userId)
@@ -81,13 +83,35 @@ function saveLoggedinUser(user) {
 // _createAdmin()
 async function _createAdmin() {
     const user = {
-        username: 'admin',
-        password: 'admin',
-        fullname: 'Mustafa Adminsky',
-        imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
-        score: 10000,
-    }
+      username: 'admin',
+      password: 'admin',
+      fullname: 'admin adminsky',
+      imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
+      score: 10000,
+      isAdmin: true,
+    };
+  
+    const newUser = await storageService.post('user', user);
+    console.log('newUser: ', newUser);
+  }
 
-    const newUser = await storageService.post('user', userCred)
-    console.log('newUser: ', newUser)
-}
+async function _createUser(fullname, imgUrl) {
+    const user = {
+      _id: makeId(),
+      password: '1234',
+      fullname: fullname,
+      username: fullname.toLowerCase().replace(/\s+/g, ''),
+      imgUrl: imgUrl,
+      score: 10000,
+      isAdmin: false,
+    };
+    return await storageService.post('user', user);
+  }
+
+async function createUsers() {
+    const user1 = await _createUser('Ariella Melnikov', 'https://res.cloudinary.com/dkykllpf5/image/upload/v1721649934/jzacprnumxyqpj1w0xah.jpg');
+    const user2 = await _createUser('Bar Ben Haim', 'https://res.cloudinary.com/dkykllpf5/image/upload/v1721651006/dcll8jx7dtrrvsj3vhxe.jpg');
+    const user3 = await _createUser('Nir Fakiro', 'https://res.cloudinary.com/dkykllpf5/image/upload/v1721651052/g2rk8iilfjyumxjvheid.jpg');
+    const users = [user1, user2, user3];
+    return users;
+  }

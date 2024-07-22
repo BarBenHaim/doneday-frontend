@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import 'monday-ui-react-core/dist/main.css'
 import { ColorPicker, Button, MenuButton, Menu, MenuItem, EditableHeading } from 'monday-ui-react-core'
 import TasksList from './task/TaskList'
-import { Collapse, Delete } from 'monday-ui-react-core/icons'
+import { Collapse, Delete, DropdownChevronDown, DropdownChevronRight } from 'monday-ui-react-core/icons'
 
 function GroupPreview({
     group,
@@ -49,7 +49,12 @@ function GroupPreview({
 
     return (
         <>
-            <div className={`group-preview ${isCollapsed ? 'collapsed' : ''}`}>
+            <div
+                className={`group-preview ${isCollapsed ? 'collapsed' : ''}`}
+                style={{
+                    borderInlineStart: isCollapsed ? `6px solid ${groupColor}` : 'none',
+                }}
+            >
                 <div className='group-header' {...dragHandleProps}>
                     <MenuButton className='group-preview-menu-btn'>
                         <Menu id='menu' size='medium'>
@@ -63,7 +68,24 @@ function GroupPreview({
                             />
                         </Menu>
                     </MenuButton>
-                    <div className='flex align-center justify-center'>
+                    <div className='flex align-center justify-center' style={{ position: 'sticky', left: '0' }}>
+                        {isCollapsed ? (
+                            <DropdownChevronRight
+                                size={30}
+                                style={{ color: groupColor }}
+                                onClick={() => {
+                                    toggleCollapse()
+                                }}
+                            />
+                        ) : (
+                            <DropdownChevronDown
+                                size={30}
+                                style={{ color: groupColor }}
+                                onClick={() => {
+                                    toggleCollapse()
+                                }}
+                            />
+                        )}
                         {isEditingTitle && (
                             <Button
                                 onClick={openColorPicker}

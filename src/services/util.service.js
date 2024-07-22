@@ -144,14 +144,14 @@ export function createBoard(title, createdBy, label, members = [], groups = [], 
         members,
         groups,
         activities,
-        cmpsOrder: ['title', 'status', 'description', 'dueDate', 'files', 'priority', 'comments'],
+        cmpsOrder: ['title', 'status', 'memberIds', 'description', 'dueDate', 'files', 'priority', 'comments'],
     }
 }
 
 export function createBoards() {
-    const member1 = createMember('Abi Abambi', 'http://some-img')
-    const member2 = createMember('Tal Taltal', 'https://www.google.com')
-    const member3 = createMember('Josh Ga', 'https://www.google.com')
+    const member1 = createMember('Ariella Melnikov', 'https://res.cloudinary.com/dkykllpf5/image/upload/v1721649934/jzacprnumxyqpj1w0xah.jpg')
+    const member2 = createMember('Bar Ben Haim', 'https://res.cloudinary.com/dkykllpf5/image/upload/v1721651006/dcll8jx7dtrrvsj3vhxe.jpg')
+    const member3 = createMember('Nir Fakiro', 'https://res.cloudinary.com/dkykllpf5/image/upload/v1721651052/g2rk8iilfjyumxjvheid.jpg')
 
     const label1 = createLabel('Done', '#61bd4f')
     const label2 = createLabel('Progress', '#61bd33')
@@ -344,3 +344,6 @@ export function createBoardDemo(title, label) {
 
     return board
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+

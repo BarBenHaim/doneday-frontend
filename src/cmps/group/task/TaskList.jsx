@@ -176,12 +176,14 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                                     ))}
                                 {provided.placeholder}
                             </TableBody>
-                            <TableRow>
+                            <TableRow className='summary-row'>
                                 {columns.map((col, index) => (
                                     <TableCell
                                         key={col.key}
-                                        className={`summary-cell ${index === 0 ? 'task-summary-cell' : ''}`}
-                                        style={{ width: col.width }}
+                                        className={`summary-cell ${`summary-cell-${index}`}`}
+                                        style={{
+                                            width: col.width,
+                                        }}
                                     >
                                         {col.key === 'files' && `${summary.files} files`}
                                         {col.key === 'status' && renderProgressBar(summary.status, getStatusStyle)}

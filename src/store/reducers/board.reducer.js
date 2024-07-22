@@ -12,6 +12,7 @@ export const REMOVE_GROUP = 'REMOVE_GROUP'
 export const ADD_TASK = 'ADD_TASK'
 export const UPDATE_TASK = 'UPDATE_TASK'
 export const REMOVE_TASK = 'REMOVE_TASK'
+export const REVERT_BOARD = 'REVERT_BOARD'
 
 const initialState = {
     boards: [],
@@ -56,6 +57,9 @@ export function boardReducer(state = initialState, action) {
                 board._id === action.boardId ? { ...board, isStarred: !board.isStarred } : board
             )
             newState = { ...state, boards }
+            break
+        case REVERT_BOARD:
+            newState = { ...state, boards: state.boards }
             break
         case ADD_GROUP:
             boards = state.boards.map(board =>

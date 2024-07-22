@@ -2,7 +2,7 @@ import GroupPreview from './GroupPreview'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { showErrorMsg, showSuccessMsg } from '../../services/event-bus.service'
-import { addGroup, removeGroup, updateGroup, updateBoard } from '../../store/actions/board.action'
+import { addGroup, removeGroup, updateGroup, updateBoardOptimistic } from '../../store/actions/board.action'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useEffect, useState } from 'react'
 
@@ -52,7 +52,7 @@ export function GroupList({ boardsToDisplay }) {
 
             try {
                 const updatedBoard = { ...currBoard, groups: newGroups }
-                await updateBoard(updatedBoard)
+                await updateBoardOptimistic(updatedBoard)
                 showSuccessMsg('Group order updated successfully')
             } catch (err) {
                 showErrorMsg('Cannot update group order')
@@ -150,12 +150,12 @@ export function GroupList({ boardsToDisplay }) {
                                             members={currBoard.members}
                                             labels={currBoard.labels}
                                             onUpdateGroup={onUpdateGroup}
+                                            onRemoveGroup={onRemoveGroup}
                                             board={currBoard}
                                             isDragging={isDragging}
                                             isCollapsed={collapsedStates[group._id]}
                                             toggleCollapse={() => handleToggleCollapse(group._id)}
                                         />
-                                        <button onClick={() => onRemoveGroup(group._id)}>Delete</button>
                                     </div>
                                 )}
                             </Draggable>

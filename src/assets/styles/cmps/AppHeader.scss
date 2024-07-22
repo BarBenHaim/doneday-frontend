@@ -2,82 +2,70 @@
     position: sticky;
     z-index: 3;
     top: 0;
-    display: grid;
     width: 100%;
-    grid-template-columns: minmax(2%, auto, 2%);
     min-height: 3.5rem;
     color: $Mgray4;
     background-color: $Mbgr3;
     padding: rem(10px) 1rem;
-    grid-template-areas: '. logo company app login . ';
+    display: flex;
+    justify-content: space-between; // Ensure space-between for main sections
+    align-items: center;
 
-    nav {
+    .headline {
         display: flex;
-        width: 100%;
-        align-items: start;
-        gap: 1em;
-        align-self: flex-start;
+        align-items: center;
+        gap: 0.5em;
+        
+        .logo-img {
+            height: 100%;
+            width: 25px;
+            aspect-ratio: 1;
+            justify-self: start;
 
-        .headline {
+        }
+
+        .headline-text {
             display: flex;
-            align-items: center;
-            gap: 0.5em;
-            .logo-img {
-                height: 100%;
-                width: 32px;
-                aspect-ratio: 1;
-                margin-right: 10px;
+            gap: 5px;
+
+            .company-name,
+            .app-name {
+                margin: 0;
+            }
+
+            .company-name {
+                font-weight: $font-weight-extra-bold;
                 justify-self: start;
-                grid-area: logo;
+
             }
-            .headline-text {
-                display: flex;
-                gap: 5px;
 
-                .company-name,
-                .app-name {
-                    margin: 0;
-                }
-
-                .company-name {
-                    font-weight: $font-weight-extra-bold;
-                    justify-self: start;
-                    grid-area: company;
-                }
-
-                .app-name {
-                    font-weight: $font-weight-light;
-                    justify-self: start;
-                    grid-area: app;
-                }
+            .app-name {
+                font-weight: $font-weight-light;
             }
         }
+    }
 
-        .login-link {
-            margin-inline-end: auto;
-            justify-self: end;
-            grid-area: login;
-        }
+    .login-link {
+        display: flex;
+        align-items: center;
+        gap: 1em; // Adjust the gap as needed
 
         .user-info {
             display: flex;
             align-items: center;
-            margin-inline-start: auto;
+            gap: 0em; // Adjust the gap as needed
 
             color: $clr1;
 
-            .score {
-                padding: 8px;
-                background-color: $clr2;
-                border-radius: 50%;
-                margin: 10px;
-                color: $clr6;
-            }
-
-            img {
+            .app-logo {
                 width: 32px;
                 aspect-ratio: 1;
                 border-radius: 50%;
+            }
+
+            .custom-avatar {
+                border-radius: 50% !important;
+                object-fit: cover; 
             }
 
             .btn-link {

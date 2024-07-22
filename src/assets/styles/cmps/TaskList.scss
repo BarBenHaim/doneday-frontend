@@ -14,3 +14,37 @@
 .group-table {
     --table-row-size: 36px !important;
 }
+
+.summary-row {
+    position: relative;
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 6px;
+        transform: translateX(-6px);
+        background-color: rgb(255, 255, 255);
+    }
+}
+
+.summary-cell {
+    border: 1px solid $tableBorderClr;
+    border-block-start: none;
+    border-inline-start: none;
+}
+
+.summary-cell-1 {
+    border-inline-start: 1px solid $tableBorderClr;
+    border-bottom-left-radius: 8px;
+    position: relative;
+}
+
+.summary-cell-0 {
+    border: none;
+    background-color: rgb(255, 255, 255) !important;
+    position: sticky;
+    left: -40px;
+    opacity: 0.9;
+    z-index: 1;
+}

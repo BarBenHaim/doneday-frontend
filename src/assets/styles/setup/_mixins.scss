@@ -56,3 +56,39 @@
         }
     }
 }
+
+
+
+// Define the mixin
+@mixin vibe-heading($element, $font-weight: regular) {
+  @if $element == h1 {
+    font-size: rem(32px);
+    font-weight: $font-weight;
+  }
+  @else if $element == h2 {
+    font-size: rem(24px);
+    font-weight: $font-weight;
+  }
+  @else if $element == h3 {
+    font-size: rem(18px);
+    font-weight: $font-weight;
+  }
+  
+  @else if $element == h4 {
+    font-size: rem(16px);
+    font-weight: $font-weight;
+  }
+  
+}
+
+@mixin vibe-text($element, $font-weight: normal) {
+
+      @if $element == text2 {
+        font-size: rem(14px);
+        font-weight: $font-weight;
+      }
+      @else if $element == text3 {
+        font-size: rem(12px);
+        font-weight: $font-weight;
+      }
+}
