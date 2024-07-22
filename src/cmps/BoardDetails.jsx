@@ -4,9 +4,9 @@ import { useParams } from 'react-router'
 import { GroupList } from './group/GroupList'
 import { GroupFilter } from './group/GroupsFilter/GroupFilter'
 import { useSelector } from 'react-redux'
-import {
-  NavigationChevronDown,
-} from 'monday-ui-react-core/icons'
+import { NavigationChevronDown } from 'monday-ui-react-core/icons'
+import { Dialog, DialogContentContainer, EditableText } from 'monday-ui-react-core'
+
 export function BoardDetails() {
     const { boardId } = useParams()
 
@@ -29,11 +29,49 @@ export function BoardDetails() {
         } catch {}
     }
 
+    function onUpdateField(currBoard, field, value) {
+        const updatedBoard = { ...currBoard, [field]: value }
+        onUpdateBoard(updatedBoard)
+    }
     return (
         <section className='board-details'>
             <header className='board-details-header'>
                 <div className='board-details-title'>
-                    <h1>{currBoard.title}<span><NavigationChevronDown size="18" lable="Collapse list" /></span></h1>
+                    <Dialog
+                        content={
+                            <DialogContentContainer>
+                                <div className='board-details-title-edit'>
+                                    <EditableText
+                                        value={currBoard.title}
+                                        onChange={(value) => onUpdateField(currBoard, 'title', value)}
+                                    />
+                                </div>
+                            </DialogContentContainer>
+                        }
+                        disableContainerScroll={{}}
+                        hideTrigger={['click']}
+                        isOpen
+                        modifiers={[
+                            {
+                                name: 'preventOverflow',
+                                options: {
+                                    mainAxis: false,
+                                },
+                            },
+                        ]}
+                        position='bottom-start'
+                        shouldShowOnMount
+                        showTrigger={['click']}
+                        startingEdge=''
+                        wrapperClassName='board-details-header-board-info'
+                        zIndex={4}>
+                        <h1>
+                            {currBoard.title}
+                            <span>
+                                <NavigationChevronDown size='18' lable='Collapse list' />
+                            </span>
+                        </h1>
+                    </Dialog>
                 </div>
                 <div>
                     <GroupFilter setFilterBy={setFilterBy} />
