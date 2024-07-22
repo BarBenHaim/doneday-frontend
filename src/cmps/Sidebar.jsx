@@ -29,8 +29,8 @@ export function Sidebar() {
     const navigate = useNavigate()
     const [isCollapsed, setIsCollapsed] = useState(false)
     const [isAddBoardModalOpen, setIsAddBoardModalOpen] = useState(false)
-    const boards = useSelector((storeState) => storeState.boardModule.boards)
-    const starredBoards = boards.filter((board) => board.isStarred)
+    const boards = useSelector(storeState => storeState.boardModule.boards)
+    const starredBoards = boards.filter(board => board.isStarred)
 
     function handleOnClick(route) {
         navigate(route)
@@ -59,7 +59,7 @@ export function Sidebar() {
                         }
                     />
                     {!isCollapsed &&
-                        starredBoards.map((board) => (
+                        starredBoards.map(board => (
                             <MenuItem
                                 key={board._id}
                                 title={board.title}
@@ -69,7 +69,7 @@ export function Sidebar() {
                     <MenuDivider />
 
                     <MenuTitle caption='Main workspace' captionPosition='top' />
-                    
+
                     <MenuItem
                         icon={Add}
                         className='add-board-menu'
