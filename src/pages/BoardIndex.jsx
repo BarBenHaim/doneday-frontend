@@ -15,7 +15,7 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 
 import { BoardList } from '../cmps/BoardList'
 import { DialogContentContainer } from 'monday-ui-react-core'
-
+import { TaxSvg } from '../cmps/svgs/TaskSvg'
 
 // import { GroupFilter } from '../cmps/group/GroupFilter'
 
@@ -52,21 +52,22 @@ export function BoardIndex() {
         filterBy={groupTaskFilterBy}
         setFilterBy={handleSetFilterBy}
       /> */}
-      <DialogContentContainer size="medium"  type="modal">
-      <div
-        className="collapsible-header flex align-center"
-        onClick={toggleCollapse}
-      >
-        {isCollapsed ? (
-          <NavigationChevronRight size="24" lable="Expand list" />
-        ) : (
-          <NavigationChevronDown size="24" lable="Collapse list" />
+
+      <DialogContentContainer size="medium" type="modal">
+        <div
+          className="collapsible-header flex align-center"
+          onClick={toggleCollapse}
+        >
+          {isCollapsed ? (
+            <NavigationChevronRight size="24" lable="Expand list" />
+          ) : (
+            <NavigationChevronDown size="24" lable="Collapse list" />
+          )}
+          <h1 className="collapsible-title">Recently visited</h1>
+        </div>
+        {!isCollapsed && (
+          <BoardList boards={boards} onRemoveBoard={onRemoveBoard} />
         )}
-        <h1 className="collapsible-title">Recently visited</h1>
-      </div>
-      {!isCollapsed && (
-        <BoardList boards={boards} onRemoveBoard={onRemoveBoard} />
-      )}
       </DialogContentContainer>
     </section>
   )

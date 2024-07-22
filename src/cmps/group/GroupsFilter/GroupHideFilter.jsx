@@ -29,7 +29,7 @@ export function GroupHideFilter({ setFilterBy }) {
 
     const filteredGroups = groups.map((group) => {
       const filteredTasks = group.tasks.filter((task) => {
-        return selectedColumns[column] !== false
+        return task[column] !== task
       })
       console.log(filteredTasks)
       return { ...group, tasks: filteredTasks }

@@ -4,13 +4,8 @@ import { useParams } from 'react-router'
 import { GruopSort } from './GroupSort'
 import { GroupPersonFilter } from './GroupPersonFilter'
 import { GroupHideFilter } from './GroupHideFilter'
-import {
-  Filter,
-  Hide,
-  Person,
-  Sort,
-  SortAscending,
-} from 'monday-ui-react-core/icons'
+import { Filter, Hide, Sort } from 'monday-ui-react-core/icons'
+import { TaxSvg } from '../../svgs/TaskSvg'
 
 export function GroupFilter({ setFilterBy }) {
   const { boardId } = useParams()
@@ -20,11 +15,11 @@ export function GroupFilter({ setFilterBy }) {
   const groups = currBoard.groups || []
   const tasks = groups.flatMap((group) => group.tasks || [])
 
-  const [isSearchFilterOpen, setSearchFilterOpen] = useState(false)
-  const [isPersonFilterOpen, setPersonFilterOpen] = useState(false)
-  const [isFilterModalOpen, setFilterModalOpen] = useState(false)
-  const [isSortFilterOpen, setSortFilterOpen] = useState(false)
-  const [isHideFilterOpen, setHideFilterOpen] = useState(false)
+  const [isSearchActive, setIsSearchActive] = useState(false)
+  const [isPersonActive, setIsPersonActive] = useState(false)
+  const [isSortActive, setIsSortActive] = useState(false)
+  const [isFilterActive, setIsFilterActive] = useState(false)
+  const [isHideActive, setIsHideActive] = useState(false)
 
   const [selectedColumn, setSelectedColumn] = useState([])
   const [selectedCondition, setselectedCondition] = useState('')
@@ -53,32 +48,7 @@ export function GroupFilter({ setFilterBy }) {
     )
 
     setFilterBy(nonEmptyGroups)
-    console.log({ nonEmptyGroups })
     return nonEmptyGroups
-  }
-
-  function handelSearchClick() {
-    setSearchFilterOpen(!isSearchFilterOpen)
-  }
-
-  function handelPersonClick() {
-    setPersonFilterOpen(!isPersonFilterOpen)
-  }
-
-  function handleFilterClick() {
-    setFilterModalOpen(!isFilterModalOpen)
-  }
-
-  function handleSortClick() {
-    setSortFilterOpen(!isSortFilterOpen)
-  }
-  function handleHideClick() {
-    setHideFilterOpen(!isHideFilterOpen)
-  }
-
-  function handleCloseModal() {
-    setFilterModalOpen(false)
-    setSortFilterOpen(false)
   }
 
   function handleTextFilterChange(ev) {
@@ -195,41 +165,53 @@ export function GroupFilter({ setFilterBy }) {
   return (
     <>
       <section className="board-filter">
-        {/* <div className="search" onClick={handelSearchClick}>
-          <button className="filter-item search">
-            <i className="fa-solid fa-magnifying-glass"></i>
-             Search
-          </button>
-        </div> */}
-        {/* {isSearchFilterOpen && ( */}
-        <div className={`filter-item search active`}>
-          <input
-            type="text"
-            name="txt"
-            placeholder="Search this board"
-            // onFocus={() => setSearchActive(true)}
-            // onBlur={() => setSearchActive(false)}
-            onChange={(ev) => handleSearchClick(ev)}
-          />
+        <div className="search-filter">
+          {!isSearchActive ? (
+            <div className="search" onClick={() => setIsSearchActive(true)}>
+              <button className="filter-item search-button">
+                <i className="fa-solid fa-magnifying-glass"></i>
+                Search
+              </button>
+            </div>
+          ) : (
+            <div className="filter-item search active">
+              <input
+                type="text"
+                name="txt"
+                placeholder="Search this board"
+                autoFocus
+                onBlur={() => setIsSearchActive(false)}
+                onChange={(ev) => handleSearchClick(ev)}
+              />
+            </div>
+          )}
         </div>
-        {/* )} */}
 
-        <div className="person" onClick={handelPersonClick}>
-          <button className="filter-item person">
+        <div className="person-filter">
+          <button
+            className={`filter-item person ${isPersonActive ? 'active' : ''}`}
+            onClick={() => setIsPersonActive(!isPersonActive)}
+          >
             <i className="fa-regular fa-circle-user"></i>
             Person
           </button>
+          {isPersonActive && (
+            <div className="group-person-filter">
+              <GroupPersonFilter setFilterBy={setFilterBy} />
+            </div>
+          )}
         </div>
 
-        {isPersonFilterOpen && <GroupPersonFilter setFilterBy={setFilterBy} />}
-
         <div className="filter">
-          <button className="filter-item filter" onClick={handleFilterClick}>
+          <button
+            className="filter-item filter"
+            onClick={() => setIsFilterActive(!isFilterActive)}
+          >
             <Filter />
             Filter
           </button>
         </div>
-        {isFilterModalOpen && (
+        {isFilterActive && (
           <div className="advanced-filter-modal">
             <div className="advanced-filter-content">
               <saction className="filter-header">
@@ -244,7 +226,6 @@ export function GroupFilter({ setFilterBy }) {
 
                 <div className="right-side">
                   <button className="clear-btn">Clear all</button>
-                  <button className="save-btn">Save as new view</button>
                 </div>
               </saction>
 
@@ -255,6 +236,7 @@ export function GroupFilter({ setFilterBy }) {
                     <option value="" disabled selected>
                       Column
                     </option>
+
                     <option value="title">Group</option>
                     <option value="priority">Priority</option>
 
@@ -294,18 +276,20 @@ export function GroupFilter({ setFilterBy }) {
                       ))}
                     </select>
                   )}
-                  <button onClick={getFilterdgroups}>filter</button>
+                  <button onClick={getFilterdgroups}>
+                    {' '}
+                    <i
+                      className="fa-solid fa-magnifying-glass"
+                      style={{ fontSize: '18px', color: 'gray' }}
+                    ></i>
+                  </button>
                   <span
                     style={{ cursor: 'pointer' }}
                     className="close"
-                    onClick={handleCloseModal}
+                    onClick={() => setIsFilterActive(false)}
                   >
                     &times;
                   </span>
-                </div>
-                <div>
-                  <button className="filter-button">+ New filter</button>
-                  <button className="filter-button">+ New group</button>
                 </div>
               </div>
             </div>
@@ -313,21 +297,26 @@ export function GroupFilter({ setFilterBy }) {
         )}
 
         <div className="sort">
-          <button className="filter-item sort" onClick={handleSortClick}>
+          <button
+            className={`filter-item sort ${isSortActive ? 'active' : ''}`}
+            onClick={() => setIsSortActive(!isSortActive)}
+          >
             <Sort />
             Sort
           </button>
+          {isSortActive && <GruopSort setFilterBy={setFilterBy} />}
         </div>
-        {isSortFilterOpen && <GruopSort setFilterBy={setFilterBy} />}
 
-        <div className="Hide" onClick={handleHideClick}>
-          <button className="filter-item hide">
-            {/* <i class="fa-regular fa-eye-slash"></i> */}
+        <div className="Hide">
+          <button
+            className={`filter-item hide ${isHideActive ? 'active' : ''}`}
+            onClick={() => setIsHideActive(!isHideActive)}
+          >
             <Hide />
             Hide
           </button>
+          {isHideActive && <GroupHideFilter setFilterBy={setFilterBy} />}
         </div>
-        {/* {isHideFilterOpen && <GroupHideFilter setFilterBy={setFilterBy} />} */}
       </section>
     </>
   )

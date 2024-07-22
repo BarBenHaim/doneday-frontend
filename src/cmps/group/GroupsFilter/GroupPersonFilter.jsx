@@ -9,6 +9,9 @@ export function GroupPersonFilter({ setFilterBy }) {
   const groups = currBoard.groups || []
   const tasks = groups.flatMap((group) => group.tasks || [])
   const memberIds = tasks.flatMap((task) => task.memberIds)
+  console.log(tasks)
+
+  const userAvatar = tasks.flatMap((task) => task.img)
 
   function getMember(memberId) {
     const filteredGroups = groups.map((group) => {
@@ -36,8 +39,7 @@ export function GroupPersonFilter({ setFilterBy }) {
       <p>Filter this board by person</p>
       <p>And find items they're working on.</p>
       <div className="members">
-        {memberIds.map((memberId, index) => (
-          // <img key={index} src={member.avatar} alt={member.name} />
+        {[...new Set(memberIds)].map((memberId, index) => (
           <div
             className="member"
             key={index}
@@ -47,9 +49,6 @@ export function GroupPersonFilter({ setFilterBy }) {
           </div>
         ))}
       </div>
-      <button className="save-button" disabled>
-        Save to this view
-      </button>
     </section>
   )
 }

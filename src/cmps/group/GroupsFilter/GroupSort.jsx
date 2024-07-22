@@ -60,38 +60,36 @@ export function GruopSort({ setFilterBy }) {
   }
 
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <span style={{ cursor: 'pointer' }} className="close">
-          &times;
-        </span>
-        <h2>Sort by</h2>
-        <div className="sort-options">
-          <div className="sort-option">
-            <label>Choose column:</label>
-            <select
-              onChange={(ev) => {
-                setSortColumn(ev.target.value)
-              }}
-            >
-              <option value="" disabled selected>
-                Sort by
-              </option>
-              <option value="name">Name</option>
-              <option value="priority">Priority</option>
-              <option value="due-date">Due Date</option>
-            </select>
-          </div>
-          <div className="sort-option">
-            <label>Order:</label>
-            <select onChange={getSotrOrder}>
-              <option value="" disabled selected>
-                Sort by
-              </option>
-              <option value="ascending">Ascending</option>
-              <option value="descending">Descending</option>
-            </select>
-          </div>
+    <div className="sort-content">
+      <span style={{ cursor: 'pointer' }} className="close">
+        &times;
+      </span>
+      <h2>Sort by</h2>
+      <div className="sort-options">
+        <div className="sort-option">
+          <label>Choose column:</label>
+          <select
+            onChange={(ev) => {
+              setSortColumn(ev.target.value)
+            }}
+          >
+            <option value="" disabled selected>
+              Sort by
+            </option>
+            <option value="name">Name</option>
+            <option value="priority">Priority</option>
+            <option value="due-date">Due Date</option>
+          </select>
+        </div>
+        <div className="sort-option">
+          <label>Order:</label>
+          <select onChange={getSotrOrder}>
+            <option value="" disabled selected>
+              Sort by
+            </option>
+            <option value="ascending">Ascending</option>
+            <option value="descending">Descending</option>
+          </select>
         </div>
       </div>
     </div>

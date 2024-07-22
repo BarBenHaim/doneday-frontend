@@ -1,14 +1,14 @@
 .person-modal {
   position: fixed;
-  top: 125px;
-  left: 460px;
+
+  left: 400px;
   background: white;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 16px;
   width: 500px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1;
+  z-index: 1000;
 }
 
 .person-modal p {

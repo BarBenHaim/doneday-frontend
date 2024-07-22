@@ -1,98 +1,92 @@
 .board-filter {
   display: flex;
   align-items: center;
-
+  gap: 10px;
   background-color: $Mbgr1;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+.search-filter {
+  display: flex;
+  align-items: center;
 }
 
 // SEARCH ITEMN//
+.search-button {
+  font-family: $font-family-primary;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
 
-.filter-item.search-active {
-  position: relative;
-  display: inline-block;
-
-  & input::placeholder {
-    font-family: $font-family-primary;
-    color: $gray3;
-  }
-
-  & input {
-    font-size: 0.9375rem;
-    line-height: 1.40625rem.5px;
-    width: 18.75rem;
-    padding: 0.46875rem 1.875rem 0.46875rem 1.875rem;
-    border: 1px solid $clr8;
-    border-radius: 0.25rem;
-    outline: none;
-  }
-
-  &::before {
-    content: '\f002';
-    font-family: FontAwesome;
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    color: $gray3;
-  }
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-// .filter-item.search::after {
-//   content: '\f0b0'; /* Unicode for filter icon */
-//   font-family: FontAwesome;
-//   position: absolute;
-//   top: 50%;
-//   right: 10px;
-//   transform: translateY(-50%);
-//color: $gray2;//
-//
-// }
+.search-button i {
+  margin-right: 8px;
+}
 
-//  ITEMs//
+.search-button:hover {
+  background-color: #e0e0e0;
+}
 
-.filter-item.person,
-.search,
+.search.active {
+  width: 200px;
+}
+
+.search input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.filter-item.person {
+  padding: 0.46875rem 0.5rem;
+  border-radius: 0.25rem;
+  padding: 4px;
+}
+
+.filter-item.sort,
+.person,
 .filter,
-.sort,
 .hide {
   display: flex;
   align-items: center;
+  gap: 4px;
 
-  font-family: $font-family-primary;
   font-size: 0.9375rem;
   line-height: 22.5px;
-  padding: 0.46875rem 0.5rem;
+  font-family: $font-family-primary;
 
-  border-radius: 0.25rem;
-  background-color: $Mbgr1;
-  color: $Mgray4;
-  cursor: pointer;
-  outline: none;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-
-  & i {
-    margin-right: 0.7rem;
-    color: $Mgray4;
-  }
+  border-radius: 4px;
 
   &:hover {
-    background-color: $gray1;
+    background-color: #e0e0e0;
   }
 }
 
 //Advanced filters modal//
 .advanced-filter-modal {
   position: fixed;
-  top: 29%;
-  left: 60%;
+  top: 36%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  background-color: $Mbgr1;
-
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
   width: 800px;
   height: 200px;
   padding: 20px;
   z-index: 1000;
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }
 
@@ -105,10 +99,10 @@
 .main-header {
   padding: 16px 24px 0;
   font-family: $font-family-primary;
-  font-size: 15px;
+  font-size: 16px;
   &.second {
     padding: 0 5px;
-    font-size: 10px;
+    font-size: 12px;
   }
 }
 
@@ -119,15 +113,6 @@
   background-color: $Mbgr1;
   color: $gray2;
 }
-.save-btn {
-  color: $gray3;
-  border-radius: 4px;
-  border: 1px solid $gray2;
-
-  &:hover {
-    background-color: $gray1;
-  }
-}
 
 //Column filter//
 .column-filter {
@@ -136,13 +121,13 @@
 .column-filter label {
   margin-inline-end: 30px;
   font-family: $font-family-primary;
-  color: $gray3;
+  color: $gray4;
 }
 
 .column,
 input[type='text'] {
   font-family: $font-family-primary;
-  color: $gray3;
+  color: $gray4;
   padding: 0.3rem;
   border: 1.7px solid $gray1;
   border-radius: 0.25rem;
@@ -171,5 +156,9 @@ input[type='text']:focus {
   color: $gray3;
   font-size: 15px;
   font-family: $font-family-primary;
-  background-color: $Mbgr1;
+  // background-color: $Mbgr1;
+}
+
+.filter-svg {
+  color: #007bff;
 }
