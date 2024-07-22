@@ -14,10 +14,17 @@ const taskAttributesConfig = {
     title: {
         label: 'Task',
         render: (task, members, labels, onUpdateField) => (
-            <EditableText value={task.title} onChange={value => onUpdateField(task, 'title', value)} />
+            <div className='task-row'>
+                <div className='task-row-title'>
+                    <EditableText value={task.title} onChange={value => onUpdateField(task, 'title', value)} />
+                </div>
+                <div className='task-row-comments'>
+                    <TaskComments task={task} members={members} onUpdateField={onUpdateField} />
+                </div>
+            </div>
         ),
         className: 'table-cell sticky-col task-col',
-        width: '200px',
+        width: '300px',
     },
     status: {
         label: 'Status',
@@ -56,14 +63,6 @@ const taskAttributesConfig = {
         render: (task, members, labels, onUpdateField) => <TaskDescription task={task} onUpdateField={onUpdateField} />,
         className: 'table-cell description-col',
         width: '300px',
-    },
-    comments: {
-        label: 'Comments',
-        render: (task, members, labels, onUpdateField) => (
-            <TaskComments task={task} members={members} onUpdateField={onUpdateField} />
-        ),
-        className: 'table-cell comments-col',
-        width: '80px',
     },
     checklists: {
         label: 'Checklists',
