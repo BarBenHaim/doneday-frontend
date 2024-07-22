@@ -6,6 +6,7 @@ import { GroupPersonFilter } from './GroupPersonFilter'
 import { GroupHideFilter } from './GroupHideFilter'
 import { Filter, Hide, Sort } from 'monday-ui-react-core/icons'
 import { TaxSvg } from '../../svgs/TaskSvg'
+import { Avatar, Tooltip } from 'monday-ui-react-core'
 
 export function GroupFilter({ setFilterBy }) {
   const { boardId } = useParams()
@@ -168,13 +169,13 @@ export function GroupFilter({ setFilterBy }) {
         <div className="search-filter">
           {!isSearchActive ? (
             <div className="search" onClick={() => setIsSearchActive(true)}>
-              <button className="filter-item search-button">
+              <button className="filter-item search">
                 <i className="fa-solid fa-magnifying-glass"></i>
                 Search
               </button>
             </div>
           ) : (
-            <div className="filter-item search active">
+            <div className=" search ">
               <input
                 type="text"
                 name="txt"
@@ -186,15 +187,34 @@ export function GroupFilter({ setFilterBy }) {
             </div>
           )}
         </div>
-
         <div className="person-filter">
-          <button
-            className={`filter-item person ${isPersonActive ? 'active' : ''}`}
-            onClick={() => setIsPersonActive(!isPersonActive)}
+          <Tooltip
+            content="Filter board by person"
+            modifiers={[
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                },
+              },
+              {
+                name: 'flip',
+                options: {
+                  fallbackPlacements: [],
+                },
+              },
+            ]}
+            shouldShowOnMount
+            withMaxWidth
           >
-            <i className="fa-regular fa-circle-user"></i>
-            Person
-          </button>
+            <button
+              className={`filter-item person ${isPersonActive ? 'active' : ''}`}
+              onClick={() => setIsPersonActive(!isPersonActive)}
+            >
+              <i className="fa-regular fa-circle-user"></i>
+              Person
+            </button>
+          </Tooltip>
           {isPersonActive && (
             <div className="group-person-filter">
               <GroupPersonFilter setFilterBy={setFilterBy} />
@@ -202,14 +222,34 @@ export function GroupFilter({ setFilterBy }) {
           )}
         </div>
 
-        <div className="filter">
-          <button
-            className="filter-item filter"
-            onClick={() => setIsFilterActive(!isFilterActive)}
+        <div className="filter-filter">
+          <Tooltip
+            content="Filter board by anyting"
+            modifiers={[
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                },
+              },
+              {
+                name: 'flip',
+                options: {
+                  fallbackPlacements: [],
+                },
+              },
+            ]}
+            shouldShowOnMount
+            withMaxWidth
           >
-            <Filter />
-            Filter
-          </button>
+            <button
+              className={`filter-item filter ${isFilterActive ? 'active' : ''}`}
+              onClick={() => setIsFilterActive(!isFilterActive)}
+            >
+              <Filter />
+              Filter
+            </button>
+          </Tooltip>
         </div>
         {isFilterActive && (
           <div className="advanced-filter-modal">
@@ -219,7 +259,7 @@ export function GroupFilter({ setFilterBy }) {
                   <h2 className="main-header">
                     Advanced filters
                     <span className="main-header second">
-                      Showing all of X tasks
+                      Showing all tasks
                     </span>
                   </h2>
                 </div>
@@ -295,19 +335,68 @@ export function GroupFilter({ setFilterBy }) {
             </div>
           </div>
         )}
-
-        <div className="sort">
-          <button
-            className={`filter-item sort ${isSortActive ? 'active' : ''}`}
-            onClick={() => setIsSortActive(!isSortActive)}
+        <div className="filter-sort">
+          <Tooltip
+            content="Sort board by any column"
+            modifiers={[
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                },
+              },
+              {
+                name: 'flip',
+                options: {
+                  fallbackPlacements: [],
+                },
+              },
+            ]}
+            shouldShowOnMount
+            withMaxWidth
           >
-            <Sort />
-            Sort
-          </button>
+            <button
+              className={`filter-item sort ${isSortActive ? 'active' : ''}`}
+              onClick={() => setIsSortActive(!isSortActive)}
+            >
+              <Sort />
+              Sort
+            </button>
+          </Tooltip>
           {isSortActive && <GruopSort setFilterBy={setFilterBy} />}
         </div>
+        <div className="filter-hide">
+          <Tooltip
+            content="Hidden columns"
+            modifiers={[
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                },
+              },
+              {
+                name: 'flip',
+                options: {
+                  fallbackPlacements: [],
+                },
+              },
+            ]}
+            shouldShowOnMount
+            withMaxWidth
+          >
+            <button
+              className={`filter-item hide ${isHideActive ? 'active' : ''}`}
+              onClick={() => setIsHideActive(!isHideActive)}
+            >
+              <Hide />
+              Hide
+            </button>
+          </Tooltip>
+          {isHideActive && <GroupHideFilter setFilterBy={setFilterBy} />}
+        </div>
 
-        <div className="Hide">
+        {/* <div className="Hide">
           <button
             className={`filter-item hide ${isHideActive ? 'active' : ''}`}
             onClick={() => setIsHideActive(!isHideActive)}
@@ -316,7 +405,7 @@ export function GroupFilter({ setFilterBy }) {
             Hide
           </button>
           {isHideActive && <GroupHideFilter setFilterBy={setFilterBy} />}
-        </div>
+        </div> */}
       </section>
     </>
   )

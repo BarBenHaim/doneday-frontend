@@ -28,14 +28,6 @@
   margin-right: 8px;
 }
 
-.search-button:hover {
-  background-color: #e0e0e0;
-}
-
-.search.active {
-  width: 200px;
-}
-
 .search input {
   width: 100%;
   padding: 8px 12px;
@@ -48,13 +40,13 @@
   border-color: #007bff;
 }
 
-.filter-item.person {
-  padding: 0.46875rem 0.5rem;
-  border-radius: 0.25rem;
-  padding: 4px;
-}
+// .filter-item.person {
+//   padding: 0.46875rem 0.5rem;
+//   border-radius: 0.25rem;
+//   padding: 4px;
+// }
 
-.filter-item.sort,
+.filter-item,
 .person,
 .filter,
 .hide {
@@ -70,6 +62,13 @@
 
   &:hover {
     background-color: #e0e0e0;
+  }
+}
+
+.active {
+  background-color: #007bff44;
+  &:hover {
+    background-color: #007bff44;
   }
 }
 
@@ -161,4 +160,7 @@ input[type='text']:focus {
 
 .filter-svg {
   color: #007bff;
+}
+.custom-avatar {
+  cursor: pointer;
 }
