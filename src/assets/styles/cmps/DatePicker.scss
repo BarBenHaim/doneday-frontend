@@ -1,1 +1,27 @@
+.timeline {
+    position: relative;
+}
 
+.hover-info {
+    position: absolute;
+    display: none;
+    z-index: 1;
+    white-space: nowrap;
+    font-size: 0.875em;
+}
+
+.reset-date-btn {
+    position: absolute;
+    right: -35px;
+    top: 31%;
+    transform: translateY(-50%);
+    background: rgb(218, 218, 218);
+    border: none;
+    border-radius: 2px;
+    padding: 0 2px;
+    cursor: pointer;
+}
+
+.timeline:hover .hover-info {
+    display: block;
+}

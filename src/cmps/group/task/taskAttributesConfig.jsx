@@ -38,7 +38,7 @@ const taskAttributesConfig = {
         width: '140px',
     },
     memberIds: {
-        label: 'Members',
+        label: 'Collaborators',
         render: (task, members, labels, onUpdateField) => (
             <TaskMembers task={task} members={members} onUpdateField={onUpdateField} />
         ),

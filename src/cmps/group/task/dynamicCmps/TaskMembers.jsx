@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Dialog, DialogContentContainer, Avatar, Search, Flex, Text, Box } from 'monday-ui-react-core'
 import { cellStyle } from './styleUtils'
-import { Person, Placeholder } from 'monday-ui-react-core/icons'
 
 const TaskMembers = ({ task, members, onUpdateField }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false)

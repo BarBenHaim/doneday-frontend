@@ -2,12 +2,19 @@ import React from 'react'
 import { DatePicker, Dialog, DialogContentContainer } from 'monday-ui-react-core'
 import moment from 'moment'
 import { getStatusStyle } from './styleUtils'
+import { Close } from 'monday-ui-react-core/icons'
 
 function TaskDatePicker({ task, onUpdateField }) {
     const dueDate = task.dueDate ? moment(task.dueDate) : null
-    const formattedDueDate = dueDate ? dueDate.format('D MMM') : 'No Due Date'
-    const daysLeft = dueDate ? dueDate.diff(moment(), 'days') : null
-    const statusStyle = getStatusStyle(task.status)
+    const formattedDueDate = dueDate ? dueDate.format('D MMM') : ''
+    let daysLeft = dueDate ? dueDate.diff(moment(), 'days') : null
+    daysLeft = daysLeft !== null && daysLeft < 0 ? 0 : daysLeft
+    const statusStyle = dueDate ? getStatusStyle(task.status) : { backgroundColor: '#C4C4C4', color: '#F7F7F8' }
+    const { backgroundColor } = statusStyle
+
+    const handleResetDate = () => {
+        onUpdateField(task, 'dueDate', null)
+    }
 
     return (
         <div className='monday-storybook-dialog--story-padding ' style={{ display: 'flex', margin: '0 auto' }}>
@@ -37,6 +44,7 @@ function TaskDatePicker({ task, onUpdateField }) {
                 <div
                     className='timeline flex align-center justify-center'
                     style={{
+                        cursor: 'pointer',
                         position: 'relative',
                         ...statusStyle,
                         width: '108px',
@@ -45,24 +53,15 @@ function TaskDatePicker({ task, onUpdateField }) {
                         height: '22px',
                         fontSize: '0.875em',
                     }}
+                    title={dueDate ? `${daysLeft} days left` : ''}
                 >
-                    <span style={{ fontSize: '0.875em' }}>{formattedDueDate}</span>
+                    <span style={{ fontSize: '0.875em' }}>{dueDate ? formattedDueDate : '-'}</span>
                     {dueDate && (
-                        <div
-                            className='hover-info'
-                            style={{
-                                position: 'absolute',
-                                bottom: '100%',
-                                left: '50%',
-                                transform: 'translateX(-50%)',
-                                background: '#fff',
-                                padding: '5px',
-                                border: '1px solid #ccc',
-                                borderRadius: '3px',
-                                display: 'none',
-                            }}
-                        >
-                            {daysLeft} days left
+                        <div className='hover-info' style={{ background: backgroundColor }}>
+                            <span style={{ position: 'relative' }}>{daysLeft} days left</span>
+                            <button className='reset-date-btn' onClick={handleResetDate}>
+                                <Close size={10} />
+                            </button>
                         </div>
                     )}
                 </div>
