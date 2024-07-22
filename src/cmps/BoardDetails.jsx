@@ -9,7 +9,6 @@ import { Dialog, DialogContentContainer, EditableText } from 'monday-ui-react-co
 
 export function BoardDetails() {
     const { boardId } = useParams()
-    const { boardId } = useParams()
 
     const currBoard = useSelector((storeState) => storeState.boardModule.boards.find((board) => board._id === boardId))
     const [boardsToDisplay, setBoardsToDisplay] = useState(currBoard?.groups || [])
@@ -17,9 +16,6 @@ export function BoardDetails() {
         setBoardsToDisplay(currBoard?.groups || [])
     }, [currBoard])
 
-    useEffect(() =>
-        // loadBoardById(boardId)
-        {}, [boardId])
     useEffect(() =>
         // loadBoardById(boardId)
         {}, [boardId])

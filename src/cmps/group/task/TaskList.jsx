@@ -9,6 +9,7 @@ import {
     SplitButton,
     SplitButtonMenu,
     MenuItem,
+    Button,
 } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
@@ -19,6 +20,8 @@ import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { useParams } from 'react-router'
 import { useSelector } from 'react-redux'
 import { Group } from 'monday-ui-react-core/icons'
+
+
 
 const calculateSummary = (taskList) => {
     const summary = {
@@ -178,7 +181,6 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                         }
                     />
                     <div className='tasks-list-container'>
-                        <Button onClick={onAddTask}>New task</Button>
                         <Table
                             className='group-table'
                             withoutBorder
