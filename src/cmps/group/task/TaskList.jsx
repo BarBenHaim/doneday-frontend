@@ -186,7 +186,9 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                                             width: col.width,
                                         }}
                                     >
-                                        {col.key === 'files' && `${summary.files} files`}
+                                        <div className='summary-cell-files'>
+                                            {col.key === 'files' && `${summary.files} files`}
+                                        </div>
                                         {col.key === 'status' && renderProgressBar(summary.status, getStatusStyle)}
                                         {col.key === 'priority' &&
                                             renderProgressBar(summary.priority, getPriorityStyle)}

@@ -48,3 +48,11 @@
     opacity: 0.9;
     z-index: 1;
 }
+
+.summary-cell-files {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    font-size: 0.875em;
+}
