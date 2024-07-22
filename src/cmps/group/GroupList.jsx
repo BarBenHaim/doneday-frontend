@@ -2,17 +2,9 @@ import GroupPreview from './GroupPreview'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { showErrorMsg, showSuccessMsg } from '../../services/event-bus.service'
-import {
-    addGroup,
-    removeGroup,
-    updateGroup,
-    updateBoard,
-    getCmdUpdateBoard,
-    getCmdRevertBoard,
-} from '../../store/actions/board.action'
+import { addGroup, removeGroup, updateGroup, updateBoardOptimistic } from '../../store/actions/board.action'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useEffect, useState } from 'react'
-import { store } from '../../store/store'
 
 export function GroupList({ boardsToDisplay }) {
     const { boardId } = useParams()
@@ -28,20 +20,6 @@ export function GroupList({ boardsToDisplay }) {
         })
         setCollapsedStates(initialCollapsedStates)
     }, [currBoard])
-
-    async function updateBoardOptimistic(updatedBoard) {
-        try {
-            store.dispatch(getCmdUpdateBoard(updatedBoard))
-
-            const savedBoard = await boardService.save(updatedBoard)
-            store.dispatch(getCmdUpdateBoard(savedBoard))
-            return savedBoard
-        } catch (err) {
-            console.log('Cannot save board', err)
-            store.dispatch(getCmdRevertBoard())
-            throw err
-        }
-    }
 
     const onDragStart = result => {
         if (result.type === 'GROUP') {
@@ -75,7 +53,6 @@ export function GroupList({ boardsToDisplay }) {
             try {
                 const updatedBoard = { ...currBoard, groups: newGroups }
                 await updateBoardOptimistic(updatedBoard)
-                // await updateBoard(updatedBoard)
                 showSuccessMsg('Group order updated successfully')
             } catch (err) {
                 showErrorMsg('Cannot update group order')
