@@ -5,15 +5,16 @@ import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { logout } from '../store/actions/user.actions'
 import mondayLogoImg from '../assets/img/logo/monday-work-m-logo.png'
 import logoImg from '../assets/img/logo/only-logo.png'
+import { Avatar, Button } from 'monday-ui-react-core'
 
 export function AppHeader() {
-    const user = useSelector(storeState => storeState.userModule.user)
+    const user = useSelector((storeState) => storeState.userModule.user)
     const navigate = useNavigate()
 
     async function onLogout() {
         try {
             await logout()
-            navigate('/')
+            navigate('/board')
             showSuccessMsg(`Bye now`)
         } catch (err) {
             showErrorMsg('Cannot logout')
@@ -21,31 +22,45 @@ export function AppHeader() {
     }
 
     return (
-        <header className='app-header full'>
-            <nav>
-                <NavLink to='/board' className='logo'>
+        <header className='app-header full flex space-between'>
+            <div className='logo'>
+                <NavLink to='/board'>
                     <div className='headline'>
                         <img src={logoImg} alt='logo' className='logo-img' />
-                        <h1 className='company-name fs16'>
-                            Doneday <span className='app-name fs18'>Work management</span>
-                        </h1>
+                        <h4 className='company-name bold'>
+                            Doneday <span className='app-name light'>Work management</span>
+                        </h4>
                     </div>
                 </NavLink>
+            </div>
 
-                {/* {user?.isAdmin && <NavLink to='/admin'>Admin</NavLink>} */}
+            <div className='login-link '>
+                {user?.isAdmin && <NavLink to='/admin'>Admin</NavLink>}
 
-                {/* {!user && (
-                    <NavLink to='login' className='login-link'>
-                        Login
-                    </NavLink>
-                )}
+                {!user && <NavLink to='login'>Login</NavLink>}
                 {user && (
                     <div className='user-info'>
-                        <Link to={`user/${user._id}`}>{user.fullname}</Link>
-                        <button onClick={onLogout}>logout</button>
-                    </div>
-                )} */}
-            </nav>
+                        <Button kind={Button.kinds.TERTIARY} onClick={onLogout}> logout</Button> 
+                        {/* <Link to={`user/${user._id}`}> */}
+                            <Button kind={Button.kinds.TERTIARY} >
+                                <img
+                                    className='app-logo'
+                                    src='https://res.cloudinary.com/dkykllpf5/image/upload/v1721653904/wzvg1pialo9mpvjavwx1.png'
+                                    alt='logo'
+                                />
+                                <Avatar
+                                    ariaLabel={user.fullname}
+                                    size={Avatar.sizes.MEDIUM}
+                                    src={user.imgUrl}
+                                    type={Avatar.types.IMG}
+                                    className='custom-avatar'
+                                    aria-hidden='true'
+                                />
+                            </Button>
+                        {/* </Link> */}
+                        </div>
+                )}
+            </div>
         </header>
     )
 }
