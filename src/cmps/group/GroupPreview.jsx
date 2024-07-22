@@ -2,13 +2,7 @@ import React, { useState } from 'react'
 import 'monday-ui-react-core/dist/main.css'
 import { ColorPicker, Button, MenuButton, Menu, MenuItem, EditableHeading } from 'monday-ui-react-core'
 import TasksList from './task/TaskList'
-import {
-    Collapse,
-    Delete,
-    DropdownChevronDown,
-    DropdownChevronRight,
-    DropdownChevronUp,
-} from 'monday-ui-react-core/icons'
+import { Collapse, Delete, DropdownChevronDown, DropdownChevronRight } from 'monday-ui-react-core/icons'
 
 function GroupPreview({
     group,

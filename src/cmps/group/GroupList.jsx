@@ -150,6 +150,7 @@ export function GroupList({ boardsToDisplay }) {
                                             members={currBoard.members}
                                             labels={currBoard.labels}
                                             onUpdateGroup={onUpdateGroup}
+                                            onRemoveGroup={onRemoveGroup}
                                             board={currBoard}
                                             isDragging={isDragging}
                                             isCollapsed={collapsedStates[group._id]}
