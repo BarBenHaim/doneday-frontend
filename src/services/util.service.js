@@ -144,7 +144,7 @@ export function createBoard(title, createdBy, label, members = [], groups = [], 
         members,
         groups,
         activities,
-        cmpsOrder: ['title', 'status', 'description', 'dueDate', 'files', 'priority', 'comments'],
+        cmpsOrder: ['title', 'status', 'memberIds', 'description', 'dueDate', 'files', 'priority', 'comments'],
     }
 }
 
