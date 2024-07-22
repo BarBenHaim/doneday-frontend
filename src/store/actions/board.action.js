@@ -14,6 +14,7 @@ import {
     UPDATE_TASK,
     REMOVE_TASK,
     TOGGLE_STARRED_BOARD,
+    REVERT_BOARD,
 } from '../reducers/board.reducer'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 
@@ -166,6 +167,20 @@ export async function toggleStarredBoard(boardId) {
     }
 }
 
+export async function updateBoardOptimistic(board) {
+    try {
+        store.dispatch(getCmdUpdateBoard(board))
+
+        const savedBoard = await boardService.save(board)
+        store.dispatch(getCmdUpdateBoard(savedBoard))
+        return savedBoard
+    } catch (err) {
+        console.log('Cannot save board', err)
+        store.dispatch(getCmdRevertBoard())
+        throw err
+    }
+}
+
 // Command Creators
 function getCmdSetBoards(boards) {
     return {
@@ -195,7 +210,7 @@ function getCmdAddBoard(board) {
     }
 }
 
-function getCmdUpdateBoard(board) {
+export function getCmdUpdateBoard(board) {
     return {
         type: UPDATE_BOARD,
         board,
@@ -253,6 +268,12 @@ function getCmdRemoveTask(boardId, groupId, taskId) {
 
 export function getCmdToggleStarredBoard(boardId) {
     return { type: TOGGLE_STARRED_BOARD, boardId }
+}
+
+export function getCmdRevertBoard() {
+    return {
+        type: REVERT_BOARD,
+    }
 }
 
 function getEmptyTask() {
