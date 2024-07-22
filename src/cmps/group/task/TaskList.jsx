@@ -132,6 +132,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                             style={{
                                 borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
                                 overflow: 'visible',
+                                borderTopLeftRadius: '5px',
                             }}
                         >
                             <TableHeader>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Dialog, DialogContentContainer, Avatar, Search, Flex, Text, Box } from 'monday-ui-react-core'
 import { cellStyle } from './styleUtils'
+import { Person, Placeholder } from 'monday-ui-react-core/icons'
 
 const TaskMembers = ({ task, members, onUpdateField }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -22,27 +23,30 @@ const TaskMembers = ({ task, members, onUpdateField }) => {
 
     const filteredMembers = members.filter(member => member.fullname.toLowerCase().includes(searchQuery.toLowerCase()))
 
-    const avatars = selectedMembers.map(memberId => {
-        const member = members.find(member => member._id === memberId)
-        const fullName = member ? member.fullname : 'Unknown'
-        const initials = fullName
-            .split(' ')
-            .map(name => name.charAt(0).toUpperCase())
-            .join('')
+    const avatars = selectedMembers
+        .map(memberId => {
+            const member = members.find(member => member._id === memberId)
+            if (!member) return null
+            const fullName = member.fullname || 'Unknown'
+            const initials = fullName
+                .split(' ')
+                .map(name => name.charAt(0).toUpperCase())
+                .join('')
 
-        return member && member.imageUrl ? (
-            <Avatar key={memberId} ariaLabel={fullName} src={member.imageUrl} type='img' size='small' />
-        ) : (
-            <Avatar
-                key={memberId}
-                ariaLabel={fullName}
-                text={initials}
-                type='text'
-                size='small'
-                backgroundColor={Avatar.colors.AQUAMARINE}
-            />
-        )
-    })
+            return member.imgUrl ? (
+                <Avatar key={memberId} ariaLabel={fullName} src={member.imgUrl} type='img' size='small' />
+            ) : (
+                <Avatar
+                    key={memberId}
+                    ariaLabel={fullName}
+                    text={initials}
+                    type='text'
+                    size='small'
+                    backgroundColor={Avatar.colors.AQUAMARINE}
+                />
+            )
+        })
+        .filter(Boolean)
 
     return (
         <div style={cellStyle}>
@@ -76,10 +80,10 @@ const TaskMembers = ({ task, members, onUpdateField }) => {
                                                 margin: '5px 0',
                                             }}
                                         >
-                                            {member.imageUrl ? (
+                                            {member.imgUrl ? (
                                                 <Avatar
                                                     size={Avatar.sizes.SMALL}
-                                                    src={member.imageUrl}
+                                                    src={member.imgUrl}
                                                     ariaLabel={member.fullname}
                                                     type='img'
                                                 />
@@ -117,18 +121,29 @@ const TaskMembers = ({ task, members, onUpdateField }) => {
             >
                 <div style={{ width: '100%', textAlign: 'center' }} onClick={() => setIsDialogOpen(true)}>
                     {avatars.length > 0 ? (
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
                             {avatars.slice(0, 1)}
                             {avatars.length > 1 && (
                                 <Avatar
                                     size={Avatar.sizes.SMALL}
                                     type={Avatar.types.TEXT}
                                     text={`+${avatars.length - 1}`}
+                                    backgroundColor={Avatar.colors.BLACKISH}
+                                    style={{
+                                        position: 'absolute',
+                                        right: 0,
+                                    }}
                                 />
                             )}
                         </div>
                     ) : (
-                        <Avatar ariaLabel='No Members' text='+' type='text' size='small' />
+                        <Avatar
+                            ariaLabel='No Members'
+                            text='+'
+                            type='text'
+                            size='small'
+                            backgroundColor={Avatar.colors.BLACKISH}
+                        />
                     )}
                 </div>
             </Dialog>
