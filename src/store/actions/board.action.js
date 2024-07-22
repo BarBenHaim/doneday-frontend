@@ -62,15 +62,30 @@ export async function addBoard(boardTitle, boardLabel) {
 }
 
 export async function updateBoard(board) {
+    store.dispatch(getCmdUpdateBoard(board))
+    console.log('boardID update board',board )
+
     try {
         const savedBoard = await boardService.save(board)
-        store.dispatch(getCmdUpdateBoard(savedBoard))
         return savedBoard
     } catch (err) {
         console.log('Cannot save board', err)
         throw err
     }
 }
+
+// export async function updateBoard(boardId, updatedBoard) {
+//     store.dispatch(getCmdUpdateBoard(boardId, updatedBoard))
+//     console.log('boardId update board',boardId )
+//     console.log('updatedBoard',updatedBoard )
+//     try {
+//         const board = await boardService.updateBoard(boardId, updatedBoard)
+//         return board
+//     } catch (err) {
+//         console.log('Cannot save board', err)
+//         throw err
+//     }
+// }
 
 export async function addBoardMsg(boardId, txt) {
     try {
