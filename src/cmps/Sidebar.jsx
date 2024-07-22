@@ -82,7 +82,7 @@ export function Sidebar() {
                                 ariaLabel='Add item to workspace'
                                 tooltipContent='Add item to workspace'
                                 ariaHasPopup='menu'
-                                tabIndex={1}
+                                tabIndex={4}
                                 color='on-primary-color'>
                                 <Icon iconType={Icon.type.SVG} icon={Add} iconLabel='my add svg icon' size='20' />
                             </Button>

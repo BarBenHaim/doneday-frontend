@@ -64,6 +64,18 @@ h3 {
     }
 }
 
+h4 {
+    .bold {
+        @include vibe-heading(h4, $font-weight-bold);
+    }
+    .normal {
+        @include vibe-heading(h4, $font-weight-normal);
+    }
+    .light {
+        @include vibe-heading(h4, $font-weight-light);
+    }
+}
+
 img {
     display: block;
     max-width: 100%;
@@ -75,6 +87,7 @@ p {
 
 a {
     text-decoration: none;
+    color:inherit;
 }
 
 a:hover {
