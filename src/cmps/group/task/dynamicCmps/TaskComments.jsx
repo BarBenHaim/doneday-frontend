@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Dialog, DialogContentContainer, Button } from 'monday-ui-react-core'
+import { AddUpdate } from 'monday-ui-react-core/icons'
 import moment from 'moment'
 
 const cellStyle = {
@@ -59,10 +60,11 @@ function TaskComments({ task, members, onUpdateField }) {
                 showTrigger={['click']}
             >
                 <div
-                    style={{ width: '100%', textAlign: 'center', fontSize: '0.875em' }}
+                    className='flex align-center justify-center'
+                    style={{ width: '100%', textAlign: 'center', fontSize: '0.875em', color: '#797A7E' }}
                     onClick={() => setIsDialogOpen(true)}
                 >
-                    View/Add Comments
+                    <AddUpdate size={24} />
                 </div>
             </Dialog>
         </div>

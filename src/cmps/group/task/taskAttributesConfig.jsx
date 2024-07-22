@@ -63,7 +63,7 @@ const taskAttributesConfig = {
             <TaskComments task={task} members={members} onUpdateField={onUpdateField} />
         ),
         className: 'table-cell comments-col',
-        width: '200px',
+        width: '80px',
     },
     checklists: {
         label: 'Checklists',
