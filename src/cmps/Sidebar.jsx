@@ -12,6 +12,7 @@ import {
     SplitButton,
     SplitButtonMenu,
     MenuTitle,
+    MenuItemButton,
 } from 'monday-ui-react-core'
 import {
     Favorite,
@@ -69,19 +70,27 @@ export function Sidebar() {
                     <MenuDivider />
 
                     <MenuTitle caption='Main workspace' captionPosition='top' />
-                    
-                    <MenuItem
-                        icon={Add}
-                        className='add-board-menu'
-                        tooltipPosition='top'
-                        tooltipContent='Add item to workspace'
-                    />
+                    <MenuButton
+                        triggerElement={(props) => (
+                            <Button
+                                {...props}
+                                className='add-board-menu'
+                                tooltipPosition='top'
+                                tooltipContent='Add item to workspace'
+                            >
+                                <Icon iconType={Icon.type.SVG} icon={Add} iconLabel="my add svg icon" size="20" />
+                            </Button>
+                        )}
+                    >
+                    <Menu  id="menu" size="medium">
                     <MenuTitle caption='Add new' />
                     <MenuItem icon={Board} title='Board' splitMenuItem>
                         <Menu>
                             <MenuItem icon={Board} title='New Board' onClick={toggleAddBoard} />
                         </Menu>
-                    </MenuItem>
+                        </MenuItem>
+                        </Menu>
+                    </MenuButton>
                 </Menu>
             </DialogContentContainer>
 
