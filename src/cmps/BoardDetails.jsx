@@ -69,12 +69,12 @@ export function BoardDetails() {
                         wrapperClassName='board-details-header-board-info'
                         zIndex={4}
                     >
-                        <h1>
+                        <h2 className="normal">
                             {currBoard.title}
                             <span>
                                 <NavigationChevronDown size='18' lable='Collapse list' />
                             </span>
-                        </h1>
+                        </h2>
                     </Dialog>
                 </div>
                 <div>

@@ -11,9 +11,10 @@
         .board-details-title {
             margin-left: 8px;
 
-            & h1 {
-                font-size: rem(24px);
-                font-weight: $font-weight-normal;
+            & h2 {
+                // font-size: rem(24px);
+                // font-weight: $font-weight-normal;
+                @include vibe-heading(h2, normal);
             }
 
             & span {
