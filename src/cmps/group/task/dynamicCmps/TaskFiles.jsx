@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Dialog, DialogContentContainer, Button, Avatar } from 'monday-ui-react-core'
 import { cellStyle } from './styleUtils'
+import { File } from 'monday-ui-react-core/icons'
 
 function TaskFiles({ task, onUpdateField }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [fileList, setFileList] = useState(task.files || [])
+    const [isHovered, setIsHovered] = useState(false)
 
     const handleFileChange = event => {
         const files = Array.from(event.target.files)
@@ -24,8 +26,16 @@ function TaskFiles({ task, onUpdateField }) {
         setFileList(task.files || [])
     }, [task.files])
 
+    const handleMouseEnter = () => {
+        setIsHovered(true)
+    }
+
+    const handleMouseLeave = () => {
+        setIsHovered(false)
+    }
+
     return (
-        <div style={cellStyle}>
+        <div style={cellStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <Dialog
                 zIndex={2}
                 isOpen={isDialogOpen}
@@ -61,8 +71,11 @@ function TaskFiles({ task, onUpdateField }) {
                 position='bottom'
                 showTrigger={['click']}
             >
-                <div style={{ width: '100%', textAlign: 'center' }} onClick={() => setIsDialogOpen(true)}>
-                    +
+                <div
+                    className='flex align-center justify-center'
+                    style={{ width: '100%', cursor: 'pointer', color: '#acaeb6' }}
+                >
+                    {isHovered && <File />}
                 </div>
             </Dialog>
             <div style={{ display: 'flex', alignItems: 'center' }}>

@@ -32,7 +32,7 @@ const taskAttributesConfig = {
         width: '140px',
     },
     dueDate: {
-        label: 'Date',
+        label: 'Timeline',
         render: (task, members, labels, onUpdateField) => <TaskDatePicker task={task} onUpdateField={onUpdateField} />,
         className: 'table-cell due-date-col',
         width: '140px',
