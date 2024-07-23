@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Dialog, DialogContentContainer, Avatar, Search, Flex, Text, Box } from 'monday-ui-react-core'
 import { cellStyle } from './styleUtils'
 
-const TaskMembers = ({ task, members, onUpdateField }) => {
+const TaskMembers = ({ task, members, onUpdateField, columnKey }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
-    const [selectedMembers, setSelectedMembers] = useState(task.memberIds || [])
+    const [selectedMembers, setSelectedMembers] = useState(task[columnKey] || [])
     const [searchQuery, setSearchQuery] = useState('')
 
     const handleMemberChange = memberId => {
@@ -12,13 +12,13 @@ const TaskMembers = ({ task, members, onUpdateField }) => {
             ? selectedMembers.filter(id => id !== memberId)
             : [...selectedMembers, memberId]
 
-        onUpdateField(task, 'memberIds', newMemberIds)
+        onUpdateField(task, columnKey, newMemberIds)
         setSelectedMembers(newMemberIds)
     }
 
     useEffect(() => {
-        setSelectedMembers(task.memberIds || [])
-    }, [task.memberIds])
+        setSelectedMembers(task[columnKey] || [])
+    }, [task[columnKey]])
 
     const filteredMembers = members.filter(member => member.fullname.toLowerCase().includes(searchQuery.toLowerCase()))
 

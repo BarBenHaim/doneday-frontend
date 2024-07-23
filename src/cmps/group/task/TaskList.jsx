@@ -29,9 +29,15 @@ function calculateSummary(taskList) {
     }
 
     taskList.forEach(task => {
-        summary.files += task.files ? task.files.length : 0
-        if (task.status) summary.status[task.status] = (summary.status[task.status] || 0) + 1
-        if (task.priority) summary.priority[task.priority] = (summary.priority[task.priority] || 0) + 1
+        for (const key in task) {
+            if (key.startsWith('files')) {
+                summary.files += task[key] ? task[key].length : 0
+            } else if (key.startsWith('status')) {
+                summary.status[task[key]] = (summary.status[task[key]] || 0) + 1
+            } else if (key.startsWith('priority')) {
+                summary.priority[task[key]] = (summary.priority[task[key]] || 0) + 1
+            }
+        }
     })
 
     const totalTasks = taskList.length
@@ -62,7 +68,7 @@ function renderProgressBar(distribution, colorGetter) {
     return <div style={{ display: 'flex', width: '100%', height: '20px' }}>{segments}</div>
 }
 
-function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTask, onDeleteTask, isCollapsed }) {
+function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTask, isCollapsed }) {
     const [taskList, setTaskList] = useState(tasks)
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
@@ -108,16 +114,24 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
         render: () => null,
     }
 
+    function generateUniqueKey(label, existingKeys) {
+        let count = 1
+        let newKey = `${label}${count}`
+        while (existingKeys.includes(newKey)) {
+            count++
+            newKey = `${label}${count}`
+        }
+        return newKey
+    }
+
     async function onAddColumn() {
         const columnLabel = prompt('Enter the column label (status, priority, due date, etc.):')
         if (!columnLabel) return
 
-        const newColumnKey = columnLabel.toLowerCase().replace(/ /g, '')
+        const newColumnKey = generateUniqueKey(columnLabel.toLowerCase().replace(/ /g, ''), board.cmpsOrder)
 
-        // Update cmpsOrder in the board
         const updatedCmpsOrder = [...board.cmpsOrder, newColumnKey]
 
-        // Update tasks in all groups to include the new column
         const updatedGroups = board.groups.map(group => ({
             ...group,
             tasks: group.tasks.map(task => ({
@@ -139,11 +153,12 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
             showErrorMsg('Cannot add column')
         }
     }
+
     const columns = [
         ...board.cmpsOrder.map(key => ({
             key,
-            title: taskAttributesConfig[key].label,
-            width: taskAttributesConfig[key].width || 'auto',
+            title: taskAttributesConfig[key.match(/^\D+/)[0]].label,
+            width: taskAttributesConfig[key.match(/^\D+/)[0]].width || 'auto',
         })),
         additionalColumn,
     ]
@@ -245,16 +260,17 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                                 {columns.map((col, index) => (
                                     <TableCell
                                         key={col.key}
-                                        className={`summary-cell ${`summary-cell-${index}`}`}
+                                        className={`summary-cell summary-cell-${index}`}
                                         style={{
                                             width: col.width,
                                         }}
                                     >
                                         <div className='summary-cell-files'>
-                                            {col.key === 'files' && `${summary.files} files`}
+                                            {col.key.startsWith('files') && `${summary.files} files`}
                                         </div>
-                                        {col.key === 'status' && renderProgressBar(summary.status, getStatusStyle)}
-                                        {col.key === 'priority' &&
+                                        {col.key.startsWith('status') &&
+                                            renderProgressBar(summary.status, getStatusStyle)}
+                                        {col.key.startsWith('priority') &&
                                             renderProgressBar(summary.priority, getPriorityStyle)}
                                     </TableCell>
                                 ))}
@@ -266,4 +282,5 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
         </Droppable>
     )
 }
+
 export default TasksList
