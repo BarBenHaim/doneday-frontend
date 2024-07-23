@@ -205,18 +205,20 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
                                                 >
-                                                    <TaskPreview
-                                                        task={task}
-                                                        members={members}
-                                                        labels={labels}
-                                                        board={board}
-                                                        group={group}
-                                                        openModal={openModal}
-                                                        onUpdateTask={onUpdateTask}
-                                                        onDeleteTask={onDeleteTask}
-                                                        provided={provided}
-                                                        cmpsOrder={board.cmpsOrder}
-                                                    />
+                                                    <TableRow>
+                                                        <TaskPreview
+                                                            task={task}
+                                                            members={members}
+                                                            labels={labels}
+                                                            board={board}
+                                                            group={group}
+                                                            openModal={openModal}
+                                                            onUpdateTask={onUpdateTask}
+                                                            onDeleteTask={onDeleteTask}
+                                                            provided={provided}
+                                                            cmpsOrder={board.cmpsOrder}
+                                                        />
+                                                    </TableRow>
                                                 </div>
                                             )}
                                         </Draggable>

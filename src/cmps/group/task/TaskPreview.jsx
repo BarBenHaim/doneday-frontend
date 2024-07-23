@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { TableCell, TableRow, MenuButton, Menu, MenuItem } from 'monday-ui-react-core'
 import { Delete } from 'monday-ui-react-core/icons'
 import { taskAttributesConfig } from './taskAttributesConfig'
 
 export function TaskPreview({ task, members, labels, onUpdateTask, onDeleteTask, provided, cmpsOrder }) {
+    const [highlighted, setHighlighted] = useState(false)
+
     function onUpdateField(task, field, value) {
         const updatedTask = { ...task, [field]: value }
         onUpdateTask(updatedTask)
@@ -29,13 +31,15 @@ export function TaskPreview({ task, members, labels, onUpdateTask, onDeleteTask,
             {...provided.dragHandleProps}
             className='task-preview-container'
             style={{ cursor: 'grab' }}
+            onFocus={() => setHighlighted(true)}
+            onBlur={() => setHighlighted(false)}
         >
             <MenuButton className='task-preview-menu-btn'>
                 <Menu id='menu' size='medium'>
                     <MenuItem onClick={onDeleteTaskHandler} icon={Delete} title='Delete' />
                 </Menu>
             </MenuButton>
-            <TableRow className='task-preview-row'>
+            <TableRow className='task-preview-row' highlighted={highlighted}>
                 {cmpsOrder.map(key => renderCell(taskAttributesConfig[key], task, members, labels, key))}
                 <TableCell key='addColumn' className='table-cell add-column-cell' style={{ width: '100%' }}></TableCell>
             </TableRow>
