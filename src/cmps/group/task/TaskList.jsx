@@ -125,13 +125,22 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
     }
 
     async function onAddColumn() {
-        const columnLabel = prompt('Enter the column label (status, priority, due date, etc.):')
+        const predefinedLabels = Object.keys(taskAttributesConfig)
+        const existingLabels = board.cmpsOrder
+        const allValidLabels = Array.from(new Set([...predefinedLabels, ...existingLabels]))
+
+        const columnLabel = prompt(`Enter the column label (${allValidLabels.join(', ')}):`)
         if (!columnLabel) return
 
-        const newColumnKey = generateUniqueKey(columnLabel.toLowerCase().replace(/ /g, ''), board.cmpsOrder)
+        const normalizedLabel = columnLabel
 
+        if (!allValidLabels.includes(normalizedLabel)) {
+            alert(`Invalid label. Please enter one of the following: ${allValidLabels.join(', ')}`)
+            return
+        }
+
+        const newColumnKey = generateUniqueKey(normalizedLabel, board.cmpsOrder)
         const updatedCmpsOrder = [...board.cmpsOrder, newColumnKey]
-
         const updatedGroups = board.groups.map(group => ({
             ...group,
             tasks: group.tasks.map(task => ({
@@ -153,13 +162,14 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
             showErrorMsg('Cannot add column')
         }
     }
-
     const columns = [
-        ...board.cmpsOrder.map(key => ({
-            key,
-            title: taskAttributesConfig[key.match(/^\D+/)[0]].label,
-            width: taskAttributesConfig[key.match(/^\D+/)[0]].width || 'auto',
-        })),
+        ...board.cmpsOrder.map(key => {
+            return {
+                key,
+                title: taskAttributesConfig[key.match(/^\D+/)[0]].label,
+                width: taskAttributesConfig[key.match(/^\D+/)[0]].width || 'auto',
+            }
+        }),
         additionalColumn,
     ]
 
