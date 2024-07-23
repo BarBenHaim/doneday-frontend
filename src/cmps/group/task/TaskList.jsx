@@ -9,6 +9,7 @@ import {
     SplitButton,
     SplitButtonMenu,
     MenuItem,
+    IconButton,
 } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
@@ -18,7 +19,7 @@ import { addTask, updateTask, removeTask, updateBoardOptimistic } from '../../..
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { useParams } from 'react-router'
 import { useSelector } from 'react-redux'
-import { Group } from 'monday-ui-react-core/icons'
+import { Add, Group } from 'monday-ui-react-core/icons'
 import { getPriorityStyle, getStatusStyle } from './dynamicCmps/styleUtils'
 
 function calculateSummary(taskList) {
@@ -106,12 +107,12 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
             showErrorMsg('Cannot delete task')
         }
     }
-
+    ;<Add size={18} />
     const additionalColumn = {
         key: 'addColumn',
-        title: '+',
-        width: '100%',
+        title: <IconButton icon={Add} size={'small'} onClick={onAddColumn} />,
         render: () => null,
+        className: 'addColumn',
     }
 
     function generateUniqueKey(label, existingKeys) {
@@ -133,6 +134,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
         if (!columnLabel) return
 
         const normalizedLabel = columnLabel
+        console.log(allValidLabels)
 
         if (!allValidLabels.includes(normalizedLabel)) {
             alert(`Invalid label. Please enter one of the following: ${allValidLabels.join(', ')}`)
@@ -162,6 +164,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
             showErrorMsg('Cannot add column')
         }
     }
+
     const columns = [
         ...board.cmpsOrder.map(key => {
             return {
@@ -190,9 +193,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                             </SplitButtonMenu>
                         }
                     />
-                    <button onClick={onAddColumn} className='add-column-button'>
-                        +
-                    </button>
+
                     <div className='tasks-list-container'>
                         <Table
                             className='group-table'
@@ -224,6 +225,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                             style={{
                                                 width: headerCell.width,
                                             }}
+                                            onClick={headerCell.key === 'addColumn' ? onAddColumn : undefined}
                                         />
                                     ))}
                                 </TableRow>
