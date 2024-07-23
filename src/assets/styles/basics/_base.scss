@@ -10,6 +10,7 @@ html {
 body {
     // max-width: 1024px;
     margin: 0 auto;
+    padding: 0 auto;
 
     font-family: $font-family-primary;
     font-size: rem(18px);
@@ -26,6 +27,7 @@ h4,
 h5,
 h6 {
     font-family: $font-family-secondary;
+    letter-spacing: 0.05;
 }
 
 h1 {

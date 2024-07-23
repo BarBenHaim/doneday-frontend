@@ -28,7 +28,7 @@ export function AppHeader() {
                     <div className='headline'>
                         <img src={logoImg} alt='logo' className='logo-img' />
                         <h4 className='company-name bold'>
-                            Doneday <span className='app-name light'>Work management</span>
+                            doneday <span className='app-name light'>work management</span>
                         </h4>
                     </div>
                 </NavLink>
