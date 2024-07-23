@@ -19,7 +19,7 @@ import { addTask, updateTask, removeTask, updateBoardOptimistic } from '../../..
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { useParams } from 'react-router'
 import { useSelector } from 'react-redux'
-import { Add, Group } from 'monday-ui-react-core/icons'
+import { Add, Group, Delete } from 'monday-ui-react-core/icons'
 import { getPriorityStyle, getStatusStyle } from './dynamicCmps/styleUtils'
 
 function calculateSummary(taskList) {
@@ -107,12 +107,13 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
             showErrorMsg('Cannot delete task')
         }
     }
-    ;<Add size={18} />
+
     const additionalColumn = {
         key: 'addColumn',
         title: <IconButton icon={Add} size={'small'} onClick={onAddColumn} />,
         render: () => null,
         className: 'addColumn',
+        width: '100%',
     }
 
     function generateUniqueKey(label, existingKeys) {
@@ -165,11 +166,46 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
         }
     }
 
+    async function onRemoveColumn(columnKey) {
+        const updatedCmpsOrder = board.cmpsOrder.filter(key => key !== columnKey)
+        const updatedGroups = board.groups.map(group => ({
+            ...group,
+            tasks: group.tasks.map(task => {
+                const updatedTask = { ...task }
+                delete updatedTask[columnKey]
+                return updatedTask
+            }),
+        }))
+
+        const updatedBoard = {
+            ...board,
+            cmpsOrder: updatedCmpsOrder,
+            groups: updatedGroups,
+        }
+
+        try {
+            await updateBoardOptimistic(updatedBoard)
+            showSuccessMsg('Column removed successfully')
+        } catch (err) {
+            showErrorMsg('Cannot remove column')
+        }
+    }
+
     const columns = [
         ...board.cmpsOrder.map(key => {
             return {
                 key,
-                title: taskAttributesConfig[key.match(/^\D+/)[0]].label,
+                title: (
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <span>{taskAttributesConfig[key.match(/^\D+/)[0]].label}</span>
+                        <IconButton
+                            icon={Delete}
+                            size={'small'}
+                            onClick={() => onRemoveColumn(key)}
+                            style={{ marginLeft: '8px' }}
+                        />
+                    </div>
+                ),
                 width: taskAttributesConfig[key.match(/^\D+/)[0]].width || 'auto',
             }
         }),
