@@ -53,6 +53,7 @@ export function BoardIndex() {
                     gap={Flex.gaps.MEDIUM}
                     wrap={false}>
                     <DialogContentContainer 
+                    className="board-list-dialog"
                         size={DialogContentContainer.sizes.MEDIUM}
                         type={DialogContentContainer.types.MODAL}>
                         <div className='collapsible-header flex align-center' onClick={toggleCollapse}>

@@ -1,14 +1,13 @@
 
 .board-list-flex {
-    padding: 16px 16px 24px 16px; // Same padding as the grid layout
-    justify-content: space-between;
     margin-bottom: 10px;
-    margin-block-end: 10px;
+    padding: 20px;
 }
 
-.board-preview-wrapper {
-    flex: 1 1 calc(50% - 20px); // Adjust to fit 2 columns with equal spacing
-    max-width: calc(50% - 20px); // Ensure items do not exceed the calculated width
-    margin-bottom: 10px 0; 
-    box-sizing: border-box; 
-}
+.board-list-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-rows: auto;
+    grid-gap: 20px;
+    padding: 16px;
+  }

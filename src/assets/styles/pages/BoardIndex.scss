@@ -11,10 +11,16 @@
     padding-right: 20px;
 }
 
+.board-list-dialog {
+    width: 100%;
+    
+  }
+
     .collapsible-header {
         margin-top: 2px;
         margin-bottom: 0;
         margin-left: 24px;
+
 
         .collapsible-title {
             font-size: rem(18px);
@@ -25,9 +31,9 @@
 
         
         .board-index-banner {
-            object-fit: cover; // Ensures the image covers the area
+            object-fit: cover; 
             border: 1px solid #e6e9ef;
-            border-radius: 8px; // Adds rounded corners
+            border-radius: 8px; 
             width: 100%; 
 
         }
