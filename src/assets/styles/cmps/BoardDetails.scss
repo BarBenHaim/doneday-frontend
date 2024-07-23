@@ -20,6 +20,12 @@
             & span {
                 margin-left: 5px;
             }
+            .board-details-title-edit {
+            
+                .favorite-icon {
+                    color: #ffcb00 !important; /* color when active */
+                }
+            }
         }
     }
 }

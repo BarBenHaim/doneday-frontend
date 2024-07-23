@@ -1,6 +1,6 @@
 import { BoardPreview } from './BoardPreview'
 
-export function BoardList({ boards, onRemoveBoard }) {
+export function BoardList({ boards}) {
     console.log('board list ')
 
     return (
@@ -9,7 +9,7 @@ export function BoardList({ boards, onRemoveBoard }) {
                 {boards.map(board => (
                     <li key={board._id}>
                         <BoardPreview board={board} />
-                        <button onClick={() => onRemoveBoard(board._id)}>x</button>
+                        {/* <button onClick={() => onRemoveBoard(board._id)}>x</button> */}
                     </li>
                 ))}
             </ul>
