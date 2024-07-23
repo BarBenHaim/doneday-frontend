@@ -20,6 +20,8 @@ import {
     MenuButton,
     MenuItem,
     MenuTitle,
+    SplitButton,
+    SplitButtonMenu,
     TextArea,
 } from 'monday-ui-react-core'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
@@ -77,6 +79,7 @@ export function BoardDetails() {
         }
     }
 
+
     if (!currBoard) return <div>Loading...</div>
 
     return (
@@ -114,7 +117,7 @@ export function BoardDetails() {
                                         />
                                         <Button
                                             className='favorite-button'
-                                            onClick={handleToggleStarred}
+                                            onClick={() =>{handleToggleStarred}}
                                             kind={Button.kinds.TERTIARY}>
                                             {currBoard.isStarred ? (
                                                 <Icon
@@ -131,7 +134,6 @@ export function BoardDetails() {
                                     </div>
                                     <TextArea
                                         data-testid='editable-input'
-                                        s
                                         resize
                                         rows={6}
                                         tabIndex={6}
@@ -161,16 +163,19 @@ export function BoardDetails() {
                                     },
                                 },
                             ]}
-                            position='bottom-start'
+                            position={DialogContentContainer.BOTTOM_START} 
                             showTrigger={['click']}
                             wrapperClassName='board-details-header-board-info'
                             zIndex={4}>
-                            <h2 className='normal'>
+                            <Button
+                                kind={Button.kinds.TERTIARY}
+                                size='small'
+                                dialogPaddingSize={DialogContentContainer.sizes.MEDIUM}
+                                rightIcon={NavigationChevronDown}
+                                zIndex={4}
+                                >
                                 {currBoard.title}
-                                <span>
-                                    <NavigationChevronDown size='18' lable='Collapse list' />
-                                </span>
-                            </h2>
+                            </Button>
                         </Dialog>
                         <div
                             style={{
@@ -193,7 +198,6 @@ export function BoardDetails() {
                             <MenuButton
                                 componentPosition='start'
                                 dialogPaddingSize='small'
-                                dialogPosition='bottom-end'
                                 style={{
                                     marginLeft: '25px',
                                 }}>
@@ -211,8 +215,7 @@ export function BoardDetails() {
                     <div
                         style={{
                             height: '10px',
-                            marginInlineEnd: '30px'
-
+                            marginInlineEnd: '30px',
                         }}>
                         <Divider />
                     </div>

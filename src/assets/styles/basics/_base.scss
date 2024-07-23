@@ -27,54 +27,23 @@ h4,
 h5,
 h6 {
     font-family: $font-family-secondary;
-    letter-spacing: 0.05;
+    letter-spacing: 0.05em; // Adding unit
 }
 
-h1 {
-    .bold {
-        @include vibe-heading(h1, $font-weight-bold);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    &.bold {
+        @include vibe-heading(#{&}, $font-weight-bold);
     }
-    .normal {
-        @include vibe-heading(h1, $font-weight-normal);
+    &.normal {
+        @include vibe-heading(#{&}, $font-weight-normal);
     }
-    .light {
-        @include vibe-heading(h1, $font-weight-light);
-    }
-}
-
-h2 {
-    .bold {
-        @include vibe-heading(h2, $font-weight-bold);
-    }
-    .normal {
-        @include vibe-heading(h2, $font-weight-normal);
-    }
-    .light {
-        @include vibe-heading(h2, $font-weight-light);
-    }
-}
-
-h3 {
-    .bold {
-        @include vibe-heading(h3, $font-weight-bold);
-    }
-    .normal {
-        @include vibe-heading(h3, $font-weight-normal);
-    }
-    .light {
-        @include vibe-heading(h3, $font-weight-light);
-    }
-}
-
-h4 {
-    .bold {
-        @include vibe-heading(h4, $font-weight-bold);
-    }
-    .normal {
-        @include vibe-heading(h4, $font-weight-normal);
-    }
-    .light {
-        @include vibe-heading(h4, $font-weight-light);
+    &.light {
+        @include vibe-heading(#{&}, $font-weight-light);
     }
 }
 
