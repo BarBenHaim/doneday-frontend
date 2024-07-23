@@ -176,7 +176,7 @@ export function BoardDetails() {
                             style={{
                                 width: 'auto',
                                 display: 'flex',
-                                marginInline: '30px',
+                                marginInline: '25px',
                                 alignItems: 'center',
                                 // width: '100%',
                             }}>
@@ -195,7 +195,7 @@ export function BoardDetails() {
                                 dialogPaddingSize='small'
                                 dialogPosition='bottom-end'
                                 style={{
-                                    marginLeft: '30px',
+                                    marginLeft: '25px',
                                 }}>
                                 <Menu id='menu' size='medium'>
                                     <MenuTitle caption='Board options' captionPosition='top' />
@@ -207,6 +207,14 @@ export function BoardDetails() {
                                 </Menu>
                             </MenuButton>
                         </div>
+                    </div>
+                    <div
+                        style={{
+                            height: '10px',
+                            marginInlineEnd: '30px'
+
+                        }}>
+                        <Divider />
                     </div>
                     <GroupFilter setFilterBy={setFilterBy} />
                 </div>
