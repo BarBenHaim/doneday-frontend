@@ -1,4 +1,5 @@
-import { Avatar } from 'monday-ui-react-core'
+import { Avatar, Dialog, DialogContentContainer } from 'monday-ui-react-core'
+import { Person } from 'monday-ui-react-core/icons'
 
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -60,30 +61,56 @@ export function GroupPersonFilter({ setFilterBy }) {
   }
 
   return (
-    <section className="person-modal">
-      <p id="modal-title">Filter this board by person</p>
-      <p>And find items they're working on.</p>
-      <div className="members">
-        {[...new Set(memberIds)].map((memberId, index) => (
-          <div
-            className="member"
-            key={index}
-            onClick={() => getMember(memberId)}
-          >
-            {avatars[memberId] && (
-              <Avatar
-                key={memberId}
-                ariaLabel={avatars[memberId].name}
-                size={Avatar.sizes.MEDIUM}
-                src={avatars[memberId].imgUrl}
-                type={Avatar.types.IMG}
-                className="custom-avatar"
-                aria-hidden="true"
-              />
-            )}
-          </div>
-        ))}
-      </div>
-    </section>
+    <div className="monday-storybook-dialog--story-padding">
+      <Dialog
+        content={
+          <DialogContentContainer>
+            <section className="person-modal">
+              <p id="modal-title">Filter this board by person</p>
+              <p>And find items they're working on.</p>
+              <div className="members">
+                {[...new Set(memberIds)].map((memberId, index) => (
+                  <div
+                    className="member"
+                    key={index}
+                    onClick={() => getMember(memberId)}
+                  >
+                    {avatars[memberId] && (
+                      <Avatar
+                        key={memberId}
+                        ariaLabel={avatars[memberId].name}
+                        size={Avatar.sizes.MEDIUM}
+                        src={avatars[memberId].imgUrl}
+                        type={Avatar.types.IMG}
+                        className="custom-avatar"
+                        aria-hidden="true"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          </DialogContentContainer>
+        }
+        hideTrigger={['clickoutside']}
+        modifiers={[
+          {
+            name: 'preventOverflow',
+            options: {},
+          },
+        ]}
+        position="bottom"
+        showTrigger={['click']}
+      >
+        <div
+          style={{ padding: '4px', cursor: 'pointer' }}
+          icon={function noRefCheck() {}}
+          className="filter-item person"
+        >
+          <Person />
+          Person
+        </div>
+      </Dialog>
+    </div>
   )
 }

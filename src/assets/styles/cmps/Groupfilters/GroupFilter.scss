@@ -1,6 +1,7 @@
 .board-filter {
   display: flex;
   align-items: center;
+
   gap: 10px;
   background-color: $Mbgr1;
   padding: 0.5rem;
@@ -40,12 +41,6 @@
   border-color: #007bff;
 }
 
-// .filter-item.person {
-//   padding: 0.46875rem 0.5rem;
-//   border-radius: 0.25rem;
-//   padding: 4px;
-// }
-
 .filter-item,
 .person,
 .filter,
@@ -54,7 +49,7 @@
   align-items: center;
   gap: 4px;
 
-  font-size: 0.9375rem;
+  font-size: 16px;
   line-height: 22.5px;
   font-family: $font-family-primary;
 
@@ -72,21 +67,9 @@
   }
 }
 
-//Advanced filters modal//
+Advanced filters modal//
 .advanced-filter-modal {
-  position: fixed;
-  top: 36%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  width: 800px;
-  height: 200px;
-  padding: 20px;
-  z-index: 1000;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  width: 100px;
 }
 
 // main header//
@@ -105,14 +88,6 @@
   }
 }
 
-.clear-btn,
-.save-btn {
-  font-size: 15px;
-  font-family: $font-family-primary;
-  background-color: $Mbgr1;
-  color: $gray2;
-}
-
 //Column filter//
 .column-filter {
   padding: 0 24px 16px;
@@ -125,6 +100,7 @@
 
 .column,
 input[type='text'] {
+  cursor: pointer;
   font-family: $font-family-primary;
   color: $gray4;
   padding: 0.3rem;
@@ -149,13 +125,6 @@ input[type='text'] {
 .column:focus,
 input[type='text']:focus {
   border: 1.7px solid $clr8;
-}
-
-.filter-button {
-  color: $gray3;
-  font-size: 15px;
-  font-family: $font-family-primary;
-  // background-color: $Mbgr1;
 }
 
 .filter-svg {

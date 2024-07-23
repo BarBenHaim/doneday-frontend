@@ -1,3 +1,5 @@
+import { Dialog, DialogContentContainer } from 'monday-ui-react-core'
+import { Hide } from 'monday-ui-react-core/icons'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
@@ -10,125 +12,169 @@ export function GroupHideFilter({ setFilterBy }) {
   const groups = currBoard.groups || []
   const tasks = groups.flatMap((group) => group.tasks || [])
 
-  const [selectedColumns, setSelectedColumns] = useState({
-    // allColumns: true,
-    person: true,
+  const [selectedColumn, setSelectedColumn] = useState([
+    'byMember',
+    'status',
+    'dueDate',
+    'priority',
+  ])
+  const [checkedColumns, setCheckedColumns] = useState({
+    byMember: true,
     status: true,
     timeline: true,
     priority: true,
   })
 
-  function handleCheckboxChange(e) {
-    const { id, checked } = e.target
-    const column = id
+  const toggleColumn = (id) => {
+    console.log(id)
 
-    setSelectedColumns((prev) => ({
-      ...prev,
-      [id]: checked,
+    const isChecked = !checkedColumns[id]
+    setCheckedColumns((prevState) => ({
+      ...prevState,
+      [id]: isChecked,
     }))
+    setSelectedColumn((prevState) =>
+      isChecked ? [...prevState, id] : prevState.filter((col) => col !== id)
+    )
+  }
 
+  function handleCheckboxChange(event) {
+    console.log(event.target.value)
+
+    const { id } = event.target
+    toggleColumn(id)
+  }
+
+  function handleSelectAll(event) {
+    const allChecked = event.target.checked
+    setCheckedColumns({
+      person: allChecked,
+      status: allChecked,
+      timeline: allChecked,
+      priority: allChecked,
+    })
+    setSelectedColumn(
+      allChecked ? ['person', 'status', 'timeline', 'priority'] : []
+    )
+  }
+
+  console.log('selectedColumn', selectedColumn)
+  console.log('checkedColumns', checkedColumns)
+
+  function getHideColumn() {
     const filteredGroups = groups.map((group) => {
       const filteredTasks = group.tasks.filter((task) => {
-        return task[column] !== task
+        console.log(selectedColumn)
+
+        return selectedColumn.some((col) => task[col])
       })
       console.log(filteredTasks)
-      return { ...group, tasks: filteredTasks }
+
+      return {
+        ...group,
+        tasks: filteredTasks,
+      }
     })
+
     const nonEmptyGroups = filteredGroups.filter(
       (group) => group.tasks.length > 0
     )
+    console.log(nonEmptyGroups)
 
     setFilterBy(nonEmptyGroups)
-    console.log({ nonEmptyGroups })
     return nonEmptyGroups
   }
-  //
-
-  // const handleSave = () => {
-  //   setFilterBy(selectedColumns)
-  // }
 
   return (
-    <section>
-      <div className="modal">
-        <div className="modal-content">
-          {/* <div className="modal-header">
-            <h2>Display columns</h2>
-            <button className="save-view" onClick={handleSave}>
-              Save as new view
-            </button>
-          </div> */}
-          <div className="modal-body">
-            <input
-              type="text"
-              placeholder="Find columns to show/hide"
-              className="search-input"
-              // onChange={handelChangeSearch}
-            />
-            <div className="columns-list">
-              <div className="column">
-                <input
-                  type="checkbox"
-                  id="allColumns"
-                  // checked={selectedColumns.allColumns}
-                  // onChange={handleCheckboxChange}
-                />
-                <label htmlFor="allColumns">
-                  All columns{' '}
-                  <span className="selected-count">
-                    {Object.values(selectedColumns).filter(Boolean).length}{' '}
+    <div className="monday-storybook-dialog--story-padding">
+      <Dialog
+        content={
+          <DialogContentContainer>
+            <div className="display-columns">
+              <div className="header">
+                <span>Display columns</span>
+              </div>
+              <div className="search-box">
+                <button className="get-btn" onClick={getHideColumn}>
+                  Get columns to show/hide
+                </button>
+              </div>
+              <div className="columns-list">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={Object.values(checkedColumns).every(Boolean)}
+                    onChange={handleSelectAll}
+                  />
+                  All columns
+                  <span className="column-count">
+                    {Object.values(checkedColumns).filter(Boolean).length}{' '}
                     selected
                   </span>
                 </label>
-              </div>
-              <div className="column">
-                <input
-                  type="checkbox"
-                  id="person"
-                  checked={selectedColumns.person}
-                  onChange={handleCheckboxChange}
-                />
-                <label htmlFor="person">
-                  <span className="icon person-icon"></span>Person
-                </label>
-              </div>
-              <div className="column">
-                <input
-                  type="checkbox"
-                  id="status"
-                  checked={selectedColumns.status}
-                  onChange={handleCheckboxChange}
-                />
-                <label htmlFor="status">
-                  <span className="icon status-icon"></span>Status
-                </label>
-              </div>
-              <div className="column">
-                <input
-                  type="checkbox"
-                  id="dueDate"
-                  checked={selectedColumns.timeline}
-                  onChange={handleCheckboxChange}
-                />
-                <label htmlFor="dueDate">
-                  <span className="icon timeline-icon"></span>Time line
-                </label>
-              </div>
-              <div className="column">
-                <input
-                  type="checkbox"
-                  id="priority"
-                  checked={selectedColumns.priority}
-                  onChange={handleCheckboxChange}
-                />
-                <label htmlFor="priority">
-                  <span className="icon priority-icon"></span>Priority
-                </label>
+                <div className="item-columns">
+                  <label>
+                    <input
+                      type="checkbox"
+                      id="byMember"
+                      checked={checkedColumns.byMember}
+                      onChange={handleCheckboxChange}
+                    />
+                    Person
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      id="status"
+                      checked={checkedColumns.status}
+                      onChange={handleCheckboxChange}
+                    />
+                    Status
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      id="timeline"
+                      checked={checkedColumns.timeline}
+                      onChange={handleCheckboxChange}
+                    />
+                    Time line
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      id="priority"
+                      checked={checkedColumns.priority}
+                      onChange={handleCheckboxChange}
+                    />
+                    Priority
+                  </label>
+                </div>
               </div>
             </div>
-          </div>
+          </DialogContentContainer>
+        }
+        hideTrigger={['clickoutside']}
+        modifiers={[
+          {
+            name: 'preventOverflow',
+            options: {
+              mainAxis: false,
+            },
+          },
+        ]}
+        position="bottom"
+        showTrigger={['click']}
+      >
+        <div
+          style={{ padding: '4px', cursor: 'pointer' }}
+          icon={function noRefCheck() {}}
+          className="filter-item sort"
+        >
+          <Hide />
+          Hide
         </div>
-      </div>
-    </section>
+      </Dialog>
+    </div>
   )
 }
