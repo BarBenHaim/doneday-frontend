@@ -1,20 +1,39 @@
 import { useEffect, useState } from 'react'
-import { loadBoard, toggleStarredBoard, updateBoard } from '../store/actions/board.action'
-import { useParams } from 'react-router'
+import { loadBoard, removeBoard, toggleStarredBoard, updateBoard } from '../store/actions/board.action'
+import { Navigate, useNavigate, useParams } from 'react-router'
 import { GroupList } from './group/GroupList'
 import { GroupFilter } from './group/GroupsFilter/GroupFilter'
 import { useSelector } from 'react-redux'
-import { Favorite, NavigationChevronDown } from 'monday-ui-react-core/icons'
-import { Button, Dialog, DialogContentContainer, Divider, EditableHeading, EditableText, Icon, TextArea } from 'monday-ui-react-core'
+import { Delete, Favorite, NavigationChevronDown } from 'monday-ui-react-core/icons'
+import {
+    Avatar,
+    AvatarGroup,
+    Button,
+    Dialog,
+    DialogContentContainer,
+    Divider,
+    EditableHeading,
+    EditableText,
+    Icon,
+    IconButton,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuTitle,
+    TextArea,
+} from 'monday-ui-react-core'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
 export function BoardDetails() {
     const { boardId } = useParams()
 
     const currBoard = useSelector((storeState) => storeState.boardModule.boards.find((board) => board._id === boardId))
     const [boardsToDisplay, setBoardsToDisplay] = useState(currBoard?.groups || [])
+    const navigate = useNavigate()
 
     useEffect(() => {
         setBoardsToDisplay(currBoard?.groups || [])
+        console.log('currBoard', currBoard)
     }, [currBoard])
 
     useEffect(() =>
@@ -24,7 +43,6 @@ export function BoardDetails() {
     const setFilterBy = (arr) => {
         setBoardsToDisplay(arr)
     }
-
 
     function onUpdateField(currBoard, field, value) {
         const updatedBoard = { ...currBoard, [field]: value }
@@ -40,84 +58,156 @@ export function BoardDetails() {
         }
     }
     async function handleToggleStarred() {
-            toggleStarredBoard(currBoard._id)
+        try {
+            await toggleStarredBoard(currBoard._id)
             currBoard.isStarred = !currBoard.isStarred
+        } catch (err) {
+            showErrorMsg('Cannot remove board')
+        }
     }
+
+    async function onRemoveBoard(currBoardId) {
+        console.log('boardId remove', currBoardId)
+        try {
+            await removeBoard(currBoardId)
+            navigate(`/board`)
+            showSuccessMsg('board removed')
+        } catch (err) {
+            showErrorMsg('Cannot remove board')
+        }
+    }
+
+    if (!currBoard) return <div>Loading...</div>
 
     return (
         <section className='board-details'>
             <header className='board-details-header'>
-                <div
-                    className='board-details-title'
-                    style={{
-                        width: 'auto',
-                    }}>
-                    <Dialog
-                        content={
-                            <DialogContentContainer
-                                size={DialogContentContainer.sizes.LARGE}
-                                type={DialogContentContainer.types.POPOVER}>
-                                <div className='board-details-title-edit'>
-                                    <EditableHeading
-                                        type='h2'
-                                        value={currBoard.title}
-                                        onChange={(value) => onUpdateField(currBoard, 'title', value)}
-                                        weight='bold'
-                                        size="large"
-
-                                    />
-                        <Button className='starred-btn' title='Starred' onClick={handleToggleStarred}  kind={Button.kinds.TERTIARY}>
-                            {currBoard.isStarred ? (
-                                <Icon iconType={Icon.type.ICON_FONT} icon='fa fa-star' className='yellow-icon' />
-                            ) : (
-                                <Favorite className='monday-favorite-icon' />
-                            )}
-                        </Button>
-                                </div>
-                                <TextArea
-                                    data-testid='editable-input's
-                                    resize
-                                    rows={6}
-                                    tabIndex={6}
-                                    maxLength={1000}
-                                    controlled
-                                    size="large"
-                                    value={currBoard.description}
-                                    weight='normal'
-                                    onChange={(value) => onUpdateField(currBoard, 'description', value)}
-                                />
-                                <div
-                                    style={{
-                                        height: '40px',
-                                        width: '100%',
-                                    }}>
-                                    <Divider direction='horizontal' />
-                                </div>
-                            </DialogContentContainer>
-                        }
-                        hideTrigger={['clickoutside']}
-                        isOpen
-                        modifiers={[
-                            {
-                                name: 'preventOverflow',
-                                options: {
-                                    mainAxis: false,
-                                },
-                            },
-                        ]}
-                        position='bottom-start'
-                        showTrigger={['click']}
-                        wrapperClassName='board-details-header-board-info'
-                        zIndex={4}>
-                        <h2 className='normal'>
-                            {currBoard.title}
-                            <span>
-                                <NavigationChevronDown size='18' lable='Collapse list' />
-                            </span>
-                        </h2>
-                    </Dialog>
-                </div>
                 <div>
+                    <div
+                        className='board-details-title'
+                        style={{
+                            width: 'auto',
+                            display: 'flex',
+                            justifyContent: 'space-Between',
+                            alignItems: 'center',
+                            // width: '100%',
+                        }}>
+                        <Dialog
+                            content={
+                                <DialogContentContainer
+                                    size={DialogContentContainer.sizes.LARGE}
+                                    type={DialogContentContainer.types.POPOVER}>
+                                    <div
+                                        className='board-details-title-edit'
+                                        style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-evenly',
+                                            alignItems: 'center',
+                                            width: '100%',
+                                        }}>
+                                        <EditableHeading
+                                            type='h2'
+                                            value={currBoard.title}
+                                            onChange={(value) => onUpdateField(currBoard, 'title', value)}
+                                            weight='bold'
+                                            size='large'
+                                        />
+                                        <Button
+                                            className='favorite-button'
+                                            onClick={handleToggleStarred}
+                                            kind={Button.kinds.TERTIARY}>
+                                            {currBoard.isStarred ? (
+                                                <Icon
+                                                    iconType={Icon.type.ICON_FONT}
+                                                    icon='fa fa-star'
+                                                    className='favorite-icon'
+                                                    ignoreFocusStyle
+                                                    style={{ color: '$Mfavorite' }}
+                                                />
+                                            ) : (
+                                                <Favorite className='regular-icon' />
+                                            )}
+                                        </Button>
+                                    </div>
+                                    <TextArea
+                                        data-testid='editable-input'
+                                        s
+                                        resize
+                                        rows={6}
+                                        tabIndex={6}
+                                        maxLength={1000}
+                                        controlled
+                                        size='large'
+                                        value={currBoard.description}
+                                        weight='normal'
+                                        onChange={(value) => onUpdateField(currBoard, 'description', value)}
+                                    />
+                                    <div
+                                        style={{
+                                            height: '40px',
+                                            width: '100%',
+                                        }}>
+                                        <Divider direction='horizontal' />
+                                    </div>
+                                </DialogContentContainer>
+                            }
+                            hideTrigger={['clickoutside']}
+                            isOpen
+                            modifiers={[
+                                {
+                                    name: 'preventOverflow',
+                                    options: {
+                                        mainAxis: false,
+                                    },
+                                },
+                            ]}
+                            position='bottom-start'
+                            showTrigger={['click']}
+                            wrapperClassName='board-details-header-board-info'
+                            zIndex={4}>
+                            <h2 className='normal'>
+                                {currBoard.title}
+                                <span>
+                                    <NavigationChevronDown size='18' lable='Collapse list' />
+                                </span>
+                            </h2>
+                        </Dialog>
+                        <div
+                            style={{
+                                width: 'auto',
+                                display: 'flex',
+                                marginInline: '30px',
+                                alignItems: 'center',
+                                // width: '100%',
+                            }}>
+                            <AvatarGroup max={3} size='medium'>
+                                {currBoard.members.map((member) => (
+                                    <Avatar
+                                        key={member._id}
+                                        ariaLabel={member.fullName}
+                                        src={member.imgUrl}
+                                        type='img'
+                                    />
+                                ))}
+                            </AvatarGroup>
+                            <MenuButton
+                                componentPosition='start'
+                                dialogPaddingSize='small'
+                                dialogPosition='bottom-end'
+                                style={{
+                                    marginLeft: '30px',
+                                }}>
+                                <Menu id='menu' size='medium'>
+                                    <MenuTitle caption='Board options' captionPosition='top' />
+                                    <MenuItem
+                                        onClick={() => onRemoveBoard(currBoard._id)}
+                                        icon={Delete}
+                                        title='Delete Board'
+                                    />
+                                </Menu>
+                            </MenuButton>
+                        </div>
+                    </div>
                     <GroupFilter setFilterBy={setFilterBy} />
                 </div>
             </header>
