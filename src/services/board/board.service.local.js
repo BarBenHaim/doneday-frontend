@@ -192,8 +192,10 @@ async function addBoard(boardTitle, boardLabel) {
 }
 
 function _createBoardDemo(title, label) {
-    const member1 = createMember('Abi Abambi', 'http://some-img')
-
+    const member1 = createMember(
+        'Ariella Melnikov',
+        'https://res.cloudinary.com/dkykllpf5/image/upload/v1721649934/jzacprnumxyqpj1w0xah.jpg'
+    )
     const task1 = createTask(label + ' 1')
     const task2 = createTask(label + ' 2')
     const task3 = createTask(label + ' 3')

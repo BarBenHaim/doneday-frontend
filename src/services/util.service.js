@@ -349,8 +349,10 @@ function getRandomColor() {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export function createBoardDemo(title, label) {
-    const member1 = createMember('Abi Abambi', 'http://some-img')
-
+    const member2 = createMember(
+        'Bar Ben Haim',
+        'https://res.cloudinary.com/dkykllpf5/image/upload/v1721651006/dcll8jx7dtrrvsj3vhxe.jpg'
+    )
     // const label1 = createLabel('Done', '#61bd4f')
     // const label2 = createLabel('Progress', '#61bd33')
 
@@ -361,9 +363,9 @@ export function createBoardDemo(title, label) {
 
     const board = createBoard(
         title,
-        member1,
+        member2,
         label,
-        [member1],
+        [member2],
         [createGroup('Group Title', [task1, task2]), createGroup('Group Title', [task3, task4])]
     )
 
