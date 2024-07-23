@@ -174,26 +174,34 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                             withoutBorder
                             columns={columns}
                             style={{
-                                borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
                                 overflow: 'visible',
                                 borderTopLeftRadius: '5px',
                             }}
                         >
                             <TableHeader>
-                                {columns.map((headerCell, index) => (
-                                    <TableHeaderCell
-                                        key={index}
-                                        title={index === 0 ? currBoard.label : headerCell.title}
-                                        className={
-                                            headerCell.key === 'addColumn'
-                                                ? 'table-header-cell addCol-col flex align-center justify-center'
-                                                : index === 0
-                                                ? 'table-header-cell sticky-col task-col flex align-center justify-center'
-                                                : 'table-header-cell flex align-center justify-center'
-                                        }
-                                        style={{ width: headerCell.width }}
-                                    />
-                                ))}
+                                <TableRow
+                                    style={{
+                                        borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
+                                        borderTopLeftRadius: '5px',
+                                    }}
+                                >
+                                    {columns.map((headerCell, index) => (
+                                        <TableHeaderCell
+                                            key={index}
+                                            title={index === 0 ? currBoard.label : headerCell.title}
+                                            className={
+                                                headerCell.key === 'addColumn'
+                                                    ? 'table-header-cell addCol-col flex align-center justify-center'
+                                                    : index === 0
+                                                    ? 'table-header-cell sticky-col task-col flex align-center justify-center'
+                                                    : 'table-header-cell flex align-center justify-center'
+                                            }
+                                            style={{
+                                                width: headerCell.width,
+                                            }}
+                                        />
+                                    ))}
+                                </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {!isCollapsed &&
@@ -205,7 +213,15 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
                                                 >
-                                                    <TableRow>
+                                                    <TableRow
+                                                        style={{
+                                                            borderInlineStart: `${
+                                                                group.style.backgroundColor || '#579bfc'
+                                                            } 6px solid`,
+                                                            borderBottomLeftRadius:
+                                                                index === taskList.length - 1 ? '5px' : '0px',
+                                                        }}
+                                                    >
                                                         <TaskPreview
                                                             task={task}
                                                             members={members}

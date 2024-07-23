@@ -145,7 +145,7 @@ export function GroupList({ boardsToDisplay }) {
                                             isDragging={isDragging}
                                             isCollapsed={collapsedStates[group._id]}
                                             toggleCollapse={() => handleToggleCollapse(group._id)}
-                                            dragHandleProps={provided.dragHandleProps} // Pass dragHandleProps here
+                                            dragHandleProps={provided.dragHandleProps}
                                         />
                                     </div>
                                 )}

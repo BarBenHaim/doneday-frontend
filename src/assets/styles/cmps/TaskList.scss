@@ -16,16 +16,7 @@
 }
 
 .summary-row {
-    position: relative;
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 6px;
-        transform: translateX(-6px);
-        background-color: rgb(255, 255, 255);
-    }
+    margin-inline-start: 5px;
 }
 
 .summary-cell {
