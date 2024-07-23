@@ -26,6 +26,7 @@ const taskAttributesConfig = {
         className: 'table-cell sticky-col task-col',
         width: '300px',
     },
+
     status: {
         label: 'Status',
         render: (task, members, labels, onUpdateField) => <TaskStatus task={task} onUpdateField={onUpdateField} />,

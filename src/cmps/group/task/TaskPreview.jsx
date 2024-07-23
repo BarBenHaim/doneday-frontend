@@ -14,10 +14,10 @@ export function TaskPreview({ task, members, labels, onUpdateTask, onDeleteTask,
     }
 
     const renderCell = (config, task, members, labels, key) => {
-        const { render, className, width } = config
+        const { render, className, width } = config || {}
         return (
-            <TableCell key={key} className={className || ''} style={{ width }}>
-                {render(task, members, labels, onUpdateField)}
+            <TableCell key={key} className={className || ''} style={{ width, flexGrow: key === 'addColumn' ? 1 : 0 }}>
+                {render ? render(task, members, labels, onUpdateField) : null}
             </TableCell>
         )
     }
@@ -37,6 +37,7 @@ export function TaskPreview({ task, members, labels, onUpdateTask, onDeleteTask,
             </MenuButton>
             <TableRow className='task-preview-row'>
                 {cmpsOrder.map(key => renderCell(taskAttributesConfig[key], task, members, labels, key))}
+                <TableCell key='addColumn' className='table-cell add-column-cell' style={{ width: '100%' }}></TableCell>
             </TableRow>
         </div>
     )

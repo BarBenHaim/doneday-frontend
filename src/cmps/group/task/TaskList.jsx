@@ -101,11 +101,21 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
         }
     }
 
-    const columns = board.cmpsOrder.map(key => ({
-        key,
-        title: taskAttributesConfig[key].label,
-        width: taskAttributesConfig[key].width || 'auto',
-    }))
+    const additionalColumn = {
+        key: 'addColumn',
+        title: '+',
+        width: '100%',
+        render: () => null,
+    }
+
+    const columns = [
+        ...board.cmpsOrder.map(key => ({
+            key,
+            title: taskAttributesConfig[key].label,
+            width: taskAttributesConfig[key].width || 'auto',
+        })),
+        additionalColumn,
+    ]
 
     const summary = calculateSummary(taskList)
     const boardLabelName = currBoard.label.toLowerCase()
@@ -141,7 +151,9 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                                         key={index}
                                         title={index === 0 ? currBoard.label : headerCell.title}
                                         className={
-                                            index === 0
+                                            headerCell.key === 'addColumn'
+                                                ? 'table-header-cell addCol-col flex align-center justify-center'
+                                                : index === 0
                                                 ? 'table-header-cell sticky-col task-col flex align-center justify-center'
                                                 : 'table-header-cell flex align-center justify-center'
                                         }
