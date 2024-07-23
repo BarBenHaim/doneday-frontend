@@ -14,7 +14,7 @@ import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
 import { taskAttributesConfig } from './taskAttributesConfig'
 import { showSuccessMsg, showErrorMsg } from '../../../services/event-bus.service'
-import { addTask, updateTask, removeTask } from '../../../store/actions/board.action'
+import { addTask, updateTask, removeTask, updateBoardOptimistic } from '../../../store/actions/board.action'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { useParams } from 'react-router'
 import { useSelector } from 'react-redux'
@@ -108,6 +108,37 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
         render: () => null,
     }
 
+    async function onAddColumn() {
+        const columnLabel = prompt('Enter the column label (status, priority, due date, etc.):')
+        if (!columnLabel) return
+
+        const newColumnKey = columnLabel.toLowerCase().replace(/ /g, '')
+
+        // Update cmpsOrder in the board
+        const updatedCmpsOrder = [...board.cmpsOrder, newColumnKey]
+
+        // Update tasks in all groups to include the new column
+        const updatedGroups = board.groups.map(group => ({
+            ...group,
+            tasks: group.tasks.map(task => ({
+                ...task,
+                [newColumnKey]: '',
+            })),
+        }))
+
+        const updatedBoard = {
+            ...board,
+            cmpsOrder: updatedCmpsOrder,
+            groups: updatedGroups,
+        }
+
+        try {
+            await updateBoardOptimistic(updatedBoard)
+            showSuccessMsg('Column added successfully')
+        } catch (err) {
+            showErrorMsg('Cannot add column')
+        }
+    }
     const columns = [
         ...board.cmpsOrder.map(key => ({
             key,
@@ -134,6 +165,9 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                             </SplitButtonMenu>
                         }
                     />
+                    <button onClick={onAddColumn} className='add-column-button'>
+                        +
+                    </button>
                     <div className='tasks-list-container'>
                         <Table
                             className='group-table'
@@ -214,5 +248,4 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
         </Droppable>
     )
 }
-
 export default TasksList
