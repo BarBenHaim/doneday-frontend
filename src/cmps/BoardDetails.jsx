@@ -13,15 +13,11 @@ import {
     DialogContentContainer,
     Divider,
     EditableHeading,
-    EditableText,
     Icon,
-    IconButton,
     Menu,
     MenuButton,
     MenuItem,
     MenuTitle,
-    SplitButton,
-    SplitButtonMenu,
     TextArea,
 } from 'monday-ui-react-core'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
