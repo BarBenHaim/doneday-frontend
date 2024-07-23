@@ -17,12 +17,13 @@
 
 .summary-row {
     margin-inline-start: 5px;
+    --sticky-cell-hover-background: none;
 }
 
 .summary-cell {
     border: 1px solid $tableBorderClr;
     border-block-start: none;
-    border-inline-start: none;
+    border-inline-end: none;
 }
 
 .summary-cell-1 {
