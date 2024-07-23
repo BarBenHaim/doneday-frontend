@@ -10,6 +10,8 @@ import {
     SplitButtonMenu,
     MenuItem,
     IconButton,
+    MenuButton,
+    Menu,
 } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
@@ -196,14 +198,14 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
             return {
                 key,
                 title: (
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div className='column-header-text' style={{ display: 'flex', alignItems: 'center' }}>
                         <span>{taskAttributesConfig[key.match(/^\D+/)[0]].label}</span>
-                        <IconButton
-                            icon={Delete}
-                            size={'small'}
-                            onClick={() => onRemoveColumn(key)}
-                            style={{ marginLeft: '8px' }}
-                        />
+
+                        <MenuButton className='column-menu-btn'>
+                            <Menu id='menu' size='medium'>
+                                <MenuItem onClick={() => onRemoveColumn(key)} icon={Delete} title='Delete' />
+                            </Menu>
+                        </MenuButton>
                     </div>
                 ),
                 width: taskAttributesConfig[key.match(/^\D+/)[0]].width || 'auto',
@@ -256,7 +258,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                                     ? 'table-header-cell addCol-col flex align-center justify-center'
                                                     : index === 0
                                                     ? 'table-header-cell sticky-col task-col flex align-center justify-center'
-                                                    : 'table-header-cell flex align-center justify-center'
+                                                    : 'table-header-cell regular flex align-center'
                                             }
                                             style={{
                                                 width: headerCell.width,
