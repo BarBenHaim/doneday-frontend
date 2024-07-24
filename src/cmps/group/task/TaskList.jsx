@@ -243,7 +243,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                 borderTopLeftRadius: '5px',
                             }}
                         >
-                            <TableHeader>
+                            <TableHeader className='table-header'>
                                 <TableRow
                                     style={{
                                         borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
