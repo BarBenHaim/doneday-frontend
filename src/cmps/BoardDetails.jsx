@@ -75,34 +75,20 @@ export function BoardDetails() {
         }
     }
 
-
     if (!currBoard) return <div>Loading...</div>
 
     return (
         <section className='board-details'>
             <header className='board-details-header'>
                 <div>
-                    <div
-                        className='board-details-title'
-                        style={{
-                            width: 'auto',
-                            display: 'flex',
-                            justifyContent: 'space-Between',
-                            alignItems: 'center',
-                            // width: '100%',
-                        }}>
+                    <div className='board-details-edit'>
                         <Dialog
                             content={
                                 <DialogContentContainer
                                     size={DialogContentContainer.sizes.LARGE}
                                     type={DialogContentContainer.types.POPOVER}>
-                                    <div
-                                        className='board-details-title-edit'
-                                        style={{
-                                            display: 'flex',
-                                            justifyContent: 'space-evenly',
-                                            alignItems: 'center',
-                                            width: '100%',
+                                    <div className='board-details-title-edit flex' style={{
+                                            paddingBottom: '10px',
                                         }}>
                                         <EditableHeading
                                             type='h2'
@@ -113,8 +99,11 @@ export function BoardDetails() {
                                         />
                                         <Button
                                             className='favorite-button'
-                                            onClick={() =>{handleToggleStarred}}
-                                            kind={Button.kinds.TERTIARY}>
+                                            onClick={() => {
+                                                handleToggleStarred
+                                            }}
+                                            kind={Button.kinds.TERTIARY}
+                                            size={Button.sizes.XS}>
                                             {currBoard.isStarred ? (
                                                 <Icon
                                                     iconType={Icon.type.ICON_FONT}
@@ -127,7 +116,7 @@ export function BoardDetails() {
                                                 <Favorite className='regular-icon' />
                                             )}
                                         </Button>
-                                    </div>
+                                    </div >
                                     <TextArea
                                         data-testid='editable-input'
                                         resize
@@ -138,11 +127,12 @@ export function BoardDetails() {
                                         size='large'
                                         value={currBoard.description}
                                         weight='normal'
-                                        onChange={(value) => onUpdateField(currBoard, 'description', value)}
+                                        style={{marginBottom:'10px'}}
+                                        onChange={(e) => onUpdateField(currBoard, 'description', e.target.value)}
                                     />
-                                    <div
+                                    <div className="board-details-edit-divider"
                                         style={{
-                                            height: '40px',
+                                            height: '20px',
                                             width: '100%',
                                         }}>
                                         <Divider direction='horizontal' />
@@ -159,7 +149,7 @@ export function BoardDetails() {
                                     },
                                 },
                             ]}
-                            position={DialogContentContainer.BOTTOM_START} 
+                            position={DialogContentContainer.BOTTOM_START}
                             showTrigger={['click']}
                             wrapperClassName='board-details-header-board-info'
                             zIndex={4}>
@@ -168,8 +158,7 @@ export function BoardDetails() {
                                 size='small'
                                 dialogPaddingSize={DialogContentContainer.sizes.MEDIUM}
                                 rightIcon={NavigationChevronDown}
-                                zIndex={4}
-                                >
+                                zIndex={4}>
                                 {currBoard.title}
                             </Button>
                         </Dialog>
