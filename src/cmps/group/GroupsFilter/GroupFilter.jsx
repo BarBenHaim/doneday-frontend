@@ -135,28 +135,28 @@ export function GroupFilter({ setFilterBy }) {
                     </Tooltip>
                 </div>
 
-                <div className='filter-hide'>
-                    <Tooltip
-                        content='Hidden columns'
-                        modifiers={[
-                            {
-                                name: 'preventOverflow',
-                                options: {
-                                    mainAxis: false,
-                                },
-                            },
-                            {
-                                name: 'flip',
-                                options: {
-                                    fallbackPlacements: [],
-                                },
-                            },
-                        ]}
-                        withMaxWidth
-                    >
-                        <GroupHideFilter setFilterBy={setFilterBy} />
-                    </Tooltip>
-                </div>
+                {/* <div className="filter-hide">
+          <Tooltip
+            content="Hidden columns"
+            modifiers={[
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                },
+              },
+              {
+                name: 'flip',
+                options: {
+                  fallbackPlacements: [],
+                },
+              },
+            ]}
+            withMaxWidth
+          >
+            <GroupHideFilter setFilterBy={setFilterBy} />
+          </Tooltip>
+        </div> */}
             </section>
         </>
     )

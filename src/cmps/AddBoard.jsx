@@ -3,6 +3,7 @@ import { addBoard } from '../store/actions/board.action'
 import { useNavigate } from 'react-router'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import {
+    DialogContentContainer,
     Divider,
     EditableText,
     Modal,
@@ -56,6 +57,7 @@ export function AddBoard({ isOpen, onClose }) {
                     contentSpacing
                     id='story-book-modal'
                     title='Create board'
+                    titleClassName="add-board-title"
                     show={isOpen}
                     onClose={onClose}
                     closeButtonAriaLabel={'close'}
@@ -112,8 +114,10 @@ export function AddBoard({ isOpen, onClose }) {
                                     checked={labelType === customLabel}
                                     onSelect={() => onLabelTypeSelect(customLabel)}
                                 />
+                                
                             </div>
                         </div>
+
                         <ModalFooterButtons
                             onPrimaryButtonClick={onAddBoard}
                             onSecondaryButtonClick={onClose}

@@ -5,6 +5,7 @@ import { GroupList } from './group/GroupList'
 import { GroupFilter } from './group/GroupsFilter/GroupFilter'
 import { useSelector } from 'react-redux'
 import { Delete, Favorite, NavigationChevronDown } from 'monday-ui-react-core/icons'
+import StarIcon from './svgs/starIcon' 
 import {
     Avatar,
     AvatarGroup,
@@ -22,15 +23,18 @@ import {
 } from 'monday-ui-react-core'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
+
 export function BoardDetails() {
     const { boardId } = useParams()
 
     const currBoard = useSelector((storeState) => storeState.boardModule.boards.find((board) => board._id === boardId))
+    const [isStarredBoard, setIsStarredBoard] = useState(currBoard.isStarred)
     const [boardsToDisplay, setBoardsToDisplay] = useState(currBoard?.groups || [])
     const navigate = useNavigate()
 
     useEffect(() => {
         setBoardsToDisplay(currBoard?.groups || [])
+        setIsStarredBoard(currBoard.isStarred)
         console.log('currBoard', currBoard)
     }, [currBoard])
 
@@ -57,10 +61,13 @@ export function BoardDetails() {
     }
     async function handleToggleStarred() {
         try {
+            console.log("currBoard", currBoard)
             await toggleStarredBoard(currBoard._id)
-            currBoard.isStarred = !currBoard.isStarred
+            setIsStarredBoard(isStarredBoard=>!isStarredBoard)
+            onUpdateField(currBoard, 'isStarred', !currBoard.isStarred)
+            //currBoard.isStarred=!currBoard.isStarred
         } catch (err) {
-            showErrorMsg('Cannot remove board')
+            showErrorMsg('Cannot toggle star')
         }
     }
 
@@ -99,22 +106,10 @@ export function BoardDetails() {
                                         />
                                         <Button
                                             className='favorite-button'
-                                            onClick={() => {
-                                                handleToggleStarred
-                                            }}
+                                            onClick={handleToggleStarred}
                                             kind={Button.kinds.TERTIARY}
                                             size={Button.sizes.XS}>
-                                            {currBoard.isStarred ? (
-                                                <Icon
-                                                    iconType={Icon.type.ICON_FONT}
-                                                    icon='fa fa-star'
-                                                    className='favorite-icon'
-                                                    ignoreFocusStyle
-                                                    style={{ color: '$Mfavorite' }}
-                                                />
-                                            ) : (
-                                                <Favorite className='regular-icon' />
-                                            )}
+                                         <StarIcon isStarred={isStarredBoard} />
                                         </Button>
                                     </div >
                                     <TextArea

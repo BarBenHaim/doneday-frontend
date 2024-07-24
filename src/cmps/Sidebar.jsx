@@ -9,11 +9,13 @@ import {
     Menu,
     MenuDivider,
     DialogContentContainer,
-    MenuButton,
     SplitButton,
     SplitButtonMenu,
     MenuTitle,
     MenuItemButton,
+    Dialog,
+    Button,
+    IconButton,
 } from 'monday-ui-react-core'
 import {
     Favorite,
@@ -71,39 +73,47 @@ export function Sidebar() {
                             />
                         ))}
                     <MenuDivider />
-
-                    <MenuButton
-                        triggerElement={(props) => (
-                            <Button
-                                {...props}
-                                icon={Add}
-                                className='add-board-menu'
-                                tooltipPosition='top'
-                                ariaLabel='Add item to workspace'
-                                tooltipContent='Add item to workspace'
-                                ariaHasPopup='menu'
-                                tabIndex={4}
-                                color='on-primary-color'>
-                                <Icon iconType={Icon.type.SVG} icon={Add} iconLabel='my add svg icon' size='20' />
-                            </Button>
-                        )}></MenuButton>
-
-                    <MenuTitle caption='Add new' />
-                    <MenuItem icon={Board} title='Board' splitMenuItem>
-                        <Menu>
-                            <MenuItem icon={Board} title='New Board' onClick={toggleAddBoard} />
-                        </Menu>
-                    </MenuItem>
+                    </Menu>
+                    <div className='add-button-dialog'>
+                        <Dialog
+                            content={
+                                <DialogContentContainer>
+                                    <Menu>
+                                        <MenuTitle caption='Add new' />
+                                        <MenuItem icon={Board} title='Board' splitMenuItem>
+                                            <Menu>
+                                                <MenuItem icon={Board} title='New Board' onClick={toggleAddBoard} />
+                                            </Menu>
+                                        </MenuItem>
+                                    </Menu>
+                                </DialogContentContainer>
+                            }
+                            hideTrigger={['clickoutside', 'onContentClick']}
+                            isOpen
+                            modifiers={[
+                                {
+                                    name: 'preventOverflow',
+                                    options: {
+                                        mainAxis: false,
+                                    },
+                                },
+                            ]}
+                            position='left-start'
+                             showTrigger={['click']} >
+                            <IconButton icon={Add} kind='primary' />
+                        </Dialog>
+                    </div>
+                    <Menu>
                     <MenuDivider />
                     <MenuTitle caption='Main workspace' captionPosition='top' />
                     {boardLabel.map((board) => (
-                            <MenuItem
-                                icon={Board}
-                                key={board._id}
-                                title={board.title}
-                                onClick={() => handleOnClick(`/board/${board._id}`)}
-                            />
-                        ))}
+                        <MenuItem
+                            icon={Board}
+                            key={board._id}
+                            title={board.title}
+                            onClick={() => handleOnClick(`/board/${board._id}`)}
+                        />
+                    ))}
                 </Menu>
             </DialogContentContainer>
 
