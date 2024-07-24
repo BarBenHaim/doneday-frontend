@@ -58,11 +58,11 @@ export function BoardIndex() {
                         type={DialogContentContainer.types.MODAL}>
                         <div className='collapsible-header flex align-center' onClick={toggleCollapse}>
                             {isCollapsed ? (
-                                <NavigationChevronRight size='20' lable='Expand list' />
+                                <NavigationChevronRight iconSize={'15'} lable='Expand list' />
                             ) : (
-                                <NavigationChevronDown size='20' lable='Collapse list' />
+                                <NavigationChevronDown iconSize={'15'} lable='Collapse list' />
                             )}
-                            <h3 className='bold collapsible-title'>Recently visited</h3>
+                            <h1 className='bold collapsible-title'>Recently visited</h1>
                         </div>
                         {!isCollapsed && <BoardList boards={boards} onRemoveBoard={onRemoveBoard} />}
                     </DialogContentContainer>

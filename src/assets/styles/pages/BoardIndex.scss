@@ -13,18 +13,23 @@
 
 .board-list-dialog {
     width: 100%;
+    padding-inline: 24px;
+    padding-block-start: 12px;
     
   }
 
     .collapsible-header {
-        margin-top: 2px;
-        margin-bottom: 0;
-        margin-left: 24px;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        
 
 
         .collapsible-title {
             font-size: rem(18px);
-            margin-left: 5px;
+            display: inline-block;
+            font-weight: 700;
+            margin-left: 4px;
         }
     }
     .board-index-template {
