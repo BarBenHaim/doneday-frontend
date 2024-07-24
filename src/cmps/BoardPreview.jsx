@@ -7,13 +7,12 @@ import { toggleStarredBoard } from '../store/actions/board.action'
 import { Icon } from 'monday-ui-react-core'
 import boardPreviewImg from '../assets/img/board-preview/board-preview-02.png'
 import logoImg from '../assets/img/logo/only-logo.png'
+import StarIcon from './svgs/starIcon'
 
 export function BoardPreview({ board }) {
 
     async function handleToggleStarred(event) {
-      event.preventDefault()
-      console.log('event',event)
-        // event.stopPropagation()
+        event.preventDefault()
         toggleStarredBoard(board._id)
         board.isStarred = !board.isStarred
     }
@@ -31,12 +30,7 @@ export function BoardPreview({ board }) {
                         </div>
 
                         <button className='starred-btn' title='Starred' onClick={handleToggleStarred}>
-                            {board.isStarred ? (
-                                // <FontAwesomeIcon icon={faStar} className='fa-star' style={{ color: '#FFD43B' }} title='Favorite' />
-                                <Icon iconType={Icon.type.ICON_FONT} icon='fa fa-star' className='yellow-star-icon' />
-                            ) : (
-                                <Favorite className='monday-icon' />
-                            )}
+                        <StarIcon isStarred={board.isStarred} />
                         </button>
                     </div>
                     <div className='board-preview-navigation'>
