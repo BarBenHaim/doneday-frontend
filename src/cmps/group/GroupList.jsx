@@ -158,7 +158,7 @@ export function GroupList({ boardsToDisplay }) {
                     </div>
                 )}
             </Droppable>
-            <Button onClick={onAddGroup} kind={Button.kinds.SECONDARY} size='small'>
+            <Button onClick={onAddGroup} kind={Button.kinds.SECONDARY} size={Button.sizes.SMALL}>
                 <div className='flex align-center justify-center'>
                     <Add size={18} />
                     <span className='flex align-center justify-center' style={{ padding: '2px' }}>
