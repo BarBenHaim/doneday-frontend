@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Dialog, DialogContentContainer, Button, Checkbox } from 'monday-ui-react-core'
+import { Dialog, DialogContentContainer, Button, Checkbox, EditableText } from 'monday-ui-react-core'
 
 const cellStyle = {
     display: 'flex',
@@ -10,7 +10,7 @@ const cellStyle = {
     cursor: 'pointer',
 }
 
-function TaskChecklists({ task, members, onUpdateField }) {
+function TaskChecklists({ task, members, onUpdateField, columnKey }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [newChecklistTitle, setNewChecklistTitle] = useState('')
     const [newChecklistItem, setNewChecklistItem] = useState('')
@@ -22,13 +22,13 @@ function TaskChecklists({ task, members, onUpdateField }) {
             title: newChecklistTitle,
             items: [],
         }
-        const updatedChecklists = [...task.checklists, newChecklist]
-        onUpdateField(task, 'checklists', updatedChecklists)
+        const updatedChecklists = [...(task[columnKey] || []), newChecklist]
+        onUpdateField(task, columnKey, updatedChecklists)
         setNewChecklistTitle('')
     }
 
     const handleAddChecklistItem = () => {
-        const updatedChecklists = task.checklists.map(checklist => {
+        const updatedChecklists = (task[columnKey] || []).map(checklist => {
             if (checklist._id === selectedChecklistId) {
                 return {
                     ...checklist,
@@ -40,12 +40,12 @@ function TaskChecklists({ task, members, onUpdateField }) {
             }
             return checklist
         })
-        onUpdateField(task, 'checklists', updatedChecklists)
+        onUpdateField(task, columnKey, updatedChecklists)
         setNewChecklistItem('')
     }
 
     const handleToggleChecklistItem = (checklistId, itemId) => {
-        const updatedChecklists = task.checklists.map(checklist => {
+        const updatedChecklists = (task[columnKey] || []).map(checklist => {
             if (checklist._id === checklistId) {
                 return {
                     ...checklist,
@@ -56,7 +56,7 @@ function TaskChecklists({ task, members, onUpdateField }) {
             }
             return checklist
         })
-        onUpdateField(task, 'checklists', updatedChecklists)
+        onUpdateField(task, columnKey, updatedChecklists)
     }
 
     return (
@@ -75,7 +75,7 @@ function TaskChecklists({ task, members, onUpdateField }) {
                             />
                             <Button onClick={handleAddChecklist}>Add Checklist</Button>
                             <div>
-                                {task.checklists.map(checklist => (
+                                {(task[columnKey] || []).map(checklist => (
                                     <div key={checklist._id}>
                                         <h4 onClick={() => setSelectedChecklistId(checklist._id)}>{checklist.title}</h4>
                                         {selectedChecklistId === checklist._id && (

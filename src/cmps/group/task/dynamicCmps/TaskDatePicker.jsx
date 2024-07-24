@@ -4,8 +4,8 @@ import moment from 'moment'
 import { getStatusStyle } from './styleUtils'
 import { Close } from 'monday-ui-react-core/icons'
 
-function TaskDatePicker({ task, onUpdateField }) {
-    const dueDate = task.dueDate ? moment(task.dueDate) : null
+function TaskDatePicker({ task, onUpdateField, columnKey }) {
+    const dueDate = task[columnKey] ? moment(task[columnKey]) : null
     const formattedDueDate = dueDate ? dueDate.format('D MMM') : ''
     let daysLeft = dueDate ? dueDate.diff(moment(), 'days') : null
     daysLeft = daysLeft !== null && daysLeft < 0 ? 0 : daysLeft
@@ -13,7 +13,7 @@ function TaskDatePicker({ task, onUpdateField }) {
     const { backgroundColor } = statusStyle
 
     const handleResetDate = () => {
-        onUpdateField(task, 'dueDate', null)
+        onUpdateField(task, columnKey, null)
     }
 
     return (
@@ -25,7 +25,7 @@ function TaskDatePicker({ task, onUpdateField }) {
                         <DatePicker
                             data-testid='date-picker'
                             date={dueDate}
-                            onPickDate={value => onUpdateField(task, 'dueDate', value.format('YYYY-MM-DD'))}
+                            onPickDate={value => onUpdateField(task, columnKey, value.format('YYYY-MM-DD'))}
                         />
                     </DialogContentContainer>
                 }

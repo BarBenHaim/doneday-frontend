@@ -9,16 +9,19 @@ import {
     SplitButton,
     SplitButtonMenu,
     MenuItem,
+    IconButton,
+    MenuButton,
+    Menu,
 } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
 import { taskAttributesConfig } from './taskAttributesConfig'
 import { showSuccessMsg, showErrorMsg } from '../../../services/event-bus.service'
-import { addTask, updateTask, removeTask } from '../../../store/actions/board.action'
+import { addTask, updateTask, removeTask, updateBoardOptimistic } from '../../../store/actions/board.action'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { useParams } from 'react-router'
 import { useSelector } from 'react-redux'
-import { Group } from 'monday-ui-react-core/icons'
+import { Add, Group, Delete } from 'monday-ui-react-core/icons'
 import { getPriorityStyle, getStatusStyle } from './dynamicCmps/styleUtils'
 
 function calculateSummary(taskList) {
@@ -29,9 +32,15 @@ function calculateSummary(taskList) {
     }
 
     taskList.forEach(task => {
-        summary.files += task.files ? task.files.length : 0
-        if (task.status) summary.status[task.status] = (summary.status[task.status] || 0) + 1
-        if (task.priority) summary.priority[task.priority] = (summary.priority[task.priority] || 0) + 1
+        for (const key in task) {
+            if (key.startsWith('files')) {
+                summary.files += task[key] ? task[key].length : 0
+            } else if (key.startsWith('status')) {
+                summary.status[task[key]] = (summary.status[task[key]] || 0) + 1
+            } else if (key.startsWith('priority')) {
+                summary.priority[task[key]] = (summary.priority[task[key]] || 0) + 1
+            }
+        }
     })
 
     const totalTasks = taskList.length
@@ -62,7 +71,7 @@ function renderProgressBar(distribution, colorGetter) {
     return <div style={{ display: 'flex', width: '100%', height: '20px' }}>{segments}</div>
 }
 
-function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTask, onDeleteTask, isCollapsed }) {
+function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTask, isCollapsed }) {
     const [taskList, setTaskList] = useState(tasks)
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
@@ -101,11 +110,109 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
         }
     }
 
-    const columns = board.cmpsOrder.map(key => ({
-        key,
-        title: taskAttributesConfig[key].label,
-        width: taskAttributesConfig[key].width || 'auto',
-    }))
+    const additionalColumn = {
+        key: 'addColumn',
+        title: <IconButton icon={Add} size={'small'} onClick={onAddColumn} />,
+        render: () => null,
+        className: 'addColumn',
+        width: '100%',
+    }
+
+    function generateUniqueKey(label, existingKeys) {
+        let count = 1
+        let newKey = `${label}${count}`
+        while (existingKeys.includes(newKey)) {
+            count++
+            newKey = `${label}${count}`
+        }
+        return newKey
+    }
+
+    async function onAddColumn() {
+        const predefinedLabels = Object.keys(taskAttributesConfig)
+        const existingLabels = board.cmpsOrder
+        const allValidLabels = Array.from(new Set([...predefinedLabels, ...existingLabels]))
+
+        const columnLabel = prompt(`Enter the column label (${allValidLabels.join(', ')}):`)
+        if (!columnLabel) return
+
+        const normalizedLabel = columnLabel
+        console.log(allValidLabels)
+
+        if (!allValidLabels.includes(normalizedLabel)) {
+            alert(`Invalid label. Please enter one of the following: ${allValidLabels.join(', ')}`)
+            return
+        }
+
+        const newColumnKey = generateUniqueKey(normalizedLabel, board.cmpsOrder)
+        const updatedCmpsOrder = [...board.cmpsOrder, newColumnKey]
+        const updatedGroups = board.groups.map(group => ({
+            ...group,
+            tasks: group.tasks.map(task => ({
+                ...task,
+                [newColumnKey]: '',
+            })),
+        }))
+
+        const updatedBoard = {
+            ...board,
+            cmpsOrder: updatedCmpsOrder,
+            groups: updatedGroups,
+        }
+
+        try {
+            await updateBoardOptimistic(updatedBoard)
+            showSuccessMsg('Column added successfully')
+        } catch (err) {
+            showErrorMsg('Cannot add column')
+        }
+    }
+
+    async function onRemoveColumn(columnKey) {
+        const updatedCmpsOrder = board.cmpsOrder.filter(key => key !== columnKey)
+        const updatedGroups = board.groups.map(group => ({
+            ...group,
+            tasks: group.tasks.map(task => {
+                const updatedTask = { ...task }
+                delete updatedTask[columnKey]
+                return updatedTask
+            }),
+        }))
+
+        const updatedBoard = {
+            ...board,
+            cmpsOrder: updatedCmpsOrder,
+            groups: updatedGroups,
+        }
+
+        try {
+            await updateBoardOptimistic(updatedBoard)
+            showSuccessMsg('Column removed successfully')
+        } catch (err) {
+            showErrorMsg('Cannot remove column')
+        }
+    }
+
+    const columns = [
+        ...board.cmpsOrder.map(key => {
+            return {
+                key,
+                title: (
+                    <div className='column-header-text' style={{ display: 'flex', alignItems: 'center' }}>
+                        <span>{taskAttributesConfig[key.match(/^\D+/)[0]].label}</span>
+
+                        <MenuButton className='column-menu-btn'>
+                            <Menu id='menu' size='medium'>
+                                <MenuItem onClick={() => onRemoveColumn(key)} icon={Delete} title='Delete' />
+                            </Menu>
+                        </MenuButton>
+                    </div>
+                ),
+                width: taskAttributesConfig[key.match(/^\D+/)[0]].width || 'auto',
+            }
+        }),
+        additionalColumn,
+    ]
 
     const summary = calculateSummary(taskList)
     const boardLabelName = currBoard.label.toLowerCase()
@@ -124,30 +231,42 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                             </SplitButtonMenu>
                         }
                     />
+
                     <div className='tasks-list-container'>
                         <Table
                             className='group-table'
                             withoutBorder
                             columns={columns}
                             style={{
-                                borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
                                 overflow: 'visible',
                                 borderTopLeftRadius: '5px',
                             }}
                         >
                             <TableHeader>
-                                {columns.map((headerCell, index) => (
-                                    <TableHeaderCell
-                                        key={index}
-                                        title={index === 0 ? currBoard.label : headerCell.title}
-                                        className={
-                                            index === 0
-                                                ? 'table-header-cell sticky-col task-col flex align-center justify-center'
-                                                : 'table-header-cell flex align-center justify-center'
-                                        }
-                                        style={{ width: headerCell.width }}
-                                    />
-                                ))}
+                                <TableRow
+                                    style={{
+                                        borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
+                                        borderTopLeftRadius: '5px',
+                                    }}
+                                >
+                                    {columns.map((headerCell, index) => (
+                                        <TableHeaderCell
+                                            key={index}
+                                            title={index === 0 ? currBoard.label : headerCell.title}
+                                            className={
+                                                headerCell.key === 'addColumn'
+                                                    ? 'table-header-cell addCol-col flex align-center justify-center'
+                                                    : index === 0
+                                                    ? 'table-header-cell sticky-col task-col flex align-center justify-center'
+                                                    : 'table-header-cell regular flex align-center'
+                                            }
+                                            style={{
+                                                width: headerCell.width,
+                                            }}
+                                            onClick={headerCell.key === 'addColumn' ? onAddColumn : undefined}
+                                        />
+                                    ))}
+                                </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {!isCollapsed &&
@@ -159,18 +278,28 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
                                                 >
-                                                    <TaskPreview
-                                                        task={task}
-                                                        members={members}
-                                                        labels={labels}
-                                                        board={board}
-                                                        group={group}
-                                                        openModal={openModal}
-                                                        onUpdateTask={onUpdateTask}
-                                                        onDeleteTask={onDeleteTask}
-                                                        provided={provided}
-                                                        cmpsOrder={board.cmpsOrder}
-                                                    />
+                                                    <TableRow
+                                                        style={{
+                                                            borderInlineStart: `${
+                                                                group.style.backgroundColor || '#579bfc'
+                                                            } 6px solid`,
+                                                            borderBottomLeftRadius:
+                                                                index === taskList.length - 1 ? '5px' : '0px',
+                                                        }}
+                                                    >
+                                                        <TaskPreview
+                                                            task={task}
+                                                            members={members}
+                                                            labels={labels}
+                                                            board={board}
+                                                            group={group}
+                                                            openModal={openModal}
+                                                            onUpdateTask={onUpdateTask}
+                                                            onDeleteTask={onDeleteTask}
+                                                            provided={provided}
+                                                            cmpsOrder={board.cmpsOrder}
+                                                        />
+                                                    </TableRow>
                                                 </div>
                                             )}
                                         </Draggable>
@@ -181,16 +310,17 @@ function TasksList({ tasks, members, labels, board, group, openModal, onUpdateTa
                                 {columns.map((col, index) => (
                                     <TableCell
                                         key={col.key}
-                                        className={`summary-cell ${`summary-cell-${index}`}`}
+                                        className={`summary-cell summary-cell-${index}`}
                                         style={{
                                             width: col.width,
                                         }}
                                     >
                                         <div className='summary-cell-files'>
-                                            {col.key === 'files' && `${summary.files} files`}
+                                            {col.key.startsWith('files') && `${summary.files} files`}
                                         </div>
-                                        {col.key === 'status' && renderProgressBar(summary.status, getStatusStyle)}
-                                        {col.key === 'priority' &&
+                                        {col.key.startsWith('status') &&
+                                            renderProgressBar(summary.status, getStatusStyle)}
+                                        {col.key.startsWith('priority') &&
                                             renderProgressBar(summary.priority, getPriorityStyle)}
                                     </TableCell>
                                 ))}

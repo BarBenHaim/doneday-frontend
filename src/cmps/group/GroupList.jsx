@@ -134,11 +134,7 @@ export function GroupList({ boardsToDisplay }) {
                         {boardsToDisplay.map((group, index) => (
                             <Draggable key={group._id} draggableId={group._id} index={index}>
                                 {provided => (
-                                    <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                    >
+                                    <div ref={provided.innerRef} {...provided.draggableProps}>
                                         <GroupPreview
                                             group={group}
                                             members={currBoard.members}
@@ -149,6 +145,7 @@ export function GroupList({ boardsToDisplay }) {
                                             isDragging={isDragging}
                                             isCollapsed={collapsedStates[group._id]}
                                             toggleCollapse={() => handleToggleCollapse(group._id)}
+                                            dragHandleProps={provided.dragHandleProps}
                                         />
                                     </div>
                                 )}

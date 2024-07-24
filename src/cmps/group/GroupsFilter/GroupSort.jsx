@@ -1,3 +1,9 @@
+import {
+  Dialog,
+  DialogContentContainer,
+  IconButton,
+} from 'monday-ui-react-core'
+import { Sort } from 'monday-ui-react-core/icons'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
@@ -60,38 +66,63 @@ export function GruopSort({ setFilterBy }) {
   }
 
   return (
-    <div className="sort-content">
-      <span style={{ cursor: 'pointer' }} className="close">
-        &times;
-      </span>
-      <h2>Sort by</h2>
-      <div className="sort-options">
-        <div className="sort-option">
-          <label>Choose column:</label>
-          <select
-            onChange={(ev) => {
-              setSortColumn(ev.target.value)
-            }}
-          >
-            <option value="" disabled selected>
-              Sort by
-            </option>
-            <option value="name">Name</option>
-            <option value="priority">Priority</option>
-            <option value="due-date">Due Date</option>
-          </select>
+    <div className="monday-storybook-dialog--story-padding">
+      <Dialog
+        content={
+          <DialogContentContainer style={{ padding: '10px' }}>
+            <div className="sort-content">
+              <h2 className="sort-by">Sort by</h2>
+              <div className="sort-options">
+                <div className="sort-option">
+                  <label>Choose column:</label>
+                  <select
+                    onChange={(ev) => {
+                      setSortColumn(ev.target.value)
+                    }}
+                  >
+                    <option value="" disabled selected>
+                      Sort by
+                    </option>
+                    <option value="name">Name</option>
+                    <option value="priority">Priority</option>
+                    <option value="due-date">Due Date</option>
+                  </select>
+                </div>
+                <div className="sort-option">
+                  <label>Order:</label>
+                  <select onChange={getSotrOrder}>
+                    <option value="" disabled selected>
+                      Sort by
+                    </option>
+                    <option value="ascending">Ascending</option>
+                    <option value="descending">Descending</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </DialogContentContainer>
+        }
+        hideTrigger={['clickoutside']}
+        modifiers={[
+          {
+            name: 'preventOverflow',
+            options: {
+              // mainAxis: false,
+            },
+          },
+        ]}
+        position="bottom"
+        showTrigger={['click']}
+      >
+        <div
+          style={{ padding: '4px', cursor: 'pointer' }}
+          icon={function noRefCheck() {}}
+          className="filter-item sort"
+        >
+          <Sort />
+          Sort
         </div>
-        <div className="sort-option">
-          <label>Order:</label>
-          <select onChange={getSotrOrder}>
-            <option value="" disabled selected>
-              Sort by
-            </option>
-            <option value="ascending">Ascending</option>
-            <option value="descending">Descending</option>
-          </select>
-        </div>
-      </div>
+      </Dialog>
     </div>
   )
 }
