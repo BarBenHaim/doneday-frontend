@@ -16,7 +16,13 @@ import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
 import { taskAttributesConfig } from './taskAttributesConfig'
 import { showSuccessMsg, showErrorMsg } from '../../../services/event-bus.service'
-import { addTask, updateTask, removeTask, updateBoardOptimistic } from '../../../store/actions/board.action'
+import {
+    addTask,
+    updateTask,
+    removeTask,
+    updateBoardOptimistic,
+    getEmptyTask,
+} from '../../../store/actions/board.action'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { useParams } from 'react-router'
 import { useSelector } from 'react-redux'
@@ -80,9 +86,9 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
         setTaskList(tasks)
     }, [tasks, currBoard])
 
-    async function onAddTask() {
+    async function onAddTask(title = '') {
         try {
-            const addedTask = await addTask(board._id, group._id)
+            const addedTask = await addTask(board._id, group._id, getEmptyTask(), title)
             setTaskList([addedTask, ...taskList])
             showSuccessMsg('Task added successfully')
         } catch (err) {
@@ -213,7 +219,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                     <SplitButton
                         style={{ fontSize: '14px' }}
                         children={'New ' + boardLabelName}
-                        onClick={onAddTask}
+                        onClick={() => onAddTask(`New ${boardLabelName}`)}
                         size='small'
                         secondaryDialogContent={
                             <SplitButtonMenu id='split-menu'>
@@ -273,8 +279,6 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                                             borderInlineStart: `${
                                                                 group.style.backgroundColor || '#579bfc'
                                                             } 6px solid`,
-                                                            borderBottomLeftRadius:
-                                                                index === taskList.length - 1 ? '5px' : '0px',
                                                         }}
                                                     >
                                                         <TaskPreview
@@ -296,6 +300,26 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                     ))}
                                 {provided.placeholder}
                             </TableBody>
+                            <TableRow
+                                className='add-task-row'
+                                style={{
+                                    borderInlineStart: `${group.style.backgroundColor || '#579bfc'} 6px solid`,
+                                    borderBottomLeftRadius: '5px',
+                                }}
+                            >
+                                <TableCell className='add-task-row-cell'>
+                                    <input
+                                        className='add-task-input'
+                                        type='text'
+                                        onBlur={ev => {
+                                            if (ev.target.value) onAddTask(ev.target.value)
+                                            ev.target.value = ''
+                                            return
+                                        }}
+                                        placeholder='+ Add task...'
+                                    />
+                                </TableCell>
+                            </TableRow>
                             <TableRow className='summary-row'>
                                 {columns.map((col, index) => (
                                     <TableCell

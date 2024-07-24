@@ -63,7 +63,7 @@ export async function addBoard(boardTitle, boardLabel) {
 
 export async function updateBoard(board) {
     store.dispatch(getCmdUpdateBoard(board))
-    console.log('boardID update board',board )
+    console.log('boardID update board', board)
 
     try {
         const savedBoard = await boardService.save(board)
@@ -132,9 +132,9 @@ export async function removeGroup(boardId, groupId) {
     }
 }
 
-export async function addTask(boardId, groupId, task = getEmptyTask()) {
+export async function addTask(boardId, groupId, task, title = '') {
     const taskId = `t${Date.now()}`
-    const newTask = { ...task, _id: taskId }
+    const newTask = { ...task, _id: taskId, title: title || task.title }
     store.dispatch(getCmdAddTask(boardId, groupId, newTask))
     try {
         const savedTask = await boardService.addTask(boardId, groupId, newTask)
@@ -291,7 +291,7 @@ export function getCmdRevertBoard() {
     }
 }
 
-function getEmptyTask() {
+export function getEmptyTask() {
     return {
         title: 'New Task',
         memberIds: [],
