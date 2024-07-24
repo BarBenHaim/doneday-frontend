@@ -88,7 +88,8 @@ export function Sidebar() {
                                     </Menu>
                                 </DialogContentContainer>
                             }
-                            hideTrigger={['click', 'clickoutside', 'onContentClick']}
+                            hideTrigger={['clickoutside', 'onContentClick']}
+                            isOpen
                             modifiers={[
                                 {
                                     name: 'preventOverflow',
@@ -98,8 +99,7 @@ export function Sidebar() {
                                 },
                             ]}
                             position='left-start'
-                            shouldShowOnMount
-                            showTrigger={['click']}>
+                             showTrigger={['click']} >
                             <IconButton icon={Add} kind='primary' />
                         </Dialog>
                     </div>
