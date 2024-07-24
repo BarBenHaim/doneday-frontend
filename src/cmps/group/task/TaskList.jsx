@@ -9,7 +9,6 @@ import {
     SplitButton,
     SplitButtonMenu,
     MenuItem,
-    IconButton,
     MenuButton,
     Menu,
 } from 'monday-ui-react-core'
@@ -21,8 +20,9 @@ import { addTask, updateTask, removeTask, updateBoardOptimistic } from '../../..
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { useParams } from 'react-router'
 import { useSelector } from 'react-redux'
-import { Add, Group, Delete } from 'monday-ui-react-core/icons'
+import { Group, Delete } from 'monday-ui-react-core/icons'
 import { getPriorityStyle, getStatusStyle } from './dynamicCmps/styleUtils'
+import AddColumnPopover from './AddColumnPopover' // Import the popover component
 
 function calculateSummary(taskList) {
     const summary = {
@@ -38,7 +38,7 @@ function calculateSummary(taskList) {
             } else if (key.startsWith('status')) {
                 summary.status[task[key]] = (summary.status[task[key]] || 0) + 1
             } else if (key.startsWith('priority')) {
-                summary.priority[task[key]] = (summary.priority[task[key]] || 0) + 1
+                summary.priority[task[key]] = (summary.priority[key] || 0) + 1
             }
         }
     })
@@ -112,7 +112,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
 
     const additionalColumn = {
         key: 'addColumn',
-        title: <IconButton icon={Add} size={'small'} onClick={onAddColumn} />,
+        title: <AddColumnPopover predefinedLabels={Object.keys(taskAttributesConfig)} handleAddColumn={onAddColumn} />,
         render: () => null,
         className: 'addColumn',
         width: '100%',
@@ -128,21 +128,12 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
         return newKey
     }
 
-    async function onAddColumn() {
-        const predefinedLabels = Object.keys(taskAttributesConfig)
+    async function onAddColumn(columnLabel) {
         const existingLabels = board.cmpsOrder
-        const allValidLabels = Array.from(new Set([...predefinedLabels, ...existingLabels]))
 
-        const columnLabel = prompt(`Enter the column label (${allValidLabels.join(', ')}):`)
         if (!columnLabel) return
 
         const normalizedLabel = columnLabel
-        console.log(allValidLabels)
-
-        if (!allValidLabels.includes(normalizedLabel)) {
-            alert(`Invalid label. Please enter one of the following: ${allValidLabels.join(', ')}`)
-            return
-        }
 
         const newColumnKey = generateUniqueKey(normalizedLabel, board.cmpsOrder)
         const updatedCmpsOrder = [...board.cmpsOrder, newColumnKey]
@@ -264,7 +255,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                             style={{
                                                 width: headerCell.width,
                                             }}
-                                            onClick={headerCell.key === 'addColumn' ? onAddColumn : undefined}
+                                            onClick={headerCell.key === 'addColumn' ? undefined : undefined} // No click event for header cells
                                         />
                                     ))}
                                 </TableRow>
