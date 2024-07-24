@@ -139,7 +139,7 @@ export function GroupFilter({ setFilterBy }) {
           </Tooltip>
         </div>
 
-        <div className="filter-hide">
+        {/* <div className="filter-hide">
           <Tooltip
             content="Hidden columns"
             modifiers={[
@@ -160,7 +160,7 @@ export function GroupFilter({ setFilterBy }) {
           >
             <GroupHideFilter setFilterBy={setFilterBy} />
           </Tooltip>
-        </div>
+        </div> */}
       </section>
     </>
   )

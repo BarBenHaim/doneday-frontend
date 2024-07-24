@@ -2,14 +2,10 @@
   display: flex;
   align-items: center;
 
-  gap: 10px;
+  gap: 25px;
   background-color: $Mbgr1;
   padding: 0.5rem;
   border-radius: 8px;
-}
-.search-filter {
-  display: flex;
-  align-items: center;
 }
 
 // SEARCH ITEMN//
@@ -25,20 +21,12 @@
   cursor: pointer;
 }
 
-.search-button i {
-  margin-right: 8px;
-}
-
-.search input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
 .search input:focus {
+  margin: 0;
+
   outline: none;
   border-color: #007bff;
+  transform: scale(1.05);
 }
 
 .filter-item,
@@ -85,6 +73,17 @@ Advanced filters modal//
   &.second {
     padding: 0 5px;
     font-size: 12px;
+    color: gray;
+  }
+}
+.clear-all {
+  font-family: $font-family-primary;
+  font-size: 16px;
+  color: gray;
+
+  &:hover {
+    background-color: white;
+    color: rgb(66, 64, 64);
   }
 }
 
@@ -132,4 +131,7 @@ input[type='text']:focus {
 }
 .custom-avatar {
   cursor: pointer;
+}
+.active {
+  background-color: #458bd531;
 }

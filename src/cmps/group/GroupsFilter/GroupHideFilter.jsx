@@ -11,12 +11,13 @@ export function GroupHideFilter({ setFilterBy }) {
   )
   const groups = currBoard.groups || []
   const tasks = groups.flatMap((group) => group.tasks || [])
-
+  console.log(tasks[0])
+  const [arrayOfProperties, setarrayOfProperties] = useState([])
   const [selectedColumn, setSelectedColumn] = useState([
-    'byMember',
-    'status',
-    'dueDate',
-    'priority',
+    // 'byMember',
+    // 'status',
+    // 'dueDate',
+    // 'priority',
   ])
   const [checkedColumns, setCheckedColumns] = useState({
     byMember: true,
@@ -39,7 +40,7 @@ export function GroupHideFilter({ setFilterBy }) {
   }
 
   function handleCheckboxChange(event) {
-    console.log(event.target.value)
+    // console.log(event.target.value)
 
     const { id } = event.target
     toggleColumn(id)
@@ -50,7 +51,7 @@ export function GroupHideFilter({ setFilterBy }) {
     setCheckedColumns({
       person: allChecked,
       status: allChecked,
-      timeline: allChecked,
+      dueDate: allChecked,
       priority: allChecked,
     })
     setSelectedColumn(
@@ -58,17 +59,32 @@ export function GroupHideFilter({ setFilterBy }) {
     )
   }
 
-  console.log('selectedColumn', selectedColumn)
-  console.log('checkedColumns', checkedColumns)
+  // console.log('selectedColumn', selectedColumn)
+  // console.log('checkedColumns', checkedColumns)
 
   function getHideColumn() {
     const filteredGroups = groups.map((group) => {
-      const filteredTasks = group.tasks.filter((task) => {
-        console.log(selectedColumn)
-
-        return selectedColumn.some((col) => task[col])
+      const filteredTasks = group.tasks.map((task) => {
+        console.log({ selectedColumn })
+        const filteredTask = selectedColumn.reduce((acc, key) => {
+          if (task.hasOwnProperty(key)) {
+            acc[key] = task[key]
+          }
+          return acc
+        }, {})
+        console.log({ filteredTask })
+        filteredTask._id = task._id
+        filteredTask.title = task.title
+        filteredTask.style = task.style
+        filteredTask.memberIds = task.memberIds
+        filteredTask.labelIds = task.labelIds
+        filteredTask.description = task.description
+        filteredTask.comments = task.comments
+        filteredTask.checklist = task.checklist
+        filteredTask.archivedAt = task.archivedAt
+        return filteredTask
       })
-      console.log(filteredTasks)
+      console.log({ filteredTasks })
 
       return {
         ...group,
@@ -79,7 +95,7 @@ export function GroupHideFilter({ setFilterBy }) {
     const nonEmptyGroups = filteredGroups.filter(
       (group) => group.tasks.length > 0
     )
-    console.log(nonEmptyGroups)
+    // console.log(nonEmptyGroups)
 
     setFilterBy(nonEmptyGroups)
     return nonEmptyGroups
@@ -134,7 +150,7 @@ export function GroupHideFilter({ setFilterBy }) {
                   <label>
                     <input
                       type="checkbox"
-                      id="timeline"
+                      id="dueDate"
                       checked={checkedColumns.timeline}
                       onChange={handleCheckboxChange}
                     />

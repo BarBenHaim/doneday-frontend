@@ -11,7 +11,8 @@ export function GroupPersonFilter({ setFilterBy }) {
   const currBoard = useSelector((storeState) =>
     storeState.boardModule.boards.find((board) => board._id === boardId)
   )
-
+  const [isPersoneActiv, setIsPersoneActiv] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
   const groups = currBoard?.groups || []
   const tasks = groups.flatMap((group) => group.tasks || [])
   const memberIds = tasks.flatMap((task) => task.memberIds)
@@ -39,7 +40,14 @@ export function GroupPersonFilter({ setFilterBy }) {
     }
   }, [currBoard])
 
+  function onClearPerson() {
+    setIsPersoneActiv(false)
+    setIsDialogOpen(false)
+    setFilterBy(groups)
+  }
+
   function getMember(memberId) {
+    setIsPersoneActiv(true)
     const filteredGroups = groups.map((group) => {
       const filteredTasks = group.tasks.filter(
         (task) =>
@@ -66,8 +74,12 @@ export function GroupPersonFilter({ setFilterBy }) {
         content={
           <DialogContentContainer>
             <section className="person-modal">
-              <p id="modal-title">Filter this board by person</p>
-              <p>And find items they're working on.</p>
+              <section className="header-avatar">
+                <div className="title-avatar">
+                  <p id="modal-title">Filter this board by person</p>
+                  <p>And find items they're working on.</p>
+                </div>
+              </section>
               <div className="members">
                 {[...new Set(memberIds)].map((memberId, index) => (
                   <div
@@ -105,10 +117,16 @@ export function GroupPersonFilter({ setFilterBy }) {
         <div
           style={{ padding: '4px', cursor: 'pointer' }}
           icon={function noRefCheck() {}}
-          className="filter-item person"
+          className={`filter-item person ${isPersoneActiv ? 'active' : ''}`}
+          // onClick={() => setIsDialogOpen(true)}
         >
           <Person />
           Person
+          {isPersoneActiv && (
+            <div className="clear-person" onClick={onClearPerson}>
+              <i class="fa-solid fa-xmark" style={{ padding: '2px 4px' }}></i>
+            </div>
+          )}
         </div>
       </Dialog>
     </div>

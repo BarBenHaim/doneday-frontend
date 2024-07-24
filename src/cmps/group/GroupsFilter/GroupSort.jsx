@@ -17,6 +17,7 @@ export function GruopSort({ setFilterBy }) {
   const groups = currBoard.groups || []
   const tasks = groups.flatMap((group) => group.tasks || [])
 
+  const [isSortActiv, setISortActive] = useState(false)
   const [sortColumn, setSortColumn] = useState('')
   const [sortOrder, setSortOrder] = useState('')
 
@@ -27,7 +28,13 @@ export function GruopSort({ setFilterBy }) {
     Critical: 4,
   }
 
+  function onClearSort() {
+    setISortActive(false)
+    setFilterBy(groups)
+  }
+
   function getSotrOrder(ev) {
+    setISortActive(true)
     const order = ev.target.value
     setSortOrder(order)
     if (!sortColumn) return tasks
@@ -72,6 +79,7 @@ export function GruopSort({ setFilterBy }) {
           <DialogContentContainer style={{ padding: '10px' }}>
             <div className="sort-content">
               <h2 className="sort-by">Sort by</h2>
+
               <div className="sort-options">
                 <div className="sort-option">
                   <label>Choose column:</label>
@@ -117,10 +125,15 @@ export function GruopSort({ setFilterBy }) {
         <div
           style={{ padding: '4px', cursor: 'pointer' }}
           icon={function noRefCheck() {}}
-          className="filter-item sort"
+          className={`filter-item sort ${isSortActiv ? 'active' : ''}`}
         >
           <Sort />
           Sort
+          {isSortActiv && (
+            <div className="clear-person" onClick={onClearSort}>
+              <i class="fa-solid fa-xmark" style={{ padding: '2px 4px' }}></i>
+            </div>
+          )}
         </div>
       </Dialog>
     </div>
