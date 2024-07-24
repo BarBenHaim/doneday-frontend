@@ -129,8 +129,6 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
     }
 
     async function onAddColumn(columnLabel) {
-        const existingLabels = board.cmpsOrder
-
         if (!columnLabel) return
 
         const normalizedLabel = columnLabel
@@ -255,7 +253,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                             style={{
                                                 width: headerCell.width,
                                             }}
-                                            onClick={headerCell.key === 'addColumn' ? undefined : undefined} // No click event for header cells
+                                            onClick={headerCell.key === undefined}
                                         />
                                     ))}
                                 </TableRow>

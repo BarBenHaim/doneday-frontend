@@ -23,7 +23,7 @@ const TaskPriority = ({ task, onUpdateField, columnKey }) => (
                     </ul>
                 </DialogContentContainer>
             }
-            hideTrigger={['clickoutside']}
+            hideTrigger={['clickoutside', 'onContentClick']}
             position='bottom'
             showTrigger={['click']}
         >

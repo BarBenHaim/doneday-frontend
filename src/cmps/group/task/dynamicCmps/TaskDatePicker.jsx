@@ -29,7 +29,7 @@ function TaskDatePicker({ task, onUpdateField, columnKey }) {
                         />
                     </DialogContentContainer>
                 }
-                hideTrigger={['clickoutside']}
+                hideTrigger={['clickoutside', 'onContentClick']}
                 modifiers={[
                     {
                         name: 'preventOverflow',
