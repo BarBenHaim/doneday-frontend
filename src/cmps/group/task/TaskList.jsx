@@ -222,6 +222,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
             {provided => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
                     <SplitButton
+                        style={{ fontSize: '14px' }}
                         children={'New ' + boardLabelName}
                         onClick={onAddTask}
                         size='small'
