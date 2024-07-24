@@ -3,12 +3,11 @@
     grid-template-columns: auto 1fr;
     height: 100vh;
 
-
     > * {
         // &:first-child {
         //   grid-column: 1; // Sidebar in the first column
         // }
-    
+
         // &:nth-child(2) {
         //   grid-column: 2; // Main content in the second column
         // }
@@ -16,34 +15,34 @@
         &.full {
             grid-column: 1 / -1;
         }
-      }
+    }
 
-//     @include for-narrow-layout {
-//         grid-template-columns: 
-//             minmax(20px, 1fr)
-//             minmax(auto, $mobile-breakpoint)
-//             minmax(20px, 1fr);
-//     }
-//     @include for-normal-layout {
-//         grid-template-columns: 
-//             minmax(20px, 1fr)
-//             minmax(auto, $narrow-breakpoint)
-//             minmax(20px, 1fr);
-//     }
-//     @include for-wide-layout {
-//         grid-template-columns: 
-//             minmax(20px, 1fr)
-//             minmax(auto, $normal-breakpoint)
-//             minmax(20px, 1fr);
-//     }
-// }
+    //     @include for-narrow-layout {
+    //         grid-template-columns:
+    //             minmax(20px, 1fr)
+    //             minmax(auto, $mobile-breakpoint)
+    //             minmax(20px, 1fr);
+    //     }
+    //     @include for-normal-layout {
+    //         grid-template-columns:
+    //             minmax(20px, 1fr)
+    //             minmax(auto, $narrow-breakpoint)
+    //             minmax(20px, 1fr);
+    //     }
+    //     @include for-wide-layout {
+    //         grid-template-columns:
+    //             minmax(20px, 1fr)
+    //             minmax(auto, $normal-breakpoint)
+    //             minmax(20px, 1fr);
+    //     }
+    // }
 
-// .card-grid {
-//     display: grid;
-//     grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); // Default column size
-//     grid-gap: 20px;
-  
-//     @include for-mobile-layout {
-//       grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); // Adjusted column size for smaller screens
-//     }
-  }
+    // .card-grid {
+    //     display: grid;
+    //     grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); // Default column size
+    //     grid-gap: 20px;
+
+    //     @include for-mobile-layout {
+    //       grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); // Adjusted column size for smaller screens
+    //     }
+}

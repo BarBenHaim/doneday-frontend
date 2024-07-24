@@ -11,13 +11,9 @@ body {
     // max-width: 1024px;
     margin: 0 auto;
     padding: 0 auto;
-
     font-family: $font-family-primary;
     font-size: rem(18px);
-}
-
-::-webkit-scrollbar {
-    // display: none;
+    overflow: auto;
 }
 
 h1,
@@ -58,7 +54,7 @@ p {
 
 a {
     text-decoration: none;
-    color:inherit;
+    color: inherit;
 }
 
 a:hover {
@@ -72,4 +68,8 @@ ul {
 
 input {
     max-width: 100%;
+}
+
+.scrollable {
+    overflow: auto;
 }

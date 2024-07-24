@@ -127,42 +127,44 @@ export function GroupList({ boardsToDisplay }) {
     if (!currBoard) return <div>Loading...</div>
 
     return (
-        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-            <Droppable droppableId='all-groups' type='GROUP' direction='vertical'>
-                {provided => (
-                    <div {...provided.droppableProps} ref={provided.innerRef}>
-                        {boardsToDisplay.map((group, index) => (
-                            <Draggable key={group._id} draggableId={group._id} index={index}>
-                                {provided => (
-                                    <div ref={provided.innerRef} {...provided.draggableProps}>
-                                        <GroupPreview
-                                            group={group}
-                                            members={currBoard.members}
-                                            labels={currBoard.labels}
-                                            onUpdateGroup={onUpdateGroup}
-                                            onRemoveGroup={onRemoveGroup}
-                                            board={currBoard}
-                                            isDragging={isDragging}
-                                            isCollapsed={collapsedStates[group._id]}
-                                            toggleCollapse={() => handleToggleCollapse(group._id)}
-                                            dragHandleProps={provided.dragHandleProps}
-                                        />
-                                    </div>
-                                )}
-                            </Draggable>
-                        ))}
-                        {provided.placeholder}
-                    </div>
-                )}
-            </Droppable>
-            <Button onClick={onAddGroup} kind={Button.kinds.SECONDARY} size={Button.sizes.SMALL}>
+        <section className='group list scrollable'>
+            <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+                <Droppable droppableId='all-groups' type='GROUP' direction='vertical'>
+                    {provided => (
+                        <div {...provided.droppableProps} ref={provided.innerRef}>
+                            {boardsToDisplay.map((group, index) => (
+                                <Draggable key={group._id} draggableId={group._id} index={index}>
+                                    {provided => (
+                                        <div ref={provided.innerRef} {...provided.draggableProps}>
+                                            <GroupPreview
+                                                group={group}
+                                                members={currBoard.members}
+                                                labels={currBoard.labels}
+                                                onUpdateGroup={onUpdateGroup}
+                                                onRemoveGroup={onRemoveGroup}
+                                                board={currBoard}
+                                                isDragging={isDragging}
+                                                isCollapsed={collapsedStates[group._id]}
+                                                toggleCollapse={() => handleToggleCollapse(group._id)}
+                                                dragHandleProps={provided.dragHandleProps}
+                                            />
+                                        </div>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
+                {/* <Button onClick={onAddGroup} kind={Button.kinds.SECONDARY} size={Button.sizes.SMALL}>
                 <div className='flex align-center justify-center'>
-                    <Add size={18} />
-                    <span className='flex align-center justify-center' style={{ padding: '2px', fontSize: '14px' }}>
-                        Add new group
-                    </span>
+                <Add size={18} />
+                <span className='flex align-center justify-center' style={{ padding: '2px', fontSize: '14px' }}>
+                Add new group
+                </span>
                 </div>
-            </Button>
-        </DragDropContext>
+                </Button> */}
+            </DragDropContext>
+        </section>
     )
 }
