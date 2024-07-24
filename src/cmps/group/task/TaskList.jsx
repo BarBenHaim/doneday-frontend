@@ -28,7 +28,7 @@ import { useParams } from 'react-router'
 import { useSelector } from 'react-redux'
 import { Group, Delete } from 'monday-ui-react-core/icons'
 import { getPriorityStyle, getStatusStyle } from './dynamicCmps/styleUtils'
-import AddColumnPopover from './AddColumnPopover' // Import the popover component
+import AddColumnPopover from './AddColumnPopover'
 
 function calculateSummary(taskList) {
     const summary = {
@@ -216,7 +216,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
         <Droppable droppableId={group._id} type='TASK'>
             {provided => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
-                    <SplitButton
+                    {/* <SplitButton
                         style={{ fontSize: '14px' }}
                         children={'New ' + boardLabelName}
                         onClick={() => onAddTask(`New ${boardLabelName}`)}
@@ -226,7 +226,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                 <MenuItem icon={Group} title='Add group' onClick={() => alert('in development...')} />
                             </SplitButtonMenu>
                         }
-                    />
+                    /> */}
 
                     <div className='tasks-list-container'>
                         <Table
