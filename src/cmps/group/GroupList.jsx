@@ -127,7 +127,7 @@ export function GroupList({ boardsToDisplay }) {
     if (!currBoard) return <div>Loading...</div>
 
     return (
-        <section className='group list scrollable'>
+        <section className='group-list scrollable'>
             <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
                 <Droppable droppableId='all-groups' type='GROUP' direction='vertical'>
                     {provided => (

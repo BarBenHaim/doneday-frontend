@@ -1,5 +1,4 @@
 .board-details {
-    padding-left: 40px;
     display: grid;
     grid-template-rows: auto 1fr;
     height: 100%;
@@ -9,6 +8,8 @@
     }
 
     .board-details-header {
+        padding-left: 40px;
+
         .board-details-edit {
             margin-left: -7px;
             margin-block-start: 18px;
