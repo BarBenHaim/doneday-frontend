@@ -58,9 +58,9 @@ export function BoardIndex() {
                         type={DialogContentContainer.types.MODAL}>
                         <div className='collapsible-header flex align-center' onClick={toggleCollapse}>
                             {isCollapsed ? (
-                                <NavigationChevronRight iconSize={'15'} lable='Expand list' />
+                                <NavigationChevronRight size={'15'} lable='Expand list' />
                             ) : (
-                                <NavigationChevronDown iconSize={'15'} lable='Collapse list' />
+                                <NavigationChevronDown size={'15'} lable='Collapse list' />
                             )}
                             <h1 className='bold collapsible-title'>Recently visited</h1>
                         </div>

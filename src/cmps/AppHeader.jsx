@@ -27,8 +27,8 @@ export function AppHeader() {
                 <NavLink to='/board'>
                     <div className='headline'>
                         <img src={logoImg} alt='logo' className='logo-img' />
-                        <h4 className='company-name bold'>
-                            doneday <span className='app-name light'>work management</span>
+                        <h4 className='company-name'>
+                            doneday <span className='app-name'>work management</span>
                         </h4>
                     </div>
                 </NavLink>
@@ -40,25 +40,28 @@ export function AppHeader() {
                 {!user && <NavLink to='login'>Login</NavLink>}
                 {user && (
                     <div className='user-info'>
-                        <Button kind={Button.kinds.TERTIARY} onClick={onLogout}> logout</Button> 
+                        <Button kind={Button.kinds.TERTIARY} onClick={onLogout}>
+                            {' '}
+                            logout
+                        </Button>
                         {/* <Link to={`user/${user._id}`}> */}
-                            <Button kind={Button.kinds.TERTIARY} >
-                                <img
-                                    className='app-logo'
-                                    src='https://res.cloudinary.com/dkykllpf5/image/upload/v1721653904/wzvg1pialo9mpvjavwx1.png'
-                                    alt='logo'
-                                />
-                                <Avatar
-                                    ariaLabel={user.fullname}
-                                    size={Avatar.sizes.MEDIUM}
-                                    src={user.imgUrl}
-                                    type={Avatar.types.IMG}
-                                    className='custom-avatar'
-                                    aria-hidden='true'
-                                />
-                            </Button>
+                        <Button kind={Button.kinds.TERTIARY}>
+                            <img
+                                className='app-logo'
+                                src='https://res.cloudinary.com/dkykllpf5/image/upload/v1721653904/wzvg1pialo9mpvjavwx1.png'
+                                alt='logo'
+                            />
+                            <Avatar
+                                ariaLabel={user.fullname}
+                                size={Avatar.sizes.MEDIUM}
+                                src={user.imgUrl}
+                                type={Avatar.types.IMG}
+                                className='custom-avatar'
+                                aria-hidden='true'
+                            />
+                        </Button>
                         {/* </Link> */}
-                        </div>
+                    </div>
                 )}
             </div>
         </header>

@@ -16,32 +16,16 @@ body {
     overflow: auto;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: $font-family-secondary;
-    letter-spacing: 0.05em; // Adding unit
-}
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6 {
+//     font-family: $font-family-secondary;
+//     letter-spacing: 0.05em; // Adding unit
+// }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    &.bold {
-        @include vibe-heading(#{&}, $font-weight-bold);
-    }
-    &.normal {
-        @include vibe-heading(#{&}, $font-weight-normal);
-    }
-    &.light {
-        @include vibe-heading(#{&}, $font-weight-light);
-    }
-}
 
 img {
     display: block;

@@ -35,6 +35,9 @@
             }
 
             .company-name {
+                font-family: $font-family-secondary;
+                font-size: rem(16px);
+
                 font-weight: $font-weight-extra-bold;
                 justify-self: start;
                 margin-left: 2px;
@@ -42,6 +45,9 @@
 
             .app-name {
                 font-weight: $font-weight-light;
+                font-size: rem(16px);
+
+                font-family: $font-family-secondary;
             }
         }
     }
