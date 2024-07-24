@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
-
 import { Filter } from 'monday-ui-react-core/icons'
-
 import { Dialog, DialogContentContainer } from 'monday-ui-react-core'
 
 export function GroupAdvancedFilter({ setFilterBy }) {
@@ -14,14 +12,18 @@ export function GroupAdvancedFilter({ setFilterBy }) {
   const groups = currBoard.groups || []
   const tasks = groups.flatMap((group) => group.tasks || [])
 
+  const [isFilterActive, setFilterisActive] = useState(false)
   const [selectedColumn, setSelectedColumn] = useState([])
-  const [selectedCondition, setselectedCondition] = useState('')
-
+  const [selectedCondition, setSelectedCondition] = useState('')
   const [columnToFilter, setColumnToFilter] = useState('')
   const [labelsToFilterBy, setLabelsToFilterBy] = useState('')
-
   const [isTextField, setTextField] = useState(false)
   const [textToFilter, setTextToFilter] = useState('')
+
+  function onClearFilter() {
+    setFilterisActive(false)
+    setFilterBy(groups)
+  }
 
   function handleTextFilterChange(ev) {
     const text = ev.target.value
@@ -35,50 +37,33 @@ export function GroupAdvancedFilter({ setFilterBy }) {
     setColumnToFilter(selectedValue)
     switch (selectedValue) {
       case 'status':
-        tasks.map((task) => {
-          columnArray.push(task.status)
-        })
+        columnArray = tasks.map((task) => task.status)
         break
-
       case 'dueDate':
-        tasks.map((task) => {
-          columnArray.push(task.dueDate)
-        })
+        columnArray = tasks.map((task) => task.dueDate)
         break
-
       case 'owner':
-        tasks.map((task) => {
-          columnArray.push(task.byMember?.fullname)
-        })
+        columnArray = tasks.map((task) => task.byMember?.fullname)
         break
-
       case 'priority':
-        tasks.map((task) => {
-          columnArray.push(task.priority)
-        })
+        columnArray = tasks.map((task) => task.priority)
         break
-
       case 'title':
-        groups.map((group) => {
-          columnArray.push(group.title)
-        })
+        columnArray = groups.map((group) => group.title)
         break
-
       default:
-        break
+        columnArray = []
     }
 
-    const filteredColumnArray = columnArray.filter(
-      (value, index, self) =>
-        value !== null && value !== undefined && self.indexOf(value) === index
+    const filteredColumnArray = [...new Set(columnArray)].filter(
+      (value) => value !== null && value !== undefined
     )
     setSelectedColumn(filteredColumnArray)
   }
 
   function getCondition(ev) {
     const selectedValue = ev.target.value
-    setselectedCondition(selectedValue)
-
+    setSelectedCondition(selectedValue)
     setTextField(
       selectedValue === 'does_not_contain' || selectedValue === 'contains'
     )
@@ -86,11 +71,11 @@ export function GroupAdvancedFilter({ setFilterBy }) {
 
   function handleLabelsToFilterBy(ev) {
     const selectedValue = ev.target.value
-
     setLabelsToFilterBy(selectedValue)
   }
 
-  function getFilterdgroups() {
+  function getFilteredGroups() {
+    setFilterisActive(true)
     const filteredGroups = groups.map((group) => {
       const filteredTasks = group.tasks.filter((task) => {
         switch (selectedCondition) {
@@ -105,14 +90,18 @@ export function GroupAdvancedFilter({ setFilterBy }) {
               : task[columnToFilter] === labelsToFilterBy
 
           case 'contains':
+            const normalizedTextToFilter = textToFilter.toLowerCase()
+            const groupValue = group[columnToFilter]?.toLowerCase()
+            const taskValue = task[columnToFilter]?.toLowerCase()
+
             return columnToFilter === 'title'
-              ? group[columnToFilter]?.includes(textToFilter)
-              : task[columnToFilter]?.includes(textToFilter)
+              ? groupValue?.includes(normalizedTextToFilter)
+              : taskValue?.includes(normalizedTextToFilter)
 
           case 'does_not_contain':
             return columnToFilter === 'title'
-              ? !group[columnToFilter]?.includes(textToFilter)
-              : !task[columnToFilter]?.includes(textToFilter)
+              ? !groupValue?.includes(normalizedTextToFilter)
+              : !taskValue?.includes(normalizedTextToFilter)
 
           default:
             return true
@@ -140,7 +129,6 @@ export function GroupAdvancedFilter({ setFilterBy }) {
         <Dialog
           content={
             <DialogContentContainer>
-              {' '}
               <div className="filter-filter"></div>
               <div className="advanced-filter-modal">
                 <div className="advanced-filter-content">
@@ -154,20 +142,24 @@ export function GroupAdvancedFilter({ setFilterBy }) {
                       </h2>
                     </div>
                     <div className="right-side">
-                      <span
+                      <button
                         style={{ cursor: 'pointer' }}
-                        className="close"
-                        onClick={() => setIsFilterActive(false)}
+                        className="clear-all"
+                        onClick={onClearFilter}
                       >
-                        &times;
-                      </span>
+                        Clear all
+                      </button>
                     </div>
                   </section>
                   <div className="column-filter">
                     <div>
                       <label>Where</label>
-                      <select className="column" onChange={getColumn}>
-                        <option value="" disabled selected>
+                      <select
+                        className="column"
+                        // value={columnToFilter}
+                        onChange={getColumn}
+                      >
+                        <option value="" disabled>
                           Column
                         </option>
                         <option value="title">Group</option>
@@ -176,8 +168,12 @@ export function GroupAdvancedFilter({ setFilterBy }) {
                         <option value="owner">Owner</option>
                         <option value="dueDate">Due Date</option>
                       </select>
-                      <select className="column" onChange={getCondition}>
-                        <option value="" disabled selected>
+                      <select
+                        className="column"
+                        value={selectedCondition}
+                        onChange={getCondition}
+                      >
+                        <option value="" disabled>
                           Condition
                         </option>
                         <option value="is">is</option>
@@ -193,22 +189,26 @@ export function GroupAdvancedFilter({ setFilterBy }) {
                           id="filterTextField"
                           name="filterTextField"
                           placeholder="Enter text to filter by"
+                          value={textToFilter}
                           onChange={handleTextFilterChange}
                         />
                       ) : (
                         <select
                           className="column"
+                          value={labelsToFilterBy}
                           onChange={handleLabelsToFilterBy}
                         >
-                          <option value="" disabled selected>
+                          <option value="" disabled>
                             Value
                           </option>
                           {selectedColumn.map((label, idx) => (
-                            <option key={idx}>{label}</option>
+                            <option key={idx} value={label}>
+                              {label}
+                            </option>
                           ))}
                         </select>
                       )}
-                      <button onClick={getFilterdgroups}>
+                      <button onClick={getFilteredGroups}>
                         <i
                           className="fa fa-search"
                           style={{ fontSize: '18px', color: 'gray' }}
@@ -234,8 +234,7 @@ export function GroupAdvancedFilter({ setFilterBy }) {
         >
           <div
             style={{ padding: '4px', cursor: 'pointer' }}
-            icon={function noRefCheck() {}}
-            className="filter-item filter"
+            className={`filter-item filter ${isFilterActive ? 'active' : ''}`}
           >
             <Filter />
             Filter
