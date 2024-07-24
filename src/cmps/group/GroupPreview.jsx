@@ -17,7 +17,7 @@ function GroupPreview({
     toggleCollapse,
     onRemoveGroup,
     onAddGroup,
-    dragHandleProps,
+    dragHandleProps, // Ensure this prop is passed down
 }) {
     const [isEditingTitle, setIsEditingTitle] = useState(false)
     const [updatedGroupTitle, setUpdatedGroupTitle] = useState(group.title)

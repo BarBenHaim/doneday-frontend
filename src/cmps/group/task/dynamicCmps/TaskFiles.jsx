@@ -3,28 +3,28 @@ import { Dialog, DialogContentContainer, Button, Avatar } from 'monday-ui-react-
 import { cellStyle } from './styleUtils'
 import { File } from 'monday-ui-react-core/icons'
 
-function TaskFiles({ task, onUpdateField }) {
+function TaskFiles({ task, onUpdateField, columnKey }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
-    const [fileList, setFileList] = useState(task.files || [])
+    const [fileList, setFileList] = useState(task[columnKey] || [])
     const [isHovered, setIsHovered] = useState(false)
 
     const handleFileChange = event => {
         const files = Array.from(event.target.files)
         const updatedFiles = [...fileList, ...files]
-        onUpdateField(task, 'files', updatedFiles)
+        onUpdateField(task, columnKey, updatedFiles)
         setFileList(updatedFiles)
         setIsDialogOpen(false)
     }
 
     const handleFileDelete = index => {
         const updatedFiles = fileList.filter((file, fileIndex) => fileIndex !== index)
-        onUpdateField(task, 'files', updatedFiles)
+        onUpdateField(task, columnKey, updatedFiles)
         setFileList(updatedFiles)
     }
 
     useEffect(() => {
-        setFileList(task.files || [])
-    }, [task.files])
+        setFileList(task[columnKey] || [])
+    }, [task[columnKey]])
 
     const handleMouseEnter = () => {
         setIsHovered(true)

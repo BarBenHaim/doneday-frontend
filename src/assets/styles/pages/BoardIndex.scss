@@ -3,8 +3,16 @@
     margin-left: 10px;
     overflow: scroll;
 
+.typeModal_2e88e127f4 {
+    box-shadow: var(--box-shadow-small, #e6e9ef);
+}
+.border-index-body {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
     .collapsible-header {
-        margin-top: 24px;
+        margin-top: 2px;
         margin-bottom: 0;
         margin-left: 24px;
 
@@ -13,4 +21,17 @@
             margin-left: 5px;
         }
     }
+    .board-index-template {
+
+        
+        .board-index-banner {
+            object-fit: cover; // Ensures the image covers the area
+            border: 1px solid #e6e9ef;
+            border-radius: 8px; // Adds rounded corners
+            width: 100%; 
+
+        }
+    
+    }
+    
 }

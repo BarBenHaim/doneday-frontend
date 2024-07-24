@@ -21,12 +21,14 @@
             width: 25px;
             aspect-ratio: 1;
             justify-self: start;
+            margin-bottom: 1px;
 
         }
 
         .headline-text {
             display: flex;
             gap: 5px;
+            letter-spacing: 0.5;
 
             .company-name,
             .app-name {
@@ -36,6 +38,7 @@
             .company-name {
                 font-weight: $font-weight-extra-bold;
                 justify-self: start;
+                margin-left: 2px;
 
             }
 

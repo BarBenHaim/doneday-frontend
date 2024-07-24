@@ -68,6 +68,7 @@
   @else if $element == h2 {
     font-size: rem(24px);
     font-weight: $font-weight;
+    font-family: $font-family-secondary;
   }
   @else if $element == h3 {
     font-size: rem(18px);

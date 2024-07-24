@@ -11,7 +11,7 @@ const cellStyle = {
     cursor: 'pointer',
 }
 
-const TaskStatus = ({ task, onUpdateField }) => (
+const TaskStatus = ({ task, onUpdateField, columnKey }) => (
     <div style={cellStyle}>
         <Dialog
             zIndex={2}
@@ -22,7 +22,10 @@ const TaskStatus = ({ task, onUpdateField }) => (
                             <li
                                 key={status}
                                 style={getStatusStyle(status)}
-                                onClick={() => onUpdateField(task, 'status', status)}
+                                onClick={() => {
+                                    alert(columnKey)
+                                    onUpdateField(task, columnKey, status)
+                                }}
                             >
                                 {status}
                             </li>
@@ -34,8 +37,8 @@ const TaskStatus = ({ task, onUpdateField }) => (
             position='bottom'
             showTrigger={['click']}
         >
-            <div style={{ ...cellStyle, ...getStatusStyle(task.status || 'Not Started'), fontSize: '0.875em' }}>
-                {task.status || 'Not Started'}
+            <div style={{ ...cellStyle, ...getStatusStyle(task[columnKey] || 'Not Started'), fontSize: '0.875em' }}>
+                {task[columnKey] || 'Not Started'}
             </div>
         </Dialog>
     </div>
