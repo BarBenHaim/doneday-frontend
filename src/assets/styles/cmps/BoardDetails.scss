@@ -4,18 +4,17 @@
     ::-webkit-scrollbar {
         display: block;
     }
+    .sizeSmall_ec9d3aaac4 {
+        font: var(--font-h2-normal);
+    }
 
     .board-details-header {
         // margin-left: 42px;
 
         .board-details-title {
-            margin-left: 8px;
+            margin-left: -7px;
+            margin-block-start: 18px;
 
-            & h2 {
-                // font-size: rem(24px);
-                // font-weight: $font-weight-normal;
-                @include vibe-heading(h2, normal);
-            }
 
             & span {
                 margin-left: 5px;

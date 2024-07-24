@@ -1,3 +1,4 @@
+import { Flex } from 'monday-ui-react-core';
 import { BoardPreview } from './BoardPreview'
 
 export function BoardList({ boards}) {
@@ -5,14 +6,19 @@ export function BoardList({ boards}) {
 
     return (
         <section>
-            <ul className='board-list-container'>
-                {boards.map(board => (
-                    <li key={board._id}>
+            <Flex
+                direction={Flex.directions.ROW}
+                wrap={true}
+                gap={Flex.gaps.SMALL}
+                justify={Flex.justify.SPACE_AROUND}
+                 className="board-list-flex"
+            >
+                {boards.slice(0, 4).map(board => (
+                    <div key={board._id} className="board-preview-wrapper">
                         <BoardPreview board={board} />
-                        {/* <button onClick={() => onRemoveBoard(board._id)}>x</button> */}
-                    </li>
+                        </div>
                 ))}
-            </ul>
+            </Flex>
         </section>
-    )
+    );
 }
