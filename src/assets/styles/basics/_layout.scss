@@ -20,8 +20,16 @@
         .task-row-title {
             max-width: 80px;
         }
-        .summary-row {
+        .summary-row,
+        .add-task-row {
             display: none;
+        }
+
+        .board-details-header {
+            padding-left: 10px !important;
+        }
+        .group-list {
+            padding-left: 10px;
         }
     }
     @media (min-width: 740px) {

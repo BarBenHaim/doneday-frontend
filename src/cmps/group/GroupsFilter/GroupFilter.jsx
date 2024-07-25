@@ -28,9 +28,9 @@ export function GroupFilter({ setFilterBy }) {
     }
 
     const [taskList, setTaskList] = useState(tasks)
-    useEffect(() => {
-        setTaskList(tasks)
-    }, [tasks, currBoard])
+    // useEffect(() => {
+    //     setTaskList(tasks)
+    // }, [tasks, currBoard])
 
     const [isSearchActive, setIsSearchActive] = useState(false)
 
