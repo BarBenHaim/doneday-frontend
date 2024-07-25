@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import { Button, IconButton } from 'monday-ui-react-core'
 import { Add } from 'monday-ui-react-core/icons'
 
-export function GroupList({ boardsToDisplay }) {
+export function GroupList({ boardsToDisplay, view }) {
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
     const [collapsedStates, setCollapsedStates] = useState({})
