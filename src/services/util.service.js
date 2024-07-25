@@ -474,7 +474,7 @@ export function createBoards() {
     const board1 = createBoard(
         'Project Management',
         member1,
-        'Project Board',
+        'Project',
         [member2, member3],
         generateGroups(
             ['Setup', 'Development', 'Testing', 'Deployment', 'Maintenance'],
@@ -524,7 +524,7 @@ export function createBoards() {
     const board2 = createBoard(
         'Marketing Campaign',
         member2,
-        'Campaign Board',
+        'Campaign',
         [member1, member3],
         generateGroups(
             ['Planning', 'Execution', 'Monitoring', 'Closure'],
@@ -567,7 +567,7 @@ export function createBoards() {
     const board3 = createBoard(
         'Website Redesign',
         member3,
-        'Design Board',
+        'Design',
         [member1, member2],
         generateGroups(
             ['Research', 'Design', 'Development', 'Testing'],
@@ -610,7 +610,7 @@ export function createBoards() {
     const board4 = createBoard(
         'New Product Launch',
         member1,
-        'Product Board',
+        'Product',
         [member2, member3],
         generateGroups(
             ['Concept', 'Development', 'Launch', 'Post-Launch'],
@@ -653,7 +653,7 @@ export function createBoards() {
     const board5 = createBoard(
         'Team Building Activities',
         member2,
-        'Team Board',
+        'Team ',
         [member1, member3],
         generateGroups(
             ['Planning', 'Execution', 'Review', 'Next Steps'],
