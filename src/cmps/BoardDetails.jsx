@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { loadBoard, removeBoard, toggleStarredBoard, updateBoard } from '../store/actions/board.action'
-import { Navigate, useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { GroupList } from './group/GroupList'
 import { GroupFilter } from './group/GroupsFilter/GroupFilter'
 import { useSelector } from 'react-redux'
-import { Delete, Favorite, NavigationChevronDown } from 'monday-ui-react-core/icons'
+import { Delete, NavigationChevronDown } from 'monday-ui-react-core/icons'
 import StarIcon from './svgs/starIcon' 
 import {
     Avatar,
@@ -14,7 +14,6 @@ import {
     DialogContentContainer,
     Divider,
     EditableHeading,
-    Icon,
     Menu,
     MenuButton,
     MenuItem,
@@ -65,7 +64,6 @@ export function BoardDetails() {
             await toggleStarredBoard(currBoard._id)
             setIsStarredBoard(isStarredBoard=>!isStarredBoard)
             onUpdateField(currBoard, 'isStarred', !currBoard.isStarred)
-            //currBoard.isStarred=!currBoard.isStarred
         } catch (err) {
             showErrorMsg('Cannot toggle star')
         }

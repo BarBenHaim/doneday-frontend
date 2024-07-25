@@ -175,8 +175,10 @@ export async function removeTask(boardId, groupId, taskId) {
 
 export async function toggleStarredBoard(boardId) {
     try {
+        store.dispatch(getCmdToggleStarredBoard(boardId))
         const updatedBoard = await boardService.toggleStarred(boardId)
         store.dispatch(getCmdToggleStarredBoard(updatedBoard))
+        return updatedBoard
     } catch (err) {
         console.log('Cannot toggle starred status', err)
     }
