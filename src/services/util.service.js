@@ -122,6 +122,29 @@ export function createTask(title, options = {}) {
     }
 }
 
+function getGroupColors() {
+    return [
+        'rgb(3, 127, 76)',
+        'rgb(0, 200, 117)',
+        'rgb(156, 211, 38)',
+        'rgb(202, 182, 65)',
+        'rgb(255, 203, 0)',
+        'rgb(120, 75, 209)',
+        'rgb(157, 80, 221)',
+        'rgb(0, 126, 181)',
+        'rgb(87, 155, 252)',
+        'rgb(102, 204, 255)',
+        'rgb(187, 51, 84)',
+        'rgb(223, 47, 74)',
+        'rgb(255, 0, 127)',
+        'rgb(255, 90, 196)',
+        'rgb(255, 100, 46)',
+        'rgb(127, 83, 71)',
+        'rgb(196, 196, 196)',
+        'rgb(117, 117, 117)',
+    ]
+}
+
 export function createGroup(title, tasks = [], archivedAt = null) {
     return {
         _id: makeId(),
@@ -338,12 +361,9 @@ export function createBoard(title, createdBy, label, members = [], groups = [], 
 // }
 
 function getRandomColor() {
-    var letters = '0123456789ABCDEF'
-    var color = '#'
-    for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)]
-    }
-    return color
+    const colors = getGroupColors()
+    const randomIndex = Math.floor(Math.random() * colors.length)
+    return colors[randomIndex]
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////

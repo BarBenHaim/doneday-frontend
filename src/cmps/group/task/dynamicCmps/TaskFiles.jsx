@@ -34,6 +34,10 @@ function TaskFiles({ task, onUpdateField, columnKey }) {
         setIsHovered(false)
     }
 
+    const isImage = file => {
+        return file.type.startsWith('image/')
+    }
+
     return (
         <div style={cellStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <Dialog
@@ -59,7 +63,15 @@ function TaskFiles({ task, onUpdateField, columnKey }) {
                                         padding: '10px',
                                     }}
                                 >
-                                    <span style={{ marginInlineEnd: '10px' }}>{file.name}</span>
+                                    {isImage(file) ? (
+                                        <img
+                                            src={URL.createObjectURL(file)}
+                                            alt={file.name}
+                                            style={{ width: '50px', height: '50px', marginInlineEnd: '10px' }}
+                                        />
+                                    ) : (
+                                        <span style={{ marginInlineEnd: '10px' }}>{file.name}</span>
+                                    )}
                                     <Button onClick={() => handleFileDelete(index)} size='small' kind='secondary'>
                                         Delete
                                     </Button>
