@@ -33,9 +33,9 @@ export function Sidebar() {
     const navigate = useNavigate()
     const [isCollapsed, setIsCollapsed] = useState(false)
     const [isAddBoardModalOpen, setIsAddBoardModalOpen] = useState(false)
-    const boards = useSelector((storeState) => storeState.boardModule.boards)
-    const starredBoards = boards.filter((board) => board.isStarred)
-    const boardLabel = boards.filter((board) => board.label)
+    const boards = useSelector(storeState => storeState.boardModule.boards)
+    const starredBoards = boards.filter(board => board.isStarred)
+    const boardLabel = boards.filter(board => board.label)
 
     function handleOnClick(route) {
         navigate(route)
@@ -64,7 +64,7 @@ export function Sidebar() {
                         }
                     />
                     {!isCollapsed &&
-                        starredBoards.map((board) => (
+                        starredBoards.map(board => (
                             <MenuItem
                                 icon={Board}
                                 key={board._id}
@@ -73,40 +73,41 @@ export function Sidebar() {
                             />
                         ))}
                     <MenuDivider />
-                    </Menu>
-                    <div className='add-button-dialog'>
-                        <Dialog
-                            content={
-                                <DialogContentContainer>
-                                    <Menu>
-                                        <MenuTitle caption='Add new' />
-                                        <MenuItem icon={Board} title='Board' splitMenuItem>
-                                            <Menu>
-                                                <MenuItem icon={Board} title='New Board' onClick={toggleAddBoard} />
-                                            </Menu>
-                                        </MenuItem>
-                                    </Menu>
-                                </DialogContentContainer>
-                            }
-                            hideTrigger={['clickoutside', 'onContentClick']}
-                            isOpen
-                            modifiers={[
-                                {
-                                    name: 'preventOverflow',
-                                    options: {
-                                        mainAxis: false,
-                                    },
+                </Menu>
+                <div className='add-button-dialog'>
+                    <Dialog
+                        content={
+                            <DialogContentContainer>
+                                <Menu>
+                                    <MenuTitle caption='Add new' />
+                                    <MenuItem icon={Board} title='Board' splitMenuItem>
+                                        <Menu>
+                                            <MenuItem icon={Board} title='New Board' onClick={toggleAddBoard} />
+                                        </Menu>
+                                    </MenuItem>
+                                </Menu>
+                            </DialogContentContainer>
+                        }
+                        hideTrigger={['clickoutside', 'onContentClick']}
+                        isOpen
+                        modifiers={[
+                            {
+                                name: 'preventOverflow',
+                                options: {
+                                    mainAxis: false,
                                 },
-                            ]}
-                            position='left-start'
-                             showTrigger={['click']} >
-                            <IconButton icon={Add} kind='primary' />
-                        </Dialog>
-                    </div>
-                    <Menu>
+                            },
+                        ]}
+                        position='left-start'
+                        showTrigger={['click']}
+                    >
+                        <IconButton icon={Add} kind='primary' />
+                    </Dialog>
+                </div>
+                <Menu>
                     <MenuDivider />
                     <MenuTitle caption='Main workspace' captionPosition='top' />
-                    {boardLabel.map((board) => (
+                    {boardLabel.map(board => (
                         <MenuItem
                             icon={Board}
                             key={board._id}

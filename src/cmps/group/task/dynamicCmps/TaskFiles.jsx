@@ -71,10 +71,7 @@ function TaskFiles({ task, onUpdateField, columnKey }) {
                 position='bottom'
                 showTrigger={['click']}
             >
-                <div
-                    className='flex align-center justify-center'
-                    style={{ width: '100%', cursor: 'pointer', color: '#acaeb6' }}
-                >
+                <div className='flex align-center justify-center' style={{ cursor: 'pointer', color: '#acaeb6' }}>
                     {isHovered && <File />}
                 </div>
             </Dialog>
