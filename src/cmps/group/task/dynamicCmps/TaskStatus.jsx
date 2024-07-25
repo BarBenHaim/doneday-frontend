@@ -23,7 +23,6 @@ const TaskStatus = ({ task, onUpdateField, columnKey }) => (
                                 key={status}
                                 style={getStatusStyle(status)}
                                 onClick={() => {
-                                    alert(columnKey)
                                     onUpdateField(task, columnKey, status)
                                 }}
                             >

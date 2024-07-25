@@ -26,8 +26,20 @@
 .sticky-col {
     background-color: white;
     position: sticky;
-    left: -40px;
+    left: 0;
     z-index: 1;
+}
+.checkbox-col,
+.table-header-checkbox {
+    background-color: white;
+    position: sticky;
+    left: -46px;
+    z-index: 1;
+}
+
+.table-header-checkbox {
+    border-block-start: 1px solid $tableBorderClr;
+    border-inline-end: 1px solid $tableBorderClr;
 }
 
 .table-header-cell,

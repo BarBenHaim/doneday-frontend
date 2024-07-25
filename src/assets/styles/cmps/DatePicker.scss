@@ -1,5 +1,14 @@
 .timeline {
     position: relative;
+
+    &:hover {
+        .hover-info {
+            display: block;
+        }
+        .reset-date-btn {
+            display: block;
+        }
+    }
 }
 
 .hover-info {
@@ -12,16 +21,13 @@
 
 .reset-date-btn {
     position: absolute;
-    right: -35px;
-    top: 31%;
+    right: -3px;
+    top: 50%;
+    display: none;
     transform: translateY(-50%);
     background: rgb(218, 218, 218);
     border: none;
     border-radius: 2px;
     padding: 0 2px;
     cursor: pointer;
-}
-
-.timeline:hover .hover-info {
-    display: block;
 }

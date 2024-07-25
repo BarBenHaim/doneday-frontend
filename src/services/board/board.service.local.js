@@ -22,6 +22,7 @@ export const boardService = {
     updateGroup,
     removeGroup,
     addTask,
+    addTaskBottom,
     updateTask,
     removeTask,
     toggleStarred,
@@ -52,15 +53,14 @@ async function save(board) {
     }
 }
 
-async function updateBoard(boardId, updatedBoard){
+async function updateBoard(boardId, updatedBoard) {
     const board = await getById(boardId)
     console.log('update board', board)
     const boardIdx = board.findIndex(board => board._id === boardId)
     if (boardIdx === -1) throw new Error('Board not found')
-        board[boardIdx] = {...board[boardIdx], ...updatedBoard}
+    board[boardIdx] = { ...board[boardIdx], ...updatedBoard }
     await storageService.put(STORAGE_KEY, board)
     return board[boardIdx]
-
 }
 
 async function addBoardMsg(boardId, txt) {
@@ -147,6 +147,14 @@ async function addTask(boardId, groupId, task = getEmptyTask()) {
     const group = board.groups.find(group => group._id === groupId)
     if (!group) throw new Error('Group not found')
     group.tasks.unshift(task)
+    await storageService.put(STORAGE_KEY, board)
+    return task
+}
+async function addTaskBottom(boardId, groupId, task = getEmptyTask()) {
+    const board = await getById(boardId)
+    const group = board.groups.find(group => group._id === groupId)
+    if (!group) throw new Error('Group not found')
+    group.tasks.push(task)
     await storageService.put(STORAGE_KEY, board)
     return task
 }

@@ -57,7 +57,7 @@ export function AddBoard({ isOpen, onClose }) {
                     contentSpacing
                     id='story-book-modal'
                     title='Create board'
-                    titleClassName="add-board-title"
+                    titleClassName='add-board-title'
                     show={isOpen}
                     onClose={onClose}
                     closeButtonAriaLabel={'close'}
@@ -83,22 +83,34 @@ export function AddBoard({ isOpen, onClose }) {
                                 height: '40px',
                                 width: '400px',
                             }}>
-                              
+
                             <Divider direction='horizontal' />
                         </div>
 
                         <div className='form-group'>
-                            <div>Select what you're managing in this board:</div>
-                            <div style={{ display: 'block', marginBottom: '8px' }}>
-                                {labelOptions.map((option) => (
-                                    <RadioButton
-                                        key={option}
-                                        name='radio-buttons-group-4'
-                                        text={option}
-                                        checked={labelType === option}
-                                        onSelect={() => onLabelTypeSelect(option)}
-                                    />
+                            <div style={{marginBlockEnd:'20px'}}>Select what you're managing in this board:</div>
+                            <div
+                                style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: 'repeat(3, 1fr)',
+                                    gridTemplateRows: 'repeat(5, auto)',
+                                    gap: '15px',
+                                    fontSize:'14px'
+                                }}>
+                                {labelOptions.map((option, index) => (
+                                    <div style={{gridColumn: index % 3 === 2 ? '3 / 4' : 'auto', }}>
+                                        <RadioButton
+                                            key={option}
+                                            name='radio-buttons-group-4'
+                                            text={option}
+                                            checked={labelType === option}
+                                            onSelect={() => onLabelTypeSelect(option)}
+                                        />
+                                    </div>
                                 ))}
+                                <div style={{gridColumn:  '1 / 2'}}>
+                                    
+                               
                                 <RadioButton
                                     name='radio-buttons-group-4'
                                     text={
@@ -114,10 +126,13 @@ export function AddBoard({ isOpen, onClose }) {
                                     checked={labelType === customLabel}
                                     onSelect={() => onLabelTypeSelect(customLabel)}
                                 />
-                                
+                            </div>
+                            <div
+                                    style={{
+                                        gridColumn: '3 / 4', 
+                                    }} />
                             </div>
                         </div>
-
                         <ModalFooterButtons
                             onPrimaryButtonClick={onAddBoard}
                             onSecondaryButtonClick={onClose}

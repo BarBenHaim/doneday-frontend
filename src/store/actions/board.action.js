@@ -11,6 +11,7 @@ import {
     UPDATE_GROUP,
     REMOVE_GROUP,
     ADD_TASK,
+    ADD_TASK_BOTTOM,
     UPDATE_TASK,
     REMOVE_TASK,
     TOGGLE_STARRED_BOARD,
@@ -146,6 +147,20 @@ export async function addTask(boardId, groupId, task, title = '') {
         throw err
     }
 }
+export async function addTaskBottom(boardId, groupId, task, title = '') {
+    const taskId = `t${Date.now()}`
+    const newTask = { ...task, _id: taskId, title: title || task.title }
+    store.dispatch(getCmdAddTaskBottom(boardId, groupId, newTask))
+    try {
+        const savedTask = await boardService.addTask(boardId, groupId, newTask)
+        showSuccessMsg('Task added successfully')
+        return savedTask
+    } catch (err) {
+        showErrorMsg('Cannot add task')
+        loadBoard(boardId)
+        throw err
+    }
+}
 
 export async function updateTask(boardId, groupId, taskId, taskChanges, actionType) {
     store.dispatch(getCmdUpdateTask(boardId, groupId, taskId, { ...taskChanges, _id: taskId }))
@@ -175,8 +190,10 @@ export async function removeTask(boardId, groupId, taskId) {
 
 export async function toggleStarredBoard(boardId) {
     try {
+        store.dispatch(getCmdToggleStarredBoard(boardId))
         const updatedBoard = await boardService.toggleStarred(boardId)
         store.dispatch(getCmdToggleStarredBoard(updatedBoard))
+        return updatedBoard
     } catch (err) {
         console.log('Cannot toggle starred status', err)
     }
@@ -263,6 +280,12 @@ function getCmdRemoveGroup(boardId, groupId) {
 function getCmdAddTask(boardId, groupId, task) {
     return {
         type: ADD_TASK,
+        payload: { boardId, groupId, task },
+    }
+}
+function getCmdAddTaskBottom(boardId, groupId, task) {
+    return {
+        type: ADD_TASK_BOTTOM,
         payload: { boardId, groupId, task },
     }
 }

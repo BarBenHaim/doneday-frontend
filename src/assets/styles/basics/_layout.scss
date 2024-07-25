@@ -1,7 +1,7 @@
 .main-container {
     display: grid;
     grid-template-columns: auto 1fr;
-    height: 100vh;
+    height: calc(100vh - 3.5em);
 
     > * {
         // &:first-child {

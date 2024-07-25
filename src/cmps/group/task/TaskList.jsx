@@ -6,18 +6,16 @@ import {
     TableHeaderCell,
     TableRow,
     TableCell,
-    SplitButton,
-    SplitButtonMenu,
-    MenuItem,
     MenuButton,
     Menu,
+    MenuItem,
 } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
 import { taskAttributesConfig } from './taskAttributesConfig'
 import { showSuccessMsg, showErrorMsg } from '../../../services/event-bus.service'
 import {
-    addTask,
+    addTaskBottom,
     updateTask,
     removeTask,
     updateBoardOptimistic,
@@ -26,7 +24,7 @@ import {
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { useParams } from 'react-router'
 import { useSelector } from 'react-redux'
-import { Group, Delete } from 'monday-ui-react-core/icons'
+import { Delete } from 'monday-ui-react-core/icons'
 import { getPriorityStyle, getStatusStyle } from './dynamicCmps/styleUtils'
 import AddColumnPopover from './AddColumnPopover'
 
@@ -35,6 +33,7 @@ function calculateSummary(taskList) {
         files: 0,
         status: {},
         priority: {},
+        earliestDueDate: null,
     }
 
     taskList.forEach(task => {
@@ -42,9 +41,14 @@ function calculateSummary(taskList) {
             if (key.startsWith('files')) {
                 summary.files += task[key] ? task[key].length : 0
             } else if (key.startsWith('status')) {
-                summary.status[task[key]] = (summary.status[task[key]] || 0) + 1
+                summary.status[task[key]] = (summary.status[key] || 0) + 1
             } else if (key.startsWith('priority')) {
-                summary.priority[task[key]] = (summary.priority[key] || 0) + 1
+                summary.priority[task[key]] = (summary.priority[task[key]] || 0) + 1
+            } else if (key.startsWith('dueDate') && task[key]) {
+                const dueDate = new Date(task[key])
+                if (!summary.earliestDueDate || dueDate < summary.earliestDueDate) {
+                    summary.earliestDueDate = dueDate
+                }
             }
         }
     })
@@ -77,19 +81,54 @@ function renderProgressBar(distribution, colorGetter) {
     return <div style={{ display: 'flex', width: '100%', height: '20px' }}>{segments}</div>
 }
 
+function formatDate(date) {
+    const options = { day: 'numeric', month: 'short' }
+    return new Date(date).toLocaleDateString(undefined, options)
+}
+
 function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTask, isCollapsed }) {
     const [taskList, setTaskList] = useState(tasks)
+    const [summary, setSummary] = useState(calculateSummary(tasks))
+    const [selectedTasks, setSelectedTasks] = useState([])
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
 
     useEffect(() => {
         setTaskList(tasks)
+        setSummary(calculateSummary(tasks))
     }, [tasks, currBoard])
 
-    async function onAddTask(title = '') {
+    const handleCheckboxChange = taskId => {
+        setSelectedTasks(prevSelectedTasks =>
+            prevSelectedTasks.includes(taskId)
+                ? prevSelectedTasks.filter(id => id !== taskId)
+                : [...prevSelectedTasks, taskId]
+        )
+    }
+
+    const handleSelectAllCheckboxChange = () => {
+        setSelectedTasks(taskList.length === selectedTasks.length ? [] : taskList.map(task => task._id))
+    }
+
+    const handleDeleteSelectedTasks = async () => {
         try {
-            const addedTask = await addTask(board._id, group._id, getEmptyTask(), title)
-            setTaskList([addedTask, ...taskList])
+            await Promise.all(selectedTasks.map(taskId => removeTask(board._id, group._id, taskId)))
+            const updatedTaskList = taskList.filter(task => !selectedTasks.includes(task._id))
+            setTaskList(updatedTaskList)
+            setSummary(calculateSummary(updatedTaskList))
+            setSelectedTasks([])
+            showSuccessMsg('Selected tasks deleted successfully')
+        } catch (err) {
+            showErrorMsg('Cannot delete selected tasks')
+        }
+    }
+
+    async function onAddTaskBottom(title = '') {
+        try {
+            const addedTask = await addTaskBottom(board._id, group._id, getEmptyTask(), title)
+            const updatedTaskList = [...taskList, addedTask]
+            setTaskList(updatedTaskList)
+            setSummary(calculateSummary(updatedTaskList))
             showSuccessMsg('Task added successfully')
         } catch (err) {
             showErrorMsg('Cannot add task')
@@ -99,7 +138,9 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
     async function onUpdateTask(updatedTask) {
         try {
             await updateTask(board._id, group._id, updatedTask._id, updatedTask)
-            setTaskList(taskList.map(task => (task._id === updatedTask._id ? updatedTask : task)))
+            const updatedTaskList = taskList.map(task => (task._id === updatedTask._id ? updatedTask : task))
+            setTaskList(updatedTaskList)
+            setSummary(calculateSummary(updatedTaskList))
             showSuccessMsg('Task updated successfully')
         } catch (err) {
             showErrorMsg('Cannot update task')
@@ -109,7 +150,9 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
     async function onDeleteTask(taskId) {
         try {
             await removeTask(board._id, group._id, taskId)
-            setTaskList(taskList.filter(task => task._id !== taskId))
+            const updatedTaskList = taskList.filter(task => task._id !== taskId)
+            setTaskList(updatedTaskList)
+            setSummary(calculateSummary(updatedTaskList))
             showSuccessMsg('Task deleted successfully')
         } catch (err) {
             showErrorMsg('Cannot delete task')
@@ -190,11 +233,14 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
 
     const columns = [
         ...board.cmpsOrder.map(key => {
+            const config = taskAttributesConfig[key.match(/^\D+/)[0]]
             return {
                 key,
-                title: (
+                title: config.headerRender ? (
+                    config.headerRender(taskList, selectedTasks, handleSelectAll)
+                ) : (
                     <div className='column-header-text' style={{ display: 'flex', alignItems: 'center' }}>
-                        <span>{taskAttributesConfig[key.match(/^\D+/)[0]].label}</span>
+                        <span>{config.label}</span>
 
                         <MenuButton className='column-menu-btn'>
                             <Menu id='menu' size='medium'>
@@ -203,31 +249,16 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                         </MenuButton>
                     </div>
                 ),
-                width: taskAttributesConfig[key.match(/^\D+/)[0]].width || 'auto',
+                width: config.width || 'auto',
             }
         }),
         additionalColumn,
     ]
 
-    const summary = calculateSummary(taskList)
-    const boardLabelName = currBoard.label.toLowerCase()
-
     return (
         <Droppable droppableId={group._id} type='TASK'>
             {provided => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
-                    {/* <SplitButton
-                        style={{ fontSize: '14px' }}
-                        children={'New ' + boardLabelName}
-                        onClick={() => onAddTask(`New ${boardLabelName}`)}
-                        size='small'
-                        secondaryDialogContent={
-                            <SplitButtonMenu id='split-menu'>
-                                <MenuItem icon={Group} title='Add group' onClick={() => alert('in development...')} />
-                            </SplitButtonMenu>
-                        }
-                    /> */}
-
                     <div className='tasks-list-container'>
                         <Table
                             className='group-table'
@@ -248,18 +279,19 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                     {columns.map((headerCell, index) => (
                                         <TableHeaderCell
                                             key={index}
-                                            title={index === 0 ? currBoard.label : headerCell.title}
+                                            title={headerCell.title}
                                             className={
                                                 headerCell.key === 'addColumn'
                                                     ? 'table-header-cell addCol-col flex align-center justify-center'
-                                                    : index === 0
-                                                    ? 'table-header-cell sticky-col task-col flex align-center justify-center'
+                                                    : headerCell.key === 'title'
+                                                    ? 'table-header-cell sticky-col flex align-center justify-center'
+                                                    : headerCell.key === 'checkbox'
+                                                    ? 'table-header-checkbox'
                                                     : 'table-header-cell regular flex align-center'
                                             }
                                             style={{
                                                 width: headerCell.width,
                                             }}
-                                            onClick={headerCell.key === undefined}
                                         />
                                     ))}
                                 </TableRow>
@@ -285,13 +317,15 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                                             task={task}
                                                             members={members}
                                                             labels={labels}
-                                                            board={board}
-                                                            group={group}
-                                                            openModal={openModal}
                                                             onUpdateTask={onUpdateTask}
                                                             onDeleteTask={onDeleteTask}
                                                             provided={provided}
                                                             cmpsOrder={board.cmpsOrder}
+                                                            selectedTasks={selectedTasks}
+                                                            handleCheckboxChange={handleCheckboxChange}
+                                                            handleSelectAllCheckboxChange={
+                                                                handleSelectAllCheckboxChange
+                                                            }
                                                         />
                                                     </TableRow>
                                                 </div>
@@ -307,12 +341,13 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                     borderBottomLeftRadius: '5px',
                                 }}
                             >
+                                <TableCell className='checkbox-col flex align-center justify-center' />
                                 <TableCell className='add-task-row-cell'>
                                     <input
                                         className='add-task-input'
                                         type='text'
                                         onBlur={ev => {
-                                            if (ev.target.value) onAddTask(ev.target.value)
+                                            if (ev.target.value) onAddTaskBottom(ev.target.value)
                                             ev.target.value = ''
                                             return
                                         }}
@@ -336,10 +371,17 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                             renderProgressBar(summary.status, getStatusStyle)}
                                         {col.key.startsWith('priority') &&
                                             renderProgressBar(summary.priority, getPriorityStyle)}
+                                        {col.key === 'dueDate' && summary.earliestDueDate && (
+                                            <div>
+                                                {/* <span>earliest </span>
+                                                <span>{formatDate(summary.earliestDueDate)}</span> */}
+                                            </div>
+                                        )}
                                     </TableCell>
                                 ))}
                             </TableRow>
                         </Table>
+                        <button onClick={handleDeleteSelectedTasks}>Delete Selected Tasks</button>
                     </div>
                 </div>
             )}
