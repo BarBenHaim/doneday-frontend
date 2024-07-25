@@ -1,0 +1,94 @@
+/* WorkPlanModal.css */
+.custom-dialog .monday-dialog {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 30%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  border-radius: 0;
+}
+
+.modal-content {
+  padding: 16px;
+}
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.tab {
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.tab.active {
+  border-bottom: 2px solid #000;
+}
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+.icons {
+  display: flex;
+  gap: 8px;
+}
+.comments-section {
+  border: 1px solid rgba(128, 128, 128, 0.329);
+  border-radius: 8px;
+  margin-top: 20px;
+  padding: 10px;
+
+  box-shadow: rgb(255, 255, 255) 0px 12px 13px -7px;
+}
+.write-btn {
+  display: flex;
+  text-align: center;
+  // justify-content: center;
+  font-family: sans-serif;
+  font-size: 16px;
+  padding: 5px 10px 2px;
+  text-decoration: none;
+  border: 1px solid #007bff;
+  border-radius: 8px;
+  width: 450px;
+  height: 35px;
+}
+.comment {
+  display: flex;
+  align-items: start;
+  margin-bottom: 16px;
+}
+.comment-body {
+  margin-left: 8px;
+}
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.comment-author {
+  font-weight: bold;
+}
+.comment-time {
+  color: grey;
+  font-size: 0.8em;
+}
+.comment-text {
+  margin-bottom: 8px;
+}
+.comment-actions {
+  display: flex;
+  justify-content: space-between;
+  // gap: 8px;
+  margin-top: 80px;
+}
+.reply-btn,
+.like-btn {
+  border: 1px solid rgba(128, 128, 128, 0.329);
+  flex: 1;
+}
