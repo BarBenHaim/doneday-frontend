@@ -27,8 +27,8 @@ export function AppHeader() {
                 <NavLink to='/board'>
                     <div className='headline'>
                         <img src={logoImg} alt='logo' className='logo-img' />
-                        <h4 className='company-name'>
-                            doneday <span className='app-name'>work management</span>
+                        <h4 className='company-name bold'>
+                            doneday <span className='app-name light'>work management</span>
                         </h4>
                     </div>
                 </NavLink>
