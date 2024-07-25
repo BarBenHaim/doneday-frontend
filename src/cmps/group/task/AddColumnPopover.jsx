@@ -1,27 +1,27 @@
 import React, { useState, useMemo } from 'react'
 import { Popover, Box, Typography } from '@mui/material'
 import { Combobox, IconButton } from 'monday-ui-react-core'
-import { Add, Info, Person } from 'monday-ui-react-core/icons'
+import { Add, CheckList, Description, DueDate, File, Person, Status, Team } from 'monday-ui-react-core/icons'
 import 'monday-ui-react-core/dist/main.css'
 
 const AddColumnPopover = ({ predefinedLabels, handleAddColumn }) => {
     const [anchorEl, setAnchorEl] = useState(null)
 
     const labelMapping = {
-        dueDate: { label: 'Timeline', leftIcon: Info, color: 'blue', fill: '#0000ff' },
-        checklists: { label: 'Checklist', leftIcon: Add, color: 'green', fill: '#00ff00' },
-        memberIds: { label: 'Collaborators', leftIcon: Person, color: 'red', fill: '#ff0000' },
-        priority: { label: 'Priority', leftIcon: Person, color: 'purple', fill: '#800080' },
-        status: { label: 'Status', leftIcon: Person, color: 'orange', fill: '#ffa500' },
-        description: { label: 'Description', leftIcon: Person, color: 'brown', fill: '#a52a2a' },
-        files: { label: 'Files', leftIcon: Person, color: 'pink', fill: '#ffc0cb' },
-        default: { label: 'Some Title', leftIcon: Person, color: 'gray', fill: '#808080' },
+        dueDate: { label: 'Timeline', leftIcon: DueDate },
+        checklists: { label: 'Checklist', leftIcon: CheckList },
+        memberIds: { label: 'Collaborators', leftIcon: Team },
+        priority: { label: 'Priority', leftIcon: Person },
+        status: { label: 'Status', leftIcon: Status },
+        description: { label: 'Description', leftIcon: Description },
+        files: { label: 'Files', leftIcon: File },
+        default: { label: 'Some Title', leftIcon: Person },
     }
 
     const options = useMemo(
         () =>
             predefinedLabels
-                .filter(label => label !== 'title')
+                .filter(label => label !== 'title' && label !== 'checkbox')
                 .map((label, index) => ({
                     id: String(index + 1),
                     label: labelMapping[label]?.label || labelMapping.default.label,
@@ -64,7 +64,7 @@ const AddColumnPopover = ({ predefinedLabels, handleAddColumn }) => {
                 }}
                 transformOrigin={{
                     vertical: 'top',
-                    horizontal: 'left',
+                    horizontal: 'right',
                 }}
                 disableEnforceFocus
                 disableRestoreFocus
@@ -73,10 +73,9 @@ const AddColumnPopover = ({ predefinedLabels, handleAddColumn }) => {
                 }}
             >
                 <Box p={1}>
-                    <Typography variant='h6'>Select Column Type</Typography>
                     <Combobox
                         options={options}
-                        placeholder='Select a column label'
+                        placeholder='Search'
                         onClick={handleSelect}
                         size='small'
                         renderOption={option => (

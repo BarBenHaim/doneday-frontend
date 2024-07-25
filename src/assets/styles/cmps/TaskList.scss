@@ -77,26 +77,3 @@
         font-weight: 500;
     }
 }
-
-.add-task-row {
-    border-block-end: 1px solid $tableBorderClr;
-    --sticky-cell-hover-background: none;
-    display: flex;
-    opacity: 0.6;
-    .add-task-row-cell {
-        position: sticky;
-        left: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        .add-task-input {
-            margin: 0;
-            padding: 0;
-            border: none;
-            cursor: text;
-            &:focus-visible {
-                border: 1px solid var(--primary-color);
-            }
-        }
-    }
-}

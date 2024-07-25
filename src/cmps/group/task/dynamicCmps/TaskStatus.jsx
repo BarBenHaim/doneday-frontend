@@ -14,7 +14,7 @@ const cellStyle = {
 const TaskStatus = ({ task, onUpdateField, columnKey }) => (
     <div style={cellStyle}>
         <Dialog
-            zIndex={2}
+            zIndex={3}
             content={
                 <DialogContentContainer style={{ width: '150px' }}>
                     <ul className='change-label-container flex align-center '>
@@ -36,8 +36,12 @@ const TaskStatus = ({ task, onUpdateField, columnKey }) => (
             position='bottom'
             showTrigger={['click']}
         >
-            <div style={{ ...cellStyle, ...getStatusStyle(task[columnKey] || 'Not Started'), fontSize: '0.875em' }}>
+            <div
+                className='status-cell'
+                style={{ ...cellStyle, ...getStatusStyle(task[columnKey] || 'Not Started'), fontSize: '0.875em' }}
+            >
                 {task[columnKey] || 'Not Started'}
+                <div className='corner-fold'></div>
             </div>
         </Dialog>
     </div>

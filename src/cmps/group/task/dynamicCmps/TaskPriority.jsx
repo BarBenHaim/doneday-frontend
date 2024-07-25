@@ -5,7 +5,7 @@ import { cellStyle, getPriorityStyle } from './styleUtils'
 const TaskPriority = ({ task, onUpdateField, columnKey }) => (
     <div style={cellStyle}>
         <Dialog
-            zIndex={2}
+            zIndex={3}
             content={
                 <DialogContentContainer style={{ width: '150px' }}>
                     <ul className='change-label-container flex align-center '>
@@ -27,8 +27,12 @@ const TaskPriority = ({ task, onUpdateField, columnKey }) => (
             position='bottom'
             showTrigger={['click']}
         >
-            <div style={{ ...cellStyle, ...getPriorityStyle(task[columnKey] || 'Medium'), fontSize: '0.875em' }}>
+            <div
+                className='priority-cell'
+                style={{ ...cellStyle, ...getPriorityStyle(task[columnKey] || 'Medium'), fontSize: '0.875em' }}
+            >
                 {task[columnKey] || 'Medium'}
+                <div className='corner-fold'></div>
             </div>
         </Dialog>
     </div>

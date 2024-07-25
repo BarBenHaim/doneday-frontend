@@ -26,15 +26,22 @@
 .sticky-col {
     background-color: white;
     position: sticky;
-    left: 0;
     z-index: 1;
 }
 .checkbox-col,
 .table-header-checkbox {
     background-color: white;
     position: sticky;
-    left: -46px;
     z-index: 1;
+}
+
+.checkbox-col {
+    &.disable {
+        background-color: white;
+        z-index: 1;
+        width: 50px;
+        opacity: 0.8;
+    }
 }
 
 .table-header-checkbox {
@@ -65,7 +72,6 @@
 
 .task-row-title {
     width: 100%;
-    max-width: 210px;
 }
 
 .task-row-comments {
@@ -80,5 +86,24 @@
         width: 1px;
         height: 36px;
         background-color: $tableBorderClr;
+    }
+}
+
+.status-cell,
+.priority-cell {
+    position: relative;
+
+    .corner-fold {
+        position: absolute;
+        right: 0;
+        top: 0;
+        border-color: rgba(0, 0, 0, 0.2) #fff;
+        border-style: solid;
+        border-width: 0;
+        transition: border-width 0.3s ease 0.2s;
+    }
+
+    &:hover .corner-fold {
+        border-width: 0 10px 10px 0;
     }
 }

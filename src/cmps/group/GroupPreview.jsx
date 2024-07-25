@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import 'monday-ui-react-core/dist/main.css'
-import { ColorPicker, Button, MenuButton, Menu, MenuItem, EditableHeading } from 'monday-ui-react-core'
+import { MenuButton, Menu, MenuItem, EditableHeading } from 'monday-ui-react-core'
 import TasksList from './task/TaskList'
 import { Collapse, Delete, DropdownChevronDown, DropdownChevronRight } from 'monday-ui-react-core/icons'
 
@@ -19,7 +19,6 @@ function GroupPreview({
     onAddGroup,
     dragHandleProps,
 }) {
-    const [isEditingTitle, setIsEditingTitle] = useState(false)
     const [updatedGroupTitle, setUpdatedGroupTitle] = useState(group.title)
     const [groupColor, setGroupColor] = useState(group.style.backgroundColor || '#579bfc')
 
@@ -32,19 +31,6 @@ function GroupPreview({
             onUpdateGroup(board._id, group._id, { ...group, title: updatedGroupTitle })
         }
         setIsEditingTitle(false)
-    }
-
-    const handleColorSave = color => {
-        setGroupColor(color.hex)
-        onUpdateGroup(board._id, group._id, { ...group, backgroundColor: color.hex })
-    }
-
-    const openColorPicker = () => {
-        ColorPicker.show({
-            onSave: handleColorSave,
-            initialColor: groupColor,
-            onClose: () => {},
-        })
     }
 
     return (
@@ -86,13 +72,7 @@ function GroupPreview({
                                 }}
                             />
                         )}
-                        {isEditingTitle && (
-                            <Button
-                                onClick={openColorPicker}
-                                size='small'
-                                style={{ backgroundColor: groupColor, width: '20px', height: '20px' }}
-                            />
-                        )}
+
                         <EditableHeading
                             type='h2'
                             value={updatedGroupTitle}
@@ -100,6 +80,7 @@ function GroupPreview({
                             onFinishEditing={handleTitleBlur}
                             onStartEditing={() => setIsEditingTitle(true)}
                             style={{ color: groupColor }}
+                            id='editable-group-title'
                         />
                     </div>
                 </div>

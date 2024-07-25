@@ -62,7 +62,7 @@ function TaskChecklists({ task, members, onUpdateField, columnKey }) {
     return (
         <div style={cellStyle}>
             <Dialog
-                zIndex={2}
+                zIndex={3}
                 isOpen={isDialogOpen}
                 onDialogDidHide={() => setIsDialogOpen(false)}
                 content={

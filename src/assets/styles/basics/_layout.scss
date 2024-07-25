@@ -1,7 +1,7 @@
 .main-container {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    height: calc(100vh - 3.5em);
+    // display: grid;
+    // grid-template-columns: auto 1fr;
+    // height: calc(100vh - 3.5em);
 
     > * {
         // &:first-child {
@@ -16,33 +16,120 @@
             grid-column: 1 / -1;
         }
     }
-
-    //     @include for-narrow-layout {
-    //         grid-template-columns:
-    //             minmax(20px, 1fr)
-    //             minmax(auto, $mobile-breakpoint)
-    //             minmax(20px, 1fr);
-    //     }
-    //     @include for-normal-layout {
-    //         grid-template-columns:
-    //             minmax(20px, 1fr)
-    //             minmax(auto, $narrow-breakpoint)
-    //             minmax(20px, 1fr);
-    //     }
-    //     @include for-wide-layout {
-    //         grid-template-columns:
-    //             minmax(20px, 1fr)
-    //             minmax(auto, $normal-breakpoint)
-    //             minmax(20px, 1fr);
-    //     }
-    // }
-
-    // .card-grid {
-    //     display: grid;
-    //     grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); // Default column size
-    //     grid-gap: 20px;
-
-    //     @include for-mobile-layout {
-    //       grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); // Adjusted column size for smaller screens
-    //     }
 }
+
+@media (max-width: 740px) {
+    .task-row-title {
+        max-width: 80px;
+    }
+    .summary-row,
+    .add-task-row {
+        display: none;
+    }
+
+    .board-details-header {
+        padding-left: 10px !important;
+    }
+    .group-list {
+        padding-left: 10px !important;
+    }
+    .main-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .filter-filter,
+    .person-filter,
+    .filter-sort {
+        display: none;
+    }
+    .checkbox-col {
+        left: -10px;
+    }
+
+    .sticky-col {
+        left: 40px;
+    }
+    .table-header-checkbox {
+        left: -10px;
+    }
+
+    .board-details .board-details-header .board-details-edit span button {
+        font-size: 1em;
+    }
+}
+@media (min-width: 740px) {
+    .task-row-title {
+        max-width: 120px;
+    }
+}
+@media (min-width: 940px) {
+    .task-row-title {
+        max-width: 210px;
+    }
+    .main-container {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        height: calc(100vh - 3.5em);
+    }
+
+    .add-task-row {
+        border-block-end: 1px solid $tableBorderClr;
+        --sticky-cell-hover-background: none;
+        display: flex;
+
+        position: sticky;
+        left: 0;
+        opacity: 0.6;
+        .add-task-row-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .add-task-input {
+                margin: 0;
+                padding: 0;
+                border: none;
+                cursor: text;
+                &:focus-visible {
+                    border: 1px solid var(--primary-color);
+                }
+            }
+        }
+    }
+    .sticky-col {
+        left: 0;
+    }
+    .checkbox-col,
+    .table-header-checkbox {
+        left: -50px;
+    }
+}
+// @include for-narrow-layout {
+
+//     // grid-template-columns:
+//     //     minmax(20px, 1fr)
+//     //     minmax(auto, $mobile-breakpoint)
+//     //     minmax(20px, 1fr);
+// }
+// @include for-normal-layout {
+//     // grid-template-columns:
+//     //     minmax(20px, 1fr)
+//     //     minmax(auto, $narrow-breakpoint)
+//     //     minmax(20px, 1fr);
+// }
+// @include for-wide-layout {
+//     // grid-template-columns:
+//     //     minmax(20px, 1fr)
+//     //     minmax(auto, $normal-breakpoint)
+//     //     minmax(20px, 1fr);
+// }
+// }
+
+// .card-grid {
+//     display: grid;
+//     grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); // Default column size
+//     grid-gap: 20px;
+
+//     @include for-mobile-layout {
+//       grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); // Adjusted column size for smaller screens
+//     }

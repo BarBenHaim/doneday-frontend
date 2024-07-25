@@ -50,7 +50,7 @@ const TaskMembers = ({ task, members, onUpdateField, columnKey }) => {
     return (
         <div style={cellStyle}>
             <Dialog
-                zIndex={2}
+                zIndex={3}
                 isOpen={isDialogOpen}
                 onDialogDidHide={() => setIsDialogOpen(false)}
                 content={
@@ -61,7 +61,6 @@ const TaskMembers = ({ task, members, onUpdateField, columnKey }) => {
                             onChange={e => setSearchQuery(e.target.value)}
                         />
                         <Box padding={3}>
-                            <Text type={Text.types.TEXT1}>Suggested people</Text>
                             <div className='searchResults'>
                                 {filteredMembers.map((member, index) => {
                                     const isSelected = selectedMembers.includes(member._id)

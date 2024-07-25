@@ -9,10 +9,11 @@ import {
     MenuButton,
     Menu,
     MenuItem,
+    Checkbox,
 } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
-import { taskAttributesConfig } from './taskAttributesConfig'
+import { getResponsiveWidths, taskAttributesConfig } from './taskAttributesConfig'
 import { showSuccessMsg, showErrorMsg } from '../../../services/event-bus.service'
 import {
     addTaskBottom,
@@ -92,11 +93,23 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
     const [selectedTasks, setSelectedTasks] = useState([])
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
+    const [responsiveWidths, setResponsiveWidths] = useState(getResponsiveWidths())
 
     useEffect(() => {
         setTaskList(tasks)
         setSummary(calculateSummary(tasks))
     }, [tasks, currBoard])
+
+    useEffect(() => {
+        const handleResize = () => {
+            setResponsiveWidths(getResponsiveWidths())
+        }
+
+        window.addEventListener('resize', handleResize)
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
 
     const handleCheckboxChange = taskId => {
         setSelectedTasks(prevSelectedTasks =>
@@ -230,7 +243,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
             showErrorMsg('Cannot remove column')
         }
     }
-
+    console.log(responsiveWidths)
     const columns = [
         ...board.cmpsOrder.map(key => {
             const config = taskAttributesConfig[key.match(/^\D+/)[0]]
@@ -249,7 +262,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                         </MenuButton>
                     </div>
                 ),
-                width: config.width || 'auto',
+                width: responsiveWidths[key] || '140px',
             }
         }),
         additionalColumn,
@@ -341,7 +354,9 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                     borderBottomLeftRadius: '5px',
                                 }}
                             >
-                                <TableCell className='checkbox-col flex align-center justify-center' />
+                                <TableCell className='table-cell checkbox-col disable'>
+                                    <Checkbox disabled />
+                                </TableCell>
                                 <TableCell className='add-task-row-cell'>
                                     <input
                                         className='add-task-input'

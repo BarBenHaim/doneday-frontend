@@ -12,12 +12,15 @@ import TaskChecklists from './dynamicCmps/TaskChecklists.jsx'
 
 const taskAttributesConfig = {
     checkbox: {
-        label: <Checkbox onClick={() => handleSelectAllCheckboxChange()} />,
+        label: (
+            <span style={{ opacity: '.5' }}>
+                <Checkbox disabled />
+            </span>
+        ),
         render: (task, members, labels, onUpdateField, columnKey, { selectedTasks, handleCheckboxChange }) => (
             <Checkbox checked={selectedTasks.includes(task._id)} onChange={() => handleCheckboxChange(task._id)} />
         ),
         className: 'table-cell checkbox-col',
-        width: '50px',
     },
     title: {
         label: 'Task',
@@ -32,7 +35,6 @@ const taskAttributesConfig = {
             </div>
         ),
         className: 'table-cell sticky-col task-col',
-        width: '300px',
     },
     status: {
         label: 'Status',
@@ -40,7 +42,6 @@ const taskAttributesConfig = {
             <TaskStatus task={task} onUpdateField={onUpdateField} columnKey={columnKey} />
         ),
         className: 'table-cell status-col',
-        width: '140px',
     },
     priority: {
         label: 'Priority',
@@ -48,7 +49,6 @@ const taskAttributesConfig = {
             <TaskPriority task={task} onUpdateField={onUpdateField} columnKey={columnKey} />
         ),
         className: 'table-cell priority-col',
-        width: '140px',
     },
     dueDate: {
         label: 'Timeline',
@@ -56,7 +56,6 @@ const taskAttributesConfig = {
             <TaskDatePicker task={task} onUpdateField={onUpdateField} columnKey={columnKey} />
         ),
         className: 'table-cell due-date-col',
-        width: '140px',
     },
     memberIds: {
         label: 'Collaborators',
@@ -64,7 +63,6 @@ const taskAttributesConfig = {
             <TaskMembers task={task} members={members} onUpdateField={onUpdateField} columnKey={columnKey} />
         ),
         className: 'table-cell members-col',
-        width: '140px',
     },
     files: {
         label: 'Files',
@@ -72,7 +70,6 @@ const taskAttributesConfig = {
             <TaskFiles task={task} onUpdateField={onUpdateField} columnKey={columnKey} />
         ),
         className: 'table-cell files-col',
-        width: '140px',
     },
     description: {
         label: 'Description',
@@ -80,7 +77,6 @@ const taskAttributesConfig = {
             <TaskDescription task={task} onUpdateField={onUpdateField} columnKey={columnKey} />
         ),
         className: 'table-cell description-col',
-        width: '300px',
     },
     checklists: {
         label: 'Checklists',
@@ -88,8 +84,34 @@ const taskAttributesConfig = {
             <TaskChecklists task={task} members={members} onUpdateField={onUpdateField} columnKey={columnKey} />
         ),
         className: 'table-cell checklists-col',
-        width: '200px',
     },
 }
+const getResponsiveWidths = () => {
+    const width = window.innerWidth
 
-export { taskAttributesConfig }
+    const baseWidths = {
+        checkbox: '50px',
+        title: width <= 480 ? '150px' : width <= 768 ? '200px' : '300px',
+        status: width <= 480 ? '100px' : width <= 768 ? '100px' : '140px',
+        priority: width <= 480 ? '100px' : width <= 768 ? '100px' : '140px',
+        dueDate: '140px',
+        memberIds: '140px',
+        files: width <= 480 ? '80px' : width <= 768 ? '100px' : '140px',
+        description: width <= 480 ? '150px' : width <= 768 ? '200px' : '300px',
+        checklists: width <= 480 ? '100px' : width <= 768 ? '150px' : '200px',
+    }
+
+    const allKeys = Object.keys(baseWidths)
+    const dynamicWidths = {}
+
+    allKeys.forEach(key => {
+        dynamicWidths[key] = baseWidths[key]
+        for (let i = 1; i <= 10; i++) {
+            dynamicWidths[`${key}${i}`] = baseWidths[key]
+        }
+    })
+
+    return dynamicWidths
+}
+
+export { taskAttributesConfig, getResponsiveWidths }
