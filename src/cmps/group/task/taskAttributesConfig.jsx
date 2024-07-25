@@ -82,5 +82,32 @@ const taskAttributesConfig = {
         className: 'table-cell checklists-col',
     },
 }
+const getResponsiveWidths = () => {
+    const width = window.innerWidth
 
-export { taskAttributesConfig }
+    const baseWidths = {
+        checkbox: '50px',
+        title: width <= 480 ? '150px' : width <= 768 ? '200px' : '300px',
+        status: width <= 480 ? '100px' : width <= 768 ? '100px' : '140px',
+        priority: width <= 480 ? '100px' : width <= 768 ? '100px' : '140px',
+        dueDate: '140px',
+        memberIds: '140px',
+        files: width <= 480 ? '80px' : width <= 768 ? '100px' : '140px',
+        description: width <= 480 ? '150px' : width <= 768 ? '200px' : '300px',
+        checklists: width <= 480 ? '100px' : width <= 768 ? '150px' : '200px',
+    }
+
+    const allKeys = Object.keys(baseWidths)
+    const dynamicWidths = {}
+
+    allKeys.forEach(key => {
+        dynamicWidths[key] = baseWidths[key]
+        for (let i = 1; i <= 10; i++) {
+            dynamicWidths[`${key}${i}`] = baseWidths[key]
+        }
+    })
+
+    return dynamicWidths
+}
+
+export { taskAttributesConfig, getResponsiveWidths }

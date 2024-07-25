@@ -13,7 +13,7 @@ import {
 } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
-import { taskAttributesConfig } from './taskAttributesConfig'
+import { getResponsiveWidths, taskAttributesConfig } from './taskAttributesConfig'
 import { showSuccessMsg, showErrorMsg } from '../../../services/event-bus.service'
 import {
     addTaskBottom,
@@ -28,7 +28,6 @@ import { useSelector } from 'react-redux'
 import { Delete } from 'monday-ui-react-core/icons'
 import { getPriorityStyle, getStatusStyle } from './dynamicCmps/styleUtils'
 import AddColumnPopover from './AddColumnPopover'
-import { getResponsiveWidths } from './utils'
 
 function calculateSummary(taskList) {
     const summary = {
@@ -244,7 +243,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
             showErrorMsg('Cannot remove column')
         }
     }
-
+    console.log(responsiveWidths)
     const columns = [
         ...board.cmpsOrder.map(key => {
             const config = taskAttributesConfig[key.match(/^\D+/)[0]]
@@ -263,7 +262,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                         </MenuButton>
                     </div>
                 ),
-                width: responsiveWidths[key] || 'auto',
+                width: responsiveWidths[key] || '140px',
             }
         }),
         additionalColumn,
