@@ -163,7 +163,7 @@ export function GroupAdvancedFilter({ setFilterBy }) {
                         <option value="" disabled>
                           Column
                         </option>
-                        <option value="title">Group</option>
+                        <option value="title"> Group</option>
                         <option value="priority">Priority</option>
                         <option value="status">Status</option>
                         <option value="owner">Owner</option>
