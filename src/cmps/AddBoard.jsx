@@ -3,6 +3,7 @@ import { addBoard } from '../store/actions/board.action'
 import { useNavigate } from 'react-router'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import {
+    DialogContentContainer,
     Divider,
     EditableText,
     Modal,
@@ -82,6 +83,7 @@ export function AddBoard({ isOpen, onClose }) {
                                 height: '40px',
                                 width: '400px',
                             }}>
+
                             <Divider direction='horizontal' />
                         </div>
 
@@ -92,12 +94,11 @@ export function AddBoard({ isOpen, onClose }) {
                                     display: 'grid',
                                     gridTemplateColumns: 'repeat(3, 1fr)',
                                     gridTemplateRows: 'repeat(5, auto)',
-                                    marginInline:'0.5em',
                                     gap: '15px',
                                     fontSize:'14px'
                                 }}>
                                 {labelOptions.map((option, index) => (
-                                    <div style={{gridColumn: index % 2 === 0 ? '1 / 2' : '2 / 3',  }}>
+                                    <div style={{gridColumn: index % 3 === 2 ? '3 / 4' : 'auto', }}>
                                         <RadioButton
                                             key={option}
                                             name='radio-buttons-group-4'
@@ -105,10 +106,9 @@ export function AddBoard({ isOpen, onClose }) {
                                             checked={labelType === option}
                                             onSelect={() => onLabelTypeSelect(option)}
                                         />
-
-                                        </div>
+                                    </div>
                                 ))}
-                                <div style={{gridColumn:  '2 / 3'}}>
+                                <div style={{gridColumn:  '1 / 2'}}>
                                     
                                
                                 <RadioButton
