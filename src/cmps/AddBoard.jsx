@@ -3,7 +3,6 @@ import { addBoard } from '../store/actions/board.action'
 import { useNavigate } from 'react-router'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import {
-    DialogContentContainer,
     Divider,
     EditableText,
     Modal,
