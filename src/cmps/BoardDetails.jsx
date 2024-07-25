@@ -186,7 +186,7 @@ export function BoardDetails() {
                         </div>
                     </div>
                     <div style={{ margin: '0', padding: '0' }}>
-                        <TabList activeTab={activeTabIndex} onTabChange={setActiveTabIndex}>
+                        <TabList className='tabs-container' activeTab={activeTabIndex} onTabChange={setActiveTabIndex}>
                             <Tab id='table' title='Table View'>
                                 <span style={{ fontSize: '0.9em' }}>Main Table</span>
                             </Tab>
