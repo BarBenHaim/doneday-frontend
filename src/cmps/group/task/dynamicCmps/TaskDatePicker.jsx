@@ -19,7 +19,7 @@ function TaskDatePicker({ task, onUpdateField, columnKey }) {
     return (
         <div className='monday-storybook-dialog--story-padding ' style={{ display: 'flex', margin: '0 auto' }}>
             <Dialog
-                zIndex={2}
+                zIndex={3}
                 content={
                     <DialogContentContainer>
                         <DatePicker

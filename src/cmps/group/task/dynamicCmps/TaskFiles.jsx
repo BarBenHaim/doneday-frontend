@@ -37,7 +37,7 @@ function TaskFiles({ task, onUpdateField, columnKey }) {
     return (
         <div style={cellStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <Dialog
-                zIndex={2}
+                zIndex={3}
                 isOpen={isDialogOpen}
                 onDialogDidHide={() => setIsDialogOpen(false)}
                 content={

@@ -12,7 +12,11 @@ import TaskChecklists from './dynamicCmps/TaskChecklists.jsx'
 
 const taskAttributesConfig = {
     checkbox: {
-        label: <Checkbox onClick={() => handleSelectAllCheckboxChange()} />,
+        label: (
+            <span style={{ opacity: '.5' }}>
+                <Checkbox disabled />
+            </span>
+        ),
         render: (task, members, labels, onUpdateField, columnKey, { selectedTasks, handleCheckboxChange }) => (
             <Checkbox checked={selectedTasks.includes(task._id)} onChange={() => handleCheckboxChange(task._id)} />
         ),

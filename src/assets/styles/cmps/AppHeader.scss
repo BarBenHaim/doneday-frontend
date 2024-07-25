@@ -1,6 +1,6 @@
 .app-header {
     position: sticky;
-    z-index: 3;
+    z-index: 4;
     top: 0;
     width: 100%;
     height: 3.5rem;
@@ -8,7 +8,7 @@
     background-color: $Mbgr3;
     padding: rem(10px) 1rem;
     display: flex;
-    justify-content: space-between; // Ensure space-between for main sections
+    justify-content: space-between;
     align-items: center;
 
     .headline {
@@ -55,12 +55,12 @@
     .login-link {
         display: flex;
         align-items: center;
-        gap: 1em; // Adjust the gap as needed
+        gap: 1em;
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 0em; // Adjust the gap as needed
+            gap: 0em;
 
             color: $clr1;
 
