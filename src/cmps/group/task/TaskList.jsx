@@ -9,6 +9,7 @@ import {
     MenuButton,
     Menu,
     MenuItem,
+    Checkbox,
 } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskPreview from './TaskPreview'
@@ -27,6 +28,7 @@ import { useSelector } from 'react-redux'
 import { Delete } from 'monday-ui-react-core/icons'
 import { getPriorityStyle, getStatusStyle } from './dynamicCmps/styleUtils'
 import AddColumnPopover from './AddColumnPopover'
+import { getResponsiveWidths } from './utils'
 
 function calculateSummary(taskList) {
     const summary = {
@@ -92,11 +94,23 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
     const [selectedTasks, setSelectedTasks] = useState([])
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
+    const [responsiveWidths, setResponsiveWidths] = useState(getResponsiveWidths())
 
     useEffect(() => {
         setTaskList(tasks)
         setSummary(calculateSummary(tasks))
     }, [tasks, currBoard])
+
+    useEffect(() => {
+        const handleResize = () => {
+            setResponsiveWidths(getResponsiveWidths())
+        }
+
+        window.addEventListener('resize', handleResize)
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
 
     const handleCheckboxChange = taskId => {
         setSelectedTasks(prevSelectedTasks =>
@@ -249,7 +263,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                         </MenuButton>
                     </div>
                 ),
-                width: config.width || 'auto',
+                width: responsiveWidths[key] || 'auto',
             }
         }),
         additionalColumn,
@@ -341,7 +355,9 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                     borderBottomLeftRadius: '5px',
                                 }}
                             >
-                                <TableCell className='checkbox-col flex align-center justify-center' />
+                                <TableCell className='table-cell checkbox-col disable'>
+                                    <Checkbox disabled />
+                                </TableCell>
                                 <TableCell className='add-task-row-cell'>
                                     <input
                                         className='add-task-input'

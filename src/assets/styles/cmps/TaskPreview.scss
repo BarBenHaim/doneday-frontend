@@ -33,8 +33,19 @@
 .table-header-checkbox {
     background-color: white;
     position: sticky;
-    left: -46px;
+    left: -50px;
     z-index: 1;
+}
+
+.checkbox-col {
+    &.disable {
+        background-color: white;
+        // position: sticky;
+        // left: -50px;
+        z-index: 1;
+        width: 50px;
+        opacity: 0.8;
+    }
 }
 
 .table-header-checkbox {
@@ -65,7 +76,6 @@
 
 .task-row-title {
     width: 100%;
-    max-width: 210px;
 }
 
 .task-row-comments {

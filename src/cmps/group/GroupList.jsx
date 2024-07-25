@@ -15,6 +15,8 @@ export function GroupList({ boardsToDisplay }) {
     const [isDragging, setIsDragging] = useState(false)
     const [initialCollapsedStates, setInitialCollapsedStates] = useState({})
 
+    useEffect(() => {}, [])
+
     useEffect(() => {
         const initialCollapsedStates = {}
         currBoard?.groups.forEach(group => {

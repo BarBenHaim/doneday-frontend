@@ -82,10 +82,11 @@
     border-block-end: 1px solid $tableBorderClr;
     --sticky-cell-hover-background: none;
     display: flex;
+
+    position: sticky;
+    left: 0;
     opacity: 0.6;
     .add-task-row-cell {
-        position: sticky;
-        left: 0;
         display: flex;
         align-items: center;
         justify-content: center;
