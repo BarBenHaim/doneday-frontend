@@ -1,12 +1,13 @@
+import React, { useEffect, useState } from 'react'
 import GroupPreview from './GroupPreview'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { showErrorMsg, showSuccessMsg } from '../../services/event-bus.service'
 import { addGroup, removeGroup, updateGroup, updateBoardOptimistic } from '../../store/actions/board.action'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-import { useEffect, useState } from 'react'
-import { Button, IconButton } from 'monday-ui-react-core'
+import { Button } from 'monday-ui-react-core'
 import { Add } from 'monday-ui-react-core/icons'
+import { KanbanColumn } from './KanbanColumn'
 
 export function GroupList({ boardsToDisplay, view }) {
     const { boardId } = useParams()
@@ -129,33 +130,46 @@ export function GroupList({ boardsToDisplay, view }) {
     return (
         <section className='group-list scrollable'>
             <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-                <Droppable droppableId='all-groups' type='GROUP' direction='vertical'>
-                    {provided => (
-                        <div {...provided.droppableProps} ref={provided.innerRef}>
-                            {boardsToDisplay.map((group, index) => (
-                                <Draggable key={group._id} draggableId={group._id} index={index}>
-                                    {provided => (
-                                        <div ref={provided.innerRef} {...provided.draggableProps}>
-                                            <GroupPreview
-                                                group={group}
-                                                members={currBoard.members}
-                                                labels={currBoard.labels}
-                                                onUpdateGroup={onUpdateGroup}
-                                                onRemoveGroup={onRemoveGroup}
-                                                board={currBoard}
-                                                isDragging={isDragging}
-                                                isCollapsed={collapsedStates[group._id]}
-                                                toggleCollapse={() => handleToggleCollapse(group._id)}
-                                                dragHandleProps={provided.dragHandleProps}
-                                            />
-                                        </div>
-                                    )}
-                                </Draggable>
-                            ))}
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
+                {view === 'kanban' ? (
+                    <Droppable droppableId='all-groups' type='GROUP' direction='horizontal'>
+                        {provided => (
+                            <div className='kanban-board' {...provided.droppableProps} ref={provided.innerRef}>
+                                {boardsToDisplay.map((group, index) => (
+                                    <KanbanColumn key={group._id} group={group} tasks={group.tasks} index={index} />
+                                ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                ) : (
+                    <Droppable droppableId='all-groups' type='GROUP' direction='vertical'>
+                        {provided => (
+                            <div {...provided.droppableProps} ref={provided.innerRef}>
+                                {boardsToDisplay.map((group, index) => (
+                                    <Draggable key={group._id} draggableId={group._id} index={index}>
+                                        {provided => (
+                                            <div ref={provided.innerRef} {...provided.draggableProps}>
+                                                <GroupPreview
+                                                    group={group}
+                                                    members={currBoard.members}
+                                                    labels={currBoard.labels}
+                                                    onUpdateGroup={onUpdateGroup}
+                                                    onRemoveGroup={onRemoveGroup}
+                                                    board={currBoard}
+                                                    isDragging={isDragging}
+                                                    isCollapsed={collapsedStates[group._id]}
+                                                    toggleCollapse={() => handleToggleCollapse(group._id)}
+                                                    dragHandleProps={provided.dragHandleProps}
+                                                />
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                )}
                 <Button onClick={onAddGroup} kind={Button.kinds.SECONDARY} size={Button.sizes.SMALL}>
                     <div className='flex align-center justify-center'>
                         <Add size={18} />
