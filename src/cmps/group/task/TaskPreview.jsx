@@ -3,7 +3,19 @@ import { TableCell, TableRow, MenuButton, Menu, MenuItem } from 'monday-ui-react
 import { Delete } from 'monday-ui-react-core/icons'
 import { taskAttributesConfig } from './taskAttributesConfig'
 
-export function TaskPreview({ task, members, labels, onUpdateTask, onDeleteTask, provided, cmpsOrder, isPlaceholder }) {
+export function TaskPreview({
+    task,
+    members,
+    labels,
+    onUpdateTask,
+    onDeleteTask,
+    provided,
+    cmpsOrder,
+    selectedTasks,
+    handleCheckboxChange,
+    handleSelectAllCheckboxChange,
+    isPlaceholder,
+}) {
     const [highlighted, setHighlighted] = useState(false)
 
     function onUpdateField(task, field, value) {
@@ -19,7 +31,13 @@ export function TaskPreview({ task, members, labels, onUpdateTask, onDeleteTask,
         const { render, className, width } = config || {}
         return (
             <TableCell key={key} className={className || ''} style={{ width, flexGrow: key === 'addColumn' ? 1 : 0 }}>
-                {render ? render(task, members, labels, onUpdateField, key, isPlaceholder) : null}
+                {render
+                    ? render(task, members, labels, onUpdateField, key, {
+                          selectedTasks,
+                          handleCheckboxChange,
+                          handleSelectAllCheckboxChange,
+                      })
+                    : null}
             </TableCell>
         )
     }

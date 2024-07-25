@@ -26,13 +26,14 @@
     border-inline-end: none;
 }
 
-.summary-cell-1 {
+.summary-cell-2 {
     border-inline-start: 1px solid $tableBorderClr;
     border-bottom-left-radius: 8px;
     position: relative;
 }
 
-.summary-cell-0 {
+.summary-cell-0,
+.summary-cell-1 {
     border: none;
     background-color: rgb(255, 255, 255) !important;
     position: sticky;
@@ -55,6 +56,7 @@
 
 .table-header-cell.regular {
     justify-content: center;
+    padding: 0;
     &:hover {
         .column-menu-btn {
             display: flex;
@@ -69,12 +71,21 @@
     top: 40px;
 }
 
+.table-header {
+    .column-header-text,
+    .typography_0001dd1f8e {
+        font-weight: 500;
+    }
+}
+
 .add-task-row {
     border-block-end: 1px solid $tableBorderClr;
     --sticky-cell-hover-background: none;
     display: flex;
-    opacity: 0.7;
+    opacity: 0.6;
     .add-task-row-cell {
+        position: sticky;
+        left: 0;
         display: flex;
         align-items: center;
         justify-content: center;

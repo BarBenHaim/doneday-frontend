@@ -118,11 +118,11 @@ const TaskMembers = ({ task, members, onUpdateField, columnKey }) => {
                 position='bottom'
                 showTrigger={['click']}
             >
-                <div style={{ width: '100%', textAlign: 'center' }} onClick={() => setIsDialogOpen(true)}>
+                <div style={{ textAlign: 'center' }} onClick={() => setIsDialogOpen(true)}>
                     {avatars.length > 0 ? (
                         <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
-                            {avatars.slice(0, 1)}
-                            {avatars.length > 1 && (
+                            {avatars.slice(0, 2)}
+                            {avatars.length > 2 && (
                                 <Avatar
                                     size={Avatar.sizes.SMALL}
                                     type={Avatar.types.TEXT}

@@ -143,7 +143,7 @@ export function createBoard(title, createdBy, label, members = [], groups = [], 
         return array
     }
 
-    const shuffledColumns = ['title', ...shuffleArray(columns)]
+    const shuffledColumns = ['checkbox', 'title', ...shuffleArray(columns)]
 
     return {
         _id: makeId(),

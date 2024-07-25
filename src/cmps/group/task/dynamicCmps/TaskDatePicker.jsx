@@ -29,7 +29,7 @@ function TaskDatePicker({ task, onUpdateField, columnKey }) {
                         />
                     </DialogContentContainer>
                 }
-                hideTrigger={['clickoutside', 'onContentClick']}
+                hideTrigger={['clickoutside']}
                 modifiers={[
                     {
                         name: 'preventOverflow',
@@ -57,12 +57,14 @@ function TaskDatePicker({ task, onUpdateField, columnKey }) {
                 >
                     <span style={{ fontSize: '0.875em' }}>{dueDate ? formattedDueDate : '-'}</span>
                     {dueDate && (
-                        <div className='hover-info' style={{ background: backgroundColor }}>
-                            <span style={{ position: 'relative' }}>{daysLeft} days left</span>
+                        <>
+                            <div className='hover-info' style={{ background: backgroundColor }}>
+                                <span>{daysLeft} days left</span>
+                            </div>
                             <button className='reset-date-btn' onClick={handleResetDate}>
                                 <Close size={10} />
                             </button>
-                        </div>
+                        </>
                     )}
                 </div>
             </Dialog>

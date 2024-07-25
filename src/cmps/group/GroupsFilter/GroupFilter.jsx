@@ -1,18 +1,36 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { GruopSort } from './GroupSort'
 import { GroupPersonFilter } from './GroupPersonFilter'
 import { GroupHideFilter } from './GroupHideFilter'
+import { Group } from 'monday-ui-react-core/icons'
 
-import { Tooltip } from 'monday-ui-react-core'
+import { MenuItem, SplitButton, SplitButtonMenu, Tooltip } from 'monday-ui-react-core'
 import { GroupAdvancedFilter } from './GroupAdvancedFilter'
+import { addTask, getEmptyTask } from '../../../store/actions/board.action'
+import { showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service'
 
 export function GroupFilter({ setFilterBy }) {
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
     const groups = currBoard.groups || []
     const tasks = groups.flatMap(group => group.tasks || [])
+    async function onAddTask(title = '') {
+        try {
+            const addedTask = await addTask(currBoard._id, currBoard.groups[0]._id, getEmptyTask(), title)
+            setTaskList([addedTask, ...taskList])
+            showSuccessMsg('Task added successfully')
+        } catch (err) {
+            showErrorMsg('Cannot add task')
+            console.error(err)
+        }
+    }
+
+    const [taskList, setTaskList] = useState(tasks)
+    useEffect(() => {
+        setTaskList(tasks)
+    }, [tasks, currBoard])
 
     const [isSearchActive, setIsSearchActive] = useState(false)
 
@@ -34,10 +52,22 @@ export function GroupFilter({ setFilterBy }) {
         setFilterBy(nonEmptyGroups)
         return nonEmptyGroups
     }
+    const boardLabelName = currBoard.label.toLowerCase()
 
     return (
         <>
             <section className='board-filter'>
+                <SplitButton
+                    style={{ fontSize: '14px' }}
+                    children={'New ' + boardLabelName}
+                    onClick={() => onAddTask(`New ${boardLabelName}`)}
+                    size='small'
+                    secondaryDialogContent={
+                        <SplitButtonMenu id='split-menu'>
+                            <MenuItem icon={Group} title='Add group' onClick={() => alert('in development...')} />
+                        </SplitButtonMenu>
+                    }
+                />
                 <div className='header-filter'>
                     {!isSearchActive ? (
                         <div className='search' onClick={() => setIsSearchActive(true)}>

@@ -10,6 +10,7 @@ export const ADD_GROUP = 'ADD_GROUP'
 export const UPDATE_GROUP = 'UPDATE_GROUP'
 export const REMOVE_GROUP = 'REMOVE_GROUP'
 export const ADD_TASK = 'ADD_TASK'
+export const ADD_TASK_BOTTOM = 'ADD_TASK_BOTTOM'
 export const UPDATE_TASK = 'UPDATE_TASK'
 export const REMOVE_TASK = 'REMOVE_TASK'
 export const REVERT_BOARD = 'REVERT_BOARD'
@@ -106,6 +107,24 @@ export function boardReducer(state = initialState, action) {
                                   ? {
                                         ...group,
                                         tasks: [action.payload.task, ...group.tasks],
+                                    }
+                                  : group
+                          ),
+                      }
+                    : board
+            )
+            newState = { ...state, boards }
+            break
+        case ADD_TASK_BOTTOM:
+            boards = state.boards.map(board =>
+                board._id === action.payload.boardId
+                    ? {
+                          ...board,
+                          groups: board.groups.map(group =>
+                              group._id === action.payload.groupId
+                                  ? {
+                                        ...group,
+                                        tasks: [...group.tasks, action.payload.task],
                                     }
                                   : group
                           ),
