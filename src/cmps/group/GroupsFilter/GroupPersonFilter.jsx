@@ -67,6 +67,7 @@ export function GroupPersonFilter({ setFilterBy }) {
     return (
         <div className='monday-storybook-dialog--story-padding'>
             <Dialog
+                zIndex={4}
                 content={
                     <DialogContentContainer>
                         <section className='person-modal'>

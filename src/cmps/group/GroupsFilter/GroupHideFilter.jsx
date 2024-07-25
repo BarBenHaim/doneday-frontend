@@ -96,6 +96,7 @@ export function GroupHideFilter({ setFilterBy }) {
     return (
         <div className='monday-storybook-dialog--story-padding'>
             <Dialog
+                zIndex={4}
                 content={
                     <DialogContentContainer>
                         <div className='display-columns'>
