@@ -42,9 +42,15 @@
     margin: auto;
     padding-block-end: 10px;
     z-index: 2;
-    h2 {
+
+    #editable-group-title h2 {
+        font-size: 18px;
         margin: 0;
-        font-size: 18px !important;
+    }
+    #editable-group-title input {
+        font-size: 18px;
+        margin: 0;
+        color: inherit;
     }
 
     &:hover {
