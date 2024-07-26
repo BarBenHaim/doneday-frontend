@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
-import { Pie, Bar } from 'react-chartjs-2'
+import { Pie, Bar, Line } from 'react-chartjs-2'
 import 'chart.js/auto'
 import { useSelector } from 'react-redux'
 import { loadBoards } from '../store/actions/board.action'
@@ -48,29 +48,64 @@ const calculatePriorityCounts = boards => {
     }))
 }
 
+const getPriorityStyle = value => {
+    switch (value) {
+        case 'Critical':
+            return '#563E3E'
+        case 'High':
+            return '#401694'
+        case 'Medium':
+            return '#5559df'
+        case 'Low':
+            return '#579BFC'
+        default:
+            return '#D3D3D3'
+    }
+}
+
+const getStatusStyle = value => {
+    switch (value) {
+        case 'Done':
+            return '#00C875'
+        case 'Working on it':
+            return '#fdab3d'
+        case 'Stuck':
+            return '#DF2F4A'
+        case 'Not Started':
+            return '#C4C4C4'
+        case 'Important':
+            return '#007EB5'
+        default:
+            return '#C4C4C4'
+    }
+}
+
 export function Dashboard() {
     useEffect(() => {
         loadBoards()
     }, [])
+
     const boards = useSelector(storeState => storeState.boardModule.boards)
     const statusData = useMemo(() => calculateStatusPercentages(boards), [boards])
     const priorityData = useMemo(() => calculatePriorityCounts(boards), [boards])
+
     const pieData = {
         labels: statusData.map(data => data.name),
         datasets: [
             {
                 data: statusData.map(data => data.value),
-                backgroundColor: ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'],
+                backgroundColor: statusData.map(data => getStatusStyle(data.name)),
             },
         ],
     }
+
     const barData = {
         labels: priorityData.map(data => data.name),
         datasets: [
             {
                 label: 'Task Count by Priority',
                 data: priorityData.map(data => data.count),
-                backgroundColor: '#8884d8',
+                backgroundColor: priorityData.map(data => getPriorityStyle(data.name)),
             },
         ],
     }
@@ -78,11 +113,11 @@ export function Dashboard() {
     return (
         <div className='dashboard'>
             <div className='chart-container'>
-                <Pie data={pieData} />
+                <Pie data={pieData} options={{ responsive: true, maintainAspectRatio: false }} />
             </div>
 
             <div className='chart-container'>
-                <Bar data={barData} />
+                <Bar data={barData} options={{ responsive: true, maintainAspectRatio: false }} />
             </div>
         </div>
     )
