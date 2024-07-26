@@ -44,14 +44,7 @@ function TaskDatePicker({ task, onUpdateField, columnKey }) {
                 <div
                     className='timeline flex align-center justify-center'
                     style={{
-                        cursor: 'pointer',
-                        position: 'relative',
                         ...statusStyle,
-                        width: '108px',
-                        textAlign: 'center',
-                        borderRadius: '50px',
-                        height: '22px',
-                        fontSize: '0.875em',
                     }}
                     title={dueDate ? `${daysLeft} days left` : ''}
                 >

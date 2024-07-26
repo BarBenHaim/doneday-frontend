@@ -1,34 +1,52 @@
 .task-card {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
     margin-bottom: 8px;
     display: flex;
     flex-direction: column;
+    padding: 8px;
+    transition: backgroundColor 0.3s;
 
-    .status-cell,
-    .priority-cell {
-        padding: 5px 10px;
-        border-radius: 4px;
+    &:hover {
+        background-color: #f7f8fa;
     }
-    .table-cell {
-        border: none;
+
+    .task-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+
+        .task-card-title {
+            font-weight: 500;
+            font-size: 14px;
+        }
     }
-}
 
-.task-card-content {
-    display: flex;
-    flex-direction: column;
-}
+    .task-card-attributes {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        pointer-events: none;
+        .status-cell,
+        .priority-cell {
+            padding: 0px 8px;
+            border-radius: 4px;
+            margin-bottom: 4px;
+        }
 
-.task-card-title {
-    font-weight: bold;
-    margin-bottom: 8px;
-}
+        .table-cell {
+            border: none;
+        }
 
-.task-card-attributes {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+        .labels-container {
+            display: flex;
+            gap: 5px;
+        }
+        .info-container {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
 }

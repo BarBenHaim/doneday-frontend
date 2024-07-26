@@ -12,10 +12,26 @@ export function TaskCard({ task, index, members, labels, onUpdateField, selected
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                 >
-                    <div className='task-card-content'>
+                    <div className='task-card-header'>
                         <div className='task-card-title'>{task.title}</div>
-                        <div className='task-card-attributes'>
-                            {['memberIds', 'status', 'priority'].map(columnKey => (
+                    </div>
+                    <div className='task-card-attributes'>
+                        <div className='labels-container'>
+                            {['status', 'priority'].map(columnKey => (
+                                <div key={columnKey} className={taskAttributesConfig[columnKey].className}>
+                                    {taskAttributesConfig[columnKey].render(
+                                        task,
+                                        members,
+                                        labels,
+                                        onUpdateField,
+                                        columnKey,
+                                        { selectedTasks, handleCheckboxChange }
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                        <div className='info-container'>
+                            {['memberIds'].map(columnKey => (
                                 <div key={columnKey} className={taskAttributesConfig[columnKey].className}>
                                     {taskAttributesConfig[columnKey].render(
                                         task,
