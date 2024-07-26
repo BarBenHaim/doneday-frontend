@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Dialog, DialogContentContainer, Button, Avatar } from 'monday-ui-react-core'
 import { cellStyle } from './styleUtils'
-import { File } from 'monday-ui-react-core/icons'
+import { Attach, File } from 'monday-ui-react-core/icons'
 
 function TaskFiles({ task, onUpdateField, columnKey }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -34,6 +34,10 @@ function TaskFiles({ task, onUpdateField, columnKey }) {
         setIsHovered(false)
     }
 
+    const isImage = file => {
+        return file.type.startsWith('image/')
+    }
+
     return (
         <div style={cellStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <Dialog
@@ -41,13 +45,13 @@ function TaskFiles({ task, onUpdateField, columnKey }) {
                 isOpen={isDialogOpen}
                 onDialogDidHide={() => setIsDialogOpen(false)}
                 content={
-                    <DialogContentContainer>
-                        <input
-                            type='file'
-                            multiple
-                            onChange={handleFileChange}
-                            style={{ display: 'block', marginBottom: '10px' }}
-                        />
+                    <DialogContentContainer style={{ padding: '0 2px' }}>
+                        <label style={{ fontSize: '0.8em', cursor: 'pointer' }}>
+                            <span style={{ display: 'flex', alignItems: 'center', padding: '8px' }}>
+                                <Attach size={18} /> from computer
+                            </span>
+                            <input type='file' multiple onChange={handleFileChange} style={{ display: 'none' }} />
+                        </label>
                         <ul>
                             {fileList.map((file, index) => (
                                 <li
@@ -56,9 +60,18 @@ function TaskFiles({ task, onUpdateField, columnKey }) {
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'space-between',
+                                        padding: '10px',
                                     }}
                                 >
-                                    {file.name}
+                                    {isImage(file) ? (
+                                        <img
+                                            src={URL.createObjectURL(file)}
+                                            alt={file.name}
+                                            style={{ width: '50px', height: '50px', marginInlineEnd: '10px' }}
+                                        />
+                                    ) : (
+                                        <span style={{ marginInlineEnd: '10px' }}>{file.name}</span>
+                                    )}
                                     <Button onClick={() => handleFileDelete(index)} size='small' kind='secondary'>
                                         Delete
                                     </Button>
@@ -72,7 +85,7 @@ function TaskFiles({ task, onUpdateField, columnKey }) {
                 showTrigger={['click']}
             >
                 <div className='flex align-center justify-center' style={{ cursor: 'pointer', color: '#acaeb6' }}>
-                    {isHovered && <File />}
+                    {<File size={22} style={{ opacity: isHovered ? '.7' : '0' }} />}
                 </div>
             </Dialog>
             <div style={{ display: 'flex', alignItems: 'center' }}>

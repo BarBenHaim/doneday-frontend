@@ -16,16 +16,17 @@ import { Signup } from './pages/Signup.jsx'
 import { BoardIndex } from './pages/BoardIndex.jsx'
 import { BoardDetails } from './cmps/BoardDetails.jsx'
 import { Sidebar } from './cmps/Sidebar.jsx'
+import { Dashboard } from './pages/Dashboard.jsx'
 
 export function RootCmp() {
     return (
         <div className='main-container'>
             <AppHeader />
-            <UserMsg />
 
             <Sidebar />
             <Routes>
                 <Route path='/' element={<HomePage />} />
+                <Route path='/dashboard' element={<Dashboard />} />
                 <Route path='/about' element={<AboutUs />} />
                 <Route path='board' element={<BoardIndex />} />
                 {/* <Route path='board/details' element={<BoardDetails />} /> */}

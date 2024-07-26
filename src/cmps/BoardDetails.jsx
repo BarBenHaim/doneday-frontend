@@ -4,8 +4,8 @@ import { useNavigate, useParams } from 'react-router'
 import { GroupList } from './group/GroupList'
 import { GroupFilter } from './group/GroupsFilter/GroupFilter'
 import { useSelector } from 'react-redux'
-import { Delete, NavigationChevronDown } from 'monday-ui-react-core/icons'
-import StarIcon from './svgs/starIcon' 
+import { Delete, Home, NavigationChevronDown } from 'monday-ui-react-core/icons'
+import StarIcon from './svgs/starIcon'
 import {
     Avatar,
     AvatarGroup,
@@ -18,30 +18,27 @@ import {
     MenuButton,
     MenuItem,
     MenuTitle,
+    Tab,
+    TabList,
     TextArea,
 } from 'monday-ui-react-core'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-
+import { UserMsg } from './UserMsg'
 
 export function BoardDetails() {
     const { boardId } = useParams()
-
-    const currBoard = useSelector((storeState) => storeState.boardModule.boards.find((board) => board._id === boardId))
+    const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
     const [isStarredBoard, setIsStarredBoard] = useState(currBoard.isStarred)
     const [boardsToDisplay, setBoardsToDisplay] = useState(currBoard?.groups || [])
+    const [activeTabIndex, setActiveTabIndex] = useState(0)
     const navigate = useNavigate()
 
     useEffect(() => {
         setBoardsToDisplay(currBoard?.groups || [])
         setIsStarredBoard(currBoard.isStarred)
-        console.log('currBoard', currBoard)
     }, [currBoard])
 
-    useEffect(() =>
-        // loadBoardById(boardId)
-        {}, [boardId])
-
-    const setFilterBy = (arr) => {
+    const setFilterBy = arr => {
         setBoardsToDisplay(arr)
     }
 
@@ -58,11 +55,11 @@ export function BoardDetails() {
             showErrorMsg('Cannot update group')
         }
     }
+
     async function handleToggleStarred() {
         try {
-            console.log("currBoard", currBoard)
             await toggleStarredBoard(currBoard._id)
-            setIsStarredBoard(isStarredBoard=>!isStarredBoard)
+            setIsStarredBoard(isStarredBoard => !isStarredBoard)
             onUpdateField(currBoard, 'isStarred', !currBoard.isStarred)
         } catch (err) {
             showErrorMsg('Cannot toggle star')
@@ -82,23 +79,35 @@ export function BoardDetails() {
 
     if (!currBoard) return <div>Loading...</div>
 
+    const view = (() => {
+        switch (activeTabIndex) {
+            case 0:
+                return 'table'
+            case 1:
+                return 'kanban'
+            case 2:
+                return 'dashboard'
+            default:
+                return 'table'
+        }
+    })()
+
     return (
         <section className='board-details'>
             <header className='board-details-header'>
-                <div>
+                <div className='header-content'>
                     <div className='board-details-edit'>
                         <Dialog
                             content={
                                 <DialogContentContainer
                                     size={DialogContentContainer.sizes.LARGE}
-                                    type={DialogContentContainer.types.POPOVER}>
-                                    <div className='board-details-title-edit flex' style={{
-                                            paddingBottom: '10px',
-                                        }}>
+                                    type={DialogContentContainer.types.POPOVER}
+                                >
+                                    <div className='board-details-title-edit flex' style={{ paddingBottom: '10px' }}>
                                         <EditableHeading
                                             type='h2'
                                             value={currBoard.title}
-                                            onChange={(value) => onUpdateField(currBoard, 'title', value)}
+                                            onChange={value => onUpdateField(currBoard, 'title', value)}
                                             weight='bold'
                                             size='large'
                                         />
@@ -106,10 +115,11 @@ export function BoardDetails() {
                                             className='favorite-button'
                                             onClick={handleToggleStarred}
                                             kind={Button.kinds.TERTIARY}
-                                            size={Button.sizes.XS}>
-                                         <StarIcon isStarred={isStarredBoard} />
+                                            size={Button.sizes.XS}
+                                        >
+                                            <StarIcon isStarred={isStarredBoard} />
                                         </Button>
-                                    </div >
+                                    </div>
                                     <TextArea
                                         data-testid='editable-input'
                                         resize
@@ -120,14 +130,13 @@ export function BoardDetails() {
                                         size='large'
                                         value={currBoard.description}
                                         weight='normal'
-                                        style={{marginBottom:'10px'}}
-                                        onChange={(e) => onUpdateField(currBoard, 'description', e.target.value)}
+                                        style={{ marginBottom: '10px' }}
+                                        onChange={e => onUpdateField(currBoard, 'description', e.target.value)}
                                     />
-                                    <div className="board-details-edit-divider"
-                                        style={{
-                                            height: '20px',
-                                            width: '100%',
-                                        }}>
+                                    <div
+                                        className='board-details-edit-divider'
+                                        style={{ height: '20px', width: '100%' }}
+                                    >
                                         <Divider direction='horizontal' />
                                     </div>
                                 </DialogContentContainer>
@@ -145,26 +154,22 @@ export function BoardDetails() {
                             position={DialogContentContainer.BOTTOM_START}
                             showTrigger={['click']}
                             wrapperClassName='board-details-header-board-info'
-                            zIndex={4}>
+                            zIndex={4}
+                        >
                             <Button
                                 kind={Button.kinds.TERTIARY}
                                 size='small'
                                 dialogPaddingSize={DialogContentContainer.sizes.MEDIUM}
                                 rightIcon={NavigationChevronDown}
-                                zIndex={4}>
+                                zIndex={4}
+                            >
                                 {currBoard.title}
                             </Button>
                         </Dialog>
-                        <div
-                            style={{
-                                width: 'auto',
-                                display: 'flex',
-                                marginInline: '25px',
-                                alignItems: 'center',
-                                // width: '100%',
-                            }}>
+
+                        <div style={{ width: 'auto', display: 'flex', marginInline: '25px', alignItems: 'center' }}>
                             <AvatarGroup max={3} size='medium'>
-                                {currBoard.members.map((member) => (
+                                {currBoard.members.map(member => (
                                     <Avatar
                                         key={member._id}
                                         ariaLabel={member.fullName}
@@ -173,12 +178,12 @@ export function BoardDetails() {
                                     />
                                 ))}
                             </AvatarGroup>
+
                             <MenuButton
                                 componentPosition='start'
                                 dialogPaddingSize='small'
-                                style={{
-                                    marginLeft: '25px',
-                                }}>
+                                style={{ marginLeft: '25px' }}
+                            >
                                 <Menu id='menu' size='medium'>
                                     <MenuTitle caption='Board options' captionPosition='top' />
                                     <MenuItem
@@ -190,17 +195,31 @@ export function BoardDetails() {
                             </MenuButton>
                         </div>
                     </div>
-                    <div
-                        style={{
-                            height: '10px',
-                            marginInlineEnd: '30px',
-                        }}>
-                        <Divider />
+                    <div style={{ margin: '0', padding: '0' }}>
+                        <TabList className='tabs-container' activeTab={activeTabIndex} onTabChange={setActiveTabIndex}>
+                            <Tab id='table' title='Table View'>
+                                <span
+                                    style={{ fontSize: '0.875rem', display: 'flex', gap: '2px', alignItems: 'center' }}
+                                >
+                                    <Home size={16} opacity={0.75} /> Main Table
+                                </span>
+                            </Tab>
+                            <Tab id='kanban' title='Kanban View'>
+                                <span style={{ fontSize: '0.875rem' }}>Kanban</span>
+                            </Tab>
+                            <Tab id='dashboard' title='Dashboard'>
+                                <span style={{ fontSize: '0.875rem' }}>Dashboard</span>
+                            </Tab>
+                        </TabList>
+                    </div>
+                    <div style={{ height: '8px', marginInlineEnd: '30px' }}>
+                        <Divider withoutMargin />
                     </div>
                     <GroupFilter setFilterBy={setFilterBy} />
                 </div>
             </header>
-            <GroupList boardsToDisplay={boardsToDisplay} />
+            <GroupList boardsToDisplay={boardsToDisplay} view={view} />
+            <UserMsg />
         </section>
     )
 }

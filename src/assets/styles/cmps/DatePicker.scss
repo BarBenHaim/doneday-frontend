@@ -1,6 +1,11 @@
 .timeline {
     position: relative;
-
+    cursor: pointer;
+    width: 108px;
+    text-align: center;
+    border-radius: 50px;
+    height: 22px;
+    font-size: 0.875em;
     &:hover {
         .hover-info {
             display: block;

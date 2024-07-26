@@ -19,6 +19,7 @@
 @import 'pages/UserDetails';
 @import 'pages/TaskDetails';
 @import 'pages/LoginSignup';
+@import 'pages/Dashboard';
 
 // Components
 @import 'cmps/list';
@@ -38,8 +39,9 @@
 @import 'cmps/TaskAttributes';
 @import 'cmps/GroupList';
 @import 'cmps/GroupPreview';
+@import 'cmps/Kanban';
+@import 'cmps/TaskCard';
 @import 'cmps/DatePicker';
-
 @import 'pages/BoardIndex';
 @import 'cmps/BoardPreview';
 @import 'cmps/BoardList';
