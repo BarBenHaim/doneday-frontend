@@ -86,25 +86,30 @@ export function GroupList({ boardsToDisplay, view }) {
             const sourceTasks = Array.from(sourceGroup.tasks)
             const [movedTask] = sourceTasks.splice(source.index, 1)
 
+            let updatedGroups
             if (source.droppableId === destination.droppableId) {
                 sourceTasks.splice(destination.index, 0, movedTask)
-                const updatedGroup = { ...sourceGroup, tasks: sourceTasks }
-                await updateGroup(boardId, sourceGroup._id, updatedGroup)
+                updatedGroups = currBoard.groups.map(group =>
+                    group._id === sourceGroup._id ? { ...group, tasks: sourceTasks } : group
+                )
             } else {
                 const destinationTasks = Array.from(destinationGroup.tasks)
                 destinationTasks.splice(destination.index, 0, movedTask)
 
-                const updatedSourceGroup = { ...sourceGroup, tasks: sourceTasks }
-                const updatedDestinationGroup = {
-                    ...destinationGroup,
-                    tasks: destinationTasks,
-                }
-
-                await updateGroup(boardId, sourceGroup._id, updatedSourceGroup)
-                await updateGroup(boardId, destinationGroup._id, updatedDestinationGroup)
+                updatedGroups = currBoard.groups.map(group => {
+                    if (group._id === sourceGroup._id) return { ...group, tasks: sourceTasks }
+                    if (group._id === destinationGroup._id) return { ...group, tasks: destinationTasks }
+                    return group
+                })
             }
 
-            showSuccessMsg('Task moved successfully')
+            try {
+                const updatedBoard = { ...currBoard, groups: updatedGroups }
+                await updateBoardOptimistic(updatedBoard)
+                showSuccessMsg('Task moved successfully')
+            } catch (err) {
+                showErrorMsg('Cannot move task')
+            }
         }
     }
 
