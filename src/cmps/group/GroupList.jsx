@@ -9,7 +9,7 @@ import { Add } from 'monday-ui-react-core/icons'
 import { KanbanColumn } from './KanbanColumn'
 import GroupPreview from './GroupPreview'
 
-const statuses = ['Done', 'Stuck', 'Working on it', 'Not Started', 'Important'] // Define the statuses you want
+const statuses = ['Not Started', 'Working on it', 'Stuck', 'Done', 'Important']
 
 export function GroupList({ boardsToDisplay, view }) {
     const { boardId } = useParams()

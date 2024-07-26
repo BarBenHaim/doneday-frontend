@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router'
 import { GroupList } from './group/GroupList'
 import { GroupFilter } from './group/GroupsFilter/GroupFilter'
 import { useSelector } from 'react-redux'
-import { Delete, NavigationChevronDown } from 'monday-ui-react-core/icons'
+import { Delete, Home, NavigationChevronDown } from 'monday-ui-react-core/icons'
 import StarIcon from './svgs/starIcon'
 import {
     Avatar,
@@ -188,10 +188,14 @@ export function BoardDetails() {
                     <div style={{ margin: '0', padding: '0' }}>
                         <TabList className='tabs-container' activeTab={activeTabIndex} onTabChange={setActiveTabIndex}>
                             <Tab id='table' title='Table View'>
-                                <span style={{ fontSize: '0.9em' }}>Main Table</span>
+                                <span
+                                    style={{ fontSize: '0.875em', display: 'flex', gap: '2px', alignItems: 'center' }}
+                                >
+                                    <Home size={16} opacity={0.75} /> Main Table
+                                </span>
                             </Tab>
                             <Tab id='kanban' title='Kanban View'>
-                                <span style={{ fontSize: '0.9em' }}>Kanban</span>
+                                <span style={{ fontSize: '0.875em' }}>Kanban</span>
                             </Tab>
                         </TabList>
                     </div>

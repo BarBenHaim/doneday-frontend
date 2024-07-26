@@ -4,22 +4,25 @@
     padding: 16px;
     flex-wrap: wrap;
     justify-content: start;
+    gap: 16px;
 }
 
 .kanban-column {
     background: #f4f5f7;
     border-radius: 4px;
-    margin: 0 8px;
+    margin: 0;
     display: flex;
     flex-direction: column;
     width: 300px;
+    border-radius: 30px;
 }
 
 .kanban-column-header {
     padding: 16px;
     font-weight: bold;
-    border-bottom: 2px solid #dfe1e6;
     background: #fff;
+    border-start-start-radius: 8px;
+    border-start-end-radius: 8px;
 }
 
 .kanban-column-tasks {

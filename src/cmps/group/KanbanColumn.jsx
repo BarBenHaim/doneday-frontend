@@ -1,6 +1,7 @@
 import React from 'react'
 import { Droppable } from 'react-beautiful-dnd'
 import TaskCard from './TaskCard'
+import { getStatusStyle } from './task/dynamicCmps/styleUtils'
 
 export function KanbanColumn({
     status,
@@ -13,10 +14,20 @@ export function KanbanColumn({
     handleCheckboxChange,
 }) {
     const filteredTasks = tasks.filter(task => task.status === status)
-
     return (
         <div className='kanban-column'>
-            <div className='kanban-column-header'>{status}</div>
+            <div
+                className='kanban-column-header'
+                style={{
+                    backgroundColor: getStatusStyle(status).backgroundColor,
+                    color: 'white',
+                    padding: '8px',
+                    fontSize: '0.875em',
+                    fontWeight: '500',
+                }}
+            >
+                {status}
+            </div>
             <Droppable droppableId={status} type='TASK'>
                 {provided => (
                     <div className='kanban-column-tasks' ref={provided.innerRef} {...provided.droppableProps}>
