@@ -198,13 +198,41 @@
   // gap: 8px;
   margin-top: 80px;
   width: 800px;
+  border-bottom: 1px solid gray;
 }
-.reply-btn,
-.like-btn {
-  border: 1px solid rgba(128, 128, 128, 0.329);
-  flex: 1;
+.update-input {
+  width: 50px;
+
+  color: white;
+  border: 4px solid #0056b3;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 16px;
+  outline: none;
+
+  transition: border-color 0.3s;
+}
+.update-input:focus {
+  border-color: #007bff; /* Border color on focus */ /* Shadow on focus */
 }
 
 .hidden {
   display: none;
+}
+
+.msg-count {
+  display: flex; /* Use flexbox to center the content */
+  align-items: center; /* Vertically center the content */
+  text-align: center;
+  position: absolute;
+  top: 9px;
+  right: -1px;
+  background-color: #0073ea;
+  border-radius: 10px;
+  color: #ffffff;
+
+  padding: 2px 4px; /* Adjust these values to make the badge more circular */
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 9px; /* Ensure the line height doesn't affect the shape */
 }

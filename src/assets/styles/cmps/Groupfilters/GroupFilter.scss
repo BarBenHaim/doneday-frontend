@@ -1,141 +1,142 @@
 .board-filter {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    gap: 25px;
-    background-color: $Mbgr1;
-    padding: 0.5rem 0;
-    border-radius: 8px;
+  gap: 25px;
+  background-color: $Mbgr1;
+  padding: 0.5rem 0;
+  border-radius: 8px;
 }
 .search-filter {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 // SEARCH ITEMN//
 .search-button {
-    font-family: $font-family-primary;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
+  font-family: $font-family-primary;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
 
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .search input:focus {
-    margin: 0;
+  margin: 0;
 
-    outline: none;
-    border-color: #007bff;
-    transform: scale(1.05);
+  outline: none;
+  border-color: #007bff;
+  transform: scale(1.05);
 }
 
 .filter-item,
 .person,
 .filter,
 .hide {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 
-    font-size: 16px;
-    line-height: 22.5px;
-    font-family: $font-family-primary;
+  font-size: 16px;
+  line-height: 22.5px;
+  font-family: $font-family-primary;
 
-    border-radius: 4px;
+  border-radius: 4px;
 
-    &:hover {
-        background-color: #e0e0e0;
-    }
+  &:hover {
+    background-color: #e0e0e0;
+  }
 }
 
 .active {
+  background-color: #007bff44;
+  &:hover {
     background-color: #007bff44;
-    &:hover {
-        background-color: #007bff44;
-    }
+  }
 }
 
 Advanced filters modal//
 .advanced-filter-modal {
-    width: 100px;
+  width: 100px;
 }
 
 // main header//
 .filter-header {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .main-header {
-    padding: 16px 24px 0;
-    font-family: $font-family-primary;
-    font-size: 16px;
-    &.second {
-        padding: 0 5px;
-        font-size: 12px;
-        color: gray;
-    }
+  padding: 16px 24px 0;
+  font-family: $font-family-primary;
+  font-size: 16px;
+  &.second {
+    padding: 0 5px;
+    font-size: 12px;
+    color: gray;
+  }
 }
 .clear-all {
-    font-family: $font-family-primary;
-    font-size: 16px;
-    color: gray;
+  font-family: $font-family-primary;
+  font-size: 16px;
+  color: gray;
 
-    &:hover {
-        background-color: white;
-        color: rgb(66, 64, 64);
-    }
+  &:hover {
+    background-color: white;
+    color: rgb(66, 64, 64);
+  }
 }
 
 //Column filter//
 .column-filter {
-    padding: 0 24px 16px;
+  padding: 0 24px 16px;
 }
 .column-filter label {
-    margin-inline-end: 30px;
-    font-family: $font-family-primary;
-    color: $gray4;
+  margin-inline-end: 30px;
+  font-family: $font-family-primary;
+  color: $gray4;
 }
 
 .column,
 input[type='text'] {
-    cursor: pointer;
-    font-family: $font-family-primary;
-    color: $gray4;
-    padding: 0.3rem;
-    border: 1.7px solid $gray1;
-    border-radius: 0.25rem;
-    font-size: 0.9375rem;
-    margin: 4px;
+  cursor: pointer;
+  font-family: $font-family-primary;
+  color: $gray4;
+  padding: 0.3rem;
+  border: 1.7px solid $gray1;
+  border-radius: 0.25rem;
+  font-size: 0.9375rem;
+  margin: 4px;
+  width: 200px;
+  height: 40px;
+  margin-bottom: 1rem;
+  transition: border-color 0.3s ease;
 
-    margin-bottom: 1rem;
-    transition: border-color 0.3s ease;
+  &:hover {
+    border: 1.7px solid $gray4;
+  }
 
-    &:hover {
-        border: 1.7px solid $gray4;
-    }
-
-    &.focused,
-    &.has-value {
-        border: 1.7px solid $clr8;
-    }
+  &.focused,
+  &.has-value {
+    border: 1.7px solid $clr8;
+  }
 }
 
 .column:focus,
 input[type='text']:focus {
-    border: 1.7px solid $clr8;
+  border: 1.7px solid $clr8;
 }
 
 .filter-svg {
-    color: #007bff;
+  color: #007bff;
 }
 .custom-avatar {
-    cursor: pointer;
+  cursor: pointer;
 }
 .active {
-    background-color: #458bd531;
+  background-color: #458bd531;
 }
