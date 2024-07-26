@@ -23,6 +23,7 @@ import {
     TextArea,
 } from 'monday-ui-react-core'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
+import { UserMsg } from './UserMsg'
 
 export function BoardDetails() {
     const { boardId } = useParams()
@@ -189,13 +190,13 @@ export function BoardDetails() {
                         <TabList className='tabs-container' activeTab={activeTabIndex} onTabChange={setActiveTabIndex}>
                             <Tab id='table' title='Table View'>
                                 <span
-                                    style={{ fontSize: '0.875em', display: 'flex', gap: '2px', alignItems: 'center' }}
+                                    style={{ fontSize: '0.875rem', display: 'flex', gap: '2px', alignItems: 'center' }}
                                 >
                                     <Home size={16} opacity={0.75} /> Main Table
                                 </span>
                             </Tab>
                             <Tab id='kanban' title='Kanban View'>
-                                <span style={{ fontSize: '0.875em' }}>Kanban</span>
+                                <span style={{ fontSize: '0.875rem' }}>Kanban</span>
                             </Tab>
                         </TabList>
                     </div>
@@ -206,6 +207,7 @@ export function BoardDetails() {
                 </div>
             </header>
             <GroupList boardsToDisplay={boardsToDisplay} view={view} />
+            <UserMsg />
         </section>
     )
 }

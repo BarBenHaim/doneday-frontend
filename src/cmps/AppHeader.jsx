@@ -8,7 +8,7 @@ import logoImg from '../assets/img/logo/only-logo.png'
 import { Avatar, Button } from 'monday-ui-react-core'
 
 export function AppHeader() {
-    const user = useSelector((storeState) => storeState.userModule.user)
+    const user = useSelector(storeState => storeState.userModule.user)
     const navigate = useNavigate()
 
     async function onLogout() {

@@ -213,8 +213,11 @@ export function GroupList({ boardsToDisplay, view }) {
                 )}
                 <Button onClick={onAddGroup} kind={Button.kinds.SECONDARY} size={Button.sizes.SMALL}>
                     <div className='flex align-center justify-center'>
-                        <Add size={18} />
-                        <span className='flex align-center justify-center' style={{ padding: '2px', fontSize: '14px' }}>
+                        <Add size={20} />
+                        <span
+                            className='flex align-center justify-center'
+                            style={{ padding: '2px', fontSize: '0.875rem', fontWeight: '400' }}
+                        >
                             Add new group
                         </span>
                     </div>
