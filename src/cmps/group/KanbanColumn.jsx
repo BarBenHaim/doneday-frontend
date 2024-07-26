@@ -2,8 +2,16 @@ import React from 'react'
 import { Droppable } from 'react-beautiful-dnd'
 import TaskCard from './TaskCard'
 
-export function KanbanColumn({ status, tasks, index }) {
-    // Filter tasks based on the status
+export function KanbanColumn({
+    status,
+    tasks,
+    index,
+    members,
+    labels,
+    onUpdateField,
+    selectedTasks,
+    handleCheckboxChange,
+}) {
     const filteredTasks = tasks.filter(task => task.status === status)
 
     return (
@@ -13,7 +21,16 @@ export function KanbanColumn({ status, tasks, index }) {
                 {provided => (
                     <div className='kanban-column-tasks' ref={provided.innerRef} {...provided.droppableProps}>
                         {filteredTasks.map((task, index) => (
-                            <TaskCard key={task._id} task={task} index={index} />
+                            <TaskCard
+                                key={task._id}
+                                task={task}
+                                index={index}
+                                members={members}
+                                labels={labels}
+                                onUpdateField={onUpdateField}
+                                selectedTasks={selectedTasks}
+                                handleCheckboxChange={handleCheckboxChange}
+                            />
                         ))}
                         {provided.placeholder}
                     </div>

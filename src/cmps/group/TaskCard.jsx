@@ -1,7 +1,8 @@
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
+import { taskAttributesConfig } from './task/taskAttributesConfig'
 
-export function TaskCard({ task, index }) {
+export function TaskCard({ task, index, members, labels, onUpdateField, selectedTasks, handleCheckboxChange }) {
     return (
         <Draggable draggableId={task._id} index={index}>
             {provided => (
@@ -11,7 +12,23 @@ export function TaskCard({ task, index }) {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                 >
-                    <div className='task-card-content'>{task.title}</div>
+                    <div className='task-card-content'>
+                        <div className='task-card-title'>{task.title}</div>
+                        <div className='task-card-attributes'>
+                            {['memberIds', 'status', 'priority'].map(columnKey => (
+                                <div key={columnKey} className={taskAttributesConfig[columnKey].className}>
+                                    {taskAttributesConfig[columnKey].render(
+                                        task,
+                                        members,
+                                        labels,
+                                        onUpdateField,
+                                        columnKey,
+                                        { selectedTasks, handleCheckboxChange }
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             )}
         </Draggable>

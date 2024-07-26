@@ -1,0 +1,34 @@
+.task-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    padding: 10px;
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+
+    .status-cell,
+    .priority-cell {
+        padding: 5px 10px;
+        border-radius: 4px;
+    }
+    .table-cell {
+        border: none;
+    }
+}
+
+.task-card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.task-card-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.task-card-attributes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -9,13 +9,15 @@ import { Add } from 'monday-ui-react-core/icons'
 import { KanbanColumn } from './KanbanColumn'
 import GroupPreview from './GroupPreview'
 
+const statuses = ['Done', 'Stuck', 'Working on it', 'Not Started', 'Important'] // Define the statuses you want
+
 export function GroupList({ boardsToDisplay, view }) {
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
     const [collapsedStates, setCollapsedStates] = useState({})
     const [isDragging, setIsDragging] = useState(false)
     const [initialCollapsedStates, setInitialCollapsedStates] = useState({})
-    const statuses = ['Done', 'Stuck', 'Working on it', 'Not Started', 'Important']
+    const [selectedTasks, setSelectedTasks] = useState([])
 
     useEffect(() => {
         const initialCollapsedStates = {}
@@ -49,7 +51,6 @@ export function GroupList({ boardsToDisplay, view }) {
         if (!destination) return
 
         if (view === 'kanban' && type === 'TASK') {
-            // Handle task status update for Kanban view
             const sourceGroup = currBoard.groups.find(group => group.tasks.some(task => task._id === draggableId))
             const movedTask = sourceGroup.tasks.find(task => task._id === draggableId)
             movedTask.status = destination.droppableId
@@ -67,7 +68,6 @@ export function GroupList({ boardsToDisplay, view }) {
                 showErrorMsg('Cannot update task status')
             }
         } else if (type === 'GROUP') {
-            // Handle group drag-and-drop for table view
             const newGroups = Array.from(boardsToDisplay)
             const [movedGroup] = newGroups.splice(source.index, 1)
             newGroups.splice(destination.index, 0, movedGroup)
@@ -81,7 +81,6 @@ export function GroupList({ boardsToDisplay, view }) {
                 showErrorMsg('Cannot update group order')
             }
         } else {
-            // Handle task drag-and-drop within and between groups for table view
             const sourceGroup = currBoard.groups.find(group => group._id === source.droppableId)
             const destinationGroup = currBoard.groups.find(group => group._id === destination.droppableId)
             const sourceTasks = Array.from(sourceGroup.tasks)
@@ -107,6 +106,12 @@ export function GroupList({ boardsToDisplay, view }) {
 
             showSuccessMsg('Task moved successfully')
         }
+    }
+
+    const handleCheckboxChange = taskId => {
+        setSelectedTasks(prevSelected =>
+            prevSelected.includes(taskId) ? prevSelected.filter(id => id !== taskId) : [...prevSelected, taskId]
+        )
     }
 
     async function onRemoveGroup(groupId) {
@@ -156,7 +161,17 @@ export function GroupList({ boardsToDisplay, view }) {
                         {provided => (
                             <div className='kanban-board' {...provided.droppableProps} ref={provided.innerRef}>
                                 {statuses.map((status, index) => (
-                                    <KanbanColumn key={status} status={status} tasks={allTasks} index={index} />
+                                    <KanbanColumn
+                                        key={status}
+                                        status={status}
+                                        tasks={allTasks}
+                                        index={index}
+                                        members={currBoard.members}
+                                        labels={currBoard.labels}
+                                        onUpdateField={onUpdateGroup}
+                                        selectedTasks={selectedTasks}
+                                        handleCheckboxChange={handleCheckboxChange}
+                                    />
                                 ))}
                                 {provided.placeholder}
                             </div>
