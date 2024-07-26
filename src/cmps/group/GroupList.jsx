@@ -8,10 +8,19 @@ import { Button } from 'monday-ui-react-core'
 import { Add } from 'monday-ui-react-core/icons'
 import { KanbanColumn } from './KanbanColumn'
 import GroupPreview from './GroupPreview'
+import { Dashboard } from '../../pages/Dashboard'
 
 const statuses = ['Not Started', 'Working on it', 'Stuck', 'Done', 'Important']
 
 export function GroupList({ boardsToDisplay, view }) {
+    if (view === 'dashboard') {
+        return (
+            <section className='group-list scrollable'>
+                <Dashboard />
+            </section>
+        )
+    }
+
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
     const [collapsedStates, setCollapsedStates] = useState({})

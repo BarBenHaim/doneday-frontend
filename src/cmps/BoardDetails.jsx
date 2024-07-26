@@ -36,7 +36,6 @@ export function BoardDetails() {
     useEffect(() => {
         setBoardsToDisplay(currBoard?.groups || [])
         setIsStarredBoard(currBoard.isStarred)
-        console.log('currBoard', currBoard)
     }, [currBoard])
 
     const setFilterBy = arr => {
@@ -59,7 +58,6 @@ export function BoardDetails() {
 
     async function handleToggleStarred() {
         try {
-            console.log('currBoard', currBoard)
             await toggleStarredBoard(currBoard._id)
             setIsStarredBoard(isStarredBoard => !isStarredBoard)
             onUpdateField(currBoard, 'isStarred', !currBoard.isStarred)
@@ -81,7 +79,18 @@ export function BoardDetails() {
 
     if (!currBoard) return <div>Loading...</div>
 
-    const view = activeTabIndex === 0 ? 'table' : 'kanban'
+    const view = (() => {
+        switch (activeTabIndex) {
+            case 0:
+                return 'table'
+            case 1:
+                return 'kanban'
+            case 2:
+                return 'dashboard'
+            default:
+                return 'table'
+        }
+    })()
 
     return (
         <section className='board-details'>
@@ -197,6 +206,9 @@ export function BoardDetails() {
                             </Tab>
                             <Tab id='kanban' title='Kanban View'>
                                 <span style={{ fontSize: '0.875rem' }}>Kanban</span>
+                            </Tab>
+                            <Tab id='dashboard' title='Dashboard'>
+                                <span style={{ fontSize: '0.875rem' }}>Dashboard</span>
                             </Tab>
                         </TabList>
                     </div>
