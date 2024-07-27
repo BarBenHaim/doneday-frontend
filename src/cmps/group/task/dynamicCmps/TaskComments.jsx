@@ -1,65 +1,88 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { AddUpdate } from 'monday-ui-react-core/icons'
-import { MsgIcon } from '../../../svgs/TaskSvg'
-import ActivityModal from './ActivityModal'
-import { openModal, closeModal } from '../../../../store/actions/board.action'
+import { Avatar, Button, TextArea } from 'monday-ui-react-core'
+import { useState } from 'react'
+import moment from 'moment'
+import { useSelector } from 'react-redux'
 
-export function TaskComments({ task, members, onUpdateField }) {
-    const dispatch = useDispatch()
-    const isModalOpen = useSelector(state => state.boardModule.isModalOpen)
-    alert(isModalOpen)
-    const handleOpenModal = () => {
-        dispatch(openModal())
+export function UpdatedComments({ task, members, onUpdateField }) {
+    const [isUpdateBtn, setUpdateBtn] = useState(false)
+    const [newComment, setNewComment] = useState('')
+
+    const handleUpdateTextChange = e => {
+        setUpdateBtn(true)
+        setNewComment(e.target.value)
     }
 
-    const handleCloseModal = () => {
-        dispatch(closeModal())
+    const handleAddComment = () => {
+        if (newComment.trim() !== '') {
+            const newCommentObject = {
+                _id: Date.now().toString(),
+                title: newComment,
+                createdAt: Date.now(),
+                memberId: members && members.length > 0 ? members[0]._id : null,
+                fullName: members && members.length > 0 ? members[0].fullName : 'Guest',
+            }
+
+            const updatedComments = [...(task.comments || []), newCommentObject]
+            onUpdateField(task, 'comments', updatedComments)
+            setNewComment('')
+            setUpdateBtn(false)
+        }
     }
 
     return (
-        <div>
-            <div
-                className='flex align-center justify-center'
-                style={{
-                    width: '100%',
-                    textAlign: 'center',
-                    fontSize: '0.875em',
-                    color: '#797A7E',
-                }}
-                onClick={handleOpenModal}
-            >
-                {!task.comments || task.comments.length === 0 ? (
-                    <AddUpdate size={24} />
-                ) : (
-                    <div
-                        className='flex align-center justify-center'
-                        style={{
-                            width: '100%',
-                            textAlign: 'center',
-                            fontSize: '0.875em',
-                            color: '#797A7E',
-                            position: 'relative',
-                            display: 'inline-block',
-                        }}
-                    >
-                        <MsgIcon size={30} />
-                        <span className='msg-count'>{task.comments.length}</span>
-                    </div>
+        <div className='update-container'>
+            <div className='text-area-update'>
+                <TextArea
+                    aria-label='Write an update...'
+                    rows={1}
+                    className='text-area'
+                    value={newComment}
+                    onChange={handleUpdateTextChange}
+                />
+                {isUpdateBtn && (
+                    <button className='update-btn' onClick={handleAddComment}>
+                        Update
+                    </button>
                 )}
             </div>
-            {isModalOpen && (
-                <ActivityModal
-                    task={task}
-                    members={members}
-                    onUpdateField={onUpdateField}
-                    initialTab={0}
-                    isOpen={isModalOpen}
-                    onClose={handleCloseModal}
-                />
+            {(task.comments || []).length === 0 ? (
+                <div className='no-comments'>
+                    <img
+                        className='no-update-img'
+                        src='https://cdn.monday.com/images/pulse-page-empty-state.svg'
+                        alt='No updates'
+                    />
+                    <h1 className='no-update-header'>No updates yet for this item</h1>
+                    <p className='no-update-p'>
+                        Be the first one to update about progress, mention someone, or upload files to share with your
+                        team members
+                    </p>
+                </div>
+            ) : (
+                <div className='comments-section'>
+                    <ul className='comments-list'>
+                        {task.comments.map(comment => (
+                            <li key={comment._id} className='comment-item'>
+                                <Avatar
+                                    aria-label={comment.fullName}
+                                    size={Avatar.sizes.MEDIUM}
+                                    src={comment.byMember?.imgUrl}
+                                    type={Avatar.types.IMG}
+                                    className='custom-avatar'
+                                    aria-hidden='true'
+                                />
+                                <div className='comment-body'>
+                                    <div className='comment-header'>
+                                        <span className='comment-author'>{comment.fullName || 'Guest'}</span>
+                                        <span className='comment-time'>{moment(comment.createdAt).fromNow()}</span>
+                                    </div>
+                                    <p className='comment-text'>{comment.title}</p>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             )}
         </div>
     )
 }
-
-export default TaskComments

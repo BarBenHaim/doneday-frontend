@@ -1,12 +1,9 @@
-import { Avatar, Button, TextArea } from 'monday-ui-react-core'
+import { Avatar, TextArea } from 'monday-ui-react-core'
 import { useState } from 'react'
 import moment from 'moment'
 
 export function UpdatedComments({ task, members, onUpdateField }) {
     const [isUpdateBtn, setUpdateBtn] = useState(false)
-    const [isWriteUpdateActive, setIsWriteUpdateActive] = useState(false)
-
-    const [comments, setComments] = useState(task.comments || [])
     const [newComment, setNewComment] = useState('')
 
     const handleUpdateTextChange = e => {
@@ -20,17 +17,17 @@ export function UpdatedComments({ task, members, onUpdateField }) {
                 _id: Date.now().toString(),
                 title: newComment,
                 createdAt: Date.now(),
-                memberId: members[0]?._id,
-                fullName: 'Guest',
+                memberId: members && members.length > 0 ? members[0]._id : null,
+                fullName: members && members.length > 0 ? members[0].fullName : 'Guest',
             }
 
-            const updatedComments = [...comments, newCommentObject]
-            setComments(updatedComments)
-            setNewComment('')
-
+            const updatedComments = [...(task.comments || []), newCommentObject]
             onUpdateField(task, 'comments', updatedComments)
+            setNewComment('')
+            setUpdateBtn(false)
         }
     }
+
     return (
         <div className='update-container'>
             <div className='text-area-update'>
@@ -47,7 +44,7 @@ export function UpdatedComments({ task, members, onUpdateField }) {
                     </button>
                 )}
             </div>
-            {!task.comments || task.comments.length === 0 ? (
+            {(task.comments || []).length === 0 ? (
                 <div className='no-comments'>
                     <img
                         className='no-update-img'
@@ -56,17 +53,17 @@ export function UpdatedComments({ task, members, onUpdateField }) {
                     />
                     <h1 className='no-update-header'>No updates yet for this item</h1>
                     <p className='no-update-p'>
-                        Be the first one to update about progress, mention someone or upload files to share with your
+                        Be the first one to update about progress, mention someone, or upload files to share with your
                         team members
                     </p>
                 </div>
             ) : (
                 <div className='comments-section'>
                     <ul className='comments-list'>
-                        {task.comments.map((comment, index) => (
-                            <li key={index} className='comment-item'>
+                        {task.comments.map(comment => (
+                            <li key={comment._id} className='comment-item'>
                                 <Avatar
-                                    aria-label={comment.byMember?.fullname}
+                                    aria-label={comment.fullName}
                                     size={Avatar.sizes.MEDIUM}
                                     src={comment.byMember?.imgUrl}
                                     type={Avatar.types.IMG}
@@ -75,13 +72,10 @@ export function UpdatedComments({ task, members, onUpdateField }) {
                                 />
                                 <div className='comment-body'>
                                     <div className='comment-header'>
-                                        <span className='comment-author'>
-                                            {comment.fullName || comment.byMember?.fullname}
-                                        </span>
+                                        <span className='comment-author'>{comment.fullName || 'Guest'}</span>
                                         <span className='comment-time'>{moment(comment.createdAt).fromNow()}</span>
                                     </div>
                                     <p className='comment-text'>{comment.title}</p>
-                                    <div className='comment-actions'></div>
                                 </div>
                             </li>
                         ))}

@@ -12,6 +12,15 @@ export const RootActivityModal = () => {
         dispatch(closeModal())
     }
 
+    const handleUpdateTask = async (task, field, value) => {
+        const updatedTask = { ...task, [field]: value }
+        try {
+            console.log('Updating task in backend:', updatedTask)
+        } catch (err) {
+            console.error('Failed to update task:', err)
+        }
+    }
+
     if (!isModalOpen && !activeTask) return null
 
     return (
@@ -19,7 +28,7 @@ export const RootActivityModal = () => {
             <ActivityModal
                 task={activeTask}
                 members={activeTask.members}
-                onUpdateField={activeTask.onUpdateField}
+                onUpdateField={handleUpdateTask}
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
                 initialTab={0}
@@ -27,3 +36,5 @@ export const RootActivityModal = () => {
         </div>
     )
 }
+
+export default RootActivityModal

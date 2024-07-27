@@ -8,6 +8,7 @@ export const TOGGLE_STARRED_BOARD = 'TOGGLE_STARRED_BOARD'
 export const OPEN_MODAL = 'OPEN_MODAL'
 export const CLOSE_MODAL = 'CLOSE_MODAL'
 export const SET_ACTIVE_TASK = 'SET_ACTIVE_TASK'
+export const UPDATE_TASK_FIELD = 'UPDATE_TASK_FIELD'
 
 export const ADD_GROUP = 'ADD_GROUP'
 export const UPDATE_GROUP = 'UPDATE_GROUP'
@@ -203,6 +204,18 @@ export function boardReducer(state = initialState, action) {
             break
         case SET_ACTIVE_TASK:
             return { ...state, activeTask: action.task }
+
+        case UPDATE_TASK_FIELD:
+            return {
+                ...state,
+                tasks: state.tasks.map(task =>
+                    task.id === action.taskId ? { ...task, comments: action.comments } : task
+                ),
+                activeTask:
+                    state.activeTask && state.activeTask.id === action.taskId
+                        ? { ...state.activeTask, comments: action.comments }
+                        : state.activeTask,
+            }
 
         default:
             return state

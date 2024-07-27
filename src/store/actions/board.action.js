@@ -19,6 +19,7 @@ import {
     CLOSE_MODAL,
     OPEN_MODAL,
     SET_ACTIVE_TASK,
+    UPDATE_TASK_FIELD,
 } from '../reducers/board.reducer'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 
@@ -213,6 +214,15 @@ export async function updateBoardOptimistic(board) {
         console.log('Cannot save board', err)
         store.dispatch(getCmdRevertBoard())
         throw err
+    }
+}
+
+export const updateTaskField = (taskId, field, value) => {
+    return {
+        type: UPDATE_TASK_FIELD,
+        taskId,
+        field,
+        value,
     }
 }
 
