@@ -32,7 +32,13 @@ const taskAttributesConfig = {
                     style={{ cursor: 'text', justifyContent: 'space-between' }}
                 >
                     <EditableText value={task[columnKey]} onChange={value => onUpdateField(task, columnKey, value)} />
-                    <div className='flex align-center open-btn-container' style={{ marginInlineStart: '10px' }}>
+                    <div
+                        onClick={() => {
+                            document.querySelector('.comments-container').classList.toggle('open')
+                        }}
+                        className='flex align-center open-btn-container'
+                        style={{ marginInlineStart: '10px' }}
+                    >
                         <Open className='open-btn' style={{ opacity: '.7' }} />
                         <span className='open-btn' style={{ fontSize: '0.775rem' }}>
                             Open
