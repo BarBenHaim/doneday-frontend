@@ -8,7 +8,9 @@ import {
 } from 'monday-ui-react-core'
 import { Delete } from 'monday-ui-react-core/icons'
 import { taskAttributesConfig } from './taskAttributesConfig'
-import { addActivty } from './dynamicCmps/Comments/ActivityLog'
+import { AddActivty } from './dynamicCmps/Comments/AddActivity'
+import { useParams } from 'react-router'
+import { useSelector } from 'react-redux'
 
 export function TaskPreview({
   task,
@@ -23,13 +25,16 @@ export function TaskPreview({
   handleSelectAllCheckboxChange,
   isPlaceholder,
 }) {
+  const { boardId } = useParams()
+  const currBoard = useSelector((storeState) =>
+    storeState.boardModule.boards.find((board) => board._id === boardId)
+  )
   const [highlighted, setHighlighted] = useState(false)
 
   function onUpdateField(task, field, value) {
     const updatedTask = { ...task, [field]: value }
-    alert(field)
-    console.log(value)
-    addActivty(task, field, value)
+
+    AddActivty(currBoard, task, field, value)
     onUpdateTask(updatedTask)
   }
 
