@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Checkbox, EditableText } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskDatePicker from './dynamicCmps/TaskDatePicker.jsx'
@@ -7,9 +7,9 @@ import TaskPriority from './dynamicCmps/TaskPriority.jsx'
 import TaskMembers from './dynamicCmps/TaskMembers.jsx'
 import TaskFiles from './dynamicCmps/TaskFiles.jsx'
 import TaskDescription from './dynamicCmps/TaskDescription.jsx'
-import TaskComments from './dynamicCmps/TaskComments.jsx'
-import TaskChecklists from './dynamicCmps/TaskChecklists.jsx'
 import { Open } from 'monday-ui-react-core/icons'
+import ActivityModal from './dynamicCmps/ActivityModal.jsx'
+import TaskCommentsIcon from './TaskCommentsIcon.jsx'
 
 const taskAttributesConfig = {
     checkbox: {
@@ -25,31 +25,52 @@ const taskAttributesConfig = {
     },
     title: {
         label: 'Task',
-        render: (task, members, labels, onUpdateField, columnKey) => (
-            <div className='task-row'>
-                <div
-                    className='task-row-title flex align-center'
-                    style={{ cursor: 'text', justifyContent: 'space-between' }}
-                >
-                    <EditableText value={task[columnKey]} onChange={value => onUpdateField(task, columnKey, value)} />
+        render: (task, members, labels, onUpdateField, columnKey) => {
+            const [isModalOpen, setIsModalOpen] = useState(false)
+
+            const handleOpenModal = () => {
+                setIsModalOpen(true)
+            }
+
+            const handleCloseModal = () => {
+                setIsModalOpen(false)
+            }
+
+            return (
+                <div className='task-row'>
                     <div
-                        onClick={() => {
-                            document.querySelector('.comments-container').classList.toggle('open')
-                        }}
-                        className='flex align-center open-btn-container'
-                        style={{ marginInlineStart: '10px' }}
+                        className='task-row-title flex align-center'
+                        style={{ cursor: 'text', justifyContent: 'space-between' }}
                     >
-                        <Open className='open-btn' style={{ opacity: '.7' }} />
-                        <span className='open-btn' style={{ fontSize: '0.775rem' }}>
-                            Open
-                        </span>
+                        <EditableText
+                            value={task[columnKey]}
+                            onChange={value => onUpdateField(task, columnKey, value)}
+                        />
+                        <div
+                            onClick={handleOpenModal}
+                            className='flex align-center open-btn-container'
+                            style={{ marginInlineStart: '10px' }}
+                        >
+                            <Open className='open-btn' style={{ opacity: '.7' }} />
+                            <span className='open-btn' style={{ fontSize: '0.775rem' }}>
+                                Open
+                            </span>
+                        </div>
+                    </div>
+                    <ActivityModal
+                        task={task}
+                        members={members}
+                        onUpdateField={onUpdateField}
+                        isOpen={isModalOpen}
+                        onClose={handleCloseModal}
+                        initialTab={0} // Ensure it opens on the "Update" tab
+                    />
+                    <div className='task-row-comments'>
+                        <TaskCommentsIcon task={task} onOpen={handleOpenModal} />
                     </div>
                 </div>
-                <div className='task-row-comments'>
-                    <TaskComments task={task} members={members} onUpdateField={onUpdateField} columnKey={columnKey} />
-                </div>
-            </div>
-        ),
+            )
+        },
         className: 'table-cell sticky-col task-col',
     },
     status: {
@@ -102,6 +123,7 @@ const taskAttributesConfig = {
         className: 'table-cell checklists-col',
     },
 }
+
 const getResponsiveWidths = () => {
     const width = window.innerWidth
 
