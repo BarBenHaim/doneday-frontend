@@ -17,6 +17,7 @@ import { BoardIndex } from './pages/BoardIndex.jsx'
 import { BoardDetails } from './cmps/BoardDetails.jsx'
 import { Sidebar } from './cmps/Sidebar.jsx'
 import { Dashboard } from './pages/Dashboard.jsx'
+import { SignUpMonday } from './pages/SignUpMonday.jsx'
 
 export function RootCmp() {
     return (
@@ -37,7 +38,8 @@ export function RootCmp() {
                 <Route path='admin' element={<AdminIndex />} />
                 <Route path='login' element={<LoginSignup />}>
                     <Route index element={<Login />} />
-                    <Route path='signup' element={<Signup />} />
+                    {/* <Route path='signup' element={<Signup />} /> */}
+                    <Route path='signup' element={<SignUpMonday />} />
                 </Route>
             </Routes>
             {/* <AppFooter /> */}
