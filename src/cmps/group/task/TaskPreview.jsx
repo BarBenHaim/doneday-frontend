@@ -8,6 +8,7 @@ import {
 } from 'monday-ui-react-core'
 import { Delete } from 'monday-ui-react-core/icons'
 import { taskAttributesConfig } from './taskAttributesConfig'
+import { addActivty } from './dynamicCmps/Comments/ActivityLog'
 
 export function TaskPreview({
   task,
@@ -27,6 +28,8 @@ export function TaskPreview({
   function onUpdateField(task, field, value) {
     const updatedTask = { ...task, [field]: value }
     alert(field)
+    console.log(value)
+    addActivty(task, field, value)
     onUpdateTask(updatedTask)
   }
 

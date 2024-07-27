@@ -1,3 +1,5 @@
-export function ActivityLog() {
-  return <h1>holoo</h1>
+export function ActivityLog({ task, field, value }) {}
+
+export function addActivty(task, field, value) {
+  console.log(task, field, value)
 }
