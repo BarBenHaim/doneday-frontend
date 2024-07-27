@@ -6,7 +6,7 @@ import { login } from '../store/actions/user.actions'
 
 export function Login() {
     const [users, setUsers] = useState([])
-    const [credentials, setCredentials] = useState({ username: '', password: '', fullname: '' })
+    const [credentials, setCredentials] = useState({ email: '', password: '',})
 
     const navigate = useNavigate()
 
@@ -22,7 +22,7 @@ export function Login() {
     async function onLogin(ev = null) {
         if (ev) ev.preventDefault()
 
-        if (!credentials.username) return
+        if (!credentials.email) return
         await login(credentials)
         navigate('/board')
     }
@@ -36,11 +36,11 @@ export function Login() {
     return (
         <form className="login-form" onSubmit={onLogin}>
             <select
-                name="username"
-                value={credentials.username}
+                name="email"
+                value={credentials.email}
                 onChange={handleChange}>
                     <option value="">Select User</option>
-                    {users.map(user => <option key={user._id} value={user.username}>{user.fullname}</option>)}
+                    {users.map(user => <option key={user._id} value={user.email}>{user.fullname}</option>)}
             </select>
             <button>Login</button>
         </form>
