@@ -4,6 +4,8 @@ export const boardService = {
     query,
     getById,
     save,
+    addBoard,
+    updateBoard,
     remove,
     addBoardMsg,
     addGroup,
@@ -27,6 +29,14 @@ function getById(boardId) {
 
 async function remove(boardId) {
     return httpService.delete(`board/${boardId}`)
+}
+
+async function addBoard(boardTitle, boardLabel) {
+    return httpService.post(`board`, { title: boardTitle, label:boardLabel })
+}
+
+async function updateBoard(boardId, updatedBoard) {
+    return httpService.put(`board/${boardId}`, updatedBoard)
 }
 
 async function save(board) {
@@ -75,6 +85,3 @@ async function toggleStarred(boardId) {
     return httpService.post(`board/${boardId}/toggle-starred`)
 }
 
-async function updateBoard(boardId, updatedBoard) {
-    return httpService.put(`board/${boardId}`, updatedBoard)
-}

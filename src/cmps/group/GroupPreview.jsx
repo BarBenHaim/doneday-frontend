@@ -20,7 +20,7 @@ function GroupPreview({
     dragHandleProps,
 }) {
     const [updatedGroupTitle, setUpdatedGroupTitle] = useState(group.title)
-    const [groupColor, setGroupColor] = useState(group.style.backgroundColor || '#579bfc')
+    const [groupColor, setGroupColor] = useState(group.style?.backgroundColor || '#579bfc')
 
     const handleTitleChange = value => {
         setUpdatedGroupTitle(value)
