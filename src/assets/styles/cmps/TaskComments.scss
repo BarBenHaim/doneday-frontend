@@ -1,47 +1,93 @@
-.comments-container {
-    margin-top: 55px;
-    width: 750px;
-    background-color: whitesmoke;
-    border: 1px solid black;
-    position: fixed;
-    top: 0;
-    right: -100%;
-    height: 100%;
-
-    transition: right 0.3s ease;
-    z-index: 1000 !important;
-}
-.open {
-    right: 0;
-}
-.close-btn {
-    position: absolute;
-    top: 15px;
-    font-size: 14px;
-    color: #323338;
-    padding: 2px;
-    border-radius: 4px;
-    cursor: pointer;
-    &:hover {
-        background-color: #67687973;
+@keyframes slideIn {
+    from {
+        right: -570px;
+    }
+    to {
+        right: 0;
     }
 }
-.task-title {
-    font-family: $font-family-primary;
-    text-align: left;
-    font-size: 24px;
-    line-height: 30px;
-    letter-spacing: -0.1px;
-    color: #323338;
 
-    border-radius: 4px;
+@keyframes slideOut {
+    from {
+        right: 0;
+    }
+    to {
+        right: -570px;
+    }
+}
+
+.root-activity-modal {
+    position: fixed;
+    right: -570px;
+    top: 3.5rem;
+    width: 570px;
+    height: 100%;
+    z-index: 10;
+    background-color: whitesmoke;
+    transition: right 0.3s ease;
+    animation: slideOut 0.3s forwards;
+}
+
+.root-activity-modal.open {
+    animation: slideIn 0.3s forwards;
+}
+
+.root-activity-modal.close {
+    animation: slideOut 0.3s forwards;
+}
+
+.activity-modal-popover {
+    .main-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        padding-block-start: 30px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+}
+
+.task-title {
+    font-size: 1.25rem;
+    margin: 0;
+    color: #323338;
+    font-family: $font-family-primary;
+}
+
+.close-btn {
+    position: absolute;
+    top: 14px;
+    font-size: 0.875rem;
+    color: #343538;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    background-color: #67687973;
+}
+
+.tabs-container {
+    margin-left: 27px;
+    padding: 0;
+}
+
+.tab-title {
+    font-size: 0.875rem;
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.tab-content {
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
 }
 
 .update-btn {
     font-family: $font-family-primary;
     font-size: 16px;
-    margin-top: 2px;
-    margin-left: 642px;
     background-color: #0073ea;
     color: #ffffff;
     text-align: start;
@@ -49,28 +95,30 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
-    outline: none;
-    &:hover {
-        background-color: #0663c7;
-    }
 }
-// Update container//
+
+.update-btn:hover {
+    background-color: #0663c7;
+}
 
 .update-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
+    text-align: end;
     width: 100%;
-    // margin: 0 auto;
 }
 
 .text-area-update {
     margin-top: 20px;
     padding: 0 5px;
-    margin-right: 20px;
     width: 100%;
+}
+
+.no-comments {
+    text-align: center;
+    margin-top: 32px;
 }
 
 .no-update-img {
@@ -78,6 +126,7 @@
     width: 350px;
     margin-bottom: 10px;
 }
+
 .no-update-header {
     font-family: $font-family-primary;
     text-align: center;
@@ -96,10 +145,8 @@
     max-width: 500px;
 }
 
-/* styles.css */
 .comments-section {
     width: 100%;
-
     margin: 10px 0;
 }
 
@@ -149,33 +196,31 @@
     margin: 0;
 }
 
-.comment-actions {
-    margin-top: 5px;
-}
-
-//Files Cmp
-
 .empty-state-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-
     padding: 20px;
+    height: 100%;
 }
+
 .empty-state-image {
     margin: 80px auto;
     width: 350px;
 }
+
 .add-file-header {
     font-size: 1.5rem;
     margin-bottom: 10px;
 }
+
 .add-file-p {
     font-size: 1rem;
     margin-bottom: 20px;
 }
+
 .add-files-btn {
     font-family: $font-family-primary;
     font-size: 16px;
@@ -187,9 +232,10 @@
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
     outline: none;
-    &:hover {
-        background-color: #0663c7;
-    }
+}
+
+.add-files-btn:hover {
+    background-color: #0663c7;
 }
 
 .msg-count {
@@ -202,9 +248,7 @@
     background-color: #0073ea;
     border-radius: 10px;
     color: #ffffff;
-
     padding: 2px 4px;
     font-size: 10px;
-    font-weight: bold;
     line-height: 9px;
 }

@@ -16,6 +16,9 @@ import {
     REMOVE_TASK,
     TOGGLE_STARRED_BOARD,
     REVERT_BOARD,
+    CLOSE_MODAL,
+    OPEN_MODAL,
+    SET_ACTIVE_TASK,
 } from '../reducers/board.reducer'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 
@@ -210,6 +213,25 @@ export async function updateBoardOptimistic(board) {
         console.log('Cannot save board', err)
         store.dispatch(getCmdRevertBoard())
         throw err
+    }
+}
+
+export function openModal() {
+    return {
+        type: OPEN_MODAL,
+    }
+}
+
+export function closeModal() {
+    return {
+        type: CLOSE_MODAL,
+    }
+}
+
+export function setActiveTask(task) {
+    return {
+        type: SET_ACTIVE_TASK,
+        task,
     }
 }
 

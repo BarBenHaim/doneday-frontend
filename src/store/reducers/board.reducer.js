@@ -5,6 +5,9 @@ export const ADD_BOARD = 'ADD_BOARD'
 export const UPDATE_BOARD = 'UPDATE_BOARD'
 export const ADD_BOARD_MSG = 'ADD_BOARD_MSG'
 export const TOGGLE_STARRED_BOARD = 'TOGGLE_STARRED_BOARD'
+export const OPEN_MODAL = 'OPEN_MODAL'
+export const CLOSE_MODAL = 'CLOSE_MODAL'
+export const SET_ACTIVE_TASK = 'SET_ACTIVE_TASK'
 
 export const ADD_GROUP = 'ADD_GROUP'
 export const UPDATE_GROUP = 'UPDATE_GROUP'
@@ -20,6 +23,8 @@ const initialState = {
     board: null,
     groupTaskFilterBy: {},
     boardFilterBy: {},
+    isModalOpen: false,
+    activeTask: null,
 }
 
 export function boardReducer(state = initialState, action) {
@@ -189,6 +194,16 @@ export function boardReducer(state = initialState, action) {
             )
             newState = { ...state, boards }
             break
+
+        case OPEN_MODAL:
+            newState = { ...state, isModalOpen: true }
+            break
+        case CLOSE_MODAL:
+            newState = { ...state, isModalOpen: false }
+            break
+        case SET_ACTIVE_TASK:
+            return { ...state, activeTask: action.task }
+
         default:
             return state
     }
