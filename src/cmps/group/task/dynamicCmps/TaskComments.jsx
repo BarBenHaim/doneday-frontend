@@ -4,7 +4,6 @@ import { MsgIcon } from '../../../svgs/TaskSvg'
 import ActivityModal from './ActivityModal'
 
 export function TaskComments({ task, members, onUpdateField }) {
-  // const [isCommentsOpen, setIsCommentsOpen] = useState(false)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   const [isCommentsOpen, setIsCommentsOpen] = useState(false)
 
