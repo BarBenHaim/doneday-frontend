@@ -220,6 +220,14 @@ export function boardReducer(state = initialState, action) {
       )
       newState = { ...state, boards }
       break
+    case OPEN_MODAL:
+      newState = { ...state, isModalOpen: true }
+      break
+    case CLOSE_MODAL:
+      newState = { ...state, isModalOpen: false }
+      break
+    case SET_ACTIVE_TASK:
+      return { ...state, activeTask: action.task }
     default:
       return state
   }
