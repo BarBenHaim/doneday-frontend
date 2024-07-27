@@ -48,27 +48,27 @@ async function addGroup(boardId, groupTitle) {
 }
 
 async function updateGroup(boardId, groupId, updatedGroup) {
-    return httpService.put(`board/${boardId}/group/${groupId}`, updatedGroup)
+    return httpService.put(`board/${boardId}/${groupId}`, updatedGroup)
 }
 
 async function removeGroup(boardId, groupId) {
-    return httpService.delete(`board/${boardId}/group/${groupId}`)
+    return httpService.delete(`board/${boardId}/${groupId}`)
 }
 
 async function addTask(boardId, groupId, task) {
-    return httpService.post(`board/${boardId}/group/${groupId}/task`, task)
+    return httpService.post(`board/${boardId}/${groupId}/task`, task)
 }
 
 async function addTaskBottom(boardId, groupId, task) {
-    return httpService.post(`board/${boardId}/group/${groupId}/task/bottom`, task)
+    return httpService.post(`board/${boardId}/${groupId}/task/bottom`, task)
 }
 
 async function updateTask(boardId, groupId, taskId, taskChanges) {
-    return httpService.put(`board/${boardId}/group/${groupId}/task/${taskId}`, taskChanges)
+    return httpService.put(`board/${boardId}/${groupId}/${taskId}`, taskChanges)
 }
 
 async function removeTask(boardId, groupId, taskId) {
-    return httpService.delete(`board/${boardId}/group/${groupId}/task/${taskId}`)
+    return httpService.delete(`board/${boardId}/${groupId}/${taskId}`)
 }
 
 async function toggleStarred(boardId) {
