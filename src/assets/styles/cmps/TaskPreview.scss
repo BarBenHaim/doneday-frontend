@@ -107,3 +107,10 @@
         border-width: 0 10px 10px 0;
     }
 }
+
+.open-btn-container .open-btn {
+    display: none;
+}
+.task-row-title:hover .open-btn {
+    display: block;
+}
