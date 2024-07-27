@@ -16,7 +16,6 @@ import {
   REMOVE_TASK,
   TOGGLE_STARRED_BOARD,
   REVERT_BOARD,
-  Add_Acitivity,
 } from '../reducers/board.reducer'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 

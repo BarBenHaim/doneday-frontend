@@ -10,7 +10,7 @@ export function ActivityLog() {
   const tasks = groups.flatMap((group) => group.tasks || [])
   const activities = currBoard.activities
   return (
-    <sectio>
+    <section>
       <ul>
         {activities.map((active) => (
           <li>
@@ -21,6 +21,6 @@ export function ActivityLog() {
           </li>
         ))}
       </ul>
-    </sectio>
+    </section>
   )
 }
