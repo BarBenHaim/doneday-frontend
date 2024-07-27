@@ -243,7 +243,7 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
             showErrorMsg('Cannot remove column')
         }
     }
-    console.log(responsiveWidths)
+    //console.log(responsiveWidths)
     const columns = [
         ...board.cmpsOrder.map(key => {
             const config = taskAttributesConfig[key.match(/^\D+/)[0]]
