@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { TableCell, TableRow, MenuButton, Menu, MenuItem } from 'monday-ui-react-core'
 import { Delete } from 'monday-ui-react-core/icons'
 import { taskAttributesConfig } from './taskAttributesConfig'
-import { addActivity } from './dynamicCmps/Comments/ActivityLog'
 
 export function TaskPreview({
     task,
@@ -20,7 +19,6 @@ export function TaskPreview({
     function onUpdateField(task, field, value) {
         const updatedTask = { ...task, [field]: value }
         console.log(value)
-        addActivity(task, field, value)
         onUpdateTask(updatedTask)
     }
 
