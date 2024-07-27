@@ -16,6 +16,25 @@ import {
   REMOVE_TASK,
   TOGGLE_STARRED_BOARD,
   REVERT_BOARD,
+  ADD_BOARD,
+  REMOVE_BOARD,
+  SET_BOARDS,
+  SET_BOARD,
+  UPDATE_BOARD,
+  ADD_BOARD_MSG,
+  ADD_GROUP,
+  UPDATE_GROUP,
+  REMOVE_GROUP,
+  ADD_TASK,
+  ADD_TASK_BOTTOM,
+  UPDATE_TASK,
+  REMOVE_TASK,
+  TOGGLE_STARRED_BOARD,
+  REVERT_BOARD,
+  CLOSE_MODAL,
+  OPEN_MODAL,
+  SET_ACTIVE_TASK,
+  UPDATE_TASK_FIELD,
 } from '../reducers/board.reducer'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 
@@ -223,6 +242,34 @@ export async function updateBoardOptimistic(board) {
     console.log('Cannot save board', err)
     store.dispatch(getCmdRevertBoard())
     throw err
+  }
+}
+
+export const updateTaskField = (taskId, field, value) => {
+  return {
+    type: UPDATE_TASK_FIELD,
+    taskId,
+    field,
+    value,
+  }
+}
+
+export function openModal() {
+  return {
+    type: OPEN_MODAL,
+  }
+}
+
+export function closeModal() {
+  return {
+    type: CLOSE_MODAL,
+  }
+}
+
+export function setActiveTask(task) {
+  return {
+    type: SET_ACTIVE_TASK,
+    task,
   }
 }
 
