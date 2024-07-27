@@ -1,5 +1,5 @@
 import React from 'react'
-import { Checkbox, EditableText } from 'monday-ui-react-core'
+import { Checkbox } from 'monday-ui-react-core'
 import 'monday-ui-react-core/dist/main.css'
 import TaskDatePicker from './dynamicCmps/TaskDatePicker.jsx'
 import TaskStatus from './dynamicCmps/TaskStatus.jsx'
@@ -7,8 +7,8 @@ import TaskPriority from './dynamicCmps/TaskPriority.jsx'
 import TaskMembers from './dynamicCmps/TaskMembers.jsx'
 import TaskFiles from './dynamicCmps/TaskFiles.jsx'
 import TaskDescription from './dynamicCmps/TaskDescription.jsx'
-import TaskComments from './dynamicCmps/TaskComments.jsx'
 import TaskChecklists from './dynamicCmps/TaskChecklists.jsx'
+import TaskRow from './TaskRow.jsx'
 
 const taskAttributesConfig = {
     checkbox: {
@@ -25,14 +25,13 @@ const taskAttributesConfig = {
     title: {
         label: 'Task',
         render: (task, members, labels, onUpdateField, columnKey) => (
-            <div className='task-row'>
-                <div className='task-row-title' style={{ cursor: 'text' }}>
-                    <EditableText value={task[columnKey]} onChange={value => onUpdateField(task, columnKey, value)} />
-                </div>
-                <div className='task-row-comments'>
-                    <TaskComments task={task} members={members} onUpdateField={onUpdateField} columnKey={columnKey} />
-                </div>
-            </div>
+            <TaskRow
+                task={task}
+                members={members}
+                labels={labels}
+                onUpdateField={onUpdateField}
+                columnKey={columnKey}
+            />
         ),
         className: 'table-cell sticky-col task-col',
     },
@@ -86,6 +85,7 @@ const taskAttributesConfig = {
         className: 'table-cell checklists-col',
     },
 }
+
 const getResponsiveWidths = () => {
     const width = window.innerWidth
 
