@@ -6,6 +6,15 @@ export const boardService = {
     save,
     remove,
     addBoardMsg,
+    addGroup,
+    updateGroup,
+    removeGroup,
+    addTask,
+    addTaskBottom,
+    updateTask,
+    removeTask,
+    toggleStarred,
+    updateBoard,
 }
 
 async function query() {
@@ -31,6 +40,41 @@ async function save(board) {
 }
 
 async function addBoardMsg(boardId, txt) {
-    const savedMsg = await httpService.post(`board/${boardId}/msg`, { txt })
-    return savedMsg
+    return httpService.post(`board/${boardId}/msg`, { txt })
+}
+
+async function addGroup(boardId, groupTitle) {
+    return httpService.post(`board/${boardId}/group`, { title: groupTitle })
+}
+
+async function updateGroup(boardId, groupId, updatedGroup) {
+    return httpService.put(`board/${boardId}/group/${groupId}`, updatedGroup)
+}
+
+async function removeGroup(boardId, groupId) {
+    return httpService.delete(`board/${boardId}/group/${groupId}`)
+}
+
+async function addTask(boardId, groupId, task) {
+    return httpService.post(`board/${boardId}/group/${groupId}/task`, task)
+}
+
+async function addTaskBottom(boardId, groupId, task) {
+    return httpService.post(`board/${boardId}/group/${groupId}/task/bottom`, task)
+}
+
+async function updateTask(boardId, groupId, taskId, taskChanges) {
+    return httpService.put(`board/${boardId}/group/${groupId}/task/${taskId}`, taskChanges)
+}
+
+async function removeTask(boardId, groupId, taskId) {
+    return httpService.delete(`board/${boardId}/group/${groupId}/task/${taskId}`)
+}
+
+async function toggleStarred(boardId) {
+    return httpService.post(`board/${boardId}/toggle-starred`)
+}
+
+async function updateBoard(boardId, updatedBoard) {
+    return httpService.put(`board/${boardId}`, updatedBoard)
 }
