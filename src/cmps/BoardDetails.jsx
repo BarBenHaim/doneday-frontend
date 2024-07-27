@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { loadBoard, removeBoard, toggleStarredBoard, updateBoard } from '../store/actions/board.action'
+import { loadBoards, removeBoard, toggleStarredBoard, updateBoard } from '../store/actions/board.action'
 import { useNavigate, useParams } from 'react-router'
 import { GroupList } from './group/GroupList'
 import { GroupFilter } from './group/GroupsFilter/GroupFilter'
@@ -28,14 +28,22 @@ import { UserMsg } from './UserMsg'
 export function BoardDetails() {
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
-    const [isStarredBoard, setIsStarredBoard] = useState(currBoard.isStarred)
+
+    const [isStarredBoard, setIsStarredBoard] = useState(currBoard?.isStarred)
     const [boardsToDisplay, setBoardsToDisplay] = useState(currBoard?.groups || [])
     const [activeTabIndex, setActiveTabIndex] = useState(0)
     const navigate = useNavigate()
 
     useEffect(() => {
+        if(!currBoard) {
+            loadBoards()
+        }
+    }, [boardId])
+
+
+    useEffect(() => {
         setBoardsToDisplay(currBoard?.groups || [])
-        setIsStarredBoard(currBoard.isStarred)
+        setIsStarredBoard(currBoard?.isStarred)
     }, [currBoard])
 
     const setFilterBy = arr => {
