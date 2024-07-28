@@ -22,7 +22,7 @@ export function UpdatedComments({ task, byMember, onUpdateField }) {
                 _id: Date.now().toString(),
                 title: newComment,
                 createdAt: Date.now(),
-                byMember: byMember || { _id: null, fullName: 'Guest' },
+                byMember: byMember || { _id: null, fullname: 'Guest' },
             }
 
             const newComments = [newCommentObject, ...updatedComments]
