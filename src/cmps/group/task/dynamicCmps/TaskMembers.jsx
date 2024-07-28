@@ -26,18 +26,18 @@ const TaskMembers = ({ task, members, onUpdateField, columnKey }) => {
         .map(memberId => {
             const member = members.find(member => member._id === memberId)
             if (!member) return null
-            const fullName = member.fullname || 'Unknown'
-            const initials = fullName
+            const fullname = member.fullname || 'Unknown'
+            const initials = fullname
                 .split(' ')
                 .map(name => name.charAt(0).toUpperCase())
                 .join('')
 
             return member.imgUrl ? (
-                <Avatar key={memberId} ariaLabel={fullName} src={member.imgUrl} type='img' size='small' />
+                <Avatar key={memberId} ariaLabel={fullname} src={member.imgUrl} type='img' size='small' />
             ) : (
                 <Avatar
                     key={memberId}
-                    ariaLabel={fullName}
+                    ariaLabel={fullname}
                     text={initials}
                     type='text'
                     size='small'

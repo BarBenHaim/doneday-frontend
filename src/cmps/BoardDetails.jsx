@@ -195,7 +195,7 @@ export function BoardDetails() {
                 {currBoard.members.map((member) => (
                   <Avatar
                     key={member._id}
-                    ariaLabel={member.fullName}
+                    ariaLabel={member.fullname}
                     src={member.imgUrl}
                     type="img"
                   />
