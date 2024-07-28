@@ -155,7 +155,7 @@ export function createGroup(title, tasks = [], archivedAt = null) {
 }
 
 export function createBoard(title, createdBy, label, members = [], groups = [], activities = [], isStarred = false) {
-    const columns = ['status', 'memberIds', 'description', 'dueDate', 'files', 'priority']
+    const columns = ['status', 'memberIds', 'description', 'dueDate', 'files', 'priority', 'recording']
 
     const shuffleArray = array => {
         for (let i = array.length - 1; i > 0; i--) {
