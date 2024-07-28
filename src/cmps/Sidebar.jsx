@@ -1,10 +1,9 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Search } from 'monday-ui-react-core/next'
 
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import {
   MenuItem,
   Menu,
@@ -13,9 +12,7 @@ import {
   SplitButton,
   SplitButtonMenu,
   MenuTitle,
-  MenuItemButton,
   Dialog,
-  Button,
   IconButton,
 } from 'monday-ui-react-core'
 import {
@@ -34,14 +31,10 @@ export function Sidebar() {
     const boards = useSelector((storeState) => storeState.boardModule.boards)
     const [isCollapsed, setIsCollapsed] = useState(false)
     const [isAddBoardModalOpen, setIsAddBoardModalOpen] = useState(false)
-    const [filteredBoards, setFilteredBoards] = useState([])
+    const [filterBy, setFilterBy] = useState('')
     const starredBoards = boards.filter((board) => board.isStarred)
-    // const boardLabel = boards.filter((board) => board.label)
+    const boardLabel = boards.filter((board) => board.label)
     const navigate = useNavigate()
-
-    useEffect(() => {
-        setFilteredBoards(boards)
-    }, [boards])
 
     function handleOnClick(route) {
         navigate(route)
@@ -55,16 +48,12 @@ export function Sidebar() {
         setIsAddBoardModalOpen(!isAddBoardModalOpen)
     }
 
-    function handleSearchClick({ target }) {
-        const value = target.value.toLowerCase()
-        console.log('Search input value:', value)
+    const filteredBoardLabel = boardLabel.filter((board) =>
+        board.label.toLowerCase().includes(filterBy.toLowerCase())
+    )
 
-        if (value.trim() === '') {
-            setFilteredBoards(boards)
-        } else {
-            const filtered = boards.filter((board) => board.title.toLowerCase().includes(value))
-            setFilteredBoards(filtered)
-        }
+    function handelChange(value) {
+        setFilterBy(value)
     }
 
     return (
@@ -97,7 +86,7 @@ export function Sidebar() {
                 </div>
                 <div className='sidebar-search-add-container'>
                     <div className='search-container'>
-                        <Search placeholder='Search' size='medium' onChange={handleSearchClick} />
+                        <Search placeholder='Search' size='medium'  onChange={(value) => handelChange(value)} />
                     </div>
                     <div className='add-button-dialog'>
                         <Dialog
@@ -131,7 +120,7 @@ export function Sidebar() {
                     </div>
                 </div>
                 <Menu>
-                    {filteredBoards.map((board) => (
+                    {filteredBoardLabel.map((board) => (
                         <MenuItem
                             icon={Board}
                             key={board._id} // Ensure _id is unique and stable
