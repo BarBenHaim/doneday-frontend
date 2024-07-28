@@ -58,6 +58,7 @@ export function BoardDetails() {
   async function onUpdateBoard(board) {
     try {
       await updateBoard(board)
+      concole.log("Onupdateboard boardDetails", board)
       showSuccessMsg('Group updated')
     } catch (err) {
       showErrorMsg('Cannot update group')

@@ -56,7 +56,7 @@ async function save(board) {
 
 async function updateBoard(boardId, updatedBoard) {
   const board = await getById(boardId)
-  console.log('update board', board)
+  // console.log('update board service', board)
   const boardIdx = board.findIndex((board) => board._id === boardId)
   if (boardIdx === -1) throw new Error('Board not found')
   board[boardIdx] = { ...board[boardIdx], ...updatedBoard }

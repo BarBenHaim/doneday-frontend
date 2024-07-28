@@ -66,31 +66,30 @@ export async function addBoard(boardTitle, boardLabel) {
   }
 }
 
-export async function updateBoard(board) {
-  store.dispatch(getCmdUpdateBoard(board))
-  console.log('boardID update board', board)
+// export async function updateBoard(board) {
+//   store.dispatch(getCmdUpdateBoard(board))
+//   console.log('boardID update board', board)
 
-  try {
-    const savedBoard = await boardService.save(board)
-    return savedBoard
-  } catch (err) {
-    console.log('Cannot save board', err)
-    throw err
-  }
-}
-
-// export async function updateBoard(boardId, updatedBoard) {
-//     store.dispatch(getCmdUpdateBoard(boardId, updatedBoard))
-//     console.log('boardId update board',boardId )
-//     console.log('updatedBoard',updatedBoard )
-//     try {
-//         const board = await boardService.updateBoard(boardId, updatedBoard)
-//         return board
-//     } catch (err) {
-//         console.log('Cannot save board', err)
-//         throw err
-//     }
+//   try {
+//     const savedBoard = await boardService.save(board)
+//     return savedBoard
+//   } catch (err) {
+//     console.log('Cannot save board', err)
+//     throw err
+//   }
 // }
+
+export async function updateBoard(board) {
+    store.dispatch(getCmdUpdateBoard(board))
+    console.log('boardId update board',board )
+    try {
+        const updatedboard = await boardService.save(board)
+        return updatedboard
+    } catch (err) {
+        console.log('Cannot save board', err)
+        throw err
+    }
+}
 export async function addBoardMsg(boardId, txt) {
   try {
     const msg = await boardService.addBoardMsg(boardId, txt)

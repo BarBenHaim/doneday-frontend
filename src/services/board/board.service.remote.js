@@ -35,8 +35,8 @@ async function addBoard(boardTitle, boardLabel) {
     return httpService.post(`board`, { title: boardTitle, label:boardLabel })
 }
 
-async function updateBoard(boardId, updatedBoard) {
-    return httpService.put(`board/${boardId}`, updatedBoard)
+async function updateBoard(board) {
+    return httpService.put(`board/${board._id}`, board)
 }
 
 async function save(board) {
