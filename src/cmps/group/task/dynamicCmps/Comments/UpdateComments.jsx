@@ -1,10 +1,15 @@
 import { Avatar, TextArea } from 'monday-ui-react-core'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import moment from 'moment'
 
 export function UpdatedComments({ task, members, onUpdateField }) {
     const [isUpdateBtn, setUpdateBtn] = useState(false)
     const [newComment, setNewComment] = useState('')
+    const [updatedComments, setUpdatedComments] = useState(task.comments || [])
+
+    useEffect(() => {
+        setUpdatedComments(task.comments || [])
+    }, [task.comments])
 
     const handleUpdateTextChange = e => {
         setUpdateBtn(true)
@@ -18,11 +23,12 @@ export function UpdatedComments({ task, members, onUpdateField }) {
                 title: newComment,
                 createdAt: Date.now(),
                 memberId: members && members.length > 0 ? members[0]._id : null,
-                fullName: members && members.length > 0 ? members[0].fullName : 'Guest',
+                fullName: members && members.length > 0 ? members[0].fullname : 'Guest',
             }
 
-            const updatedComments = [...(task.comments || []), newCommentObject]
-            onUpdateField(task, 'comments', updatedComments)
+            const newComments = [...updatedComments, newCommentObject]
+            setUpdatedComments(newComments)
+            onUpdateField(task, 'comments', newComments)
             setNewComment('')
             setUpdateBtn(false)
         }
@@ -44,7 +50,7 @@ export function UpdatedComments({ task, members, onUpdateField }) {
                     </button>
                 )}
             </div>
-            {(task.comments || []).length === 0 ? (
+            {updatedComments.length === 0 ? (
                 <div className='no-comments'>
                     <img
                         className='no-update-img'
@@ -60,7 +66,7 @@ export function UpdatedComments({ task, members, onUpdateField }) {
             ) : (
                 <div className='comments-section'>
                     <ul className='comments-list'>
-                        {task.comments.map(comment => (
+                        {updatedComments.map(comment => (
                             <li key={comment._id} className='comment-item'>
                                 <Avatar
                                     aria-label={comment.fullName}
