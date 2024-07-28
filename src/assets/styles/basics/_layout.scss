@@ -19,7 +19,8 @@
 }
 
 @media (max-width: 740px) {
-    .sidebar.main-container {
+    .sidebar.main-container,
+    .board-index-template {
         display: none;
     }
     .task-row-title {
