@@ -10,7 +10,7 @@ import { KanbanColumn } from './KanbanColumn'
 import GroupPreview from './GroupPreview'
 import { Dashboard } from '../../pages/Dashboard'
 
-const statuses = ['Not Started', 'Working on it', 'Stuck', 'Done', 'Important']
+const initialStatuses = ['Not Started', 'Working on it', 'Stuck', 'Done', 'Important']
 
 export function GroupList({ boardsToDisplay, view }) {
     if (view === 'dashboard') {
@@ -27,6 +27,7 @@ export function GroupList({ boardsToDisplay, view }) {
     const [isDragging, setIsDragging] = useState(false)
     const [initialCollapsedStates, setInitialCollapsedStates] = useState({})
     const [selectedTasks, setSelectedTasks] = useState([])
+    const [statuses, setStatuses] = useState(initialStatuses)
 
     useEffect(() => {
         const initialCollapsedStates = {}
@@ -89,6 +90,11 @@ export function GroupList({ boardsToDisplay, view }) {
             } catch (err) {
                 showErrorMsg('Cannot update group order')
             }
+        } else if (type === 'STATUS') {
+            const newStatuses = Array.from(statuses)
+            const [movedStatus] = newStatuses.splice(source.index, 1)
+            newStatuses.splice(destination.index, 0, movedStatus)
+            setStatuses(newStatuses)
         } else {
             const sourceGroup = currBoard.groups.find(group => group._id === source.droppableId)
             const destinationGroup = currBoard.groups.find(group => group._id === destination.droppableId)
@@ -171,21 +177,30 @@ export function GroupList({ boardsToDisplay, view }) {
         <section className='group-list scrollable'>
             <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
                 {view === 'kanban' ? (
-                    <Droppable droppableId='all-groups' type='GROUP' direction='horizontal'>
+                    <Droppable droppableId='all-statuses' type='STATUS' direction='horizontal'>
                         {provided => (
                             <div className='kanban-board' {...provided.droppableProps} ref={provided.innerRef}>
                                 {statuses.map((status, index) => (
-                                    <KanbanColumn
-                                        key={status}
-                                        status={status}
-                                        tasks={allTasks}
-                                        index={index}
-                                        members={currBoard.members}
-                                        labels={currBoard.labels}
-                                        onUpdateField={onUpdateGroup}
-                                        selectedTasks={selectedTasks}
-                                        handleCheckboxChange={handleCheckboxChange}
-                                    />
+                                    <Draggable key={status} draggableId={status} index={index}>
+                                        {provided => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                            >
+                                                <KanbanColumn
+                                                    status={status}
+                                                    tasks={allTasks}
+                                                    index={index}
+                                                    members={currBoard.members}
+                                                    labels={currBoard.labels}
+                                                    onUpdateField={onUpdateGroup}
+                                                    selectedTasks={selectedTasks}
+                                                    handleCheckboxChange={handleCheckboxChange}
+                                                />
+                                            </div>
+                                        )}
+                                    </Draggable>
                                 ))}
                                 {provided.placeholder}
                             </div>
