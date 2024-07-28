@@ -6,9 +6,9 @@ import { GroupPersonFilter } from './GroupPersonFilter'
 import { GroupHideFilter } from './GroupHideFilter'
 import { Group } from 'monday-ui-react-core/icons'
 
-import { MenuItem, SplitButton, SplitButtonMenu, Tooltip } from 'monday-ui-react-core'
+import { Button, MenuItem, SplitButton, SplitButtonMenu, Tooltip } from 'monday-ui-react-core'
 import { GroupAdvancedFilter } from './GroupAdvancedFilter'
-import { addTask, getEmptyTask } from '../../../store/actions/board.action'
+import { addGroup, addTask, getEmptyTask } from '../../../store/actions/board.action'
 import { showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service'
 
 export function GroupFilter({ setFilterBy }) {
@@ -54,6 +54,15 @@ export function GroupFilter({ setFilterBy }) {
     }
     const boardLabelName = currBoard.label.toLowerCase()
 
+    async function onAddGroup() {
+        try {
+            await addGroup(boardId, 'New Group')
+            showSuccessMsg('Group added')
+        } catch (err) {
+            showErrorMsg('Cannot add group')
+        }
+    }
+
     return (
         <>
             <section className='board-filter'>
@@ -64,10 +73,11 @@ export function GroupFilter({ setFilterBy }) {
                     size='small'
                     secondaryDialogContent={
                         <SplitButtonMenu id='split-menu'>
-                            <MenuItem icon={Group} title='Add group' onClick={() => alert('in development...')} />
+                            <MenuItem icon={Group} title='Add group' onClick={() => onAddGroup()} />
                         </SplitButtonMenu>
                     }
                 />
+
                 <div className='header-filter'>
                     {!isSearchActive ? (
                         <div className='search' onClick={() => setIsSearchActive(true)}>
