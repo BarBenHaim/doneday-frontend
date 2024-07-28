@@ -3,8 +3,18 @@
     grid-template-rows: auto 1fr;
     height: 100%;
     overflow: hidden;
-    .sizeSmall_ec9d3aaac4 {
-        font: var(--font-h2-normal);
+
+    ::-webkit-scrollbar-button {
+        display: none;
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: rgb(187, 190, 204);
     }
 
     .board-details-header {
