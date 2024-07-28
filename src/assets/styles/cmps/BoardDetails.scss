@@ -4,19 +4,6 @@
     height: 100%;
     overflow: hidden;
 
-    ::-webkit-scrollbar-button {
-        display: none;
-    }
-
-    ::-webkit-scrollbar {
-        width: 10px;
-        height: 10px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background-color: rgb(187, 190, 204);
-    }
-
     .board-details-header {
         padding-left: 40px;
 
@@ -37,10 +24,9 @@
                 width: 100%;
 
                 .favorite-icon {
-                    color: #ffcb00 !important; /* color when active */
+                    color: #ffcb00 !important;
                 }
             }
-            //Text editor box
             .textArea_6458ec3420 {
                 margin-bottom: 10px;
             }

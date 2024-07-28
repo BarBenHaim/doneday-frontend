@@ -1,28 +1,26 @@
 button {
-	border: 0;
-	background-color: transparent;
-	color: $Mgray4;
-	padding: 0px;
-	margin: 0px;
-	cursor: pointer;
+    border: 0;
+    background-color: transparent;
+    color: $Mgray4;
+    padding: 0px;
+    margin: 0px;
+    cursor: pointer;
 
-	&:hover {
-		background-color: $Mbgr4;
-	}
+    &:hover {
+        background-color: $Mbgr4;
+    }
 }
 
 form > * {
-  display: block;
-  // width: 200px;
-  margin: 10px 0px;
+    display: block;
+    margin: 10px 0px;
 }
 
 .btn-link {
-  border: 0;
-  background-color: transparent;
-  // text-decoration: underline;
-  transition: 0.5s;
+    border: 0;
+    background-color: transparent;
+    transition: 0.5s;
 }
 .btn-link:hover {
-	background-color: $Mbgr4;
+    background-color: $Mbgr4;
 }
