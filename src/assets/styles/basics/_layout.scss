@@ -50,8 +50,10 @@
         left: -10px;
     }
 
-    .board-details .board-details-header .board-details-edit span button {
-        font-size: 1em;
+    .board-details .board-details-header .board-details-edit span button .board-title {
+        font-size: 1.4em;
+        font-weight: 600;
+        margin: 0;
     }
 }
 @media (min-width: 740px) {
@@ -64,8 +66,18 @@
     .add-task-row {
         display: none;
     }
+    .board-details .board-details-header .board-details-edit span button .board-title {
+        font-size: 1.5em;
+        margin: 0;
+        font-weight: 600;
+    }
 }
 @media (min-width: 940px) {
+    .board-details .board-details-header .board-details-edit span button .board-title {
+        font-size: 1.875em;
+        margin: 0;
+        font-weight: 600;
+    }
     .task-row-title {
         max-width: 210px;
     }

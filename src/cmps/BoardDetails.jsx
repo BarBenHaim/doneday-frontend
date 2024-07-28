@@ -171,7 +171,7 @@ export function BoardDetails() {
                                 rightIcon={NavigationChevronDown}
                                 zIndex={4}
                             >
-                                {currBoard.title}
+                                <span className='board-title'>{currBoard.title}</span>
                             </Button>
                         </Dialog>
 
