@@ -107,7 +107,7 @@ const getResponsiveWidths = () => {
         files: width <= 480 ? '80px' : width <= 768 ? '100px' : '140px',
         description: width <= 480 ? '150px' : width <= 768 ? '200px' : '300px',
         checklists: width <= 480 ? '100px' : width <= 768 ? '150px' : '200px',
-        recording: width <= 480 ? '100px' : width <= 768 ? '150px' : '200px',
+        recording: width <= 480 ? '100px' : width <= 768 ? '100px' : '120px',
     }
 
     const allKeys = Object.keys(baseWidths)
