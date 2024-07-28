@@ -6,26 +6,26 @@ import { Search } from 'monday-ui-react-core/next'
 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import {
-    MenuItem,
-    Menu,
-    MenuDivider,
-    DialogContentContainer,
-    SplitButton,
-    SplitButtonMenu,
-    MenuTitle,
-    MenuItemButton,
-    Dialog,
-    Button,
-    IconButton,
+  MenuItem,
+  Menu,
+  MenuDivider,
+  DialogContentContainer,
+  SplitButton,
+  SplitButtonMenu,
+  MenuTitle,
+  MenuItemButton,
+  Dialog,
+  Button,
+  IconButton,
 } from 'monday-ui-react-core'
 import {
-    Favorite,
-    Home,
-    NavigationChevronDown,
-    NavigationChevronUp,
-    DropdownChevronDown,
-    Board,
-    Add,
+  Favorite,
+  Home,
+  NavigationChevronDown,
+  NavigationChevronUp,
+  DropdownChevronDown,
+  Board,
+  Add,
 } from 'monday-ui-react-core/icons'
 
 import { AddBoard } from './AddBoard'
@@ -47,9 +47,9 @@ export function Sidebar() {
         navigate(route)
     }
 
-    function toggleCollapse() {
-        setIsCollapsed(!isCollapsed)
-    }
+  function toggleCollapse() {
+    setIsCollapsed(!isCollapsed)
+  }
 
     function toggleAddBoard() {
         setIsAddBoardModalOpen(!isAddBoardModalOpen)
@@ -142,7 +142,9 @@ export function Sidebar() {
                 </Menu>
             </DialogContentContainer>
 
-            {isAddBoardModalOpen && <AddBoard isOpen={isAddBoardModalOpen} onClose={toggleAddBoard} />}
-        </div>
-    )
+      {isAddBoardModalOpen && (
+        <AddBoard isOpen={isAddBoardModalOpen} onClose={toggleAddBoard} />
+      )}
+    </div>
+  )
 }

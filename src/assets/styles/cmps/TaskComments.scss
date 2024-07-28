@@ -20,8 +20,6 @@
     position: fixed;
     right: -570px;
     top: 3.5rem;
-    width: 570px;
-    height: 100%;
     z-index: 10;
     background-color: whitesmoke;
     transition: right 0.3s ease;
@@ -45,6 +43,10 @@
         padding-block-start: 30px;
         border-bottom: 1px solid #e0e0e0;
     }
+    .tabs-container {
+        margin-left: 27px;
+        padding: 0;
+    }
 }
 
 .task-title {
@@ -65,11 +67,6 @@
 
 .close-btn:hover {
     background-color: #67687973;
-}
-
-.tabs-container {
-    margin-left: 27px;
-    padding: 0;
 }
 
 .tab-title {
@@ -148,6 +145,8 @@
 .comments-section {
     width: 100%;
     margin: 10px 0;
+    max-height: 600px;
+    overflow: auto;
 }
 
 .comments-list {
@@ -157,7 +156,6 @@
 }
 
 .comment-item {
-    width: 700px;
     display: flex;
     align-items: flex-start;
     text-align: start;

@@ -1,10 +1,15 @@
 import { Avatar, TextArea } from 'monday-ui-react-core'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import moment from 'moment'
 
-export function UpdatedComments({ task, members, onUpdateField }) {
+export function UpdatedComments({ task, byMember, onUpdateField }) {
     const [isUpdateBtn, setUpdateBtn] = useState(false)
     const [newComment, setNewComment] = useState('')
+    const [updatedComments, setUpdatedComments] = useState(task.comments || [])
+
+    useEffect(() => {
+        setUpdatedComments(task.comments || [])
+    }, [task.comments])
 
     const handleUpdateTextChange = e => {
         setUpdateBtn(true)
@@ -17,12 +22,12 @@ export function UpdatedComments({ task, members, onUpdateField }) {
                 _id: Date.now().toString(),
                 title: newComment,
                 createdAt: Date.now(),
-                memberId: members && members.length > 0 ? members[0]._id : null,
-                fullName: members && members.length > 0 ? members[0].fullName : 'Guest',
+                byMember: byMember || { _id: null, fullname: 'Guest' },
             }
 
-            const updatedComments = [...(task.comments || []), newCommentObject]
-            onUpdateField(task, 'comments', updatedComments)
+            const newComments = [newCommentObject, ...updatedComments]
+            setUpdatedComments(newComments)
+            onUpdateField(task, 'comments', newComments)
             setNewComment('')
             setUpdateBtn(false)
         }
@@ -44,7 +49,7 @@ export function UpdatedComments({ task, members, onUpdateField }) {
                     </button>
                 )}
             </div>
-            {(task.comments || []).length === 0 ? (
+            {updatedComments.length === 0 ? (
                 <div className='no-comments'>
                     <img
                         className='no-update-img'
@@ -60,10 +65,10 @@ export function UpdatedComments({ task, members, onUpdateField }) {
             ) : (
                 <div className='comments-section'>
                     <ul className='comments-list'>
-                        {task.comments.map(comment => (
+                        {updatedComments.map(comment => (
                             <li key={comment._id} className='comment-item'>
                                 <Avatar
-                                    aria-label={comment.fullName}
+                                    aria-label={comment.byMember.fullName}
                                     size={Avatar.sizes.MEDIUM}
                                     src={comment.byMember?.imgUrl}
                                     type={Avatar.types.IMG}
@@ -72,7 +77,7 @@ export function UpdatedComments({ task, members, onUpdateField }) {
                                 />
                                 <div className='comment-body'>
                                     <div className='comment-header'>
-                                        <span className='comment-author'>{comment.fullName || 'Guest'}</span>
+                                        <span className='comment-author'>{comment.byMember.fullName || 'Guest'}</span>
                                         <span className='comment-time'>{moment(comment.createdAt).fromNow()}</span>
                                     </div>
                                     <p className='comment-text'>{comment.title}</p>
