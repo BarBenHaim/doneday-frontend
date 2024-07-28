@@ -1,7 +1,6 @@
 import { Avatar, Button, TextArea } from 'monday-ui-react-core'
 import { useState } from 'react'
 import moment from 'moment'
-import { useSelector } from 'react-redux'
 
 export function UpdatedComments({ task, members, onUpdateField }) {
     const [isUpdateBtn, setUpdateBtn] = useState(false)
@@ -13,6 +12,7 @@ export function UpdatedComments({ task, members, onUpdateField }) {
     }
 
     const handleAddComment = () => {
+        alert(members)
         if (newComment.trim() !== '') {
             const newCommentObject = {
                 _id: Date.now().toString(),
