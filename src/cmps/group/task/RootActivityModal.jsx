@@ -10,6 +10,7 @@ export const RootActivityModal = () => {
     const activeTask = useSelector(state => state.boardModule.activeTask)
     const [currBoard, setCurrBoard] = useState(null)
     const [currGroup, setCurrGroup] = useState(null)
+    const loggedinUser = useSelector(storeState => storeState.userModule.user)
 
     const dispatch = useDispatch()
 
@@ -45,6 +46,7 @@ export const RootActivityModal = () => {
 
         try {
             await updateTask(currBoard._id, currGroup._id, updatedTask._id, updatedTask)
+            console.log("updateTask", updateTask)
             showSuccessMsg('Task updated successfully')
         } catch (err) {
             showErrorMsg('Cannot update task')
@@ -63,7 +65,9 @@ export const RootActivityModal = () => {
         <div className={`root-activity-modal ${isModalOpen ? 'open' : 'close'}`}>
             <ActivityModal
                 task={activeTask}
-                byMember={activeTask ? activeTask.byMember : {}}
+                boardId={currBoard ? currBoard._id : null}
+                groupId={currGroup ? currGroup._id : null}
+                loggedinUser={loggedinUser}
                 onUpdateField={onUpdateField}
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}

@@ -5,7 +5,7 @@ import { ActivityLog } from './Comments/ActivityLog'
 import { UpdatedComments } from './Comments/UpdateComments'
 import { FilesCmp } from './Comments/FilesCmp'
 
-export function ActivityModal({ task, byMember, onUpdateField, isOpen, onClose, initialTab = 0 }) {
+export function ActivityModal({ task,  boardId, groupId, loggedinUser, onUpdateField, isOpen, onClose, initialTab = 0 }) {
     const [activeTabIndex, setActiveTabIndex] = useState(initialTab)
     const [isClosing, setIsClosing] = useState(false)
 
@@ -45,7 +45,7 @@ export function ActivityModal({ task, byMember, onUpdateField, isOpen, onClose, 
                 </TabList>
                 <div className='tab-content'>
                     {activeTabIndex === 0 && (
-                        <UpdatedComments task={task} onUpdateField={onUpdateField} byMember={byMember} />
+                        <UpdatedComments task={task} boardId={boardId} groupId={groupId} onUpdateField={onUpdateField} loggedinUser={loggedinUser} />
                     )}
                     {activeTabIndex === 1 && <FilesCmp />}
                     {activeTabIndex === 2 && <ActivityLog />}
