@@ -1,7 +1,8 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Search } from 'monday-ui-react-core/next'
 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import {
@@ -30,12 +31,17 @@ import {
 import { AddBoard } from './AddBoard'
 
 export function Sidebar() {
-    const navigate = useNavigate()
+    const boards = useSelector((storeState) => storeState.boardModule.boards)
     const [isCollapsed, setIsCollapsed] = useState(false)
     const [isAddBoardModalOpen, setIsAddBoardModalOpen] = useState(false)
-    const boards = useSelector(storeState => storeState.boardModule.boards)
-    const starredBoards = boards.filter(board => board.isStarred)
-    const boardLabel = boards.filter(board => board.label)
+    const [filteredBoards, setFilteredBoards] = useState([])
+    const starredBoards = boards.filter((board) => board.isStarred)
+    // const boardLabel = boards.filter((board) => board.label)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        setFilteredBoards(boards)
+    }, [boards])
 
     function handleOnClick(route) {
         navigate(route)
@@ -47,6 +53,18 @@ export function Sidebar() {
 
     function toggleAddBoard() {
         setIsAddBoardModalOpen(!isAddBoardModalOpen)
+    }
+
+    function handleSearchClick({ target }) {
+        const value = target.value.toLowerCase()
+        console.log('Search input value:', value)
+
+        if (value.trim() === '') {
+            setFilteredBoards(boards)
+        } else {
+            const filtered = boards.filter((board) => board.title.toLowerCase().includes(value))
+            setFilteredBoards(filtered)
+        }
     }
 
     return (
@@ -64,7 +82,7 @@ export function Sidebar() {
                         }
                     />
                     {!isCollapsed &&
-                        starredBoards.map(board => (
+                        starredBoards.map((board) => (
                             <MenuItem
                                 icon={Board}
                                 key={board._id}
@@ -74,43 +92,49 @@ export function Sidebar() {
                         ))}
                     <MenuDivider />
                 </Menu>
-                <div className='add-button-dialog'>
-                    <Dialog
-                        content={
-                            <DialogContentContainer>
-                                <Menu>
-                                    <MenuTitle caption='Add new' />
-                                    <MenuItem icon={Board} title='Board' splitMenuItem>
-                                        <Menu>
-                                            <MenuItem icon={Board} title='New Board' onClick={toggleAddBoard} />
-                                        </Menu>
-                                    </MenuItem>
-                                </Menu>
-                            </DialogContentContainer>
-                        }
-                        hideTrigger={['clickoutside', 'onContentClick']}
-                        isOpen
-                        modifiers={[
-                            {
-                                name: 'preventOverflow',
-                                options: {
-                                    mainAxis: false,
+                <div className='menu-title'>
+                    <MenuTitle caption='Main workspace' captionPosition='top' type='text2' weight='bold' />
+                </div>
+                <div className='sidebar-search-add-container'>
+                    <div className='search-container'>
+                        <Search placeholder='Search' size='medium' onChange={handleSearchClick} />
+                    </div>
+                    <div className='add-button-dialog'>
+                        <Dialog
+                            content={
+                                <DialogContentContainer>
+                                    <Menu>
+                                        <MenuTitle caption='Add new' />
+                                        <MenuItem icon={Board} title='New Board' onClick={toggleAddBoard} />
+                                        {/* <MenuItem icon={Board} title='Board' splitMenuItem>
+                                            <Menu>
+                                                <MenuItem icon={Board} title='New Board' onClick={toggleAddBoard} />
+                                            </Menu>
+                                        </MenuItem> */}
+                                    </Menu>
+                                </DialogContentContainer>
+                            }
+                            hideTrigger={['clickoutside', 'onContentClick']}
+                            isOpen
+                            modifiers={[
+                                {
+                                    name: 'preventOverflow',
+                                    options: {
+                                        mainAxis: false,
+                                    },
                                 },
-                            },
-                        ]}
-                        position='left-start'
-                        showTrigger={['click']}
-                    >
-                        <IconButton icon={Add} kind='primary' />
-                    </Dialog>
+                            ]}
+                            position='right-start'
+                            showTrigger={['click']}>
+                            <IconButton icon={Add} kind='primary' />
+                        </Dialog>
+                    </div>
                 </div>
                 <Menu>
-                    <MenuDivider />
-                    <MenuTitle caption='Main workspace' captionPosition='top' />
-                    {boardLabel.map(board => (
+                    {filteredBoards.map((board) => (
                         <MenuItem
                             icon={Board}
-                            key={board._id}
+                            key={board._id} // Ensure _id is unique and stable
                             title={board.title}
                             onClick={() => handleOnClick(`/board/${board._id}`)}
                         />

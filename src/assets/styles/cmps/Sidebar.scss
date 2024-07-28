@@ -1,10 +1,29 @@
 
 
 .sidebar{
+
+  .sidebar-search-add-container{
+    display: flex;
+    align-items: center;
+    margin-top: 4px;
+
+
+    .search-container {
+      flex-grow: 1; 
+      margin-right: 6px; 
+      margin-left: 5px;
+      
+    }
     .add-button-dialog {
         display: flex;
         justify-content: flex-end;
         margin-inline-end: 12px;
       }
+  }
+
+  .titleCaption_001c72b8cd{
+    font: var(--font-text1-bold);
+    margin-bottom: 4px;
+  }
 }
 
