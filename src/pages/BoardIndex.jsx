@@ -41,7 +41,7 @@ export function BoardIndex() {
 
     return (
         <section className='board-index'>
-            <DialogContentContainer size='large' type='modal' className='border-index-body'>
+            <DialogContentContainer size='large' type='modal' className='border-index-body' style={{ display: "flex", flexGrow: "1", flexDirection: "column"}}>
                 {/* <GroupFilter
         filterBy={groupTaskFilterBy}
         setFilterBy={handleSetFilterBy}

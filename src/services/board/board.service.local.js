@@ -91,13 +91,13 @@ async function toggleStarred(boardId) {
   }
 }
 
-function getEmptyGroup(title = '') {
+function getEmptyGroup(title = '', style = {}, tasks = []) {
   return {
     _id: makeId(),
     title,
     archivedAt: null,
-    style: {},
-    tasks: [],
+    style,
+    tasks,
   }
 }
 
@@ -189,17 +189,6 @@ async function removeTask(boardId, groupId, taskId) {
   return removedTask
 }
 
-function getEmptyBoard(title = '', label = '') {
-  return {
-    _id: makeId(),
-    title,
-    // createdBy,
-    label,
-    members: [],
-    groups: [],
-    activities: [],
-  }
-}
 
 async function addBoard(boardTitle, boardLabel) {
   const board = _createBoardDemo(boardTitle, boardLabel)
@@ -207,27 +196,50 @@ async function addBoard(boardTitle, boardLabel) {
   return board
 }
 
-function _createBoardDemo(title, label) {
-  const member1 = createMember(
-    'Ariella Melnikov',
-    'https://res.cloudinary.com/dkykllpf5/image/upload/v1721649934/jzacprnumxyqpj1w0xah.jpg'
-  )
-  const task1 = createTask(label + ' 1')
-  const task2 = createTask(label + ' 2')
-  const task3 = createTask(label + ' 3')
-  const task4 = createTask(label + ' 4')
-  const task5 = createTask(label + ' 5')
+function _createBoardDemo(boardTitle, boardLabel) {
+  const task1 = _createTask(boardLabel + ' 1', {status: "Done", priority: "High" })
+  const task2 = _createTask(boardLabel + ' 2', {status: "Working on it", priority: "Medium" } )
+  const task3 = _createTask(boardLabel + ' 3' )
+  const task4 = _createTask(boardLabel + ' 4' )
+  const task5 = _createTask(boardLabel + ' 5' )
 
-  const board = createBoard(
-    title,
-    member1,
-    label,
-    [member1],
-    [
-      createGroup('Group Title', [task1, task2, task3]),
-      createGroup('Group Title', [task4, task5]),
-    ]
-  )
+  return {
+      title:boardTitle,
+      description:'Manage any type of project. Assign owners, set timelines and keep track of where your project stands.',
+      isStarred: false,
+      archivedAt: null,
+      // createdBy,
+      label:boardLabel,
+      members: [],
+      groups: [getEmptyGroup('Group Title',{backgroundColor: '#579bfc'}, [task1, task2, task3]), getEmptyGroup('Group Title',{backgroundColor: '#a25ddc'}, [task4, task5], )],
+      activities: [],
+      cmpsOrder: [
+          "checkbox",
+          "title",
+          "description",
+          "priority",
+          "dueDate",
+          "memberIds",
+          "status",
+          "files"
+      ]
+  }
+}
 
-  return board
+
+export function _createTask(title, options = {}) {
+  return {
+      _id: makeId(),
+      title,
+      archivedAt: options.archivedAt || null,
+      status: options.status || 'Not Started',
+      priority: options.priority ||'Low',
+      dueDate: options.dueDate || null,
+      description: options.description || null,
+      comments: options.comments || [],
+      checklists: options.checklists || [],
+      memberIds: options.memberIds || [],
+      byMember: options.byMember || null,
+      style: options.style || {},
+  }
 }

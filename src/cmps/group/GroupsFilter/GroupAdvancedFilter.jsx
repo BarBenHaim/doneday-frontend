@@ -12,7 +12,6 @@ export function GroupAdvancedFilter({ setFilterBy }) {
   )
   const groups = currBoard.groups || []
   const tasks = groups.flatMap((group) => group.tasks || [])
-  console.log(tasks[0].comments)
 
   const [isFilterActive, setFilterisActive] = useState(false)
   const [selectedColumn, setSelectedColumn] = useState([])
