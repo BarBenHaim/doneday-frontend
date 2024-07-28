@@ -63,7 +63,7 @@ export const RootActivityModal = () => {
         <div className={`root-activity-modal ${isModalOpen ? 'open' : 'close'}`}>
             <ActivityModal
                 task={activeTask}
-                members={activeTask ? activeTask.members : []}
+                byMember={activeTask ? activeTask.byMember : {}}
                 onUpdateField={onUpdateField}
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}

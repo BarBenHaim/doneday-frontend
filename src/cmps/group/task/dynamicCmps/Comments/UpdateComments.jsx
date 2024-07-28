@@ -2,7 +2,7 @@ import { Avatar, TextArea } from 'monday-ui-react-core'
 import { useState, useEffect } from 'react'
 import moment from 'moment'
 
-export function UpdatedComments({ task, members, onUpdateField }) {
+export function UpdatedComments({ task, byMember, onUpdateField }) {
     const [isUpdateBtn, setUpdateBtn] = useState(false)
     const [newComment, setNewComment] = useState('')
     const [updatedComments, setUpdatedComments] = useState(task.comments || [])
@@ -22,11 +22,10 @@ export function UpdatedComments({ task, members, onUpdateField }) {
                 _id: Date.now().toString(),
                 title: newComment,
                 createdAt: Date.now(),
-                memberId: members && members.length > 0 ? members[0]._id : null,
-                fullName: members && members.length > 0 ? members[0].fullname : 'Guest',
+                byMember: byMember || { _id: null, fullName: 'Guest' },
             }
 
-            const newComments = [...updatedComments, newCommentObject]
+            const newComments = [newCommentObject, ...updatedComments]
             setUpdatedComments(newComments)
             onUpdateField(task, 'comments', newComments)
             setNewComment('')
@@ -69,7 +68,7 @@ export function UpdatedComments({ task, members, onUpdateField }) {
                         {updatedComments.map(comment => (
                             <li key={comment._id} className='comment-item'>
                                 <Avatar
-                                    aria-label={comment.fullName}
+                                    aria-label={comment.byMember.fullName}
                                     size={Avatar.sizes.MEDIUM}
                                     src={comment.byMember?.imgUrl}
                                     type={Avatar.types.IMG}
@@ -78,7 +77,7 @@ export function UpdatedComments({ task, members, onUpdateField }) {
                                 />
                                 <div className='comment-body'>
                                     <div className='comment-header'>
-                                        <span className='comment-author'>{comment.fullName || 'Guest'}</span>
+                                        <span className='comment-author'>{comment.byMember.fullName || 'Guest'}</span>
                                         <span className='comment-time'>{moment(comment.createdAt).fromNow()}</span>
                                     </div>
                                     <p className='comment-text'>{comment.title}</p>
