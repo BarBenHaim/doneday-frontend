@@ -7,42 +7,40 @@ export function UpdatedComments({ task, boardId, groupId, loggedinUser, onUpdate
     const [isUpdateBtn, setUpdateBtn] = useState(false)
     const [newComment, setNewComment] = useState('')
     const [updatedComments, setUpdatedComments] = useState(task.comments || [])
+    const [editCommentId, setEditCommentId] = useState(null)
+    const [editedText, setEditedText] = useState('')
 
     useEffect(() => {
         setUpdatedComments(task.comments || [])
     }, [task.comments])
-
-    console.log('loggedinUser UpdatedComments', loggedinUser)
 
     const handleUpdateTextChange = (e) => {
         setUpdateBtn(true)
         setNewComment(e.target.value)
     }
 
+    const handleEditedTextChange = (e) => {
+        setEditedText(e.target.value)
+    }
+
     const handleAddComment = async () => {
         if (newComment.trim() !== '') {
             const newCommentObject = {
-                // _id: Date.now().toString(),
-                txt: newComment,
+                title: newComment,
                 createdAt: Date.now(),
                 byMember: {
                     _id: loggedinUser._id,
                     fullname: loggedinUser.fullname,
                     imgUrl: loggedinUser.imgUrl,
-                } || { _id: null, fullname: 'Guest' },
+                },
             }
-
-            console.log('newCommentObject UpdatedComments', newCommentObject)
-
-            // const newComments = [newCommentObject, ...updatedComments]
-            // setUpdatedComments(newComments)
-            // onUpdateField(task, 'comments', newComments)
-            // setNewComment('')
-            // setUpdateBtn(false)
-
+            console.log('newCommentObject', newCommentObject)
             try {
                 const savedComment = await boardService.addComment(boardId, groupId, task._id, newCommentObject)
+                console.log('savedComment', savedComment)
+
                 const newComments = [savedComment, ...updatedComments]
+
                 setUpdatedComments(newComments)
                 onUpdateField(task, 'comments', newComments)
                 setNewComment('')
@@ -52,6 +50,7 @@ export function UpdatedComments({ task, boardId, groupId, loggedinUser, onUpdate
             }
         }
     }
+
     const handleDeleteComment = async (commentId) => {
         try {
             await boardService.deleteComment(boardId, groupId, task._id, commentId)
@@ -66,37 +65,40 @@ export function UpdatedComments({ task, boardId, groupId, loggedinUser, onUpdate
     const handleUpdateComment = async (commentId, updatedText) => {
         try {
             const updatedComment = await boardService.updateComment(boardId, groupId, task._id, commentId, {
-                txt: updatedText,
+                title: updatedText,
             })
-            const newComments = updatedComments.map((comment) => (comment.id === commentId ? updatedComment : comment))
+            const newComments = updatedComments.map((comment) => (comment._id === commentId ? updatedComment : comment))
             setUpdatedComments(newComments)
             onUpdateField(task, 'comments', newComments)
+            setEditCommentId(null)
         } catch (err) {
             console.error('Failed to update comment', err)
         }
     }
 
-    const processedComments = updatedComments.map((comment) => {
-        const byMember = comment.byMember || { fullname: 'Guest', imgUrl: '', _id: null };
-        console.log("processedComments byMember", byMember)
-        return {
-            ...comment,
-            byMember,
-        };
-    });
+    const startEditingComment = (commentId, text) => {
+        setEditCommentId(commentId)
+        setEditedText(text)
+    }
 
+    const processedComments = updatedComments.map((comments) => {
+        // console.log('processedComments', comments)
+        return {
+            ...comments,
+        }
+    })
     return (
         <div className='update-container'>
             <div className='text-area-update'>
                 <TextArea
                     aria-label='Write an update...'
-                    rows={1}
+                    rows={3}
                     className='text-area'
                     value={newComment}
                     onChange={handleUpdateTextChange}
                 />
                 {isUpdateBtn && (
-                    <button className='update-btn' onClick={handleAddComment}>
+                    <button className='update-btn' onClick={() => handleAddComment(newComment)}>
                         Update
                     </button>
                 )}
@@ -118,31 +120,56 @@ export function UpdatedComments({ task, boardId, groupId, loggedinUser, onUpdate
                 <div className='comments-section'>
                     <ul className='comments-list'>
                         {processedComments.map((comment) => (
-                            <li key={comment._id} className='comment-item'>
-                                <Avatar
-                                    aria-label={comment.byMember.fullname}
-                                    size={Avatar.sizes.MEDIUM}
-                                    src={comment.byMember?.imgUrl}
-                                    type={Avatar.types.IMG}
-                                    className='custom-avatar'
-                                    aria-hidden='true'
-                                />
-                                <div className='comment-body'>
-                                    <div className='comment-header'>
-                                        <span className='comment-author'>{comment.byMember.fullname || 'Guest'}</span>
-                                        <span className='comment-time'>{moment(comment.createdAt).fromNow()}</span>
-                                        {loggedinUser._id === comment.byMember._id && (
-                                            <div className='comment-actions'>
-                                                <button onClick={() => handleDeleteComment(comment._id)}>Delete</button>
-                                                <button onClick={() => handleUpdateComment(comment._id, 'Updated Text')}>
-                                                    Edit
-                                                </button>
-                                            </div>
+                            <div className='comment-container'>
+                                <li key={comment._id} className='comment-item'>
+                                    <Avatar
+                                        ariaLabel={comment.byMember.fullname}
+                                        size={Avatar.sizes.MEDIUM}
+                                        src={comment.byMember.imgUrl}
+                                        type={Avatar.types.IMG}
+                                        className='custom-avatar'
+                                        aria-hidden='true'
+                                        tabIndex={2}
+                                    />
+                                    <div className='comment-body'>
+                                        <div className='comment-header'>
+                                            <span className='comment-author'>
+                                                {comment.byMember.fullname || 'Guest'}
+                                            </span>
+                                            <span className='comment-time'>{moment(comment.createdAt).fromNow()}</span>
+                                            {loggedinUser._id === comment.byMember._id && (
+                                                <div className='comment-actions'>
+                                                    <button onClick={() => handleDeleteComment(comment._id)}>
+                                                        Delete
+                                                    </button>
+                                                    <button
+                                                        onClick={() => startEditingComment(comment._id, comment.title)}>
+                                                        Edit
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+                                        {editCommentId === comment._id ? (
+                                            <TextArea
+                                                aria-label='Edit comment'
+                                                rows={3}
+                                                className='text-area'
+                                                value={editedText}
+                                                onChange={handleEditedTextChange}
+                                            />
+                                        ) : (
+                                            <p className='comment-text'>{comment.title}</p>
+                                        )}
+                                        {editCommentId === comment._id && (
+                                            <button
+                                                className='update-btn'
+                                                onClick={() => handleUpdateComment(comment._id, editedText)}>
+                                                Save
+                                            </button>
                                         )}
                                     </div>
-                                    <p className='comment-text'>{comment.txt}</p>
-                                </div>
-                            </li>
+                                </li>
+                            </div>
                         ))}
                     </ul>
                 </div>
