@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { showErrorMsg, showSuccessMsg } from '../../services/event-bus.service'
-import { addGroup, addTask } from '../../store/actions/board.action'
+import { addGroup, addTask, getEmptyTask } from '../../store/actions/board.action'
 import { Night } from 'monday-ui-react-core/icons'
 export function AiAssistant({ boardId }) {
     const [taskList, setTaskList] = useState([])
@@ -32,7 +32,7 @@ export function AiAssistant({ boardId }) {
 
             for (let i = 0; i < numberOfTasks; i++) {
                 const taskTitle = `Task ${i + 1}`
-                addTaskPromises.push(addTask(boardId, groupId, { title: taskTitle }))
+                addTaskPromises.push(addTask(boardId, groupId, getEmptyTask(), taskTitle))
             }
 
             const addedTasks = await Promise.all(addTaskPromises)
@@ -102,7 +102,7 @@ export function AiAssistant({ boardId }) {
 
             onAddGroupsWithTasks(boardId, groupsNum, tasksNum)
         } else {
-            showErrorMsg('Voice command not recognized. Please say "make me X groups with Y tasks"')
+            showErrorMsg('Please say "make me X groups with Y tasks"')
         }
     }
 

@@ -10,6 +10,7 @@ import { KanbanColumn } from './KanbanColumn'
 import GroupPreview from './GroupPreview'
 import { Dashboard } from '../../pages/Dashboard'
 import { AiAssistant } from './AiAssistant.jsx'
+import TasksBuilder from './TasksBuilder.jsx'
 
 const initialStatuses = ['Not Started', 'Working on it', 'Stuck', 'Done', 'Important']
 
