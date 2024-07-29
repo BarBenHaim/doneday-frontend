@@ -9,6 +9,7 @@ import { Add } from 'monday-ui-react-core/icons'
 import { KanbanColumn } from './KanbanColumn'
 import GroupPreview from './GroupPreview'
 import { Dashboard } from '../../pages/Dashboard'
+import { AiAssistant } from './AiAssistant.jsx'
 
 const initialStatuses = ['Not Started', 'Working on it', 'Stuck', 'Done', 'Important']
 
@@ -20,7 +21,6 @@ export function GroupList({ boardsToDisplay, view }) {
             </section>
         )
     }
-
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
     const [collapsedStates, setCollapsedStates] = useState({})
@@ -247,6 +247,7 @@ export function GroupList({ boardsToDisplay, view }) {
                     </div>
                 </Button>
             </DragDropContext>
+            <AiAssistant boardId={boardId} />
         </section>
     )
 }
