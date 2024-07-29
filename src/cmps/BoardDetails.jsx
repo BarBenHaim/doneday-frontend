@@ -96,7 +96,7 @@ export function BoardDetails() {
 
   async function handleToggleStarred() {
     try {
-      await toggleStarredBoard(currBoard._id)
+      await toggleStarredBoard(currBoard)
       setIsStarredBoard((isStarredBoard) => !isStarredBoard)
       onUpdateField(currBoard, 'isStarred', !currBoard.isStarred)
     } catch (err) {

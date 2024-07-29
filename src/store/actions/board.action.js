@@ -204,10 +204,10 @@ export async function removeTask(boardId, groupId, taskId) {
   }
 }
 
-export async function toggleStarredBoard(boardId) {
+export async function toggleStarredBoard( board) {
   try {
-    store.dispatch(getCmdToggleStarredBoard(boardId))
-    const updatedBoard = await boardService.toggleStarred(boardId)
+    store.dispatch(getCmdToggleStarredBoard( board))
+    const updatedBoard = await boardService.updateBoard(board)
     store.dispatch(getCmdToggleStarredBoard(updatedBoard))
     return updatedBoard
   } catch (err) {
@@ -354,8 +354,8 @@ function getCmdRemoveTask(boardId, groupId, taskId) {
 //     }
 // }
 
-export function getCmdToggleStarredBoard(boardId) {
-  return { type: TOGGLE_STARRED_BOARD, boardId }
+export function getCmdToggleStarredBoard( board) {
+  return { type: TOGGLE_STARRED_BOARD, board} 
 }
 
 export function getCmdRevertBoard() {

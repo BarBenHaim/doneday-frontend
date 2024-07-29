@@ -15,7 +15,6 @@ export const boardService = {
     addTaskBottom,
     updateTask,
     removeTask,
-    toggleStarred,
     updateBoard,
     getComments,
     addComment,
@@ -83,9 +82,9 @@ async function removeTask(boardId, groupId, taskId) {
     return httpService.delete(`board/${boardId}/${groupId}/${taskId}`)
 }
 
-async function toggleStarred(boardId) {
-    return httpService.post(`board/${boardId}/toggle-starred`)
-}
+// async function toggleStarred(boardId) {
+//     return httpService.put(`board/${boardId}/toggle-starred`)
+// }
 
 async function getComments(boardId, groupId, taskId) {
     return httpService.get(`board/${boardId}/${groupId}/${taskId}/comment`)
