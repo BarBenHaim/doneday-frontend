@@ -1,0 +1,14 @@
+.board-builder-container {
+    width: max-content;
+    margin: 10px auto;
+    padding: 0 5px;
+    gap: 2px;
+    border: 1px solid grey;
+    * {
+        font-family: $font-family-primary;
+    }
+    input {
+        border: none;
+        border-radius: 5px;
+    }
+}

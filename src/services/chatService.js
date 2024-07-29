@@ -49,7 +49,7 @@ Example JSON:
             {
                 model: 'gpt-3.5-turbo-instruct',
                 prompt: prompt,
-                max_tokens: 1000,
+                max_tokens: 1500,
                 temperature: 0.7,
                 n: 1,
             },
