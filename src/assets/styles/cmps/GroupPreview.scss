@@ -35,12 +35,12 @@
 .group-header {
     background: white;
     position: sticky;
-    top: 0;
+    top: -4px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: auto;
-    padding-block-end: 10px;
+    padding-block-start: 10px;
     z-index: 3;
     width: 2000px;
 
