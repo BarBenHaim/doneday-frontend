@@ -1,30 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { showErrorMsg, showSuccessMsg } from '../../services/event-bus.service'
-import { addGroup } from '../../store/actions/board.action'
-import { useSelector, useDispatch } from 'react-redux'
+import { addGroup, addTask } from '../../store/actions/board.action'
 
 export function AiAssistant({ boardId }) {
-    const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
+    const [taskList, setTaskList] = useState([])
 
-    async function onAddTasks(numberOfTasks, groupId) {
-        try {
-            const addTaskPromises = []
-
-            for (let i = 0; i < numberOfTasks; i++) {
-                const taskTitle = `Task ${i + 1}`
-                addTaskPromises.push(dispatch(addTask(boardId, groupId, { title: taskTitle })))
-            }
-
-            const addedTasks = await Promise.all(addTaskPromises)
-            setTaskList([...taskList, ...addedTasks])
-            showSuccessMsg(`${numberOfTasks} tasks added successfully`)
-        } catch (err) {
-            showErrorMsg('Cannot add tasks')
-            console.error(err)
-        }
-    }
-
-    async function onAddGroups(boardId, numberOfGroups) {
+    async function onAddGroupsWithTasks(boardId, numberOfGroups, numberOfTasks) {
         try {
             const addGroupPromises = []
 
@@ -33,10 +14,33 @@ export function AiAssistant({ boardId }) {
                 addGroupPromises.push(addGroup(boardId, groupTitle))
             }
 
-            await Promise.all(addGroupPromises)
-            showSuccessMsg(`${numberOfGroups} groups added successfully`)
+            const newGroups = await Promise.all(addGroupPromises)
+            for (let i = 0; i < newGroups.length; i++) {
+                await onAddTasks(numberOfTasks, newGroups[i]._id)
+            }
+
+            showSuccessMsg(`${numberOfGroups} groups with ${numberOfTasks} tasks each added successfully`)
         } catch (err) {
-            showErrorMsg('Cannot add groups')
+            showErrorMsg('Cannot add groups with tasks')
+            console.error(err)
+        }
+    }
+
+    async function onAddTasks(numberOfTasks, groupId) {
+        try {
+            const addTaskPromises = []
+
+            for (let i = 0; i < numberOfTasks; i++) {
+                const taskTitle = `Task ${i + 1}`
+                addTaskPromises.push(addTask(boardId, groupId, { title: taskTitle }))
+            }
+
+            const addedTasks = await Promise.all(addTaskPromises)
+            setTaskList(prevTaskList => [...prevTaskList, ...addedTasks])
+            showSuccessMsg(`${numberOfTasks} tasks added successfully`)
+        } catch (err) {
+            showErrorMsg('Cannot add tasks')
+            console.error(err)
         }
     }
 
@@ -53,6 +57,7 @@ export function AiAssistant({ boardId }) {
     useEffect(() => {
         recognition.onresult = event => {
             const speechResult = event.results[0][0].transcript
+            alert(`You said: ${speechResult}`)
             handleCommand(speechResult)
         }
 
@@ -75,17 +80,29 @@ export function AiAssistant({ boardId }) {
             ten: 10,
         }
 
-        const commandMatch = command.match(/make me (\d+|one|two|three|four|five|six|seven|eight|nine|ten) groups?/i)
+        const commandMatch = command.match(
+            /make me (\d+|one|two|three|four|five|six|seven|eight|nine|ten) groups? with (\d+|one|two|three|four|five|six|seven|eight|nine|ten) tasks?/i
+        )
+
         if (commandMatch) {
             let groupsNum = commandMatch[1]
+            let tasksNum = commandMatch[2]
+
             if (isNaN(groupsNum)) {
                 groupsNum = numberWords[groupsNum.toLowerCase()]
             } else {
                 groupsNum = parseInt(groupsNum)
             }
-            onAddGroups(boardId, groupsNum)
+
+            if (isNaN(tasksNum)) {
+                tasksNum = numberWords[tasksNum.toLowerCase()]
+            } else {
+                tasksNum = parseInt(tasksNum)
+            }
+
+            onAddGroupsWithTasks(boardId, groupsNum, tasksNum)
         } else {
-            showErrorMsg('Voice command not recognized. Please say "make me X groups"')
+            showErrorMsg('Voice command not recognized. Please say "make me X groups with Y tasks"')
         }
     }
 
