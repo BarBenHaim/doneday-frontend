@@ -9,6 +9,15 @@ export const SOCKET_EVENT_USER_UPDATED = 'user-updated'
 export const SOCKET_EVENT_COMMENT_ADDED = 'comment-added'
 export const SOCKET_EVENT_COMMENT_REMOVED = 'comment-removed'
 export const SOCKET_EVENT_COMMENT_ABOUT_YOU = 'comment-about-you'
+export const SOCKET_EVENT_BOARD_ADDED = 'board-added'
+export const SOCKET_EVENT_BOARD_UPDATED = 'board-updated'
+export const SOCKET_EVENT_BOARD_REMOVED = 'board-removed'
+export const SOCKET_EVENT_GROUP_ADDED = 'group-added'
+export const SOCKET_EVENT_GROUP_UPDATED = 'group-updated'
+export const SOCKET_EVENT_GROUP_REMOVED = 'group-removed'
+export const SOCKET_EVENT_TASK_ADDED = 'task-added'
+export const SOCKET_EVENT_TASK_UPDATED = 'task-updated'
+export const SOCKET_EVENT_TASK_REMOVED = 'task-removed'
 
 const SOCKET_EMIT_LOGIN = 'set-user-socket'
 const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
@@ -33,6 +42,8 @@ function createSocketService() {
       if (user) this.login(user._id)
     },
     on(eventName, cb) {
+      console.log("hi im getting on!!!!", eventName, cb )
+
       socket.on(eventName, cb)
     },
     off(eventName, cb = null) {
@@ -41,6 +52,7 @@ function createSocketService() {
       else socket.off(eventName, cb)
     },
     emit(eventName, data) {
+      console.log("hi im sending emit!!!!")
       socket.emit(eventName, data)
     },
     login(userId) {

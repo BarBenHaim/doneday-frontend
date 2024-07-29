@@ -24,27 +24,57 @@ import {
 } from 'monday-ui-react-core'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { UserMsg } from './UserMsg'
+import { SOCKET_EMIT_SET_TOPIC, SOCKET_EVENT_COMMENT_ADDED, SOCKET_EVENT_COMMENT_REMOVED, socketService } from '../services/socket.service'
+import { useDispatch } from 'react-redux'
 
 export function BoardDetails() {
     const { boardId } = useParams()
+
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
+    const dispatch = useDispatch();
 
     const [isStarredBoard, setIsStarredBoard] = useState(currBoard?.isStarred)
     const [boardsToDisplay, setBoardsToDisplay] = useState(currBoard?.groups || [])
     const [activeTabIndex, setActiveTabIndex] = useState(0)
+
     const navigate = useNavigate()
+
+    useEffect(() =>{
+      socketService.on('board-changed', onBoardChanged )
+      return () => {
+        socketService.off('board-changed')
+    }
+    }, [])
 
     useEffect(() => {
         if(!currBoard) {
             loadBoards()
         }
-    }, [boardId])
+      
+        socketService.emit(SOCKET_EMIT_SET_TOPIC, boardId)
 
+        // socketService.on(SOCKET_EVENT_COMMENT_ADDED, comment => {
+        //     console.log('GOT from socket', comment)
+        //     dispatch({ type: 'ADD_COMMENT', comment })
+        // })
+
+        // socketService.on(SOCKET_EVENT_COMMENT_REMOVED, commentId => {
+        //     console.log('GOT from socket', commentId)
+        //     dispatch({ type: 'REMOVE_COMMENT', commentId })
+        // })
+
+        
+    }, [boardId])
 
     useEffect(() => {
         setBoardsToDisplay(currBoard?.groups || [])
         setIsStarredBoard(currBoard?.isStarred)
     }, [currBoard])
+
+    async function onBoardChanged(board) {
+        console.log("updatedBoard socket", board)
+        // onUpdateBoard(board)
+    }
 
   const setFilterBy = (arr) => {
     setBoardsToDisplay(arr)
@@ -58,10 +88,9 @@ export function BoardDetails() {
   async function onUpdateBoard(board) {
     try {
       await updateBoard(board)
-      concole.log("Onupdateboard boardDetails", board)
-      showSuccessMsg('Group updated')
+      showSuccessMsg('Board updated')
     } catch (err) {
-      showErrorMsg('Cannot update group')
+      showErrorMsg('Cannot update board')
     }
   }
 

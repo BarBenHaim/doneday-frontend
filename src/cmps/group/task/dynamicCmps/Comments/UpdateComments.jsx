@@ -1,7 +1,9 @@
-import { Avatar, TextArea } from 'monday-ui-react-core'
+import { Avatar, Menu, MenuButton, MenuItem, TextArea } from 'monday-ui-react-core'
 import { useState, useEffect } from 'react'
 import moment from 'moment'
 import { boardService } from '../../../../../services/board'
+import { Edit, Delete } from 'monday-ui-react-core/icons'
+import { socketService, SOCKET_EVENT_COMMENT_ADDED, SOCKET_EVENT_COMMENT_REMOVED } from '../../../../../services/socket.service' 
 
 export function UpdatedComments({ task, boardId, groupId, loggedinUser, onUpdateField }) {
     const [isUpdateBtn, setUpdateBtn] = useState(false)
@@ -13,6 +15,7 @@ export function UpdatedComments({ task, boardId, groupId, loggedinUser, onUpdate
     useEffect(() => {
         setUpdatedComments(task.comments || [])
     }, [task.comments])
+
 
     const handleUpdateTextChange = (e) => {
         setUpdateBtn(true)
@@ -82,7 +85,6 @@ export function UpdatedComments({ task, boardId, groupId, loggedinUser, onUpdate
     }
 
     const processedComments = updatedComments.map((comments) => {
-        // console.log('processedComments', comments)
         return {
             ...comments,
         }
@@ -91,7 +93,8 @@ export function UpdatedComments({ task, boardId, groupId, loggedinUser, onUpdate
         <div className='update-container'>
             <div className='text-area-update'>
                 <TextArea
-                    aria-label='Write an update...'
+                    aria-label="Write an update..."
+                    placeholder="Write an update..."
                     rows={3}
                     className='text-area'
                     value={newComment}
@@ -137,17 +140,37 @@ export function UpdatedComments({ task, boardId, groupId, loggedinUser, onUpdate
                                                 {comment.byMember.fullname || 'Guest'}
                                             </span>
                                             <span className='comment-time'>{moment(comment.createdAt).fromNow()}</span>
-                                            {loggedinUser._id === comment.byMember._id && (
-                                                <div className='comment-actions'>
-                                                    <button onClick={() => handleDeleteComment(comment._id)}>
-                                                        Delete
-                                                    </button>
-                                                    <button
-                                                        onClick={() => startEditingComment(comment._id, comment.title)}>
-                                                        Edit
-                                                    </button>
-                                                </div>
-                                            )}
+                                            <div className='comment-actions'>
+                                                {loggedinUser._id === comment.byMember._id && 
+                                                    <MenuButton
+                                                        componentPosition='bottom-end'
+                                                        dialogPaddingSize='small'
+                                                        zIndex={5}>
+                                                        <Menu id='menu' size='medium'>
+                                                            <MenuItem
+                                                                onClick={() =>
+                                                                    startEditingComment(comment._id, comment.title)
+                                                                }
+                                                                icon={Edit}
+                                                                title='Edit update'
+                                                            />
+                                                            <MenuItem
+                                                                onClick={() => handleDeleteComment(comment._id)}
+                                                                icon={Delete}
+                                                                title='Delete update'
+                                                            />
+                                                        </Menu>
+                                                    </MenuButton>
+
+                                                    // <button onClick={() => handleDeleteComment(comment._id)}>
+                                                    //     Delete
+                                                    // </button>
+                                                    // <button
+                                                    //     onClick={() => startEditingComment(comment._id, comment.title)}>
+                                                    //     Edit
+                                                    // </button>
+                                               }
+                                            </div>
                                         </div>
                                         {editCommentId === comment._id ? (
                                             <TextArea
