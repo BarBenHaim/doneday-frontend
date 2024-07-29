@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { generateBoardFromDescription } from '../../services/chatService'
 import { addExistingBoard } from '../../store/actions/board.action'
-import { Microphone } from 'monday-ui-react-core/icons'
-
+import { Microphone, Night } from 'monday-ui-react-core/icons'
 export function BoardBuilder() {
     const [description, setDescription] = useState('')
     const [loading, setLoading] = useState(false)
@@ -41,7 +40,7 @@ export function BoardBuilder() {
             await addExistingBoard(generatedBoard)
         } catch (err) {
             console.error(err)
-            setError('Failed to generate board. Please try again.')
+            setError('No more tokens... Please try again.')
         }
         setLoading(false)
     }
@@ -57,16 +56,21 @@ export function BoardBuilder() {
             <input
                 value={description}
                 onChange={e => setDescription(e.target.value)}
-                placeholder='Enter project description here or use voice command...'
+                placeholder='Project description...'
             />
+            {/* <input
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                placeholder='Enter project description here or use voice command...'
+            /> */}
             <br />
-            <button onClick={handleGenerateBoard} disabled={loading}>
-                {loading ? 'Generating...' : 'Generate'}
+            <button className='night-icon' onClick={handleGenerateBoard} disabled={loading}>
+                {loading ? 'Generating...' : <Night size={18} />}
             </button>
-            <button onClick={handleVoiceCommand} disabled={loading}>
-                {loading ? 'Listening...' : <Microphone />}
+            <button className='mic-icon' onClick={handleVoiceCommand} disabled={loading}>
+                {loading ? 'Listening...' : <Microphone size={18} />}
             </button>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error && <p style={{ color: 'grey', fontSize: '0.775rem', margin: '0' }}>{error}</p>}
         </div>
     )
 }

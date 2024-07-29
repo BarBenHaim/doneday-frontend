@@ -1,14 +1,29 @@
 .board-builder-container {
     width: max-content;
     margin: 10px auto;
-    padding: 0 5px;
+    padding: 0 10px;
     gap: 2px;
-    border: 1px solid grey;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
     * {
         font-family: $font-family-primary;
     }
     input {
         border: none;
-        border-radius: 5px;
+        outline: none;
+    }
+    .night-icon {
+        transition: 0.3s;
+        &:hover {
+            background: none;
+            color: #6f6dff;
+        }
+    }
+    .mic-icon {
+        transition: 0.3s;
+        &:hover {
+            background: none;
+            color: #0073ea;
+        }
     }
 }
