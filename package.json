@@ -25,6 +25,7 @@
         "axios": "^1.7.2",
         "chart.js": "^4.4.3",
         "chartjs-plugin-datalabels": "^2.2.0",
+        "cors": "^2.8.5",
         "date-fns": "^3.6.0",
         "lodash": "^4.17.21",
         "monday-ui-react-core": "^2.120.0",
