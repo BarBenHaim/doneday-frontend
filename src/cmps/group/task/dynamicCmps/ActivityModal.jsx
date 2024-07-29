@@ -30,7 +30,7 @@ export function ActivityModal({ task,  boardId, groupId, loggedinUser, onUpdateF
                     <Close className='close-btn' onClick={handleClose} />
                     <h1 className='task-title'>{task.title}</h1>
                 </header>
-                <TabList className='tabs-container' activeTab={activeTabIndex} onTabChange={setActiveTabIndex}>
+                <TabList className='tabs-container' activeTab={activeTabIndex} onTabChange={setActiveTabIndex} tabType="stretched" >
                     <Tab id='update' title='Update View'>
                         <span className='tab-title'>
                             <Home size={16} opacity={0.75} /> Update
@@ -42,6 +42,12 @@ export function ActivityModal({ task,  boardId, groupId, loggedinUser, onUpdateF
                     <Tab id='activity' title='Activity'>
                         <span className='tab-title'>Activity</span>
                     </Tab>
+                    <Tab disabled></Tab>
+                    <Tab disabled></Tab>
+                    <Tab disabled></Tab>
+                    <Tab disabled></Tab>
+
+
                 </TabList>
                 <div className='tab-content'>
                     {activeTabIndex === 0 && (

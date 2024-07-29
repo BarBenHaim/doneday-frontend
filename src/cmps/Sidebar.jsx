@@ -61,7 +61,7 @@ export function Sidebar() {
             <DialogContentContainer>
                 <Menu>
                     <MenuItem icon={Home} title='Home' onClick={() => handleOnClick('/board')} />
-                    <MenuDivider />
+                    <MenuDivider style={{width: '100%'}}/>
                     <MenuItem
                         icon={Favorite}
                         title='Favorite'
