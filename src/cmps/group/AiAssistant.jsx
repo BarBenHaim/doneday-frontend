@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { showErrorMsg, showSuccessMsg } from '../../services/event-bus.service'
 import { addGroup, addTask } from '../../store/actions/board.action'
-
+import { Night } from 'monday-ui-react-core/icons'
 export function AiAssistant({ boardId }) {
     const [taskList, setTaskList] = useState([])
 
@@ -112,7 +112,12 @@ export function AiAssistant({ boardId }) {
 
     return (
         <div className='ai-assistant'>
-            <button onClick={handleVoiceCommand}>Ai Assistant</button>
+            <div className='doneday-assistant' onClick={handleVoiceCommand}>
+                <span className='doneday-txt'>donedy</span>
+                <span className='doneday-icon'>
+                    <Night size={15} />
+                </span>
+            </div>
         </div>
     )
 }

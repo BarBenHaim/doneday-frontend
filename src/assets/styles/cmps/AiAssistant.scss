@@ -1,0 +1,38 @@
+.doneday-assistant {
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 6;
+    font-size: 0.75rem;
+    right: 15px;
+    bottom: 18px;
+    background-color: #0073ea;
+    aspect-ratio: 1;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    flex-direction: column;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: white;
+
+    &:hover {
+        background-color: #005bb5;
+        transform: scale(1.05);
+    }
+
+    .doneday-txt {
+        width: 100%;
+        margin-top: 5px;
+        font-size: 0.7rem;
+    }
+
+    .doneday-icon {
+        width: 50%;
+        height: auto;
+    }
+}
