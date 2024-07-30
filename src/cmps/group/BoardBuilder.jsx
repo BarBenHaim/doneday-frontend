@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { generateBoardFromDescription } from '../../services/chatService'
 import { addExistingBoard } from '../../store/actions/board.action'
 import { Microphone, Night } from 'monday-ui-react-core/icons'
+
 export function BoardBuilder() {
     const [description, setDescription] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [recognition, setRecognition] = useState(null)
+    const [isRecording, setIsRecording] = useState(false)
 
     useEffect(() => {
         let speechRecognition
@@ -22,14 +24,22 @@ export function BoardBuilder() {
         speechRecognition.onresult = event => {
             const speechResult = event.results[0][0].transcript
             setDescription(speechResult)
+            setIsRecording(false)
         }
 
         speechRecognition.onerror = event => {
             setError('Voice recognition error: ' + event.error)
+            setIsRecording(false)
         }
 
         setRecognition(speechRecognition)
     }, [])
+
+    useEffect(() => {
+        if (recognition && description && !isRecording) {
+            handleGenerateBoard()
+        }
+    }, [description, isRecording])
 
     const handleGenerateBoard = async () => {
         setLoading(true)
@@ -48,6 +58,7 @@ export function BoardBuilder() {
     const handleVoiceCommand = () => {
         if (recognition) {
             recognition.start()
+            setIsRecording(true)
         }
     }
 
@@ -58,17 +69,12 @@ export function BoardBuilder() {
                 onChange={e => setDescription(e.target.value)}
                 placeholder='Project description...'
             />
-            {/* <input
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-                placeholder='Enter project description here or use voice command...'
-            /> */}
             <br />
             <button className='night-icon' onClick={handleGenerateBoard} disabled={loading}>
                 {loading ? 'Generating...' : <Night size={18} />}
             </button>
-            <button className='mic-icon' onClick={handleVoiceCommand} disabled={loading}>
-                {loading ? 'Listening...' : <Microphone size={18} />}
+            <button className='mic-icon' onClick={handleVoiceCommand} disabled={loading || isRecording}>
+                {isRecording ? 'Recording...' : <Microphone size={18} />}
             </button>
             {error && <p style={{ color: 'grey', fontSize: '0.775rem', margin: '0' }}>{error}</p>}
         </div>
