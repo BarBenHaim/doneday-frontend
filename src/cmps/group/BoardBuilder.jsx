@@ -76,7 +76,7 @@ export function BoardBuilder() {
 
     return (
         <>
-            {!loading && <BreadcrumbLoader />}
+            {loading && <BreadcrumbLoader />}
             <div className='board-builder-container flex align-center justify-center'>
                 <input value={description} onChange={handleInputChange} placeholder='Project description...' />
                 <br />
