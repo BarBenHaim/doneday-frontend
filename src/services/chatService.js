@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { makeId } from './util.service'
+const API_KEY = 'sk-proj-KlazichQ2l0j77H3rxTqT3BlbkFJ1mAFLXizl7TsNqKdsr7A'
 
 const BASE_URL = 'https://api.openai.com/v1/completions'
-const API_KEY = 'sk-proj-KlazichQ2l0j77H3rxTqT3BlbkFJ1mAFLXizl7TsNqKdsr7A'
 
 export async function generateBoardFromDescription(description) {
     const prompt = `Generate a detailed single board structure in an accurate JSON format for the following project description: "${description}". 
@@ -51,7 +51,16 @@ export async function generateBoardFromDescription(description) {
         board._id = makeId()
         board.isStarred = false
         board.label = 'task'
-        board.cmpsOrder = ['checkbox', 'title', 'dueDate', 'memberIds', 'files', 'priority', 'recording', 'description']
+        board.cmpsOrder = [
+            'checkbox',
+            'title',
+            'memberIds',
+            'status',
+            'priority',
+            'dueDate',
+            'recording',
+            'description',
+        ]
         board.members = board.members || []
 
         const statuses = ['Not started']
