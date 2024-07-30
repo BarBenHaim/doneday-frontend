@@ -1,0 +1,64 @@
+.board-builder-container {
+    width: max-content;
+    margin: 10px auto;
+    padding: 0 10px;
+    gap: 2px;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    * {
+        font-family: $font-family-primary;
+    }
+    input {
+        border: none;
+        outline: none;
+    }
+    .night-icon {
+        transition: 0.3s;
+        &:hover {
+            background: none;
+            color: #6f6dff;
+        }
+    }
+    .mic-icon {
+        transition: 0.3s;
+        &:hover {
+            background: none;
+            color: #0073ea;
+        }
+    }
+}
+
+.breadcrumb-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: white;
+}
+
+.breadcrumb-step {
+    position: relative;
+    padding: 5px 12px;
+    padding-inline-start: 10px;
+    transition: color 0.3s;
+}
+
+.breadcrumb-step::after {
+    // content: '\f061';
+    content: '>';
+    position: absolute;
+    right: -5px;
+}
+
+.breadcrumb-step:last-child::after {
+    content: '';
+}
+
+.breadcrumb-step.isActive {
+    color: rgb(106, 196, 255);
+}
+
+.breadcrumb-step.completed {
+    color: rgba(106, 195, 255, 0.5);
+}

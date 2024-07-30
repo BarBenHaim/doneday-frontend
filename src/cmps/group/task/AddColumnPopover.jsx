@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import { Popover, Box, Typography } from '@mui/material'
 import { Combobox, IconButton } from 'monday-ui-react-core'
-import { Add, CheckList, Description, DueDate, File, Person, Status, Team } from 'monday-ui-react-core/icons'
+import { Add, CheckList, Description, DueDate, File, Person, Recurring, Status, Team } from 'monday-ui-react-core/icons'
 import 'monday-ui-react-core/dist/main.css'
 
 const AddColumnPopover = ({ predefinedLabels, handleAddColumn }) => {
@@ -15,6 +15,7 @@ const AddColumnPopover = ({ predefinedLabels, handleAddColumn }) => {
         status: { label: 'Status', leftIcon: Status },
         description: { label: 'Description', leftIcon: Description },
         files: { label: 'Files', leftIcon: File },
+        recording: { label: 'Recording', leftIcon: Recurring },
         default: { label: 'Some Title', leftIcon: Person },
     }
 

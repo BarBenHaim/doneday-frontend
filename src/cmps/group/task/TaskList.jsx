@@ -243,7 +243,6 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
             showErrorMsg('Cannot remove column')
         }
     }
-    //console.log(responsiveWidths)
     const columns = [
         ...board.cmpsOrder.map(key => {
             const config = taskAttributesConfig[key.match(/^\D+/)[0]]
@@ -396,7 +395,15 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                 ))}
                             </TableRow>
                         </Table>
-                        <button onClick={handleDeleteSelectedTasks}>Delete Selected Tasks</button>
+                        <button
+                            onClick={handleDeleteSelectedTasks}
+                            style={{
+                                opacity: selectedTasks.length > 0 ? 1 : 0,
+                                pointerEvents: selectedTasks.length > 0 ? 'auto' : 'none',
+                            }}
+                        >
+                            Delete Selected Tasks
+                        </button>
                     </div>
                 </div>
             )}

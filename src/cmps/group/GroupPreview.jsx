@@ -45,13 +45,6 @@ function GroupPreview({
                     <MenuButton className='group-preview-menu-btn'>
                         <Menu id='menu' size='medium'>
                             <MenuItem onClick={() => onRemoveGroup(group._id)} icon={Delete} title='Delete' />
-                            <MenuItem
-                                onClick={() => {
-                                    toggleCollapse()
-                                }}
-                                icon={Collapse}
-                                title='Collapse'
-                            />
                         </Menu>
                     </MenuButton>
                     <div className='flex align-center justify-center' style={{ position: 'sticky', left: '0' }}>

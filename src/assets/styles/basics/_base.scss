@@ -23,7 +23,7 @@ h4,
 h5,
 h6 {
     font-family: $font-family-secondary;
-    letter-spacing: 0.05em; // Adding unit
+    // letter-spacing: 0.05em; // Adding unit
 }
 
 h1 {
@@ -103,4 +103,17 @@ input {
 
 .scrollable {
     overflow: auto;
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(187, 190, 204);
 }

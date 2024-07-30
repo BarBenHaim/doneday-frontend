@@ -12,7 +12,7 @@
         right: 0;
     }
     to {
-        right: -570px;
+        right: -1000px;
     }
 }
 
@@ -118,8 +118,11 @@
 
 .text-area-update {
     margin-top: 20px;
-    padding: 0 5px;
     width: 100%;
+    .text-area :nth-child(1) {
+        resize: none;
+        border-radius: 8px;
+    }
 }
 
 .no-comments {
@@ -256,6 +259,6 @@
     border-radius: 10px;
     color: #ffffff;
     padding: 2px 4px;
-    font-size: 10px;
+    font-size: 0.5625rem;
     line-height: 9px;
 }

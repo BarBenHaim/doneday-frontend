@@ -3,8 +3,8 @@ import { TabList, Tab, DialogContentContainer } from 'monday-ui-react-core'
 import { Close, Home } from 'monday-ui-react-core/icons'
 import { ActivityLog } from './Comments/ActivityLog'
 import { UpdatedComments } from './Comments/UpdateComments'
-import { FilesCmp } from './Comments/FilesCmp'
 import { getActivities } from '../../../../store/actions/board.action'
+import { FilesCmp } from './Comments/FilesCmp'
 
 export function ActivityModal({
     task,
@@ -26,7 +26,7 @@ export function ActivityModal({
             setActiveTabIndex(initialTab)
             getActivities(boardId)
         }
-    }, [isOpen, initialTab,boardId])
+    }, [isOpen, initialTab, boardId])
 
     const handleClose = () => {
         setIsClosing(true)
@@ -49,7 +49,8 @@ export function ActivityModal({
                     className='tabs-container'
                     activeTab={activeTabIndex}
                     onTabChange={setActiveTabIndex}
-                    tabType='stretched'>
+                    tabType='stretched'
+                >
                     <Tab id='update' title='Update View'>
                         <span className='tab-title'>
                             <Home size={16} opacity={0.75} /> Update
@@ -76,8 +77,8 @@ export function ActivityModal({
                             loggedinUser={loggedinUser}
                         />
                     )}
-                    {activeTabIndex === 1 && <FilesCmp />}
-                    {activeTabIndex === 2 && <ActivityLog activities={activities} users={users}/>}
+                    {activeTabIndex === 1 && <FilesCmp task={task} onUpdateField={onUpdateField} columnKey='files' />}
+                    {activeTabIndex === 2 && <ActivityLog activities={activities} users={users} />}
                 </div>
             </DialogContentContainer>
         </div>

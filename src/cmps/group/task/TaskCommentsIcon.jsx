@@ -28,8 +28,10 @@ export function TaskCommentsIcon({ task, onOpen }) {
                         display: 'inline-block',
                     }}
                 >
-                    <MsgIcon size={30} />
-                    <span className='msg-count'>{task.comments.length}</span>
+                    <MsgIcon size={24} />
+                    <span style={{ cursor: 'pointer' }} className='msg-count'>
+                        {task.comments.length}
+                    </span>
                 </div>
             )}
         </div>

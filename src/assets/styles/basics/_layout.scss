@@ -1,17 +1,5 @@
 .main-container {
-    // display: grid;
-    // grid-template-columns: auto 1fr;
-    // height: calc(100vh - 3.5em);
-
     > * {
-        // &:first-child {
-        //   grid-column: 1; // Sidebar in the first column
-        // }
-
-        // &:nth-child(2) {
-        //   grid-column: 2; // Main content in the second column
-        // }
-
         &.full {
             grid-column: 1 / -1;
         }
@@ -19,6 +7,10 @@
 }
 
 @media (max-width: 740px) {
+    .sidebar.main-container,
+    .board-index-template {
+        display: none;
+    }
     .task-row-title {
         max-width: 80px;
     }
@@ -58,8 +50,11 @@
         left: -10px;
     }
 
-    .board-details .board-details-header .board-details-edit span button {
-        font-size: 1em;
+    .board-details .board-details-header .board-details-edit span button .board-title {
+        font-size: 1.4em;
+        font-weight: 500;
+        margin: 0;
+        font-family: poppins;
     }
 }
 @media (min-width: 740px) {
@@ -72,8 +67,20 @@
     .add-task-row {
         display: none;
     }
+    .board-details .board-details-header .board-details-edit span button .board-title {
+        font-size: 1.5em;
+        margin: 0;
+        font-weight: 500;
+        font-family: poppins;
+    }
 }
 @media (min-width: 940px) {
+    .board-details .board-details-header .board-details-edit span button .board-title {
+        font-size: 1.875em;
+        margin: 0;
+        font-weight: 500;
+        font-family: poppins;
+    }
     .task-row-title {
         max-width: 210px;
     }
@@ -98,6 +105,7 @@
             .add-task-input {
                 margin: 0;
                 padding: 0;
+                outline: none;
                 border: none;
                 cursor: text;
                 height: fit-content;
@@ -115,36 +123,7 @@
         left: -50px;
     }
     .root-activity-modal {
-        height: 91.5%;
+        height: 92.2%;
         width: 570px;
     }
 }
-// @include for-narrow-layout {
-
-//     // grid-template-columns:
-//     //     minmax(20px, 1fr)
-//     //     minmax(auto, $mobile-breakpoint)
-//     //     minmax(20px, 1fr);
-// }
-// @include for-normal-layout {
-//     // grid-template-columns:
-//     //     minmax(20px, 1fr)
-//     //     minmax(auto, $narrow-breakpoint)
-//     //     minmax(20px, 1fr);
-// }
-// @include for-wide-layout {
-//     // grid-template-columns:
-//     //     minmax(20px, 1fr)
-//     //     minmax(auto, $normal-breakpoint)
-//     //     minmax(20px, 1fr);
-// }
-// }
-
-// .card-grid {
-//     display: grid;
-//     grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); // Default column size
-//     grid-gap: 20px;
-
-//     @include for-mobile-layout {
-//       grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); // Adjusted column size for smaller screens
-//     }

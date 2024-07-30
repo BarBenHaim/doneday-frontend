@@ -36,8 +36,6 @@ export function GroupHideFilter({ setFilterBy }) {
     }
 
     function handleCheckboxChange(event) {
-        // console.log(event.target.value)
-
         const { id } = event.target
         toggleColumn(id)
     }
@@ -52,9 +50,6 @@ export function GroupHideFilter({ setFilterBy }) {
         })
         setSelectedColumn(allChecked ? ['person', 'status', 'timeline', 'priority'] : [])
     }
-
-    // console.log('selectedColumn', selectedColumn)
-    // console.log('checkedColumns', checkedColumns)
 
     function getHideColumn() {
         const filteredGroups = groups.map(group => {
@@ -87,7 +82,6 @@ export function GroupHideFilter({ setFilterBy }) {
         })
 
         const nonEmptyGroups = filteredGroups.filter(group => group.tasks.length > 0)
-        // console.log(nonEmptyGroups)
 
         setFilterBy(nonEmptyGroups)
         return nonEmptyGroups

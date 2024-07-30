@@ -29,6 +29,7 @@
         "date-fns": "^3.6.0",
         "lodash": "^4.17.21",
         "monday-ui-react-core": "^2.120.0",
+        "openai": "^4.0.0",
         "react": "^18.3.1",
         "react-beautiful-dnd": "^13.1.1",
         "react-chartjs-2": "^5.2.0",
