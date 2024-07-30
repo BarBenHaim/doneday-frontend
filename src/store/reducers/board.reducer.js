@@ -19,6 +19,7 @@ export const UPDATE_TASK = 'UPDATE_TASK'
 export const REMOVE_TASK = 'REMOVE_TASK'
 export const REVERT_BOARD = 'REVERT_BOARD'
 export const ADD_ACTIVITY = 'REVERT_BOARD'
+export const SET_BOARD_ACTIVITIES = 'SET_BOARD_ACTIVITIES'
 
 const initialState = {
   boards: [],
@@ -35,6 +36,7 @@ const initialState = {
   boardFilterBy: {},
   isModalOpen: false,
   activeTask: null,
+  activities: [],
 }
 
 export function boardReducer(state = initialState, action) {
@@ -228,7 +230,10 @@ export function boardReducer(state = initialState, action) {
       break
     case SET_ACTIVE_TASK:
       return { ...state, activeTask: action.task }
-    default:
+      case SET_BOARD_ACTIVITIES:
+        newState = { ...state, activities: action.activities }
+        break
+      default:
       return state
   }
   return newState

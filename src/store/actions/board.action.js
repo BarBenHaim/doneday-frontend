@@ -20,6 +20,7 @@ import {
   OPEN_MODAL,
   SET_ACTIVE_TASK,
   UPDATE_TASK_FIELD,
+  SET_BOARD_ACTIVITIES,
 } from '../reducers/board.reducer'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 
@@ -257,6 +258,17 @@ export function setActiveTask(task) {
   }
 }
 
+export async function getActivities(boardId) {
+  try {
+    const activities = await boardService.getActivities(boardId)
+    store.dispatch(getCmdSetBoardActivities(activities))
+    return activities
+  } catch (err) {
+    console.log('Cannot get board activities', err)
+    throw err
+  }
+}
+
 // Command Creators
 function getCmdSetBoards(boards) {
   return {
@@ -347,12 +359,6 @@ function getCmdRemoveTask(boardId, groupId, taskId) {
     payload: { boardId, groupId, taskId },
   }
 }
-// export async function addActivity (boardId, activity){
-//     try{
-//         const activit= await boardService.addActivity(boardId, activity)
-//         store.dispatch()
-//     }
-// }
 
 export function getCmdToggleStarredBoard( board) {
   return { type: TOGGLE_STARRED_BOARD, board} 
@@ -361,6 +367,13 @@ export function getCmdToggleStarredBoard( board) {
 export function getCmdRevertBoard() {
   return {
     type: REVERT_BOARD,
+  }
+}
+
+function getCmdSetBoardActivities(activities) {
+  return {
+    type: SET_BOARD_ACTIVITIES,
+    activities,
   }
 }
 

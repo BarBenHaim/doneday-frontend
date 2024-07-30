@@ -20,6 +20,7 @@ export const boardService = {
     addComment,
     updateComment,
     deleteComment,
+    getActivities,
 }
 
 async function query() {
@@ -82,17 +83,12 @@ async function removeTask(boardId, groupId, taskId) {
     return httpService.delete(`board/${boardId}/${groupId}/${taskId}`)
 }
 
-// async function toggleStarred(boardId) {
-//     return httpService.put(`board/${boardId}/toggle-starred`)
-// }
-
 async function getComments(boardId, groupId, taskId) {
     return httpService.get(`board/${boardId}/${groupId}/${taskId}/comment`)
 }
 
 async function addComment(boardId, groupId, taskId, comment) {
     return httpService.post(`board/${boardId}/${groupId}/${taskId}/comment`, comment)
-
 }
 
 async function updateComment(boardId, groupId, taskId, commentId, updatedComment) {
@@ -101,4 +97,8 @@ async function updateComment(boardId, groupId, taskId, commentId, updatedComment
 
 async function deleteComment(boardId, groupId, taskId, commentId) {
     return httpService.delete(`board/${boardId}/${groupId}/${taskId}/${commentId}`)
+}
+
+async function getActivities(boardId) {
+    return httpService.get(`board/${boardId}/activities`)
 }
