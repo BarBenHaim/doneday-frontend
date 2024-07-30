@@ -29,24 +29,28 @@ import { useDispatch } from 'react-redux'
 
 export function BoardDetails() {
     const { boardId } = useParams()
-
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
     const dispatch = useDispatch();
 
     const [isStarredBoard, setIsStarredBoard] = useState(currBoard?.isStarred)
     const [boardsToDisplay, setBoardsToDisplay] = useState(currBoard?.groups || [])
     const [activeTabIndex, setActiveTabIndex] = useState(0)
+    const [boardChanges, setBoardChanges] = useState([])
 
     const navigate = useNavigate()
 
     useEffect(() =>{
+      console.log('subsrcibe');
       socketService.on('board-changed', onBoardChanged )
       return () => {
+        console.log('unsubsrcibe');
+
         socketService.off('board-changed')
     }
     }, [])
 
     useEffect(() => {
+      console.log('loading board');
         if(!currBoard) {
             loadBoards()
         }
@@ -73,9 +77,10 @@ export function BoardDetails() {
 
     async function onBoardChanged(board) {
         console.log("updatedBoard socket", board)
-        // onUpdateBoard(board)
+        if (board._id === currBoard._id && JSON.stringify(board) !== JSON.stringify(currBoard)) {
+          dispatch({ type: 'UPDATE_BOARD', board });
     }
-
+  }
   const setFilterBy = (arr) => {
     setBoardsToDisplay(arr)
   }
