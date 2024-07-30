@@ -37,7 +37,14 @@ function createSocketService() {
   var socket = null
   const socketService = {
     setup() {
-      socket = io(baseUrl)
+      socket = io(baseUrl, {
+        reconnection: true,             // Automatically reconnect if the connection is lost
+        reconnectionAttempts: Infinity, // Number of attempts before giving up
+        reconnectionDelay: 1000,        // Time delay between reconnection attempts (1 second)
+        reconnectionDelayMax: 5000,     // Maximum time delay between reconnection attempts (5 seconds)
+        timeout: 20000,                 // Timeout for initial connection (20 seconds)
+        transports: ['websocket']       // Use WebSocket transport
+      })
       const user = userService.getLoggedinUser()
       if (user) this.login(user._id)
     },

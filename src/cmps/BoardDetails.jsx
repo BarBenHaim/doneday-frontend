@@ -35,7 +35,6 @@ export function BoardDetails() {
     const [isStarredBoard, setIsStarredBoard] = useState(currBoard?.isStarred)
     const [boardsToDisplay, setBoardsToDisplay] = useState(currBoard?.groups || [])
     const [activeTabIndex, setActiveTabIndex] = useState(0)
-    const [boardChanges, setBoardChanges] = useState([])
 
     const navigate = useNavigate()
 
@@ -57,17 +56,6 @@ export function BoardDetails() {
       
         socketService.emit(SOCKET_EMIT_SET_TOPIC, boardId)
 
-        // socketService.on(SOCKET_EVENT_COMMENT_ADDED, comment => {
-        //     console.log('GOT from socket', comment)
-        //     dispatch({ type: 'ADD_COMMENT', comment })
-        // })
-
-        // socketService.on(SOCKET_EVENT_COMMENT_REMOVED, commentId => {
-        //     console.log('GOT from socket', commentId)
-        //     dispatch({ type: 'REMOVE_COMMENT', commentId })
-        // })
-
-        
     }, [boardId])
 
     useEffect(() => {
@@ -81,6 +69,7 @@ export function BoardDetails() {
           dispatch({ type: 'UPDATE_BOARD', board });
     }
   }
+
   const setFilterBy = (arr) => {
     setBoardsToDisplay(arr)
   }
