@@ -24,27 +24,51 @@ import {
 } from 'monday-ui-react-core'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { UserMsg } from './UserMsg'
+import { SOCKET_EMIT_SET_TOPIC, SOCKET_EVENT_COMMENT_ADDED, SOCKET_EVENT_COMMENT_REMOVED, socketService } from '../services/socket.service'
+import { useDispatch } from 'react-redux'
 
 export function BoardDetails() {
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
+    const dispatch = useDispatch();
 
     const [isStarredBoard, setIsStarredBoard] = useState(currBoard?.isStarred)
     const [boardsToDisplay, setBoardsToDisplay] = useState(currBoard?.groups || [])
     const [activeTabIndex, setActiveTabIndex] = useState(0)
+
     const navigate = useNavigate()
 
+    useEffect(() =>{
+      console.log('subsrcibe');
+      socketService.on('board-changed', onBoardChanged )
+      return () => {
+        console.log('unsubsrcibe');
+
+        socketService.off('board-changed')
+    }
+    }, [])
+
     useEffect(() => {
+      console.log('loading board');
         if(!currBoard) {
             loadBoards()
         }
-    }, [boardId])
+      
+        socketService.emit(SOCKET_EMIT_SET_TOPIC, boardId)
 
+    }, [boardId])
 
     useEffect(() => {
         setBoardsToDisplay(currBoard?.groups || [])
         setIsStarredBoard(currBoard?.isStarred)
     }, [currBoard])
+
+    async function onBoardChanged(board) {
+        console.log("updatedBoard socket", board)
+        if (board._id === currBoard._id && JSON.stringify(board) !== JSON.stringify(currBoard)) {
+          dispatch({ type: 'UPDATE_BOARD', board });
+    }
+  }
 
   const setFilterBy = (arr) => {
     setBoardsToDisplay(arr)
@@ -58,16 +82,15 @@ export function BoardDetails() {
   async function onUpdateBoard(board) {
     try {
       await updateBoard(board)
-      concole.log("Onupdateboard boardDetails", board)
-      showSuccessMsg('Group updated')
+      showSuccessMsg('Board updated')
     } catch (err) {
-      showErrorMsg('Cannot update group')
+      showErrorMsg('Cannot update board')
     }
   }
 
   async function handleToggleStarred() {
     try {
-      await toggleStarredBoard(currBoard._id)
+      await toggleStarredBoard(currBoard)
       setIsStarredBoard((isStarredBoard) => !isStarredBoard)
       onUpdateField(currBoard, 'isStarred', !currBoard.isStarred)
     } catch (err) {
@@ -195,7 +218,7 @@ export function BoardDetails() {
                 {currBoard.members.map((member) => (
                   <Avatar
                     key={member._id}
-                    ariaLabel={member.fullName}
+                    ariaLabel={member.fullname}
                     src={member.imgUrl}
                     type="img"
                   />

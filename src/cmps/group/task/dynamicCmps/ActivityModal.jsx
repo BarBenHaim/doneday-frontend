@@ -4,14 +4,29 @@ import { Close, Home } from 'monday-ui-react-core/icons'
 import { ActivityLog } from './Comments/ActivityLog'
 import { UpdatedComments } from './Comments/UpdateComments'
 import { FilesCmp } from './Comments/FilesCmp'
+import { getActivities } from '../../../../store/actions/board.action'
 
-export function ActivityModal({ task, byMember, onUpdateField, isOpen, onClose, initialTab = 0 }) {
+export function ActivityModal({
+    task,
+    boardId,
+    groupId,
+    loggedinUser,
+    onUpdateField,
+    isOpen,
+    onClose,
+    initialTab = 0,
+    activities,
+    users,
+}) {
     const [activeTabIndex, setActiveTabIndex] = useState(initialTab)
     const [isClosing, setIsClosing] = useState(false)
 
     useEffect(() => {
-        if (isOpen) setActiveTabIndex(initialTab)
-    }, [isOpen, initialTab])
+        if (isOpen) {
+            setActiveTabIndex(initialTab)
+            getActivities(boardId)
+        }
+    }, [isOpen, initialTab,boardId])
 
     const handleClose = () => {
         setIsClosing(true)
@@ -30,7 +45,11 @@ export function ActivityModal({ task, byMember, onUpdateField, isOpen, onClose, 
                     <Close className='close-btn' onClick={handleClose} />
                     <h1 className='task-title'>{task.title}</h1>
                 </header>
-                <TabList className='tabs-container' activeTab={activeTabIndex} onTabChange={setActiveTabIndex}>
+                <TabList
+                    className='tabs-container'
+                    activeTab={activeTabIndex}
+                    onTabChange={setActiveTabIndex}
+                    tabType='stretched'>
                     <Tab id='update' title='Update View'>
                         <span className='tab-title'>
                             <Home size={16} opacity={0.75} /> Update
@@ -42,13 +61,23 @@ export function ActivityModal({ task, byMember, onUpdateField, isOpen, onClose, 
                     <Tab id='activity' title='Activity'>
                         <span className='tab-title'>Activity</span>
                     </Tab>
+                    <Tab disabled></Tab>
+                    <Tab disabled></Tab>
+                    <Tab disabled></Tab>
+                    <Tab disabled></Tab>
                 </TabList>
                 <div className='tab-content'>
                     {activeTabIndex === 0 && (
-                        <UpdatedComments task={task} onUpdateField={onUpdateField} byMember={byMember} />
+                        <UpdatedComments
+                            task={task}
+                            boardId={boardId}
+                            groupId={groupId}
+                            onUpdateField={onUpdateField}
+                            loggedinUser={loggedinUser}
+                        />
                     )}
                     {activeTabIndex === 1 && <FilesCmp />}
-                    {activeTabIndex === 2 && <ActivityLog />}
+                    {activeTabIndex === 2 && <ActivityLog activities={activities} users={users}/>}
                 </div>
             </DialogContentContainer>
         </div>

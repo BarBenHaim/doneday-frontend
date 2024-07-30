@@ -3,23 +3,47 @@ import { useSelector, useDispatch } from 'react-redux'
 import ActivityModal from './dynamicCmps/ActivityModal.jsx'
 import { closeModal, loadBoards, updateTask } from '../../../store/actions/board.action.js'
 import { showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
+import { loadUsers } from '../../../store/actions/user.actions.js'
+import { getUserById } from '../../../services/util.service.js'
 
 export const RootActivityModal = () => {
     const boards = useSelector(storeState => storeState.boardModule.boards)
+    const users = useSelector(storeState => storeState.userModule.users)
     const isModalOpen = useSelector(state => state.boardModule.isModalOpen)
     const activeTask = useSelector(state => state.boardModule.activeTask)
     const [currBoard, setCurrBoard] = useState(null)
     const [currGroup, setCurrGroup] = useState(null)
+    const [activities, setActivities] = useState([])
+
+    const loggedinUser = useSelector(storeState => storeState.userModule.user)
+
 
     const dispatch = useDispatch()
 
     useEffect(() => {
+        loadUsers()
+    }, [])
+
+    useEffect(() => {
         if (!boards) {
             loadBoards()
+            loadUsers()
         } else if (activeTask) {
             findCurrentBoardAndGroup()
         }
     }, [boards, activeTask])
+    
+    useEffect(() => {
+        if (currBoard) {
+            const updatedActivities = currBoard.activities.map(activity => {
+                const user = users.find(user => user._id === activity.userId)
+                return { ...activity, user }
+                console.log("activity", activity)
+            })
+            setActivities(updatedActivities)
+        }
+    }, [currBoard, users])
+
 
     const findCurrentBoardAndGroup = () => {
         for (let board of boards) {
@@ -45,6 +69,7 @@ export const RootActivityModal = () => {
 
         try {
             await updateTask(currBoard._id, currGroup._id, updatedTask._id, updatedTask)
+            console.log("updateTask", updateTask)
             showSuccessMsg('Task updated successfully')
         } catch (err) {
             showErrorMsg('Cannot update task')
@@ -54,7 +79,7 @@ export const RootActivityModal = () => {
 
     function onUpdateField(task, field, value) {
         const updatedTask = { ...task, [field]: value }
-        onUpdateTask(updatedTask)
+        onUpdateTask(updatedTask) 
     }
 
     if (!isModalOpen && !activeTask) return null
@@ -63,7 +88,11 @@ export const RootActivityModal = () => {
         <div className={`root-activity-modal ${isModalOpen ? 'open' : 'close'}`}>
             <ActivityModal
                 task={activeTask}
-                byMember={activeTask ? activeTask.byMember : {}}
+                boardId={currBoard ? currBoard._id : null}
+                groupId={currGroup ? currGroup._id : null}
+                loggedinUser={loggedinUser}
+                users={users}
+                activities={activities}
                 onUpdateField={onUpdateField}
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}

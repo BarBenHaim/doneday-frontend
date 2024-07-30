@@ -2,7 +2,7 @@ export function AddActivty(currBoard, task, field, value) {
   const newActivity = {
     _id: Date.now().toString(),
     createdAt: Date.now(),
-    // fullName,
+    // fullname,
     // imgUrl,
     // taskName,
     field,

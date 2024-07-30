@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { eventBus, showSuccessMsg } from '../services/event-bus.service'
-import { socketService, SOCKET_EVENT_REVIEW_ABOUT_YOU } from '../services/socket.service'
+import { socketService, SOCKET_EVENT_COMMENT_ABOUT_YOU } from '../services/socket.service'
 import { Toast } from 'monday-ui-react-core'
 
 export function UserMsg() {
@@ -17,13 +17,13 @@ export function UserMsg() {
             timeoutIdRef.current = setTimeout(closeMsg, 3000)
         })
 
-        socketService.on(SOCKET_EVENT_REVIEW_ABOUT_YOU, review => {
-            showSuccessMsg(`New review about me ${review.txt}`)
+        socketService.on(SOCKET_EVENT_COMMENT_ABOUT_YOU, comment => {
+            showSuccessMsg(`New comment about me ${comment.title}`)
         })
 
         return () => {
             unsubscribe()
-            socketService.off(SOCKET_EVENT_REVIEW_ABOUT_YOU)
+            socketService.off(SOCKET_EVENT_COMMENT_ABOUT_YOU)
         }
     }, [])
 
