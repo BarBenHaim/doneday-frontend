@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { getRandomColor, makeId } from './util.service'
-const API_KEY = 'sk-proj-KlazichQ2l0j77H3rxTqT3BlbkFJ1mAFLXizl7TsNqKdsr7A'
+const API_KEY = import.meta.env.VITE_API_KEY
 
 const BASE_URL = 'https://api.openai.com/v1/completions'
 

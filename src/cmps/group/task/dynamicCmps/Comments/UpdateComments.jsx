@@ -38,6 +38,7 @@ export function UpdatedComments({ task, byMember, onUpdateField }) {
             <div className='text-area-update'>
                 <TextArea
                     aria-label='Write an update...'
+                    placeholder='Write an update...'
                     rows={1}
                     className='text-area'
                     value={newComment}

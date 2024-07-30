@@ -109,8 +109,11 @@
 
 .text-area-update {
     margin-top: 20px;
-    padding: 0 5px;
     width: 100%;
+    .text-area :nth-child(1) {
+        resize: none;
+        border-radius: 8px;
+    }
 }
 
 .no-comments {
