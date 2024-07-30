@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { NavigationChevronDown, NavigationChevronRight } from 'monday-ui-react-core/icons'
 
@@ -11,16 +11,37 @@ import { Button, DialogContentContainer, Flex, Text, TextArea } from 'monday-ui-
 import { TaxSvg } from '../cmps/svgs/TaskSvg'
 
 import boardIndexBanner from '../assets/img/monday-banners/monday-banner-index.jpeg'
+import { SOCKET_EMIT_SET_TOPIC, SOCKET_EVENT_BOARD_ADDED, SOCKET_EVENT_BOARD_REMOVED, socketService } from '../services/socket.service'
+import { useDispatch } from 'react-redux'
+import { boardService } from '../services/board'
 
 // import { GroupFilter } from '../cmps/group/GroupFilter'
 
 export function BoardIndex() {
     const [isCollapsed, setIsCollapsed] = useState(false)
     const boards = useSelector((storeState) => storeState.boardModule.boards)
+    const prevBoardsCount = useRef(boards.length);
     const groupTaskFilterBy = useSelector((storeState) => storeState.boardModule.groupTaskFilterBy)
+    const dispatch = useDispatch()
+
     useEffect(() => {
         loadBoards()
+        socketService.emit(SOCKET_EMIT_SET_TOPIC,  'board')
+    }, []) 
+
+    useEffect(() => {
+
+        socketService.on(SOCKET_EVENT_BOARD_ADDED, addedBoards)
+        socketService.on(SOCKET_EVENT_BOARD_REMOVED, removeBoard)
+        return () => {
+            socketService.off(SOCKET_EVENT_BOARD_ADDED, addedBoards)
+            socketService.off(SOCKET_EVENT_BOARD_REMOVED, removeBoard)
+        }
     }, [])
+
+    useEffect(() => {
+        prevBoardsCount.current = boards.length;
+    }, [boards.length]);
 
     async function onRemoveBoard(boardId) {
         try {
@@ -30,9 +51,11 @@ export function BoardIndex() {
             showErrorMsg('Cannot remove board')
         }
     }
-
-    async function handleSetFilterBy(ev) {
-        const value = ev.target.value
+    async function addedBoards(board) {
+        console.log('addedBoard socket', boards)
+        if (boards.length === prevBoardsCount.current + 1 && !boards.some(b => b._id === board._id)) {
+            dispatch(addBoard(board));
+        }
     }
 
     function toggleCollapse() {
@@ -41,7 +64,11 @@ export function BoardIndex() {
 
     return (
         <section className='board-index'>
-            <DialogContentContainer size='large' type='modal' className='border-index-body' style={{ display: "flex", flexGrow: "1", flexDirection: "column"}}>
+            <DialogContentContainer
+                size='large'
+                type='modal'
+                className='border-index-body'
+                style={{ display: 'flex', flexGrow: '1', flexDirection: 'column' }}>
                 {/* <GroupFilter
         filterBy={groupTaskFilterBy}
         setFilterBy={handleSetFilterBy}
@@ -52,8 +79,8 @@ export function BoardIndex() {
                     justify={Flex.justify.SPACE_BETWEEN}
                     gap={Flex.gaps.MEDIUM}
                     wrap={false}>
-                    <DialogContentContainer 
-                    className="board-list-dialog"
+                    <DialogContentContainer
+                        className='board-list-dialog'
                         size={DialogContentContainer.sizes.MEDIUM}
                         type={DialogContentContainer.types.MODAL}>
                         <div className='collapsible-header flex align-center' onClick={toggleCollapse}>
@@ -83,10 +110,7 @@ export function BoardIndex() {
                                 align={Flex.align.CENTER}
                                 justify={Flex.justify.SPACE_AROUND}
                                 wrap={true}>
-                                <Flex
-                                    direction={Flex.directions.COLUMN}
-                                    gap={Flex.gaps.SMALL}
-                                    align={Flex.align.START}>
+                                <Flex direction={Flex.directions.COLUMN} gap={Flex.gaps.SMALL} align={Flex.align.START}>
                                     <Text
                                         align={Text.align.START}
                                         type={Text.types.TEXT1}
@@ -103,11 +127,11 @@ export function BoardIndex() {
                                     kind={Button.kinds.SECONDARY}
                                     marginLeft
                                     marginRight
-                                    size='large' 
+                                    size='large'
                                     style={{
                                         display: 'block',
-                                        width: '100%'
-                                      }}>
+                                        width: '100%',
+                                    }}>
                                     Explore templates
                                 </Button>
                             </Flex>

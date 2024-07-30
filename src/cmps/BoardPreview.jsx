@@ -13,7 +13,7 @@ export function BoardPreview({ board }) {
 
     async function handleToggleStarred(event) {
         event.preventDefault()
-        toggleStarredBoard(board._id)
+        toggleStarredBoard(board)
         board.isStarred = !board.isStarred
     }
 

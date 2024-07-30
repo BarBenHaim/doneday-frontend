@@ -11,6 +11,10 @@ export function makeId(length = 6) {
     return txt
 }
 
+export function getUserById(users, userId) {
+    return users.find(user => user._id === userId)
+}
+
 export function makeLorem(size = 100) {
     var words = [
         'The sky',
