@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { generateBoardFromDescription } from '../../services/chatService'
 import { addExistingBoard } from '../../store/actions/board.action'
 import { Microphone, Night } from 'monday-ui-react-core/icons'
+import { BreadcrumbLoader } from './BreadcrumbLoader'
 
 export function BoardBuilder() {
     const [description, setDescription] = useState('')
@@ -10,6 +11,7 @@ export function BoardBuilder() {
     const [recognition, setRecognition] = useState(null)
     const [isRecording, setIsRecording] = useState(false)
     const [isVoiceInput, setIsVoiceInput] = useState(false)
+
     useEffect(() => {
         let speechRecognition
         if ('webkitSpeechRecognition' in window) {
@@ -73,16 +75,19 @@ export function BoardBuilder() {
     }, [description, isVoiceInput])
 
     return (
-        <div className='board-builder-container flex align-center justify-center'>
-            <input value={description} onChange={handleInputChange} placeholder='Project description...' />
-            <br />
-            <button className='night-icon' onClick={handleGenerateButtonClick} disabled={loading}>
-                {loading ? 'Generating...' : <Night size={18} />}
-            </button>
-            <button className='mic-icon' onClick={handleVoiceCommand} disabled={loading || isRecording}>
-                {isRecording ? 'Recording...' : <Microphone size={18} />}
-            </button>
-            {error && <p style={{ color: 'grey', fontSize: '0.775rem', margin: '0' }}>{error}</p>}
-        </div>
+        <>
+            {!loading && <BreadcrumbLoader />}
+            <div className='board-builder-container flex align-center justify-center'>
+                <input value={description} onChange={handleInputChange} placeholder='Project description...' />
+                <br />
+                <button className='night-icon' onClick={handleGenerateButtonClick} disabled={loading}>
+                    {loading ? 'Generating...' : <Night size={18} />}
+                </button>
+                <button className='mic-icon' onClick={handleVoiceCommand} disabled={loading || isRecording}>
+                    {isRecording ? 'Recording...' : <Microphone size={18} />}
+                </button>
+                {error && <p style={{ color: 'grey', fontSize: '0.775rem', margin: '0' }}>{error}</p>}
+            </div>
+        </>
     )
 }
