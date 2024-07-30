@@ -7,7 +7,7 @@ export function BreadcrumbLoader() {
     useEffect(() => {
         const interval = setInterval(() => {
             setActiveStep(prev => (prev + 1) % steps.length)
-        }, 1500)
+        }, 3000)
         return () => clearInterval(interval)
     }, [])
 
