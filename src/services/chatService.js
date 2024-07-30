@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { makeId } from './util.service'
+import { getRandomColor, makeId } from './util.service'
 const API_KEY = 'sk-proj-KlazichQ2l0j77H3rxTqT3BlbkFJ1mAFLXizl7TsNqKdsr7A'
 
 const BASE_URL = 'https://api.openai.com/v1/completions'
@@ -85,7 +85,7 @@ export async function generateBoardFromDescription(description) {
                 group._id = makeId()
                 group.tasks = group.tasks || []
                 group.title = group.title || 'Group'
-
+                group.style.backgroundColor = getRandomColor()
                 group.tasks.forEach(task => {
                     task.archivedAt = null
                     task._id = makeId()

@@ -9,7 +9,7 @@ export function BoardBuilder() {
     const [error, setError] = useState(null)
     const [recognition, setRecognition] = useState(null)
     const [isRecording, setIsRecording] = useState(false)
-
+    const [isVoiceInput, setIsVoiceInput] = useState(false)
     useEffect(() => {
         let speechRecognition
         if ('webkitSpeechRecognition' in window) {
@@ -25,6 +25,7 @@ export function BoardBuilder() {
             const speechResult = event.results[0][0].transcript
             setDescription(speechResult)
             setIsRecording(false)
+            setIsVoiceInput(true)
         }
 
         speechRecognition.onerror = event => {
@@ -34,12 +35,6 @@ export function BoardBuilder() {
 
         setRecognition(speechRecognition)
     }, [])
-
-    useEffect(() => {
-        if (recognition && description && !isRecording) {
-            handleGenerateBoard()
-        }
-    }, [description, isRecording])
 
     const handleGenerateBoard = async () => {
         setLoading(true)
@@ -62,15 +57,26 @@ export function BoardBuilder() {
         }
     }
 
+    const handleInputChange = e => {
+        setDescription(e.target.value)
+        setIsVoiceInput(false)
+    }
+
+    const handleGenerateButtonClick = () => {
+        handleGenerateBoard()
+    }
+
+    useEffect(() => {
+        if (recognition && description && isVoiceInput) {
+            handleGenerateBoard()
+        }
+    }, [description, isVoiceInput])
+
     return (
         <div className='board-builder-container flex align-center justify-center'>
-            <input
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-                placeholder='Project description...'
-            />
+            <input value={description} onChange={handleInputChange} placeholder='Project description...' />
             <br />
-            <button className='night-icon' onClick={handleGenerateBoard} disabled={loading}>
+            <button className='night-icon' onClick={handleGenerateButtonClick} disabled={loading}>
                 {loading ? 'Generating...' : <Night size={18} />}
             </button>
             <button className='mic-icon' onClick={handleVoiceCommand} disabled={loading || isRecording}>
