@@ -3,8 +3,8 @@ import { TabList, Tab, DialogContentContainer } from 'monday-ui-react-core'
 import { Close, Home } from 'monday-ui-react-core/icons'
 import { ActivityLog } from './Comments/ActivityLog'
 import { UpdatedComments } from './Comments/UpdateComments'
-import { FilesCmp } from './Comments/FilesCmp'
 import { getActivities } from '../../../../store/actions/board.action'
+import { FilesCmp } from './Comments/FilesCmp'
 
 export function ActivityModal({
     task,

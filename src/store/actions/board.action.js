@@ -266,17 +266,6 @@ export async function getActivities(boardId) {
     }
 }
 
-export async function getActivities(boardId) {
-    try {
-        const activities = await boardService.getActivities(boardId)
-        store.dispatch(getCmdSetBoardActivities(activities))
-        return activities
-    } catch (err) {
-        console.log('Cannot get board activities', err)
-        throw err
-    }
-}
-
 // Command Creators
 function getCmdSetBoards(boards) {
     return {
@@ -375,13 +364,6 @@ export function getCmdToggleStarredBoard(board) {
 export function getCmdRevertBoard() {
     return {
         type: REVERT_BOARD,
-    }
-}
-
-function getCmdSetBoardActivities(activities) {
-    return {
-        type: SET_BOARD_ACTIVITIES,
-        activities,
     }
 }
 

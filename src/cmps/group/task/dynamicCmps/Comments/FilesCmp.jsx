@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Dialog, DialogContentContainer, Button, Avatar } from 'monday-ui-react-core'
-import { Attach, File } from 'monday-ui-react-core/icons'
+import { Attach } from 'monday-ui-react-core/icons'
 
-const FilesCmp = ({ task, onUpdateField, columnKey }) => {
+export const FilesCmp = ({ task, onUpdateField, columnKey }) => {
     const fileInputRef = useRef(null)
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [fileList, setFileList] = useState(task[columnKey] || [])
@@ -117,5 +117,3 @@ const FilesCmp = ({ task, onUpdateField, columnKey }) => {
         </div>
     )
 }
-
-export default FilesCmp
