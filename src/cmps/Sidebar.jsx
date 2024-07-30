@@ -1,7 +1,7 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Search } from 'monday-ui-react-core/next'
 
 import {
