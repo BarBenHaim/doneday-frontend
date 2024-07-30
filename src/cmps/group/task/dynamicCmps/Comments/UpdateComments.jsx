@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import moment from 'moment'
 import { boardService } from '../../../../../services/board'
 import { Edit, Delete } from 'monday-ui-react-core/icons'
-import { socketService, SOCKET_EVENT_COMMENT_ADDED, SOCKET_EVENT_COMMENT_REMOVED } from '../../../../../services/socket.service' 
 
 export function UpdatedComments({ task, boardId, groupId, loggedinUser, onUpdateField }) {
     const [isUpdateBtn, setUpdateBtn] = useState(false)
