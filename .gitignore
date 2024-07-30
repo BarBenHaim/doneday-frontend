@@ -24,4 +24,3 @@ dist-ssr
 .env
 
 src/cmps/AddBoard-monday.jsx
-src/services/api.service.js
