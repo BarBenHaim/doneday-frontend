@@ -266,7 +266,7 @@ export function BoardDetails() {
                 </div>
             </header>
             <GroupList boardsToDisplay={boardsToDisplay} view={view} />
-            <UserMsg />
+            {/* <UserMsg /> */}
         </section>
     )
 }
