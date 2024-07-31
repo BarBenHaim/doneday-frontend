@@ -79,19 +79,6 @@ export async function addExistingBoard(board) {
     }
 }
 
-// export async function updateBoard(board) {
-//   store.dispatch(getCmdUpdateBoard(board))
-//   console.log('boardID update board', board)
-
-//   try {
-//     const savedBoard = await boardService.save(board)
-//     return savedBoard
-//   } catch (err) {
-//     console.log('Cannot save board', err)
-//     throw err
-//   }
-// }
-
 export async function updateBoard(board) {
     store.dispatch(getCmdUpdateBoard(board))
     console.log('boardId update board', board)
