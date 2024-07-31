@@ -9,7 +9,7 @@ import {
   Settings,
   Team,
 } from 'monday-ui-react-core/icons'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 
 // Import images
 
@@ -20,9 +20,13 @@ import Image4 from '../assets/img/project/4.png'
 import Image6 from '../assets/img/project/6.png'
 
 export function HomePage() {
+  const location = useLocation()
+  const isHomePage = location.pathname === '/'
+  const [homePage, setActiveHomePage] = useState(isHomePage)
   const [activeImage, setActiveImage] = useState(Image1)
   const [isImageActive, setIsImageActive] = useState(false)
   const navigate = useNavigate()
+  console.log(homePage)
 
   useEffect(() => {
     const cards = document.querySelectorAll('.card')
@@ -57,8 +61,10 @@ export function HomePage() {
     navigate('/login')
   }
 
+  // function homepage
+
   return (
-    <section>
+    <section className="home-page-body">
       <header className="basic-header">
         <div className="logo-header">
           <img

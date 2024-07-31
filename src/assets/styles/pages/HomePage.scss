@@ -1,9 +1,10 @@
-section {
+.home-page-body {
   font-family: $font-family-primary;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   background-color: #ffffff;
+  overflow-x: hidden;
 }
 
 .basic-header {
@@ -29,7 +30,7 @@ section {
 .main-container-page-home {
   display: flex;
   gap: 80px;
-  // justify-content: space-between;
+
   align-items: flex-start;
   padding: 0 100px;
   margin-top: 80px;
@@ -256,6 +257,10 @@ section {
   font-size: 14px;
   color: white;
   line-height: 20.125px;
+}
+
+.hidden {
+  display: none;
 }
 
 @media (max-width: 1500px) {
