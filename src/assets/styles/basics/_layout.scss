@@ -73,8 +73,16 @@
         font-weight: 500;
         font-family: poppins;
     }
+    .sidebar.main-container,
+    .board-index-template {
+        display: none;
+    }
 }
 @media (min-width: 940px) {
+    .sidebar.main-container,
+    .board-index-template {
+        display: flex;
+    }
     .board-details .board-details-header .board-details-edit span button .board-title {
         font-size: 1.875em;
         margin: 0;
