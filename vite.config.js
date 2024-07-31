@@ -7,5 +7,8 @@ export default defineConfig({
         outDir: '../doneday-backend/public',
         emptyOutDir: true,
     },
+    define: {
+        global: 'window',
+    },
     globals: {},
 })
