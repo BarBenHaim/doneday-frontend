@@ -564,8 +564,7 @@ export function adjustBoard(board) {
 
     board.activities = board.activities || []
     board.archivedAt = null
-    board._id = makeId()
-    board.isStarred = false
+    board.isStarred = true
     board.label = 'task'
     board.cmpsOrder = ['checkbox', 'title', 'memberIds', 'status', 'priority', 'dueDate', 'recording', 'description']
     board.members = board.members || []

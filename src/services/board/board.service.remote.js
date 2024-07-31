@@ -21,6 +21,7 @@ export const boardService = {
     updateComment,
     deleteComment,
     getActivities,
+    generateBoard,
 }
 
 async function query() {
@@ -37,6 +38,10 @@ async function remove(boardId) {
 
 async function addBoard(boardTitle, boardLabel) {
     return httpService.post(`board`, { title: boardTitle, label: boardLabel })
+}
+
+async function generateBoard(desc) {
+    return httpService.post(`ai/generateBoard`, desc)
 }
 
 async function updateBoard(board) {
