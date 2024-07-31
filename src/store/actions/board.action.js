@@ -71,6 +71,7 @@ export async function addExistingBoard(board) {
     try {
         const newBoard = await boardService.save(board)
         store.dispatch(getCmdAddBoard(newBoard))
+        console.log(newBoard)
         return newBoard
     } catch (err) {
         console.log('Cannot add AI-generated board', err)

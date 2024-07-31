@@ -49,11 +49,13 @@ async function updateBoard(board) {
 }
 
 async function save(board) {
+    let savedBoard
     if (board._id) {
-        await httpService.put(`board/${board._id}`, board)
+        savedBoard = await httpService.put(`board/${board._id}`, board)
     } else {
-        await httpService.post('board', board)
+        savedBoard = await httpService.post('board', board)
     }
+    return savedBoard
 }
 
 async function addBoardMsg(boardId, txt) {
