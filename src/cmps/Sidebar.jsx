@@ -63,7 +63,7 @@ export function Sidebar() {
     return (
         <div className='sidebar main-container'>
             <DialogContentContainer>
-                <Menu>
+                <Menu className='side-bar-menu'>
                     <MenuItem icon={Home} title='Home' onClick={() => handleOnClick('/')} />
                     <MenuDivider />
                     <MenuItem
@@ -90,7 +90,12 @@ export function Sidebar() {
                 </div>
                 <div className='sidebar-search-add-container'>
                     <div className='search-container'>
-                        <Search placeholder='Search' size='medium' onChange={handleSearchClick} />
+                        <Search
+                            placeholder='Search'
+                            size='medium'
+                            onChange={handleSearchClick}
+                            className='search-input'
+                        />
                     </div>
                     <div className='add-button-dialog'>
                         <Dialog
@@ -124,11 +129,11 @@ export function Sidebar() {
                         </Dialog>
                     </div>
                 </div>
-                <Menu>
+                <Menu className='side-bar-menu'>
                     {filteredBoards.map(board => (
                         <MenuItem
                             icon={Board}
-                            key={board._id} // Ensure _id is unique and stable
+                            key={board._id}
                             title={board.title}
                             onClick={() => handleOnClick(`/board/${board._id}`)}
                         />
