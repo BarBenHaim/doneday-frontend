@@ -1,11 +1,10 @@
 import axios from 'axios'
-import { getRandomColor, makeId } from './util.service'
-import { VITE_API_KEY as API_KEY } from './api.service'
-
+import { adjustBoard } from './util.service'
 const BASE_URL = 'https://api.openai.com/v1/completions'
-
+// Example..
 export async function generateBoardFromDescription(description) {
-    const prompt = `Generate a detailed single board structure in an accurate JSON format for the following project description: "${description}". 
+    const prompt = `
+    Generate a detailed single board structure in an accurate JSON format for the following project description: "${description}". 
     Only return the JSON object, nothing else. 
     Example JSON:
     {
@@ -38,7 +37,7 @@ export async function generateBoardFromDescription(description) {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${API_KEY}`,
+                    Authorization: `Bearer 123`,
                 },
             }
         )
@@ -46,61 +45,7 @@ export async function generateBoardFromDescription(description) {
         const answer = response.data.choices[0].text.trim()
         const board = JSON.parse(answer)
 
-        board.activities = board.activities || []
-        board.archivedAt = null
-        board._id = makeId()
-        board.isStarred = false
-        board.label = 'task'
-        board.cmpsOrder = [
-            'checkbox',
-            'title',
-            'memberIds',
-            'status',
-            'priority',
-            'dueDate',
-            'recording',
-            'description',
-        ]
-        board.members = board.members || []
-
-        const statuses = ['Not started']
-        const priorities = ['Low', 'Medium', 'High', 'Critical']
-
-        function getRandomElement(arr) {
-            return arr[Math.floor(Math.random() * arr.length)]
-        }
-
-        function getRandomDate(start, end) {
-            const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
-            return date.toISOString().split('T')[0]
-        }
-
-        const startDate = new Date()
-        const endDate = new Date()
-        endDate.setFullYear(startDate.getFullYear() + 1)
-
-        if (board.groups && Array.isArray(board.groups)) {
-            board.groups.forEach(group => {
-                group.archivedAt = null
-                group._id = makeId()
-                group.tasks = group.tasks || []
-                group.title = group.title || 'Group'
-                group.style.backgroundColor = getRandomColor()
-                group.tasks.forEach(task => {
-                    task.archivedAt = null
-                    task._id = makeId()
-                    task.comments = task.comments || []
-                    task.checklists = task.checklists || []
-                    task.memberIds = task.memberIds || []
-                    task.priority = getRandomElement(priorities)
-                    task.status = getRandomElement(statuses)
-                    task.dueDate = getRandomDate(startDate, endDate)
-                    task.byMember = null
-                })
-            })
-        }
-
-        return board
+        return adjustBoard(board)
     } catch (error) {
         console.error('Error fetching AI generated board:', error.response ? error.response.data : error.message)
         throw error
