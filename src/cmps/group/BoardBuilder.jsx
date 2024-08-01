@@ -46,9 +46,7 @@ export function BoardBuilder() {
 
         try {
             const board = await generateBoardFromDescription(description)
-            console.log('frontend:', board)
             await addExistingBoard(board)
-            navigate(`/board/${board._id}`)
         } catch (err) {
             console.error(err)
             setError('No more tokens... Please try again.')
