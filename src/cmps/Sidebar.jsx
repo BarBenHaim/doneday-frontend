@@ -45,7 +45,7 @@ export function Sidebar() {
     }
 
     function toggleAddBoard() {
-        console.log("toggleAddBoard")
+        console.log('toggleAddBoard')
         setIsAddBoardModalOpen(!isAddBoardModalOpen)
     }
 
@@ -64,7 +64,7 @@ export function Sidebar() {
     return (
         <div className='sidebar main-container'>
             <DialogContentContainer>
-                <Menu>
+                <Menu className='side-bar-menu'>
                     <MenuItem icon={Home} title='Home' onClick={() => handleOnClick('/board')} />
                     <MenuDivider />
                     <MenuItem
