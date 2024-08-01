@@ -22,9 +22,7 @@ export function AddBoard({ isOpen, onClose }) {
     async function onAddBoard() {
         try {
             const board = await addBoard(boardTitle, labelType)
-            console.log('labelType', labelType)
             showSuccessMsg(`Board added (id: ${board._id})`)
-            console.log(board)
             onClose()
             navigate(`/board/${board._id}`)
         } catch (err) {

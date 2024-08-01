@@ -3,6 +3,7 @@ import { generateBoardFromDescription } from '../../services/chatService'
 import { addExistingBoard } from '../../store/actions/board.action'
 import { Microphone, Night } from 'monday-ui-react-core/icons'
 import { BreadcrumbLoader } from './BreadcrumbLoader'
+import { useNavigate } from 'react-router'
 
 export function BoardBuilder() {
     const [description, setDescription] = useState('')
@@ -11,6 +12,7 @@ export function BoardBuilder() {
     const [recognition, setRecognition] = useState(null)
     const [isRecording, setIsRecording] = useState(false)
     const [isVoiceInput, setIsVoiceInput] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(() => {
         let speechRecognition
@@ -44,7 +46,9 @@ export function BoardBuilder() {
 
         try {
             const board = await generateBoardFromDescription(description)
+            console.log('frontend:', board)
             await addExistingBoard(board)
+            navigate(`/board/${board._id}`)
         } catch (err) {
             console.error(err)
             setError('No more tokens... Please try again.')

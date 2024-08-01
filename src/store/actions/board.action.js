@@ -21,10 +21,12 @@ import {
     SET_ACTIVE_TASK,
     UPDATE_TASK_FIELD,
     SET_BOARD_ACTIVITIES,
+    SET_IS_LOADING,
 } from '../reducers/board.reducer'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 
 export async function loadBoards(filterBy) {
+    store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     try {
         const { groupTaskFilterBy } = store.getState()
         const boards = await boardService.query(groupTaskFilterBy)
@@ -32,6 +34,10 @@ export async function loadBoards(filterBy) {
     } catch (err) {
         console.log('Cannot load boards', err)
         throw err
+    } finally {
+        setTimeout(() => {
+            store.dispatch({ type: SET_IS_LOADING, isLoading: false })
+        }, 350)
     }
 }
 
@@ -71,13 +77,25 @@ export async function addExistingBoard(board) {
     try {
         const newBoard = await boardService.save(board)
         store.dispatch(getCmdAddBoard(newBoard))
-        console.log(newBoard)
         return newBoard
     } catch (err) {
         console.log('Cannot add AI-generated board', err)
         throw err
     }
 }
+
+// export async function updateBoard(board) {
+//   store.dispatch(getCmdUpdateBoard(board))
+//   console.log('boardID update board', board)
+
+//   try {
+//     const savedBoard = await boardService.save(board)
+//     return savedBoard
+//   } catch (err) {
+//     console.log('Cannot save board', err)
+//     throw err
+//   }
+// }
 
 export async function updateBoard(board) {
     store.dispatch(getCmdUpdateBoard(board))

@@ -1,0 +1,142 @@
+// $loader-height-small: 20px;
+// $loader-height-medium: 40px;
+// $loader-height-large: 60px;
+// $loader-width: 20px;
+// $animation-duration: 8s;
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: rgba(255, 255, 255, 1);
+    backdrop-filter: blur(177px);
+}
+.loader {
+    display: flex;
+    flex-direction: row;
+}
+.loader div {
+    position: relative;
+    width: 40px;
+    height: 200px;
+    overflow: hidden;
+    margin: 20px;
+    border-radius: 40px;
+    border: 2px solid #edf1f4;
+    background-color: linear-gradient(to bottom, rgba(0, 0, 0, 0.05), #edf1f4);
+    box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.1), -15px -15px 20px #fff, inset -5px -5px 5px rgba(255, 255, 255, 0.5),
+        inset 5px 5px 5px rgba(0, 0, 0, 0.05);
+}
+
+.loader div::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    border-radius: 40px;
+    box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.1), -15px -15px 20px #fff, inset -5px -5px 5px rgba(255, 255, 255, 0.5),
+        inset 5px 5px 5px rgba(0, 0, 0, 0.05);
+}
+
+.loader div::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: inset -5px -5px -5px rgba(0, 0, 0, 0.2), 0 420px 0 420px #ff3d57;
+}
+
+//         .line {
+//             width: $loader-width;
+//             margin: 0 5px;
+//             border-radius: 8px;
+//             transform-origin: center center;
+
+//             transform: rotate(-155deg);
+
+//         }
+
+//         .line3 {
+//             height: $loader-height-small;
+//             animation: line3Animation $animation-duration infinite;
+//             background-color: $Mlogo3;
+//             // transform: rotate(135deg);
+//         }
+
+//         .line2 {
+//             height: $loader-height-large;
+//             background-color: $Mlogo2;
+//             animation: line2Animation $animation-duration infinite;
+//             // transform: rotate(135deg);
+//             // transform: translate(20px, 20px) rotate(45deg);
+//             animation-delay: 0.2s;
+//         }
+
+//         .line1 {
+//             height: $loader-height-large;
+//             background-color: $Mlogo1;
+//             animation: line1Animation $animation-duration infinite;
+//             // transform: rotate(135deg);
+//             // transform: translate(40px, 40px) rotate(45deg);
+//             animation-delay: 0.4s;
+
+//         }
+//     }
+
+//     @keyframes line1Animation {
+//         0% {
+//             transform: translate(-50%, -50%) translateY(0);
+//             opacity: 1;
+//         }
+//         25% {
+//             transform: translate(-50%, -50%) translateY(-20px);
+//             opacity: 1;
+//         }
+//         50% {
+//             transform: translate(-50%, -50%) translateY(-40px);
+//             opacity: 1;
+//         }
+//         75% {
+//             transform: translate(-50%, -50%) translateY(-20px);
+//             opacity: 1;
+//         }
+//         100% {
+//             transform: translate(-50%, -50%) translateY(0);
+//             opacity: 1;
+//         }
+//     }
+
+//       @keyframes line2Animation {
+//         0%, 100% {
+//           opacity: 1;
+//         }
+//         25%, 75% {
+//           opacity: 0.5;
+//         }
+//         50% {
+//           opacity: 1;
+//         }
+//     }
+
+//     @keyframes line1Animation {
+//         0%, 100% {
+//           opacity: 1;
+//         }
+//         25%, 75% {
+//           opacity: 0.5;
+//         }
+//         50% {
+//           opacity: 1;
+//         }
+//     }
+// }
