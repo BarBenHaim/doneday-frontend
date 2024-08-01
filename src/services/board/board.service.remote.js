@@ -21,6 +21,7 @@ export const boardService = {
     updateComment,
     deleteComment,
     getActivities,
+    generateBoard,
 }
 
 async function query() {
@@ -39,16 +40,22 @@ async function addBoard(boardTitle, boardLabel) {
     return httpService.post(`board`, { title: boardTitle, label: boardLabel })
 }
 
+async function generateBoard(desc) {
+    return httpService.post(`ai/generateBoard`, desc)
+}
+
 async function updateBoard(board) {
     return httpService.put(`board/${board._id}`, board)
 }
 
 async function save(board) {
+    let savedBoard
     if (board._id) {
-        await httpService.put(`board/${board._id}`, board)
+        savedBoard = await httpService.put(`board/${board._id}`, board)
     } else {
-        await httpService.post('board', board)
+        savedBoard = await httpService.post('board', board)
     }
+    return savedBoard
 }
 
 async function addBoardMsg(boardId, txt) {

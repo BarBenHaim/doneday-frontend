@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { adjustBoard } from './util.service'
+const API_KEY = import.meta.env.VITE_API_KEY
+
 const BASE_URL = 'https://api.openai.com/v1/completions'
-// Example..
 export async function generateBoardFromDescription(description) {
     const prompt = `
     Generate a detailed single board structure in an accurate JSON format for the following project description: "${description}". 
@@ -37,7 +38,7 @@ export async function generateBoardFromDescription(description) {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer 123`,
+                    Authorization: `Bearer ${API_KEY}`,
                 },
             }
         )

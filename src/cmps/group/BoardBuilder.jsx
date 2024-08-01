@@ -43,8 +43,8 @@ export function BoardBuilder() {
         setError(null)
 
         try {
-            const generatedBoard = await generateBoardFromDescription(description)
-            await addExistingBoard(generatedBoard)
+            const board = await generateBoardFromDescription(description)
+            await addExistingBoard(board)
         } catch (err) {
             console.error(err)
             setError('No more tokens... Please try again.')
