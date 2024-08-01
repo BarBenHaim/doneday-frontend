@@ -1,3 +1,4 @@
+// import { Logo } from '../../svgs/TaskSvg'
 import { useEffect, useState } from 'react'
 
 import {
@@ -10,7 +11,6 @@ import {
   Team,
 } from 'monday-ui-react-core/icons'
 import { useLocation, useNavigate } from 'react-router'
-
 // Import images
 
 import Image1 from '../assets/img/project/1.png'
@@ -61,8 +61,6 @@ export function HomePage() {
     navigate('/login')
   }
 
-  // function homepage
-
   return (
     <section className="home-page-body">
       <header className="basic-header">
@@ -72,6 +70,7 @@ export function HomePage() {
             src="https://res.cloudinary.com/dkykllpf5/image/upload/v1721653904/wzvg1pialo9mpvjavwx1.png"
             alt="logo"
           />
+          {/* <Logo /> */}
         </div>
         <div className="login-get-start-btns">
           <button className="login-btn" onClick={onLogIn}>

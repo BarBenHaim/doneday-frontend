@@ -1,17 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import { Popover, Box, Typography } from '@mui/material'
 import { Combobox, IconButton } from 'monday-ui-react-core'
-import {
-  Add,
-  CheckList,
-  Description,
-  //   DueDate,
-  //   File,
-  Person,
-  Recurring,
-  //   Status,
-  Team,
-} from 'monday-ui-react-core/icons'
+import { Add } from 'monday-ui-react-core/icons'
 import 'monday-ui-react-core/dist/main.css'
 import {
   Status,
@@ -21,6 +11,7 @@ import {
   Collaborators,
   Txt,
   Number,
+  Drop,
 } from '../../svgs/TaskSvg'
 
 const AddColumnPopover = ({ predefinedLabels, handleAddColumn }) => {
@@ -33,8 +24,8 @@ const AddColumnPopover = ({ predefinedLabels, handleAddColumn }) => {
     status: { label: 'Status', leftIcon: Status },
     description: { label: 'Description', leftIcon: Txt },
     files: { label: 'Files', leftIcon: Files },
-    recording: { label: 'Recording', leftIcon: Recurring },
-    priority: { label: 'Priority', leftIcon: Person },
+    recording: { label: 'Recording', leftIcon: Drop },
+    priority: { label: 'Priority', leftIcon: Priority },
     default: { label: 'Some Title', leftIcon: Collaborators },
   }
 
@@ -50,6 +41,7 @@ const AddColumnPopover = ({ predefinedLabels, handleAddColumn }) => {
           color: labelMapping[label]?.color || labelMapping.default.color,
           fill: labelMapping[label]?.fill || labelMapping.default.fill,
           value: label,
+          padding: '10px',
         })),
     [predefinedLabels, labelMapping]
   )
@@ -102,7 +94,11 @@ const AddColumnPopover = ({ predefinedLabels, handleAddColumn }) => {
             renderOption={(option) => (
               <Box display="flex" alignItems="center">
                 <option.leftIcon
-                  style={{ color: option.color, fill: option.fill }}
+                  style={{
+                    color: option.color,
+                    fill: option.fill,
+                    padding: option.padding,
+                  }}
                 />
                 <Box ml={1}>{option.label}</Box>
               </Box>
