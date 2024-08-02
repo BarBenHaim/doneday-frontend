@@ -16,6 +16,7 @@ export function ActivityModal({
     initialTab = 0,
     activities,
     users,
+    currBoard,
 }) {
     const [activeTabIndex, setActiveTabIndex] = useState(initialTab)
     const [isClosing, setIsClosing] = useState(false)
@@ -76,7 +77,7 @@ export function ActivityModal({
                         />
                     )}
                     {activeTabIndex === 1 && <FilesCmp task={task} onUpdateField={onUpdateField} columnKey='files' />}
-                    {activeTabIndex === 2 && <ActivityLog activities={activities} users={users} />}
+                    {activeTabIndex === 2 && <ActivityLog activities={activities} users={users} currBoard={currBoard} />}
                 </div>
             </DialogContentContainer>
         </div>

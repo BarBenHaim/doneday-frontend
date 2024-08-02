@@ -99,6 +99,7 @@ export const RootActivityModal = () => {
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
                 initialTab={0}
+                currBoard={currBoard}
             />
         </div>
     )

@@ -1,27 +1,37 @@
 .activity-container {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    padding-inline-start: 10px;
+    row-gap: 30px;
+    column-gap: 40px;
 }
 
 .activity-container li {
-    display: flex;
+    display: contents;
     align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 20px 0;
 }
 
 .activity-container-avatar {
+    display: flex; 
+    align-items: center; 
     margin-right: 15px;
+    grid-column: 2;
+    gap: 20px;
 }
 
 .activity-container-active-time {
-    margin-right: 15px;
-    color: #757575;
+    grid-column: 1;
+    margin-right: 10px;
+    color: $Mgray3;
 }
 
 .activity-container-activity {
-    flex-grow: 1;
+    grid-column: 3;
+    // text-align: right;
+    & p {
+        margin: 0;
+    }
 }
 
 .custom-avatar {
