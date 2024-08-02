@@ -40,7 +40,7 @@ async function addBoard(boardTitle, boardLabel) {
     return httpService.post(`board`, { title: boardTitle, label: boardLabel })
 }
 
-async function generateBoard(desc) {
+export async function generateBoard(desc) {
     return httpService.post(`ai/generateBoard`, desc)
 }
 

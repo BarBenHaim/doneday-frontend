@@ -48,11 +48,13 @@ async function remove(boardId) {
 }
 
 async function save(board) {
+    let savedBoard
     if (board._id) {
-        return await storageService.put(STORAGE_KEY, board)
+        savedBoard = await storageService.put(STORAGE_KEY, board)
     } else {
-        return await storageService.post(STORAGE_KEY, board)
+        savedBoard = await storageService.post(STORAGE_KEY, board)
     }
+    return savedBoard
 }
 
 async function updateBoard(boardId, updatedBoard) {

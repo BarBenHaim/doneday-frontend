@@ -15,8 +15,8 @@ export function GroupPersonFilter({ setFilterBy }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const groups = currBoard?.groups || []
   const tasks = groups.flatMap((group) => group.tasks || [])
-  const memberIds = tasks.flatMap((task) => task.memberIds)
-  console.log(currBoard.members)
+  const memberIds = currBoard?.members?.map(member => member._id) || []
+  console.log("check currboard.members on filter", currBoard.members)
 
   useEffect(() => {
     if (currBoard) {

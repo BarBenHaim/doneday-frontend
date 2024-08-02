@@ -20,6 +20,7 @@ export const REMOVE_TASK = 'REMOVE_TASK'
 export const REVERT_BOARD = 'REVERT_BOARD'
 export const ADD_ACTIVITY = 'REVERT_BOARD'
 export const SET_BOARD_ACTIVITIES = 'SET_BOARD_ACTIVITIES'
+export const SET_IS_LOADING = 'SET_IS_LOADING'
 
 const initialState = {
     boards: [],
@@ -29,6 +30,10 @@ const initialState = {
     isModalOpen: false,
     activeTask: null,
     activities: [],
+    flag: {
+        isLoading: false,
+        error: null,
+    },
 }
 
 export function boardReducer(state = initialState, action) {
@@ -42,15 +47,15 @@ export function boardReducer(state = initialState, action) {
             newState = { ...state, board: action.board }
             break
         case REMOVE_BOARD:
-            const lastRemovedBoard = state.boards.find(board => board._id === action.boardId)
-            boards = state.boards.filter(board => board._id !== action.boardId)
+            const lastRemovedBoard = state.boards.find((board) => board._id === action.boardId)
+            boards = state.boards.filter((board) => board._id !== action.boardId)
             newState = { ...state, boards, lastRemovedBoard: lastRemovedBoard }
             break
         case ADD_BOARD:
             newState = { ...state, boards: [...state.boards, action.board] }
             break
         case UPDATE_BOARD:
-            boards = state.boards.map(board => (board._id === action.board._id ? action.board : board))
+            boards = state.boards.map((board) => (board._id === action.board._id ? action.board : board))
             newState = { ...state, boards }
             break
         case ADD_BOARD_MSG:
@@ -63,7 +68,7 @@ export function boardReducer(state = initialState, action) {
             }
             break
         case TOGGLE_STARRED_BOARD:
-            boards = state.boards.map(board =>
+            boards = state.boards.map((board) =>
                 board._id === action.boardId ? { ...board, isStarred: !board.isStarred } : board
             )
             newState = { ...state, boards }
@@ -72,7 +77,7 @@ export function boardReducer(state = initialState, action) {
             newState = { ...state, boards: state.boards }
             break
         case ADD_GROUP:
-            boards = state.boards.map(board =>
+            boards = state.boards.map((board) =>
                 board._id === action.payload.boardId
                     ? {
                           ...board,
@@ -83,11 +88,11 @@ export function boardReducer(state = initialState, action) {
             newState = { ...state, boards }
             break
         case UPDATE_GROUP:
-            boards = state.boards.map(board =>
+            boards = state.boards.map((board) =>
                 board._id === action.payload.boardId
                     ? {
                           ...board,
-                          groups: board.groups.map(group =>
+                          groups: board.groups.map((group) =>
                               group._id === action.payload.groupId ? action.payload.group : group
                           ),
                       }
@@ -96,22 +101,22 @@ export function boardReducer(state = initialState, action) {
             newState = { ...state, boards }
             break
         case REMOVE_GROUP:
-            boards = state.boards.map(board =>
+            boards = state.boards.map((board) =>
                 board._id === action.payload.boardId
                     ? {
                           ...board,
-                          groups: board.groups.filter(group => group._id !== action.payload.groupId),
+                          groups: board.groups.filter((group) => group._id !== action.payload.groupId),
                       }
                     : board
             )
             newState = { ...state, boards }
             break
         case ADD_TASK:
-            boards = state.boards.map(board =>
+            boards = state.boards.map((board) =>
                 board._id === action.payload.boardId
                     ? {
                           ...board,
-                          groups: board.groups.map(group =>
+                          groups: board.groups.map((group) =>
                               group._id === action.payload.groupId
                                   ? {
                                         ...group,
@@ -125,11 +130,11 @@ export function boardReducer(state = initialState, action) {
             newState = { ...state, boards }
             break
         case ADD_TASK_BOTTOM:
-            boards = state.boards.map(board =>
+            boards = state.boards.map((board) =>
                 board._id === action.payload.boardId
                     ? {
                           ...board,
-                          groups: board.groups.map(group =>
+                          groups: board.groups.map((group) =>
                               group._id === action.payload.groupId
                                   ? {
                                         ...group,
@@ -143,15 +148,15 @@ export function boardReducer(state = initialState, action) {
             newState = { ...state, boards }
             break
         case UPDATE_TASK:
-            boards = state.boards.map(board =>
+            boards = state.boards.map((board) =>
                 board._id === action.payload.boardId
                     ? {
                           ...board,
-                          groups: board.groups.map(group =>
+                          groups: board.groups.map((group) =>
                               group._id === action.payload.groupId
                                   ? {
                                         ...group,
-                                        tasks: group.tasks.map(task =>
+                                        tasks: group.tasks.map((task) =>
                                             task._id === action.payload.taskId ? action.payload.task : task
                                         ),
                                     }
@@ -163,15 +168,15 @@ export function boardReducer(state = initialState, action) {
             newState = { ...state, boards }
             break
         case REMOVE_TASK:
-            boards = state.boards.map(board =>
+            boards = state.boards.map((board) =>
                 board._id === action.payload.boardId
                     ? {
                           ...board,
-                          groups: board.groups.map(group =>
+                          groups: board.groups.map((group) =>
                               group._id === action.payload.groupId
                                   ? {
                                         ...group,
-                                        tasks: group.tasks.filter(task => task._id !== action.payload.taskId),
+                                        tasks: group.tasks.filter((task) => task._id !== action.payload.taskId),
                                     }
                                   : group
                           ),
@@ -181,15 +186,15 @@ export function boardReducer(state = initialState, action) {
             newState = { ...state, boards }
             break
         case REMOVE_TASK:
-            boards = state.boards.map(board =>
+            boards = state.boards.map((board) =>
                 board._id === action.payload.boardId
                     ? {
                           ...board,
-                          groups: board.groups.map(group =>
+                          groups: board.groups.map((group) =>
                               group._id === action.payload.groupId
                                   ? {
                                         ...group,
-                                        tasks: group.tasks.filter(task => task._id !== action.payload.taskId),
+                                        tasks: group.tasks.filter((task) => task._id !== action.payload.taskId),
                                     }
                                   : group
                           ),
@@ -209,6 +214,8 @@ export function boardReducer(state = initialState, action) {
         case SET_BOARD_ACTIVITIES:
             newState = { ...state, activities: action.activities }
             break
+        case SET_IS_LOADING:
+            return { ...state, flag: { ...state.flag, isLoading: action.isLoading } }
         default:
             return state
     }

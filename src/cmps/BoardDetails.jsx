@@ -31,6 +31,7 @@ import {
     socketService,
 } from '../services/socket.service'
 import { useDispatch } from 'react-redux'
+import Loader from './Loader'
 
 export function BoardDetails() {
     const { boardId } = useParams()
@@ -39,6 +40,7 @@ export function BoardDetails() {
 
     const [isStarredBoard, setIsStarredBoard] = useState(currBoard?.isStarred)
     const [boardsToDisplay, setBoardsToDisplay] = useState(currBoard?.groups || [])
+    const isLoading = useSelector(storeState => storeState.boardModule.flag.isLoading)
     const [activeTabIndex, setActiveTabIndex] = useState(0)
 
     const navigate = useNavigate()
@@ -112,7 +114,7 @@ export function BoardDetails() {
         }
     }
 
-    if (!currBoard) return <div>Loading...</div>
+    if (!currBoard) return <Loader />
 
     const view = (() => {
         switch (activeTabIndex) {
@@ -129,6 +131,8 @@ export function BoardDetails() {
 
     return (
         <section className='board-details'>
+              {isLoading ? <Loader /> : (
+                                <>
             <header className='board-details-header'>
                 <div className='header-content'>
                     <div className='board-details-edit'>
@@ -265,8 +269,11 @@ export function BoardDetails() {
                     <GroupFilter setFilterBy={setFilterBy} />
                 </div>
             </header>
-            <GroupList boardsToDisplay={boardsToDisplay} view={view} />
+            
+             <GroupList boardsToDisplay={boardsToDisplay} view={view} />  
             {/* <UserMsg /> */}
+            </>
+        )}
         </section>
     )
 }
