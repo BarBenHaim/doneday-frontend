@@ -37,11 +37,12 @@ export async function loadBoards(filterBy) {
     } finally {
         setTimeout(() => {
             store.dispatch({ type: SET_IS_LOADING, isLoading: false })
-        }, 350)
+        }, 400)
     }
 }
 
 export async function loadBoard(boardId) {
+    store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     try {
         const { groupTaskFilterBy } = store.getState()
         const board = await boardService.getById(boardId)
@@ -49,6 +50,10 @@ export async function loadBoard(boardId) {
     } catch (err) {
         console.log('Cannot load board', err)
         throw err
+    } finally {
+        setTimeout(() => {
+            store.dispatch({ type: SET_IS_LOADING, isLoading: false })
+        }, 400)
     }
 }
 
