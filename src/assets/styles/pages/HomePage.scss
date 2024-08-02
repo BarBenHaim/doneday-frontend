@@ -1,327 +1,334 @@
 .home-page-body {
-  font-family: $font-family-primary;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  background-color: #ffffff;
-  overflow-x: hidden;
+    font-family: $font-family-primary;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    overflow-x: hidden;
 }
 
 .basic-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
 
-  height: 10%;
-  padding: 5px 100px;
+    height: 10%;
+    padding: 5px 100px;
 
-  background-color: #ffffff;
+    background-color: #ffffff;
 
-  z-index: 1000;
+    z-index: 1000;
 }
 
 .logo-header img {
-  height: 40px;
+    height: 40px;
 }
 
 .main-container-page-home {
-  display: flex;
-  gap: 80px;
+    display: flex;
+    gap: 80px;
 
-  align-items: flex-start;
-  padding: 0 100px;
-  margin-top: 80px;
+    align-items: flex-start;
+    padding: 0 100px;
+    margin-top: 80px;
 }
 
 .text-content {
-  max-width: 600px;
+    max-width: 600px;
 }
 
 .text-content h1 {
-  line-height: 80px;
-  font-size: 65px;
-  margin-top: 160px;
-  margin-bottom: 14px;
-  margin-left: 0px;
-  color: #333333;
+    line-height: 80px;
+    font-size: 65px;
+    margin-top: 160px;
+    margin-bottom: 14px;
+    margin-left: 0px;
+    color: #333333;
 }
 
 .txt {
-  font-size: 22px;
-  color: #333333;
+    font-size: 22px;
+    color: #333333;
 }
 
 .small-txt {
-  margin-top: 15px;
-  font-size: 16px;
+    margin-top: 15px;
+    font-size: 16px;
 }
 
 .card-container {
-  background-color: #ffffff;
-  position: relative;
-  margin-top: 100px;
-  border-radius: 10px;
-  box-shadow: -1px 0px 15px 1px rgba(0, 0, 0, 0.2);
-  font-size: 10px;
-  z-index: 4;
-  padding: 10px 22px;
+    background-color: #ffffff;
+    position: relative;
+    margin-top: 100px;
+    border-radius: 10px;
+    box-shadow: -1px 0px 15px 1px rgba(0, 0, 0, 0.2);
+    font-size: 10px;
+    z-index: 4;
+    padding: 10px 22px;
 }
 
 .cards-title {
-  margin-bottom: 16px;
-  font-weight: normal;
+    margin-bottom: 16px;
+    font-weight: normal;
 }
 
 .cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  background-color: white;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    background-color: white;
 }
 
 .card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  text-align: center;
-  font-size: 14px;
-  width: 85px;
-  height: 90px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 14px;
+    width: 85px;
+    height: 90px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .card:hover {
-  background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 
 .login-get-start-btns {
-  display: flex;
-  gap: 30px;
-  width: max-content;
-  align-items: center;
-  justify-content: space-between;
+    display: flex;
+    gap: 30px;
+    width: max-content;
+    align-items: center;
+    justify-content: space-between;
 }
 .login-btn {
-  width: 100px;
-  padding: 2px 2px;
-  font-size: 16px;
-  border-radius: 4px;
+    width: 100px;
+    padding: 2px 2px;
+    font-size: 16px;
+    border-radius: 4px;
 }
 
 .get-start-btn {
-  background-color: #6161ff;
-  color: #ffffff;
-  font-size: 20px;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 30px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 29px;
-  width: 100%;
-  max-width: 200px;
-  height: 60px;
+    background-color: #6161ff;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 29px;
+    width: 100%;
+    max-width: 200px;
+    height: 60px;
 
-  &:hover {
-    background-color: #4e46e5;
-  }
+    &:hover {
+        background-color: #4e46e5;
+    }
 }
 .fixed {
-  background-color: #6161ff;
-  color: #ffffff;
-  font-size: 14px;
-  padding: 10px 10px;
-  border: none;
-  border-radius: 30px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    background-color: #6161ff;
+    color: #ffffff;
+    font-size: 14px;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 
-  width: 100%;
+    width: 100%;
 
-  height: max-content;
+    height: max-content;
 
-  &:hover {
-    background-color: #4e46e5;
-  }
+    &:hover {
+        background-color: #4e46e5;
+    }
 }
 
 .image-container {
-  position: absolute;
-  top: 10%;
-  left: 25%;
-  width: 100%;
-  height: 400px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 30px;
-  margin-right: 35px;
+    position: absolute;
+    top: 10%;
+    right: 3.5%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    margin-right: 35px;
 }
 
 .image-container img {
-  max-width: 100%;
-  max-height: 100%;
-  display: block;
-  opacity: 80%;
-  transition: transform 0.3s ease, z-index 0.3s ease;
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    opacity: 80%;
+    transition: transform 0.3s ease, z-index 0.3s ease;
 }
 
 .image-container img.active {
-  z-index: 3;
-  transform: scale(1.1);
+    z-index: 3;
+    transform: scale(1.1);
 }
 
 .sponser-title {
-  text-align: center;
-  font-size: 14px;
-  font-weight: normal;
+    text-align: center;
+    font-size: 14px;
+    font-weight: normal;
 }
 
 .sponsers-imgs-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 70px;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 80px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 70px;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 80px;
 }
 
 .sponsers-imgs-container .img {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .sponsers-imgs-container .img img {
-  max-width: 85%;
-  height: auto;
+    max-width: 85%;
+    height: auto;
 }
 
 .boost-your-team {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 50px;
-  padding: 60px;
-  width: 1200px;
-  margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+    padding: 60px;
+    width: 1200px;
+    margin: 0 auto;
 }
 
 .boost-text {
-  max-width: 45%;
+    max-width: 45%;
 }
 
 .boost-your-team h1 {
-  font-size: 45px;
-  margin-bottom: 0;
+    font-size: 45px;
+    margin-bottom: 0;
 }
 
 .boost-your-team p {
-  font-size: 18px;
-  margin: 0;
+    font-size: 18px;
+    margin: 0;
 }
 
 .foter {
-  text-align: center;
-  width: 100%;
+    text-align: center;
+    width: 100%;
 
-  padding: 5px 5px 30px;
-  background-color: #181b34;
+    padding: 5px 5px 30px;
+    background-color: #181b34;
 }
 
 .foter h2 {
-  font-family: $font-family-primary;
-  font-size: 28px;
+    font-family: $font-family-primary;
+    font-size: 28px;
 
-  color: white;
-  margin-top: 0;
+    color: white;
+    margin-top: 0;
 }
 
 .foter p {
-  font-family: $font-family-primary;
-  font-size: 14px;
-  color: white;
-  line-height: 20.125px;
+    font-family: $font-family-primary;
+    font-size: 14px;
+    color: white;
+    line-height: 20.125px;
 }
 
 .hidden {
-  display: none;
+    display: none;
+}
+.monday-pics-container {
+    margin-block-end: 120px;
+    margin-inline-start: 100px;
+}
+
+.sponsers-imgs-container {
+    margin-inline-start: 120px;
 }
 
 @media (max-width: 1500px) {
-  .image-container {
-    top: 5%;
-    left: 70%;
-    width: 30%;
-    height: 200px;
-  }
+    .image-container {
+        top: 5%;
+        left: 70%;
+        width: 30%;
+        height: 200px;
+    }
 }
 
 @media (max-width: 768px) {
-  .sponsers-imgs-container {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  }
-  .basic-header {
-    padding: 5px 20px;
-    gap: 20px;
-  }
-  .text-content h1 {
-    font-size: 40px;
-    margin-top: 20px;
-  }
-  .main-container-page-home {
-    flex-direction: column;
-    padding: 0 20px;
-    gap: 20px;
-  }
+    .sponsers-imgs-container {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+    .basic-header {
+        padding: 5px 20px;
+        gap: 20px;
+    }
+    .text-content h1 {
+        font-size: 40px;
+        margin-top: 20px;
+    }
+    .main-container-page-home {
+        flex-direction: column;
+        padding: 0 20px;
+        gap: 20px;
+    }
 
-  .txt {
-    font-size: 18px;
-  }
+    .txt {
+        font-size: 18px;
+    }
 
-  .small-txt {
-    font-size: 14px;
-  }
+    .small-txt {
+        font-size: 14px;
+    }
 
-  .login-get-start-btns {
-    gap: 15px;
-  }
+    .login-get-start-btns {
+        gap: 15px;
+    }
 
-  .fixed {
-    font-size: 16px;
-    padding: 8px;
-    width: 100%;
-  }
+    .fixed {
+        font-size: 16px;
+        padding: 8px;
+        width: 100%;
+    }
 
-  .foter {
-    margin: 0 auto;
-  }
+    .foter {
+        margin: 0 auto;
+    }
 
-  .image-container {
-    display: none;
-  }
+    .image-container {
+        display: none;
+    }
 
-  .boost-your-team {
-    flex-direction: column;
-    width: 550px;
-    margin: 10 auto;
-  }
-  .boost-your-team h1 {
-    font-size: 24px;
-  }
+    .boost-your-team {
+        flex-direction: column;
+        width: 550px;
+        margin: 10 auto;
+    }
+    .boost-your-team h1 {
+        font-size: 24px;
+    }
 }
