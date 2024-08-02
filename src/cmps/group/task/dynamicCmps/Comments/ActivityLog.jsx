@@ -6,20 +6,22 @@ export function ActivityLog({ activities, users }) {
     if (!activities || activities.length === 0) return null
 
     console.log('users', users)
+    console.log('activity time', activities.createdAt)
 
     const getUserById = (userId) => {
-        return users.find(user => user._id === userId);
-    };
-    console.log('activities', activities)
+        return users.find(user => user._id === userId)
+    }
+
 
     return (
         <section>
         <ul>
+            <div className="activity-container">
             {activities.map((activity, idx) => {
                 const user = getUserById(activity.userId);
                 return (
                     <li key={idx}>
-                        <div>
+                        <div className="activity-container-avatar">
                             {user && (
                                 <Avatar
                                     ariaLabel={user.fullname}
@@ -32,13 +34,17 @@ export function ActivityLog({ activities, users }) {
                                 />
                             )}
                         </div>
-                        <span className='active-time'>{moment(activity.createdAt).fromNow()}</span>
+                        <span className='activity-container-user-name'>{user.fullname}</span>
+                        <span className='activity-container-active-time'>{moment(activity.timestamp).fromNow()}</span>
+                        <div className='activity-container-activity'>
                         <p>
                             {activity.action} {activity.entity}
                         </p>
+                        </div>
                     </li>
                 );
             })}
+            </div>
         </ul>
     </section>
 );

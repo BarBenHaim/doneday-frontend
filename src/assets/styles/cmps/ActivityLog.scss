@@ -1,0 +1,29 @@
+.activity-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.activity-container li {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.activity-container-avatar {
+    margin-right: 15px;
+}
+
+.activity-container-active-time {
+    margin-right: 15px;
+    color: #757575;
+}
+
+.activity-container-activity {
+    flex-grow: 1;
+}
+
+.custom-avatar {
+    border-radius: 50%;
+}

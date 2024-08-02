@@ -3,7 +3,6 @@ import { TabList, Tab, DialogContentContainer } from 'monday-ui-react-core'
 import { Close, Home } from 'monday-ui-react-core/icons'
 import { ActivityLog } from './Comments/ActivityLog'
 import { UpdatedComments } from './Comments/UpdateComments'
-import { getActivities } from '../../../../store/actions/board.action'
 import { FilesCmp } from './Comments/FilesCmp'
 
 export function ActivityModal({
@@ -24,9 +23,8 @@ export function ActivityModal({
     useEffect(() => {
         if (isOpen) {
             setActiveTabIndex(initialTab)
-            getActivities(boardId)
         }
-    }, [isOpen, initialTab, boardId])
+    }, [isOpen, initialTab])
 
     const handleClose = () => {
         setIsClosing(true)
