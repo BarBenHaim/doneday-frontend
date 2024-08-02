@@ -125,7 +125,7 @@ const TaskMembers = ({ task, members, onUpdateField, columnKey }) => {
                                 <Avatar
                                     size={Avatar.sizes.SMALL}
                                     type={Avatar.types.TEXT}
-                                    text={`+${avatars.length - 1}`}
+                                    text={`+${avatars.length - 2}`}
                                     backgroundColor={Avatar.colors.BLACKISH}
                                     style={{
                                         position: 'absolute',
