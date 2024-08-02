@@ -180,3 +180,10 @@ audio {
 .options-container {
     background-color: #333333;
 }
+
+.add-col-btn {
+    transition: rotate 0.3s;
+    &.isOpened {
+        rotate: 45deg;
+    }
+}

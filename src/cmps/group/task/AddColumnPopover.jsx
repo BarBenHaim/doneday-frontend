@@ -38,10 +38,12 @@ const AddColumnPopover = ({ predefinedLabels, handleAddColumn }) => {
 
     const handleClick = event => {
         setAnchorEl(event.currentTarget)
+        document.querySelector('.add-col-btn').classList.add('isOpened')
     }
 
     const handleClose = () => {
         setAnchorEl(null)
+        document.querySelector('.add-col-btn').classList.remove('isOpened')
     }
 
     const open = Boolean(anchorEl)
@@ -54,8 +56,7 @@ const AddColumnPopover = ({ predefinedLabels, handleAddColumn }) => {
 
     return (
         <div>
-            <IconButton icon={Add} size={'small'} onClick={handleClick} />
-
+            <IconButton className='add-col-btn' icon={Add} size={'small'} onClick={handleClick} />
             <Popover
                 id={id}
                 open={open}
