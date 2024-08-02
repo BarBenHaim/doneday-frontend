@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { generateBoardFromDescription } from '../../services/chatService'
 import { addExistingBoard } from '../../store/actions/board.action'
 import { Microphone, Night } from 'monday-ui-react-core/icons'
 import { BreadcrumbLoader } from './BreadcrumbLoader'
 import { useNavigate } from 'react-router'
+import { generateBoard } from '../../services/board/board.service.remote.js'
 
 export function BoardBuilder() {
     const [description, setDescription] = useState('')
@@ -45,8 +45,8 @@ export function BoardBuilder() {
         setError(null)
 
         try {
-            const board = await generateBoardFromDescription(description)
-            await addExistingBoard(board)
+            const board = await generateBoard({ description })
+            await addExistingBoard(board.data)
         } catch (err) {
             console.error(err)
             setError('No more tokens... Please try again.')
