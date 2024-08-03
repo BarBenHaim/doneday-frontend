@@ -46,11 +46,8 @@ export function BoardDetails() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        console.log('subsrcibe')
         socketService.on('board-changed', onBoardChanged)
         return () => {
-            console.log('unsubsrcibe')
-
             socketService.off('board-changed')
         }
     }, [])
@@ -69,7 +66,6 @@ export function BoardDetails() {
     }, [currBoard])
 
     async function onBoardChanged(board) {
-        console.log('updatedBoard socket', board)
         if (board._id === currBoard._id && JSON.stringify(board) !== JSON.stringify(currBoard)) {
             dispatch({ type: 'UPDATE_BOARD', board })
         }
@@ -104,7 +100,6 @@ export function BoardDetails() {
     }
 
     async function onRemoveBoard(currBoardId) {
-        console.log('boardId remove', currBoardId)
         try {
             await removeBoard(currBoardId)
             navigate(`/board`)
@@ -131,149 +126,158 @@ export function BoardDetails() {
 
     return (
         <section className='board-details'>
-              {isLoading ? <Loader /> : (
-                                <>
-            <header className='board-details-header'>
-                <div className='header-content'>
-                    <div className='board-details-edit'>
-                        <Dialog
-                            content={
-                                <DialogContentContainer
-                                    size={DialogContentContainer.sizes.LARGE}
-                                    type={DialogContentContainer.types.POPOVER}
-                                >
-                                    <div className='board-details-title-edit flex' style={{ paddingBottom: '10px' }}>
-                                        <EditableHeading
-                                            type='h2'
-                                            value={currBoard.title}
-                                            onChange={value => onUpdateField(currBoard, 'title', value)}
-                                            weight='bold'
-                                            size='large'
-                                        />
-                                        <Button
-                                            className='favorite-button'
-                                            onClick={handleToggleStarred}
-                                            kind={Button.kinds.TERTIARY}
-                                            size={Button.sizes.XS}
+            {isLoading ? (
+                <Loader />
+            ) : (
+                <>
+                    <header className='board-details-header'>
+                        <div className='header-content'>
+                            <div className='board-details-edit'>
+                                <Dialog
+                                    content={
+                                        <DialogContentContainer
+                                            size={DialogContentContainer.sizes.LARGE}
+                                            type={DialogContentContainer.types.POPOVER}
                                         >
-                                            <StarIcon isStarred={isStarredBoard} />
-                                        </Button>
-                                    </div>
-                                    <TextArea
-                                        data-testid='editable-input'
-                                        resize
-                                        rows={6}
-                                        tabIndex={6}
-                                        maxLength={1000}
-                                        controlled
-                                        size='large'
-                                        value={currBoard.description}
-                                        weight='normal'
-                                        style={{ marginBottom: '10px' }}
-                                        onChange={e => onUpdateField(currBoard, 'description', e.target.value)}
-                                    />
-                                    <div
-                                        className='board-details-edit-divider'
-                                        style={{ height: '20px', width: '100%' }}
+                                            <div
+                                                className='board-details-title-edit flex'
+                                                style={{ paddingBottom: '10px' }}
+                                            >
+                                                <EditableHeading
+                                                    type='h2'
+                                                    value={currBoard.title}
+                                                    onChange={value => onUpdateField(currBoard, 'title', value)}
+                                                    weight='bold'
+                                                    size='large'
+                                                />
+                                                <Button
+                                                    className='favorite-button'
+                                                    onClick={handleToggleStarred}
+                                                    kind={Button.kinds.TERTIARY}
+                                                    size={Button.sizes.XS}
+                                                >
+                                                    <StarIcon isStarred={isStarredBoard} />
+                                                </Button>
+                                            </div>
+                                            <TextArea
+                                                data-testid='editable-input'
+                                                resize
+                                                rows={6}
+                                                tabIndex={6}
+                                                maxLength={1000}
+                                                controlled
+                                                size='large'
+                                                value={currBoard.description}
+                                                weight='normal'
+                                                style={{ marginBottom: '10px' }}
+                                                onChange={e => onUpdateField(currBoard, 'description', e.target.value)}
+                                            />
+                                            <div
+                                                className='board-details-edit-divider'
+                                                style={{ height: '20px', width: '100%' }}
+                                            >
+                                                <Divider direction='horizontal' />
+                                            </div>
+                                        </DialogContentContainer>
+                                    }
+                                    hideTrigger={['clickoutside']}
+                                    isOpen
+                                    modifiers={[
+                                        {
+                                            name: 'preventOverflow',
+                                            options: {
+                                                mainAxis: false,
+                                            },
+                                        },
+                                    ]}
+                                    position={DialogContentContainer.BOTTOM_START}
+                                    showTrigger={['click']}
+                                    wrapperClassName='board-details-header-board-info'
+                                    zIndex={4}
+                                >
+                                    <Button
+                                        kind={Button.kinds.TERTIARY}
+                                        size='small'
+                                        dialogPaddingSize={DialogContentContainer.sizes.MEDIUM}
+                                        rightIcon={NavigationChevronDown}
+                                        zIndex={4}
                                     >
-                                        <Divider direction='horizontal' />
-                                    </div>
-                                </DialogContentContainer>
-                            }
-                            hideTrigger={['clickoutside']}
-                            isOpen
-                            modifiers={[
-                                {
-                                    name: 'preventOverflow',
-                                    options: {
-                                        mainAxis: false,
-                                    },
-                                },
-                            ]}
-                            position={DialogContentContainer.BOTTOM_START}
-                            showTrigger={['click']}
-                            wrapperClassName='board-details-header-board-info'
-                            zIndex={4}
-                        >
-                            <Button
-                                kind={Button.kinds.TERTIARY}
-                                size='small'
-                                dialogPaddingSize={DialogContentContainer.sizes.MEDIUM}
-                                rightIcon={NavigationChevronDown}
-                                zIndex={4}
-                            >
-                                <span className='board-title'>{currBoard.title}</span>
-                            </Button>
-                        </Dialog>
+                                        <span className='board-title'>{currBoard.title}</span>
+                                    </Button>
+                                </Dialog>
 
-                        <div
-                            style={{
-                                width: 'auto',
-                                display: 'flex',
-                                marginInline: '25px',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <AvatarGroup max={3} size='medium'>
-                                {currBoard.members.map(member => (
-                                    <Avatar
-                                        key={member._id}
-                                        ariaLabel={member.fullname}
-                                        src={member.imgUrl}
-                                        type='img'
-                                    />
-                                ))}
-                            </AvatarGroup>
-
-                            <MenuButton
-                                componentPosition='start'
-                                dialogPaddingSize='small'
-                                style={{ marginLeft: '25px' }}
-                            >
-                                <Menu id='menu' size='medium'>
-                                    <MenuTitle caption='Board options' captionPosition='top' />
-                                    <MenuItem
-                                        onClick={() => onRemoveBoard(currBoard._id)}
-                                        icon={Delete}
-                                        title='Delete Board'
-                                    />
-                                </Menu>
-                            </MenuButton>
-                        </div>
-                    </div>
-                    <div style={{ margin: '0', padding: '0' }}>
-                        <TabList className='tabs-container' activeTab={activeTabIndex} onTabChange={setActiveTabIndex}>
-                            <Tab id='table' title='Table View'>
-                                <span
+                                <div
                                     style={{
-                                        fontSize: '0.875rem',
+                                        width: 'auto',
                                         display: 'flex',
-                                        gap: '2px',
+                                        marginInline: '25px',
                                         alignItems: 'center',
                                     }}
                                 >
-                                    <Home size={16} opacity={0.75} /> Main Table
-                                </span>
-                            </Tab>
-                            <Tab id='kanban' title='Kanban View'>
-                                <span style={{ fontSize: '0.875rem' }}>Kanban</span>
-                            </Tab>
-                            <Tab id='dashboard' title='Dashboard'>
-                                <span style={{ fontSize: '0.875rem' }}>Dashboard</span>
-                            </Tab>
-                        </TabList>
-                    </div>
-                    <div style={{ height: '8px', marginInlineEnd: '30px' }}>
-                        <Divider withoutMargin />
-                    </div>
-                    <GroupFilter setFilterBy={setFilterBy} />
-                </div>
-            </header>
-            
-             <GroupList boardsToDisplay={boardsToDisplay} view={view} />  
-            {/* <UserMsg /> */}
-            </>
-        )}
+                                    <AvatarGroup max={3} size='medium'>
+                                        {currBoard.members.map(member => (
+                                            <Avatar
+                                                key={member._id}
+                                                ariaLabel={member.fullname}
+                                                src={member.imgUrl}
+                                                type='img'
+                                            />
+                                        ))}
+                                    </AvatarGroup>
+
+                                    <MenuButton
+                                        componentPosition='start'
+                                        dialogPaddingSize='small'
+                                        style={{ marginLeft: '25px' }}
+                                    >
+                                        <Menu id='menu' size='medium'>
+                                            <MenuTitle caption='Board options' captionPosition='top' />
+                                            <MenuItem
+                                                onClick={() => onRemoveBoard(currBoard._id)}
+                                                icon={Delete}
+                                                title='Delete Board'
+                                            />
+                                        </Menu>
+                                    </MenuButton>
+                                </div>
+                            </div>
+                            <div style={{ margin: '0', padding: '0' }}>
+                                <TabList
+                                    className='tabs-container'
+                                    activeTab={activeTabIndex}
+                                    onTabChange={setActiveTabIndex}
+                                >
+                                    <Tab id='table' title='Table View'>
+                                        <span
+                                            style={{
+                                                fontSize: '0.875rem',
+                                                display: 'flex',
+                                                gap: '2px',
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            <Home size={16} opacity={0.75} /> Main Table
+                                        </span>
+                                    </Tab>
+                                    <Tab id='kanban' title='Kanban View'>
+                                        <span style={{ fontSize: '0.875rem' }}>Kanban</span>
+                                    </Tab>
+                                    <Tab id='dashboard' title='Dashboard'>
+                                        <span style={{ fontSize: '0.875rem' }}>Dashboard</span>
+                                    </Tab>
+                                </TabList>
+                            </div>
+                            <div style={{ height: '8px', marginInlineEnd: '30px' }}>
+                                <Divider withoutMargin />
+                            </div>
+                            <GroupFilter setFilterBy={setFilterBy} />
+                        </div>
+                    </header>
+
+                    <GroupList boardsToDisplay={boardsToDisplay} view={view} />
+                    {/* <UserMsg /> */}
+                </>
+            )}
         </section>
     )
 }

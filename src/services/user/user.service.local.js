@@ -16,13 +16,13 @@ export const userService = {
 }
 
 async function getUsers() {
-    let users = await storageService.query('user');
-    if (!users || !users.length) users = await createUsers();
+    let users = await storageService.query('user')
+    if (!users || !users.length) users = await createUsers()
     return users.map(user => {
-      delete user.password;
-      return user;
-    });
-  }
+        delete user.password
+        return user
+    })
+}
 
 async function getById(userId) {
     return await storageService.get('user', userId)
@@ -37,7 +37,7 @@ async function update({ _id, score }) {
     user.score = score
     await storageService.put('user', user)
 
-	// When admin updates other user's details, do not update loggedinUser
+    // When admin updates other user's details, do not update loggedinUser
     const loggedinUser = getLoggedinUser()
     if (loggedinUser._id === user._id) saveLoggedinUser(user)
 
@@ -68,50 +68,58 @@ function getLoggedinUser() {
 }
 
 function saveLoggedinUser(user) {
-	user = { 
-        _id: user._id, 
-        fullname: user.fullname, 
-        imgUrl: user.imgUrl, 
-        score: user.score, 
-        isAdmin: user.isAdmin 
+    user = {
+        _id: user._id,
+        fullname: user.fullname,
+        imgUrl: user.imgUrl,
+        score: user.score,
+        isAdmin: user.isAdmin,
     }
-	sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
-	return user
+    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
+    return user
 }
 
 // To quickly create an admin user, uncomment the next line
 // _createAdmin()
 async function _createAdmin() {
     const user = {
-      username: 'admin',
-      password: 'admin',
-      fullname: 'admin adminsky',
-      imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
-      score: 10000,
-      isAdmin: true,
-    };
-  
-    const newUser = await storageService.post('user', user);
-    console.log('newUser: ', newUser);
-  }
+        username: 'admin',
+        password: 'admin',
+        fullname: 'admin adminsky',
+        imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
+        score: 10000,
+        isAdmin: true,
+    }
+
+    const newUser = await storageService.post('user', user)
+}
 
 async function _createUser(fullname, imgUrl) {
     const user = {
-      _id: makeId(),
-      password: '1234',
-      fullname: fullname,
-      username: fullname.toLowerCase().replace(/\s+/g, ''),
-      imgUrl: imgUrl,
-      score: 10000,
-      isAdmin: false,
-    };
-    return await storageService.post('user', user);
-  }
+        _id: makeId(),
+        password: '1234',
+        fullname: fullname,
+        username: fullname.toLowerCase().replace(/\s+/g, ''),
+        imgUrl: imgUrl,
+        score: 10000,
+        isAdmin: false,
+    }
+    return await storageService.post('user', user)
+}
 
 async function createUsers() {
-    const user1 = await _createUser('Ariella Melnikov', 'https://res.cloudinary.com/dkykllpf5/image/upload/v1721649934/jzacprnumxyqpj1w0xah.jpg');
-    const user2 = await _createUser('Bar Ben Haim', 'https://res.cloudinary.com/dkykllpf5/image/upload/v1721651006/dcll8jx7dtrrvsj3vhxe.jpg');
-    const user3 = await _createUser('Nir Fakiro', 'https://res.cloudinary.com/dkykllpf5/image/upload/v1721651052/g2rk8iilfjyumxjvheid.jpg');
-    const users = [user1, user2, user3];
-    return users;
-  }
+    const user1 = await _createUser(
+        'Ariella Melnikov',
+        'https://res.cloudinary.com/dkykllpf5/image/upload/v1721649934/jzacprnumxyqpj1w0xah.jpg'
+    )
+    const user2 = await _createUser(
+        'Bar Ben Haim',
+        'https://res.cloudinary.com/dkykllpf5/image/upload/v1721651006/dcll8jx7dtrrvsj3vhxe.jpg'
+    )
+    const user3 = await _createUser(
+        'Nir Fakiro',
+        'https://res.cloudinary.com/dkykllpf5/image/upload/v1721651052/g2rk8iilfjyumxjvheid.jpg'
+    )
+    const users = [user1, user2, user3]
+    return users
+}

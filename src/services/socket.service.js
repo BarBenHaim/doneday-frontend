@@ -47,8 +47,6 @@ function createSocketService() {
             if (user) this.login(user._id)
         },
         on(eventName, cb) {
-            console.log('hi im getting on!!!!', eventName, cb)
-
             socket.on(eventName, cb)
         },
         off(eventName, cb = null) {
@@ -57,7 +55,6 @@ function createSocketService() {
             else socket.off(eventName, cb)
         },
         emit(eventName, data) {
-            console.log('hi im sending emit!!!!')
             socket.emit(eventName, data)
         },
         login(userId) {
@@ -120,12 +117,3 @@ function createDummySocketService() {
     window.listenersMap = listenersMap
     return socketService
 }
-
-// Basic Tests
-// function cb(x) {console.log('Socket Test - Expected Puk, Actual:', x)}
-// socketService.on('baba', cb)
-// socketService.on('baba', cb)
-// socketService.on('baba', cb)
-// socketService.on('mama', cb)
-// socketService.emit('baba', 'Puk')
-// socketService.off('baba', cb)

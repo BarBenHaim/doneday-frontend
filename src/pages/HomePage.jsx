@@ -18,7 +18,6 @@ export function HomePage() {
     const [activeImage, setActiveImage] = useState(Image1)
     const [isImageActive, setIsImageActive] = useState(false)
     const navigate = useNavigate()
-    console.log(homePage)
 
     useEffect(() => {
         const cards = document.querySelectorAll('.card')

@@ -2,8 +2,6 @@ import { BoardPreview } from './BoardPreview'
 import { BoardBuilder } from './group/BoardBuilder'
 
 export function BoardList({ boards }) {
-    console.log('board list ')
-
     return (
         <section>
             <BoardBuilder />

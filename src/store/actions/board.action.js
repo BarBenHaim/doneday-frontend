@@ -104,7 +104,6 @@ export async function addExistingBoard(board) {
 
 export async function updateBoard(board) {
     store.dispatch(getCmdUpdateBoard(board))
-    console.log('boardId update board', board)
     try {
         const updatedboard = await boardService.save(board)
         return updatedboard

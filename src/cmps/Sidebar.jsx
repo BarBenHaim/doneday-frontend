@@ -45,13 +45,11 @@ export function Sidebar() {
     }
 
     function toggleAddBoard() {
-        console.log('toggleAddBoard')
         setIsAddBoardModalOpen(!isAddBoardModalOpen)
     }
 
     function handleSearchClick({ target }) {
         const value = target.value.toLowerCase()
-        console.log('Search input value:', value)
 
         if (value.trim() === '') {
             setFilteredBoards(boards)

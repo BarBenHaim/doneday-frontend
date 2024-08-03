@@ -59,7 +59,6 @@ async function save(board) {
 
 async function updateBoard(boardId, updatedBoard) {
     const board = await getById(boardId)
-    // console.log('update board service', board)
     const boardIdx = board.findIndex(board => board._id === boardId)
     if (boardIdx === -1) throw new Error('Board not found')
     board[boardIdx] = { ...board[boardIdx], ...updatedBoard }
@@ -80,7 +79,6 @@ async function addBoardMsg(boardId, txt) {
 
 async function toggleStarred(boardId) {
     try {
-        console.log('service toggle starred', boardId)
         const board = await getById(boardId)
         if (!board) throw new Error('Board not found')
 
@@ -120,8 +118,6 @@ function getEmptyTask(title = '') {
 
 async function updateGroup(boardId, groupId, updatedGroup) {
     const board = await getById(boardId)
-    console.log(board)
-    console.log(boardId)
     const groupIdx = board.groups.findIndex(group => group._id === groupId)
     if (groupIdx === -1) throw new Error('Group not found')
     board.groups[groupIdx] = { ...board.groups[groupIdx], ...updatedGroup }

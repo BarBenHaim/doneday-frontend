@@ -16,7 +16,7 @@ export const RootActivityModal = () => {
 
     const [currBoard, setCurrBoard] = useState(null)
     const [currGroup, setCurrGroup] = useState(null)
-    
+
     const dispatch = useDispatch()
 
     // useEffect(() => {
@@ -32,7 +32,6 @@ export const RootActivityModal = () => {
             findCurrentBoardAndGroup()
         }
     }, [boards, activeTask])
-    
 
     useEffect(() => {
         if (currBoard) {
@@ -42,10 +41,8 @@ export const RootActivityModal = () => {
 
     // const mappedActivities =  activities ? activities.map(activity => {
     //     const user = users.find(user => user._id === activity.userId)
-    //     return { ...activity, user } 
+    //     return { ...activity, user }
     // }) : []
-
-
 
     const findCurrentBoardAndGroup = () => {
         for (let board of boards) {
@@ -71,7 +68,6 @@ export const RootActivityModal = () => {
 
         try {
             await updateTask(currBoard._id, currGroup._id, updatedTask._id, updatedTask)
-            console.log("updateTask", updateTask)
             showSuccessMsg('Task updated successfully')
         } catch (err) {
             showErrorMsg('Cannot update task')
@@ -81,7 +77,7 @@ export const RootActivityModal = () => {
 
     function onUpdateField(task, field, value) {
         const updatedTask = { ...task, [field]: value }
-        onUpdateTask(updatedTask) 
+        onUpdateTask(updatedTask)
     }
 
     if (!isModalOpen && !activeTask) return null
