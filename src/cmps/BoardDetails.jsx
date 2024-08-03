@@ -126,7 +126,7 @@ export function BoardDetails() {
     return (
         <section className='board-details'>
             {isLoading ? (
-                <img src={Loader1} />
+                <img className='loader-gif' src='/img/board-loader.gif' alt='Loading...' />
             ) : (
                 <>
                     <header className='board-details-header'>
