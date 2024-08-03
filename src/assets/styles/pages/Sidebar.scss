@@ -5,4 +5,11 @@
     right: 0;
     bottom: 0;
     z-index: 1;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+
+    .side-bar-menu {
+
+    }
 }

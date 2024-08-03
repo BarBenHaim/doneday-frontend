@@ -41,48 +41,10 @@
 }
 
 .activity-modal-popover {
-    .main-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-        padding-block-start: 30px;
-        border-bottom: 1px solid #e0e0e0;
-    }
-    .tabs-container {
-        padding: 0;
-        .monday-style-tab-list__item {
-            flex: 1;
-            width: 100%;
-        }
-    }
-}
 
-.task-title {
-    font-size: 1.25rem;
-    margin: 0;
-    color: #323338;
-    font-family: $font-family-primary;
-}
-
-.close-btn {
-    position: absolute;
-    top: 14px;
-    font-size: 0.875rem;
-    color: #343538;
-    padding: 2px;
-    cursor: pointer;
-}
 
 .close-btn:hover {
     background-color: #67687973;
-}
-
-.tab-title {
-    font-size: 0.875rem;
-    display: flex;
-    gap: 2px;
-    align-items: center;
 }
 
 .tab-content {
@@ -261,4 +223,5 @@
     padding: 2px 4px;
     font-size: 0.5625rem;
     line-height: 9px;
+}
 }
