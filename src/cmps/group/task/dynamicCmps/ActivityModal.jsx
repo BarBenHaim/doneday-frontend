@@ -42,10 +42,10 @@ export function ActivityModal({
             <DialogContentContainer className='activity-modal-popover' size="none" style={{ height: '100%', borderRadius: '0' }}>
                 <header className='activity-header'>
                     <div className='header-title' >
-                        <div className='close-btn'>
+                        <div className='am-close-btn'>
                         <Close onClick={handleClose} />
                         </div>
-                    <div className='task-title'>
+                    <div className='am-task-title'>
                     <h2 className='normal'>{task.title}</h2>
                     </div>
                     </div>
@@ -57,15 +57,15 @@ export function ActivityModal({
                     tabType='stretched'
                 >
                     <Tab id='update' title='Update View'>
-                        <span className='tab-title'>
+                        <span className='am-tab-title'>
                             <Home size={18} opacity={0.75} /> Update
                         </span>
                     </Tab>
                     <Tab id='files' title='Files View'>
-                        <span className='tab-title'>Files</span>
+                        <span className='am-tab-title'>Files</span>
                     </Tab>
                     <Tab id='activity' title='Activity'>
-                        <span className='tab-title'>Activity</span>
+                        <span className='am-tab-title'>Activity</span>
                     </Tab>
                     <Tab disabled></Tab>
                     <Tab disabled></Tab>
