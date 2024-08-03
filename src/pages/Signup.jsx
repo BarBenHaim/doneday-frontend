@@ -21,7 +21,7 @@ export function Signup() {
         const value = ev.target.value
         setCredentials({ ...credentials, [field]: value })
     }
-    
+
     async function onSignup(ev = null) {
         if (ev) ev.preventDefault()
 
@@ -40,26 +40,26 @@ export function Signup() {
         <form className="signup-form-monday" onSubmit={onSignup}>
         <h2>Sign Up</h2>
             <input
-                type="text"
-                name="fullname"
+                type='text'
+                name='fullname'
                 value={credentials.fullname}
-                placeholder="Fullname"
+                placeholder='Fullname'
                 onChange={handleChange}
                 required
             />
             <input
-                type="text"
-                name="email"
+                type='text'
+                name='email'
                 value={credentials.email}
-                placeholder="work email"
+                placeholder='work email'
                 onChange={handleChange}
                 required
             />
             <input
-                type="password"
-                name="password"
+                type='password'
+                name='password'
                 value={credentials.password}
-                placeholder="Password"
+                placeholder='Password'
                 onChange={handleChange}
                 required
             />

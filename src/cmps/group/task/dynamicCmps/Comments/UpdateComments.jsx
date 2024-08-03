@@ -35,10 +35,8 @@ export function UpdatedComments({ task, boardId, groupId, loggedinUser, onUpdate
                     imgUrl: loggedinUser.imgUrl,
                 },
             }
-            console.log('newCommentObject', newCommentObject)
             try {
                 const savedComment = await boardService.addComment(boardId, groupId, task._id, newCommentObject)
-                console.log('savedComment', savedComment)
 
                 const newComments = [savedComment, ...updatedComments]
 

@@ -6,9 +6,9 @@ import { updateBoardOptimistic, updateGroup, removeGroup, addGroup } from '../..
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { Button } from 'monday-ui-react-core'
 import { Add } from 'monday-ui-react-core/icons'
-import { KanbanColumn } from './KanbanColumn'
 import GroupPreview from './GroupPreview'
 import { Dashboard } from '../../pages/Dashboard'
+import { KanbanColumn } from '../KanbanColumn'
 
 const initialStatuses = ['Not Started', 'Working on it', 'Stuck', 'Done', 'Important']
 

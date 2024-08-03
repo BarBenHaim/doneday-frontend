@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { addExistingBoard } from '../../store/actions/board.action'
+import { addExistingBoard } from '../store/actions/board.action.js'
 import { Microphone, Night } from 'monday-ui-react-core/icons'
-import { BreadcrumbLoader } from './BreadcrumbLoader'
-import { useNavigate } from 'react-router'
-import { generateBoard } from '../../services/board/board.service.remote.js'
+import { BreadcrumbLoader } from './BreadcrumbLoader.jsx'
+import { generateBoard } from '../services/board/board.service.remote.js'
 
 export function BoardBuilder() {
     const [description, setDescription] = useState('')
@@ -12,7 +11,6 @@ export function BoardBuilder() {
     const [recognition, setRecognition] = useState(null)
     const [isRecording, setIsRecording] = useState(false)
     const [isVoiceInput, setIsVoiceInput] = useState(false)
-    const navigate = useNavigate()
 
     useEffect(() => {
         let speechRecognition

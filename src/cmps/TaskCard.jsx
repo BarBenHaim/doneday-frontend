@@ -1,6 +1,6 @@
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
-import { taskAttributesConfig } from './task/taskAttributesConfig'
+import { taskAttributesConfig } from './group/task/taskAttributesConfig'
 
 export function TaskCard({ task, index, members, labels, onUpdateField, selectedTasks, handleCheckboxChange }) {
     return (

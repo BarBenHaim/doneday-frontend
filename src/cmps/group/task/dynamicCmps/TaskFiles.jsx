@@ -2,24 +2,40 @@ import React, { useState, useEffect } from 'react'
 import { Dialog, DialogContentContainer, Button, Avatar } from 'monday-ui-react-core'
 import { cellStyle } from './styleUtils'
 import { Attach, File } from 'monday-ui-react-core/icons'
+import { makeId } from '../../../../services/util.service'
 
 function TaskFiles({ task, onUpdateField, columnKey }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
-    const [fileList, setFileList] = useState(task[columnKey] || [])
+    const [fileList, setFileList] = useState(() => {
+        const savedFiles = localStorage.getItem(`files-${task._id}-${columnKey}`)
+        return savedFiles ? JSON.parse(savedFiles) : task[columnKey] || []
+    })
     const [isHovered, setIsHovered] = useState(false)
 
-    const handleFileChange = event => {
-        const files = Array.from(event.target.files)
+    const handleFileChange = async event => {
+        const files = await Promise.all(
+            Array.from(event.target.files).map(async file => {
+                const base64 = await fileToBase64(file)
+                return {
+                    _id: makeId(),
+                    filename: file.name,
+                    url: base64,
+                    type: file.type,
+                }
+            })
+        )
         const updatedFiles = [...fileList, ...files]
         onUpdateField(task, columnKey, updatedFiles)
         setFileList(updatedFiles)
         setIsDialogOpen(false)
+        localStorage.setItem(`files-${task._id}-${columnKey}`, JSON.stringify(updatedFiles))
     }
 
     const handleFileDelete = index => {
         const updatedFiles = fileList.filter((file, fileIndex) => fileIndex !== index)
         onUpdateField(task, columnKey, updatedFiles)
         setFileList(updatedFiles)
+        localStorage.setItem(`files-${task._id}-${columnKey}`, JSON.stringify(updatedFiles))
     }
 
     useEffect(() => {
@@ -34,8 +50,17 @@ function TaskFiles({ task, onUpdateField, columnKey }) {
         setIsHovered(false)
     }
 
-    const isImage = file => {
-        return file.type.startsWith('image/')
+    const isImage = filename => {
+        return /\.(jpg|jpeg|png|gif)$/i.test(filename)
+    }
+
+    const fileToBase64 = file => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onload = () => resolve(reader.result)
+            reader.onerror = error => reject(error)
+            reader.readAsDataURL(file)
+        })
     }
 
     return (
@@ -63,14 +88,14 @@ function TaskFiles({ task, onUpdateField, columnKey }) {
                                         padding: '10px',
                                     }}
                                 >
-                                    {isImage(file) ? (
+                                    {isImage(file.filename) ? (
                                         <img
-                                            src={URL.createObjectURL(file)}
-                                            alt={file.name}
+                                            src={file.url}
+                                            alt={file.filename}
                                             style={{ width: '50px', height: '50px', marginInlineEnd: '10px' }}
                                         />
                                     ) : (
-                                        <span style={{ marginInlineEnd: '10px' }}>{file.name}</span>
+                                        <span style={{ marginInlineEnd: '10px' }}>{file.filename}</span>
                                     )}
                                     <Button onClick={() => handleFileDelete(index)} size='small' kind='secondary'>
                                         Delete
@@ -85,7 +110,7 @@ function TaskFiles({ task, onUpdateField, columnKey }) {
                 showTrigger={['click']}
             >
                 <div className='flex align-center justify-center' style={{ cursor: 'pointer', color: '#acaeb6' }}>
-                    {<File size={22} style={{ opacity: isHovered ? '.7' : '0' }} />}
+                    <File size={22} style={{ display: isHovered ? 'block' : 'none' }} />
                 </div>
             </Dialog>
             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -94,8 +119,8 @@ function TaskFiles({ task, onUpdateField, columnKey }) {
                         key={index}
                         size={Avatar.sizes.SMALL}
                         type={Avatar.types.IMG}
-                        src={URL.createObjectURL(file)}
-                        alt={file.name}
+                        src={file.url}
+                        alt={file.filename}
                     />
                 ))}
                 {fileList.length > 2 && (

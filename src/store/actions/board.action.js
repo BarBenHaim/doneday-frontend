@@ -25,7 +25,7 @@ import {
 } from '../reducers/board.reducer'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 
-export async function loadBoards(filterBy) {
+export async function loadBoards() {
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     try {
         const { groupTaskFilterBy } = store.getState()
@@ -89,22 +89,8 @@ export async function addExistingBoard(board) {
     }
 }
 
-// export async function updateBoard(board) {
-//   store.dispatch(getCmdUpdateBoard(board))
-//   console.log('boardID update board', board)
-
-//   try {
-//     const savedBoard = await boardService.save(board)
-//     return savedBoard
-//   } catch (err) {
-//     console.log('Cannot save board', err)
-//     throw err
-//   }
-// }
-
 export async function updateBoard(board) {
     store.dispatch(getCmdUpdateBoard(board))
-    console.log('boardId update board', board)
     try {
         const updatedboard = await boardService.save(board)
         return updatedboard

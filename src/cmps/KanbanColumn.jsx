@@ -1,7 +1,7 @@
 import React from 'react'
 import { Droppable } from 'react-beautiful-dnd'
+import { getStatusStyle } from './group/task/dynamicCmps/styleUtils'
 import TaskCard from './TaskCard'
-import { getStatusStyle } from './task/dynamicCmps/styleUtils'
 
 export function KanbanColumn({
     status,

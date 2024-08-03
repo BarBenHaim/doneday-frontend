@@ -11,29 +11,30 @@ import { Button, DialogContentContainer, Flex, Text, TextArea } from 'monday-ui-
 import { TaxSvg } from '../cmps/svgs/TaskSvg'
 
 import boardIndexBanner from '../assets/img/monday-banners/monday-banner-index.jpeg'
-import { SOCKET_EMIT_SET_TOPIC, SOCKET_EVENT_BOARD_ADDED, SOCKET_EVENT_BOARD_REMOVED, socketService } from '../services/socket.service'
+import {
+    SOCKET_EMIT_SET_TOPIC,
+    SOCKET_EVENT_BOARD_ADDED,
+    SOCKET_EVENT_BOARD_REMOVED,
+    socketService,
+} from '../services/socket.service'
 import { useDispatch } from 'react-redux'
 import { boardService } from '../services/board'
-import Loader from '../cmps/Loader'
-
-// import { GroupFilter } from '../cmps/group/GroupFilter'
 
 export function BoardIndex() {
     const [isCollapsed, setIsCollapsed] = useState(false)
-    const boards = useSelector((storeState) => storeState.boardModule.boards)
-    const prevBoardsCount = useRef(boards.length);
-    const groupTaskFilterBy = useSelector((storeState) => storeState.boardModule.groupTaskFilterBy)
+    const boards = useSelector(storeState => storeState.boardModule.boards)
+    const prevBoardsCount = useRef(boards.length)
+    const groupTaskFilterBy = useSelector(storeState => storeState.boardModule.groupTaskFilterBy)
     const isLoading = useSelector(storeState => storeState.boardModule.flag.isLoading)
     const dispatch = useDispatch()
 
     // check if [boards]
     useEffect(() => {
         loadBoards()
-        socketService.emit(SOCKET_EMIT_SET_TOPIC,  'board')
-    }, []) 
+        socketService.emit(SOCKET_EMIT_SET_TOPIC, 'board')
+    }, [])
 
     useEffect(() => {
-
         socketService.on(SOCKET_EVENT_BOARD_ADDED, addedBoards)
         socketService.on(SOCKET_EVENT_BOARD_REMOVED, removeBoard)
         return () => {
@@ -43,8 +44,8 @@ export function BoardIndex() {
     }, [])
 
     useEffect(() => {
-        prevBoardsCount.current = boards.length;
-    }, [boards.length]);
+        prevBoardsCount.current = boards.length
+    }, [boards.length])
 
     async function onRemoveBoard(boardId) {
         try {
@@ -55,9 +56,8 @@ export function BoardIndex() {
         }
     }
     async function addedBoards(board) {
-        console.log('addedBoard socket', boards)
         if (boards.length === prevBoardsCount.current + 1 && !boards.some(b => b._id === board._id)) {
-            dispatch(addBoard(board));
+            dispatch(addBoard(board))
         }
     }
 
@@ -71,17 +71,21 @@ export function BoardIndex() {
                 size='large'
                 type='modal'
                 className='border-index-body'
-                style={{ display: 'flex', flexGrow: '1', flexDirection: 'column' }}>
+                style={{ display: 'flex', flexGrow: '1', flexDirection: 'column' }}
+            >
                 <Flex
                     direction={Flex.directions.ROW}
                     align={Flex.align.START}
                     justify={Flex.justify.SPACE_BETWEEN}
                     gap={Flex.gaps.MEDIUM}
-                    wrap={false}>
+                    wrap={false}
+                >
                     <DialogContentContainer
                         className='board-list-dialog'
                         size={DialogContentContainer.sizes.MEDIUM}
-                        type={DialogContentContainer.types.MODAL}>
+                        type={DialogContentContainer.types.MODAL}
+                        style={{ minHeight: '700px' }}
+                    >
                         <div className='collapsible-header flex align-center' onClick={toggleCollapse}>
                             {isCollapsed ? (
                                 <NavigationChevronRight size={'15'} lable='Expand list' />
@@ -90,33 +94,40 @@ export function BoardIndex() {
                             )}
                             <h1 className='bold collapsible-title'>Recently visited</h1>
                         </div>
-                        {!isCollapsed && (
-                            isLoading ? <Loader /> : <BoardList boards={boards} onRemoveBoard={onRemoveBoard} />
-                        )}
+                        {!isCollapsed &&
+                            (isLoading ? (
+                                <img className='loader-gif' src='/img/board-loader.gif' alt='Loading...' />
+                            ) : (
+                                <BoardList boards={boards} onRemoveBoard={onRemoveBoard} />
+                            ))}
                     </DialogContentContainer>
                     <DialogContentContainer
                         size={DialogContentContainer.sizes.LARGE}
                         type={DialogContentContainer.types.MODAL}
-                        className='board-index-template'>
+                        className='board-index-template'
+                    >
                         <Flex
                             direction={Flex.directions.COLUMN}
                             align={Flex.align.CENTER}
                             justify={Flex.justify.SPACE_BETWEEN}
                             gap={Flex.gaps.SMALL}
-                            wrap={false}>
+                            wrap={false}
+                        >
                             <img src={boardIndexBanner} className='board-index-banner' />
                             <Flex
                                 className='banner-section-content-wrapper'
                                 direction={Flex.directions.COLUMN}
                                 align={Flex.align.CENTER}
                                 justify={Flex.justify.SPACE_AROUND}
-                                wrap={true}>
+                                wrap={true}
+                            >
                                 <Flex direction={Flex.directions.COLUMN} gap={Flex.gaps.SMALL} align={Flex.align.START}>
                                     <Text
                                         align={Text.align.START}
                                         type={Text.types.TEXT1}
                                         weight={Text.weights.NORMAL}
-                                        className='text-line'>
+                                        className='text-line'
+                                    >
                                         Boost your workflow in minutes
                                     </Text>
                                     <Text align={Text.align.START} type={Text.types.TEXT1} weight={Text.weights.NORMAL}>
@@ -132,7 +143,8 @@ export function BoardIndex() {
                                     style={{
                                         display: 'block',
                                         width: '100%',
-                                    }}>
+                                    }}
+                                >
                                     Explore templates
                                 </Button>
                             </Flex>
