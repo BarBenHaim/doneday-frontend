@@ -39,12 +39,18 @@ export function ActivityModal({
 
     return (
         <div className={`root-activity-modal ${isOpen ? 'open' : 'close'}`}>
-            <DialogContentContainer className='activity-modal-popover' style={{ height: '100%', borderRadius: '0' }}>
-                <header className='main-header'>
-                    <Close className='close-btn' onClick={handleClose} />
-                    <h1 className='task-title'>{task.title}</h1>
-                </header>
-                <TabList
+            <DialogContentContainer className='activity-modal-popover' size="none" style={{ height: '100%', borderRadius: '0' }}>
+                <header className='activity-header'>
+                    <div className='header-title' >
+                        <div className='close-btn'>
+                        <Close onClick={handleClose} />
+                        </div>
+                    <div className='task-title'>
+                    <h2 className='normal'>{task.title}</h2>
+                    </div>
+                    </div>
+                    <div className='tab-list'>
+                    <TabList
                     className='tabs-container'
                     activeTab={activeTabIndex}
                     onTabChange={setActiveTabIndex}
@@ -52,7 +58,7 @@ export function ActivityModal({
                 >
                     <Tab id='update' title='Update View'>
                         <span className='tab-title'>
-                            <Home size={16} opacity={0.75} /> Update
+                            <Home size={18} opacity={0.75} /> Update
                         </span>
                     </Tab>
                     <Tab id='files' title='Files View'>
@@ -66,6 +72,9 @@ export function ActivityModal({
                     <Tab disabled></Tab>
                     <Tab disabled></Tab>
                 </TabList>
+                    </div>
+
+                </header>
                 <div className='tab-content'>
                     {activeTabIndex === 0 && (
                         <UpdatedComments

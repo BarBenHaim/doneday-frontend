@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 
 export function ActivityLog({ activities, users, currBoard  }) {
     if (!activities || activities.length === 0) return null
+    const sortedActivities = [...activities].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
 
     const getUserById = (userId) => {
         return users.find((user) => user._id === userId)
@@ -57,7 +59,7 @@ export function ActivityLog({ activities, users, currBoard  }) {
         <section>
             <ul>
                 <div className='activity-container'>
-                    {activities.map((activity, idx) => {
+                    {sortedActivities.map((activity, idx) => {
                         const user = getUserById(activity.userId)
                         const entityTitle = getEntityTitleById(activity.entityId)
                         return (

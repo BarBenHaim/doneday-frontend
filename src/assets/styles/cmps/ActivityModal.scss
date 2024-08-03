@@ -1,0 +1,61 @@
+.activity-modal-popover {
+    height: 100%; // Set height to 100%
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+
+    .activity-header {
+        display: grid;
+        grid-template-rows: auto auto; 
+        position: sticky;
+        top: 0; 
+        background-color: white; 
+        z-index: 100;
+        padding: 16px 10px 0;
+        font-family: $font-family-primary;
+        font-size: 16px;
+        border-bottom: 1px solid #e0e0e0;
+
+        .header-title {
+            grid-row: 1; // Place in the first row
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .task-title {
+                margin: 0;
+                padding: 0;
+                color: #323338;
+            }
+            .close-btn {
+                position: absolute;
+                top: 14px;
+                font-size: 0.875rem;
+                color: $Mgray4;
+                padding: 2px;
+                margin-bottom: 5px;
+                cursor: pointer;
+            }
+        }
+
+        .tab-list {
+            grid-row: 2; // Place in the second row
+            display: flex;
+            flex-grow: 1;
+            .tabs-container {
+                padding: 0;
+                .monday-style-tab-list__item {
+                    flex: 1;
+                    width: 100%;
+                }
+            }
+            .tab-title {
+                font-size: 1rem;
+                display: flex;
+                gap: 2px;
+                align-items: center;
+            }
+            
+        }
+    }
+}
+

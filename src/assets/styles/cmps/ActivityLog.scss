@@ -3,7 +3,8 @@
     grid-template-columns: auto 1fr 1fr;
     padding-inline-start: 10px;
     row-gap: 30px;
-    column-gap: 40px;
+    column-gap: 10px;
+    overflow: auto;
 }
 
 .activity-container li {
@@ -17,7 +18,7 @@
     align-items: center; 
     margin-right: 15px;
     grid-column: 2;
-    gap: 20px;
+    gap: 8px;
 }
 
 .activity-container-active-time {
@@ -28,7 +29,7 @@
 
 .activity-container-activity {
     grid-column: 3;
-    // text-align: right;
+    text-align: center;
     & p {
         margin: 0;
     }
