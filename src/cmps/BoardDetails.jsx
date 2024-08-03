@@ -31,7 +31,6 @@ import {
     socketService,
 } from '../services/socket.service'
 import { useDispatch } from 'react-redux'
-import Loader from './Loader'
 
 export function BoardDetails() {
     const { boardId } = useParams()
@@ -109,7 +108,7 @@ export function BoardDetails() {
         }
     }
 
-    if (!currBoard) return <Loader />
+    if (!currBoard) return <img className='loader-gif' src='/img/board-loader.gif' alt='Loading...' />
 
     const view = (() => {
         switch (activeTabIndex) {
@@ -127,7 +126,7 @@ export function BoardDetails() {
     return (
         <section className='board-details'>
             {isLoading ? (
-                <Loader />
+                <img src={Loader1} />
             ) : (
                 <>
                     <header className='board-details-header'>

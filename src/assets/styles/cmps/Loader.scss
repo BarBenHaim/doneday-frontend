@@ -19,14 +19,13 @@ $loader-width: 20px;
             margin: 0 5px;
             border-radius: 8px;
             transform-origin: center up;
-            animation: animate 2.5s linear  infinite;
+            animation: animate 2.5s linear infinite;
             transform: rotate(-155deg);
         }
 
         .line3 {
             height: $loader-height-small;
             background-color: $Mlogo3;
-
         }
 
         .line2 {
@@ -42,8 +41,6 @@ $loader-width: 20px;
         }
     }
 
-
-
     @keyframes animate {
         0% {
             transform: translateY(0px);
@@ -57,5 +54,10 @@ $loader-width: 20px;
             transform: translateY(0px);
         }
     }
+}
 
+.loader-gif {
+    text-align: center;
+    display: flex;
+    margin: 200px auto;
 }

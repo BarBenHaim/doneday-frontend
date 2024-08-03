@@ -19,9 +19,6 @@ import {
 } from '../services/socket.service'
 import { useDispatch } from 'react-redux'
 import { boardService } from '../services/board'
-import Loader from '../cmps/Loader'
-
-// import { GroupFilter } from '../cmps/group/GroupFilter'
 
 export function BoardIndex() {
     const [isCollapsed, setIsCollapsed] = useState(false)
@@ -87,6 +84,7 @@ export function BoardIndex() {
                         className='board-list-dialog'
                         size={DialogContentContainer.sizes.MEDIUM}
                         type={DialogContentContainer.types.MODAL}
+                        style={{ minHeight: '700px' }}
                     >
                         <div className='collapsible-header flex align-center' onClick={toggleCollapse}>
                             {isCollapsed ? (
@@ -97,7 +95,11 @@ export function BoardIndex() {
                             <h1 className='bold collapsible-title'>Recently visited</h1>
                         </div>
                         {!isCollapsed &&
-                            (isLoading ? <Loader /> : <BoardList boards={boards} onRemoveBoard={onRemoveBoard} />)}
+                            (isLoading ? (
+                                <img className='loader-gif' src='/img/board-loader.gif' alt='Loading...' />
+                            ) : (
+                                <BoardList boards={boards} onRemoveBoard={onRemoveBoard} />
+                            ))}
                     </DialogContentContainer>
                     <DialogContentContainer
                         size={DialogContentContainer.sizes.LARGE}
