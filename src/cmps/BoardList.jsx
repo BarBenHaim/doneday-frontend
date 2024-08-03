@@ -1,5 +1,5 @@
 import { BoardPreview } from './BoardPreview'
-import { BoardBuilder } from './group/BoardBuilder'
+import { BoardBuilder } from './BoardBuilder'
 
 export function BoardList({ boards }) {
     return (

@@ -61,7 +61,7 @@ export function makeLorem(size = 100) {
 export function getRandomIntInclusive(min, max) {
     min = Math.ceil(min)
     max = Math.floor(max)
-    return Math.floor(Math.random() * (max - min + 1)) + min //The maximum is inclusive and the minimum is inclusive
+    return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 export function randomPastTime() {
@@ -540,56 +540,4 @@ export function createBoards() {
     )
 
     return [board1, board2, board3, board4, board5]
-}
-
-export function adjustBoard(board) {
-    function makeId() {
-        return '_' + Math.random().toString(36).substr(2, 9)
-    }
-
-    function getRandomElement(arr) {
-        return arr[Math.floor(Math.random() * arr.length)]
-    }
-
-    function getRandomDate(start, end) {
-        const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
-        return date.toISOString().split('T')[0]
-    }
-
-    const statuses = ['Not started']
-    const priorities = ['Low', 'Medium', 'High', 'Critical']
-    const startDate = new Date()
-    const endDate = new Date()
-    endDate.setFullYear(startDate.getFullYear() + 1)
-
-    board.activities = board.activities || []
-    board.archivedAt = null
-    board.isStarred = true
-    board.label = 'task'
-    board.cmpsOrder = ['checkbox', 'title', 'memberIds', 'status', 'priority', 'dueDate', 'recording', 'description']
-    board.members = board.members || []
-
-    if (board.groups && Array.isArray(board.groups)) {
-        board.groups.forEach(group => {
-            group.archivedAt = null
-            group._id = makeId()
-            group.tasks = group.tasks || []
-            group.title = group.title || 'Group'
-            group.style = group.style || {}
-            group.style.backgroundColor = getRandomColor()
-            group.tasks.forEach(task => {
-                task.archivedAt = null
-                task._id = makeId()
-                task.comments = task.comments || []
-                task.checklists = task.checklists || []
-                task.memberIds = task.memberIds || []
-                task.priority = getRandomElement(priorities)
-                task.status = getRandomElement(statuses)
-                task.dueDate = getRandomDate(startDate, endDate)
-                task.byMember = null
-            })
-        })
-    }
-
-    return board
 }
