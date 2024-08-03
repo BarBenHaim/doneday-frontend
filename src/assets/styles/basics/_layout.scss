@@ -7,6 +7,15 @@
 }
 
 @media (max-width: 740px) {
+    .app-header {
+        .button_adff134b24 {
+            padding-inline-end: 0;
+            padding-inline-start: 8px;
+        }
+        .app-name {
+            display: none;
+        }
+    }
     .sidebar.main-container,
     .board-index-template {
         display: none;
