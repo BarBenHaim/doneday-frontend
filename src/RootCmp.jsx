@@ -46,7 +46,7 @@ export function RootCmp() {
                         <Route path='/admin' element={<AdminIndex />} />
                         <Route path='/login' element={<LoginSignup />}>
                             <Route index element={<Login />} />
-                            <Route path='signup' element={<SignUpMonday />} />
+                            <Route path='signup' element={<Signup />} />
                         </Route>
                     </Routes>
                 </div>

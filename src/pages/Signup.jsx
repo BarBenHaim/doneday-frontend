@@ -24,12 +24,11 @@ export function Signup() {
     
     async function onSignup(ev = null) {
         if (ev) ev.preventDefault()
-            console.log("credentials",credentials )
 
         if (!credentials.email || !credentials.password || !credentials.fullname) return
         await signup(credentials)
         clearState()
-        navigate('/')
+        navigate('/board')
     }
 
     function onUploaded(imgUrl) {
@@ -37,7 +36,9 @@ export function Signup() {
     }
 
     return (
-        <form className="signup-form" onSubmit={onSignup}>
+        <div className='signup-container'>
+        <form className="signup-form-monday" onSubmit={onSignup}>
+        <h2>Sign Up</h2>
             <input
                 type="text"
                 name="fullname"
@@ -65,5 +66,7 @@ export function Signup() {
             <ImgUploader onUploaded={onUploaded} />
             <button>Signup</button>
         </form>
+        </div>
+
     )
 }
