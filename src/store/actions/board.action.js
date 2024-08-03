@@ -25,7 +25,7 @@ import {
 } from '../reducers/board.reducer'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 
-export async function loadBoards(filterBy) {
+export async function loadBoards() {
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
     try {
         const { groupTaskFilterBy } = store.getState()
