@@ -13,8 +13,10 @@ export function BoardPreview({ board }) {
 
     async function handleToggleStarred(event) {
         event.preventDefault()
-        toggleStarredBoard(board)
         board.isStarred = !board.isStarred
+        await toggleStarredBoard(board)
+        // toggleStarredBoard(board)
+
     }
 
     return (

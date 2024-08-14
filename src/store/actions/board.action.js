@@ -202,7 +202,7 @@ export async function removeTask(boardId, groupId, taskId) {
 export async function toggleStarredBoard(board) {
     try {
         store.dispatch(getCmdToggleStarredBoard(board))
-        const updatedBoard = await boardService.updateBoard(board)
+        const updatedBoard = await boardService.save(board)
         store.dispatch(getCmdToggleStarredBoard(updatedBoard))
         return updatedBoard
     } catch (err) {

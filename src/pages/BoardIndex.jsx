@@ -8,7 +8,6 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 
 import { BoardList } from '../cmps/BoardList'
 import { Button, DialogContentContainer, Flex, Text, TextArea } from 'monday-ui-react-core'
-import { TaxSvg } from '../cmps/svgs/TaskSvg'
 
 import boardIndexBanner from '../assets/img/monday-banners/monday-banner-index.jpeg'
 import {
@@ -18,17 +17,14 @@ import {
     socketService,
 } from '../services/socket.service'
 import { useDispatch } from 'react-redux'
-import { boardService } from '../services/board'
 
 export function BoardIndex() {
     const [isCollapsed, setIsCollapsed] = useState(false)
     const boards = useSelector(storeState => storeState.boardModule.boards)
     const prevBoardsCount = useRef(boards.length)
-    const groupTaskFilterBy = useSelector(storeState => storeState.boardModule.groupTaskFilterBy)
     const isLoading = useSelector(storeState => storeState.boardModule.flag.isLoading)
     const dispatch = useDispatch()
 
-    // check if [boards]
     useEffect(() => {
         loadBoards()
         socketService.emit(SOCKET_EMIT_SET_TOPIC, 'board')
