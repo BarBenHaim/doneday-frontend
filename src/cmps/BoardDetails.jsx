@@ -11,6 +11,7 @@ import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { UserMsg } from './UserMsg'
 import {SOCKET_EMIT_SET_TOPIC,socketService,} from '../services/socket.service'
 import { useDispatch } from 'react-redux'
+import { debounce } from '../services/util.service'
 
 export function BoardDetails() {
     const { boardId } = useParams()
@@ -57,6 +58,8 @@ export function BoardDetails() {
         const updatedBoard = { ...currBoard, [field]: value }
         onUpdateBoard(updatedBoard)
     }
+
+    const debouncedUpdateField = debounce(onUpdateField, 600)
 
     async function onUpdateBoard(board) {
         try {
@@ -124,7 +127,7 @@ export function BoardDetails() {
                                                 <EditableHeading
                                                     type='h2'
                                                     value={currBoard.title}
-                                                    onChange={value => onUpdateField(currBoard, 'title', value)}
+                                                    onChange={value => debouncedUpdateField(currBoard, 'title', value)}
                                                     weight='bold'
                                                     size='large'
                                                 />
@@ -148,7 +151,7 @@ export function BoardDetails() {
                                                 value={currBoard.description}
                                                 weight='normal'
                                                 style={{ marginBottom: '10px' }}
-                                                onChange={e => onUpdateField(currBoard, 'description', e.target.value)}
+                                                onChange={e => debouncedUpdateField(currBoard, 'description', e.target.value)}
                                             />
                                             <div
                                                 className='board-details-edit-divider'
