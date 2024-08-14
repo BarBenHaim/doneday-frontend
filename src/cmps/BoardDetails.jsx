@@ -6,30 +6,10 @@ import { GroupFilter } from './group/GroupsFilter/GroupFilter'
 import { useSelector } from 'react-redux'
 import { Delete, Home, NavigationChevronDown } from 'monday-ui-react-core/icons'
 import StarIcon from './svgs/starIcon'
-import {
-    Avatar,
-    AvatarGroup,
-    Button,
-    Dialog,
-    DialogContentContainer,
-    Divider,
-    EditableHeading,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuTitle,
-    Tab,
-    TabList,
-    TextArea,
-} from 'monday-ui-react-core'
+import { Avatar, AvatarGroup, Button, Dialog, DialogContentContainer, Divider, EditableHeading, Menu, MenuButton, MenuItem, MenuTitle, Tab, TabList, TextArea, } from 'monday-ui-react-core'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { UserMsg } from './UserMsg'
-import {
-    SOCKET_EMIT_SET_TOPIC,
-    SOCKET_EVENT_COMMENT_ADDED,
-    SOCKET_EVENT_COMMENT_REMOVED,
-    socketService,
-} from '../services/socket.service'
+import {SOCKET_EMIT_SET_TOPIC,socketService,} from '../services/socket.service'
 import { useDispatch } from 'react-redux'
 
 export function BoardDetails() {
@@ -52,16 +32,15 @@ export function BoardDetails() {
     }, [])
 
     useEffect(() => {
-        if (!currBoard) {
-            loadBoards()
-        }
-
+        loadBoards()
         socketService.emit(SOCKET_EMIT_SET_TOPIC, boardId)
     }, [boardId])
 
     useEffect(() => {
+        if (currBoard) {
         setBoardsToDisplay(currBoard?.groups || [])
         setIsStarredBoard(currBoard?.isStarred)
+        }
     }, [currBoard])
 
     async function onBoardChanged(board) {
