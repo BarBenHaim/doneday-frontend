@@ -1,13 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { NavigationChevronDown, NavigationChevronRight } from 'monday-ui-react-core/icons'
-
 import { addBoard, loadBoards, removeBoard } from '../store/actions/board.action'
-
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-
 import { BoardList } from '../cmps/BoardList'
-import { Button, DialogContentContainer, Flex, Text, TextArea } from 'monday-ui-react-core'
+import { Button, DialogContentContainer, Flex, Text } from 'monday-ui-react-core'
 
 import boardIndexBanner from '../assets/img/monday-banners/monday-banner-index.jpeg'
 import {

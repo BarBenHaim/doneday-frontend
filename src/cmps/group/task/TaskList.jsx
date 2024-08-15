@@ -385,12 +385,6 @@ function TasksList({ tasks, members, labels, board, group, openModal, onDeleteTa
                                             renderProgressBar(summary.status, getStatusStyle)}
                                         {col.key.startsWith('priority') &&
                                             renderProgressBar(summary.priority, getPriorityStyle)}
-                                        {col.key === 'dueDate' && summary.earliestDueDate && (
-                                            <div>
-                                                {/* <span>earliest </span>
-                                                <span>{formatDate(summary.earliestDueDate)}</span> */}
-                                            </div>
-                                        )}
                                     </TableCell>
                                 ))}
                             </TableRow>

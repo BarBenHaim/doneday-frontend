@@ -1,18 +1,12 @@
-// Setup
 @import 'setup/variables';
 @import 'setup/functions';
 @import 'setup/mixins';
 @import 'setup/typography';
 
-// Basics
 @import 'basics/helpers';
 @import 'basics/layout';
 @import 'basics/base';
-@import 'basics/links';
 @import 'basics/forms';
-
-// pages
-@import 'RootCmp';
 
 @import 'pages/AboutUs';
 @import 'pages/HomePage';
@@ -22,7 +16,6 @@
 @import 'pages/Dashboard';
 @import 'pages/LoginSignUpMonday';
 
-// Components
 @import 'cmps/list';
 @import 'cmps/preview';
 
@@ -33,9 +26,7 @@
 @import 'cmps/TaskComments';
 @import 'cmps/ActivityLog';
 @import 'cmps/ActivityModal';
-
 @import 'cmps/Groupfilters/GroupFilter';
-
 @import 'cmps/TaskPreview';
 @import 'cmps/TaskList';
 @import 'cmps/TaskActivity.scss';

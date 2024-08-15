@@ -37,7 +37,6 @@ async function update({ _id, score }) {
     user.score = score
     await storageService.put('user', user)
 
-    // When admin updates other user's details, do not update loggedinUser
     const loggedinUser = getLoggedinUser()
     if (loggedinUser._id === user._id) saveLoggedinUser(user)
 
@@ -79,8 +78,6 @@ function saveLoggedinUser(user) {
     return user
 }
 
-// To quickly create an admin user, uncomment the next line
-// _createAdmin()
 async function _createAdmin() {
     const user = {
         username: 'admin',

@@ -3,7 +3,6 @@ import { addBoard } from '../store/actions/board.action'
 import { useNavigate } from 'react-router'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import {
-    DialogContentContainer,
     Divider,
     EditableText,
     Modal,
@@ -44,7 +43,7 @@ export function AddBoard({ isOpen, onClose }) {
 
     if (!isOpen) return null
 
-    const onLabelTypeSelect = useCallback((value) => {
+    const onLabelTypeSelect = useCallback(value => {
         setLabelType(value)
     }, [])
 
@@ -59,20 +58,22 @@ export function AddBoard({ isOpen, onClose }) {
                     show={isOpen}
                     onClose={onClose}
                     closeButtonAriaLabel={'close'}
-                    width={Modal.width.DEFAULT}>
+                    width={Modal.width.DEFAULT}
+                >
                     <ModalContent>
                         <div
                             style={{
                                 height: '40px',
                                 width: '400px',
-                            }}>
+                            }}
+                        >
                             <TextField
                                 id='boardTitle'
                                 placeholder='New Board'
                                 title='Board name'
                                 wrapperClassName='monday-storybook-text-field_size'
                                 value={boardTitle}
-                                onChange={(e) => setBoardTitle(e)}
+                                onChange={e => setBoardTitle(e)}
                             />
                         </div>
 
@@ -80,23 +81,24 @@ export function AddBoard({ isOpen, onClose }) {
                             style={{
                                 height: '40px',
                                 width: '400px',
-                            }}>
-
+                            }}
+                        >
                             <Divider direction='horizontal' />
                         </div>
 
                         <div className='form-group'>
-                            <div style={{marginBlockEnd:'20px'}}>Select what you're managing in this board:</div>
+                            <div style={{ marginBlockEnd: '20px' }}>Select what you're managing in this board:</div>
                             <div
                                 style={{
                                     display: 'grid',
                                     gridTemplateColumns: 'repeat(3, 1fr)',
                                     gridTemplateRows: 'repeat(5, auto)',
                                     gap: '15px',
-                                    fontSize:'14px'
-                                }}>
+                                    fontSize: '14px',
+                                }}
+                            >
                                 {labelOptions.map((option, index) => (
-                                    <div style={{gridColumn: index % 3 === 2 ? '3 / 4' : 'auto', }}>
+                                    <div style={{ gridColumn: index % 3 === 2 ? '3 / 4' : 'auto' }}>
                                         <RadioButton
                                             key={option}
                                             name='radio-buttons-group-4'
@@ -106,29 +108,28 @@ export function AddBoard({ isOpen, onClose }) {
                                         />
                                     </div>
                                 ))}
-                                <div style={{gridColumn:  '1 / 2'}}>
-                                    
-                               
-                                <RadioButton
-                                    name='radio-buttons-group-4'
-                                    text={
-                                        <EditableText
-                                            weight={EditableText.weights.NORMAL}
-                                            value={customLabel}
-                                            onChange={(e) => {
-                                                setCustomLabel(e)
-                                                setLabelType(e)
-                                            }}
-                                        />
-                                    }
-                                    checked={labelType === customLabel}
-                                    onSelect={() => onLabelTypeSelect(customLabel)}
-                                />
-                            </div>
-                            <div
+                                <div style={{ gridColumn: '1 / 2' }}>
+                                    <RadioButton
+                                        name='radio-buttons-group-4'
+                                        text={
+                                            <EditableText
+                                                weight={EditableText.weights.NORMAL}
+                                                value={customLabel}
+                                                onChange={e => {
+                                                    setCustomLabel(e)
+                                                    setLabelType(e)
+                                                }}
+                                            />
+                                        }
+                                        checked={labelType === customLabel}
+                                        onSelect={() => onLabelTypeSelect(customLabel)}
+                                    />
+                                </div>
+                                <div
                                     style={{
-                                        gridColumn: '3 / 4', 
-                                    }} />
+                                        gridColumn: '3 / 4',
+                                    }}
+                                />
                             </div>
                         </div>
                         <ModalFooterButtons

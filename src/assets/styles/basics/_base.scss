@@ -8,13 +8,17 @@ html {
 }
 
 body {
-    // max-width: 1024px;
     margin: 0 auto;
     padding: 0 auto;
     font-family: $font-family-primary;
     font-size: rem(18px);
     overflow: auto;
     background-color: $Mbgr3;
+}
+
+main {
+    min-height: calc(100vh - 7rem);
+    overflow: hidden;
 }
 
 h1,
@@ -24,7 +28,6 @@ h4,
 h5,
 h6 {
     font-family: $font-family-secondary;
-    // letter-spacing: 0.05em; // Adding unit
 }
 
 h1 {

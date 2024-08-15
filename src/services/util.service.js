@@ -199,8 +199,6 @@ export function createBoardDemo(title, label) {
         'Bar Ben Haim',
         'https://res.cloudinary.com/dkykllpf5/image/upload/v1721651006/dcll8jx7dtrrvsj3vhxe.jpg'
     )
-    // const label1 = createLabel('Done', '#61bd4f')
-    // const label2 = createLabel('Progress', '#61bd33')
 
     const task1 = createTask(label)
     const task2 = createTask(label)
@@ -261,7 +259,7 @@ export function createBoards() {
         const start = new Date(2024, 0, 1)
         const end = new Date(2024, 11, 31)
         const dueDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
-        return dueDate.toISOString().split('T')[0] // Format as YYYY-MM-DD
+        return dueDate.toISOString().split('T')[0]
     }
 
     const generateTasks = (taskTitles, descriptions, labelIds) => {

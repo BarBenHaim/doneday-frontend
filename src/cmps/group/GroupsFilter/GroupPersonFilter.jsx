@@ -1,5 +1,5 @@
 import { Avatar, Dialog, DialogContentContainer } from 'monday-ui-react-core'
-import { Person, PersonRound } from 'monday-ui-react-core/icons'
+import { PersonRound } from 'monday-ui-react-core/icons'
 
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -10,9 +10,7 @@ export function GroupPersonFilter({ setFilterBy }) {
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
     const [isPersoneActiv, setIsPersoneActiv] = useState(false)
-    const [isDialogOpen, setIsDialogOpen] = useState(false)
     const groups = currBoard?.groups || []
-    const tasks = groups.flatMap(group => group.tasks || [])
     const memberIds = currBoard?.members?.map(member => member._id) || []
 
     useEffect(() => {
@@ -39,7 +37,6 @@ export function GroupPersonFilter({ setFilterBy }) {
 
     function onClearPerson() {
         setIsPersoneActiv(false)
-        setIsDialogOpen(false)
         setFilterBy(groups)
     }
 
@@ -110,7 +107,6 @@ export function GroupPersonFilter({ setFilterBy }) {
                     style={{ padding: '4px', cursor: 'pointer' }}
                     icon={function noRefCheck() {}}
                     className={`filter-item person ${isPersoneActiv ? 'active' : ''}`}
-                    // onClick={() => setIsDialogOpen(true)}
                 >
                     <PersonRound />
                     Person

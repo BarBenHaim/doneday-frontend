@@ -24,9 +24,7 @@ const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
 
 const baseUrl = process.env.NODE_ENV === 'production' ? '' : '//localhost:3030'
 export const socketService = createSocketService()
-// export const socketService = createDummySocketService()
 
-// for debugging from console
 window.socketService = socketService
 
 socketService.setup()
@@ -36,12 +34,12 @@ function createSocketService() {
     const socketService = {
         setup() {
             socket = io(baseUrl, {
-                reconnection: true, // Automatically reconnect if the connection is lost
-                reconnectionAttempts: Infinity, // Number of attempts before giving up
-                reconnectionDelay: 1000, // Time delay between reconnection attempts (1 second)
-                reconnectionDelayMax: 5000, // Maximum time delay between reconnection attempts (5 seconds)
-                timeout: 20000, // Timeout for initial connection (20 seconds)
-                transports: ['websocket'], // Use WebSocket transport
+                reconnection: true,
+                reconnectionAttempts: Infinity,
+                reconnectionDelay: 1000,
+                reconnectionDelayMax: 5000,
+                timeout: 20000,
+                transports: ['websocket'],
             })
             const user = userService.getLoggedinUser()
             if (user) this.login(user._id)
@@ -106,7 +104,6 @@ function createDummySocketService() {
                 listener(data)
             })
         },
-        // Functions for easy testing of pushed data
         testChatMsg() {
             this.emit(SOCKET_EVENT_ADD_MSG, { from: 'Someone', txt: 'Aha it worked!' })
         },

@@ -4,7 +4,6 @@ import ActivityModal from './dynamicCmps/ActivityModal.jsx'
 import { closeModal, getActivities, loadBoards, updateTask } from '../../../store/actions/board.action.js'
 import { showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
 import { loadUsers } from '../../../store/actions/user.actions.js'
-import { getUserById } from '../../../services/util.service.js'
 
 export const RootActivityModal = () => {
     const boards = useSelector(storeState => storeState.boardModule.boards)
@@ -18,10 +17,6 @@ export const RootActivityModal = () => {
     const [currGroup, setCurrGroup] = useState(null)
 
     const dispatch = useDispatch()
-
-    // useEffect(() => {
-    //     loadUsers()
-    // }, [])
 
     useEffect(() => {
         if (!boards) {
@@ -38,11 +33,6 @@ export const RootActivityModal = () => {
             getActivities(currBoard._id)
         }
     }, [currBoard])
-
-    // const mappedActivities =  activities ? activities.map(activity => {
-    //     const user = users.find(user => user._id === activity.userId)
-    //     return { ...activity, user }
-    // }) : []
 
     const findCurrentBoardAndGroup = () => {
         for (let board of boards) {

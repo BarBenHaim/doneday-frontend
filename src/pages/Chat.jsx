@@ -24,7 +24,7 @@ export function ChatApp() {
     const [topic, setTopic] = useState(boardId)
     const [isBotMode, setIsBotMode] = useState(false)
 
-    const loggedInUser = useSelector((storeState) => storeState.userModule.user)
+    const loggedInUser = useSelector(storeState => storeState.userModule.user)
 
     const botTimeoutRef = useRef()
 
@@ -59,7 +59,7 @@ export function ChatApp() {
     }, [topic])
 
     function addMsg(newMsg) {
-        setMsgs((prevMsgs) => [...prevMsgs, newMsg])
+        setMsgs(prevMsgs => [...prevMsgs, newMsg])
     }
 
     function removeMsg(msgId) {
@@ -67,10 +67,9 @@ export function ChatApp() {
     }
 
     function sendBotResponse() {
-        // Handle case: send single bot response (debounce).
         botTimeoutRef.current && clearTimeout(botTimeoutRef.current)
         botTimeoutRef.current = setTimeout(() => {
-            setMsgs((prevMsgs) => [...prevMsgs, { from: 'Bot', txt: 'You are amazing!' }])
+            setMsgs(prevMsgs => [...prevMsgs, { from: 'Bot', txt: 'You are amazing!' }])
         }, 1250)
     }
 
@@ -80,14 +79,12 @@ export function ChatApp() {
         const newMsg = { from, txt: msg.txt }
         socketService.emit(SOCKET_EMIT_SEND_MSG, newMsg)
         if (isBotMode) sendBotResponse()
-        // for now - we add the msg ourself
-        // addMsg(newMsg)
         setMsg({ txt: '' })
     }
 
     function handleFormChange(ev) {
         const { name, value } = ev.target
-        setMsg((prevMsg) => ({ ...prevMsg, [name]: value }))
+        setMsg(prevMsg => ({ ...prevMsg, [name]: value }))
     }
 
     return (
@@ -103,31 +100,6 @@ export function ChatApp() {
                 />
                 Bot Mode
             </label>
-{/* 
-            <div>
-                <label>
-                    <input
-                        type='radio'
-                        name='topic'
-                        value='Love'
-                        checked={topic === 'Love'}
-                        onChange={({ target }) => setTopic(target.value)}
-                    />
-                    Love
-                </label>
-
-                <label>
-                    <input
-                        type='radio'
-                        name='topic'
-                        value='Politics'
-                        checked={topic === 'Politics'}
-                        onChange={({ target }) => setTopic(target.value)}
-                    />
-                    Politics
-                </label>
-            </div> */}
-
             <form onSubmit={sendMsg}>
                 <input type='text' value={msg.txt} onChange={handleFormChange} name='txt' autoComplete='off' />
                 <button>Send</button>
