@@ -36,12 +36,6 @@
 .search {
     padding: 4px;
 }
-.active {
-    background-color: #007bff44;
-    &:hover {
-        background-color: #007bff44;
-    }
-}
 
 .advanced-filter-modal {
     width: 100px;
@@ -83,7 +77,10 @@
 }
 
 .column,
-input[type='text'] {
+input[type='text'],
+input[type='password'],
+input[type='email'],
+select {
     cursor: pointer;
     font-family: $font-family-primary;
     color: $gray4;
@@ -117,7 +114,4 @@ input[type='text']:focus {
 }
 .custom-avatar {
     cursor: pointer;
-}
-.active {
-    background-color: #458bd531;
 }

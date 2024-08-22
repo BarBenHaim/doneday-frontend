@@ -1,4 +1,5 @@
-.signup-container {
+.signup-container,
+.login-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,7 +7,8 @@
     font-family: 'Roboto', sans-serif;
 }
 
-.signup-form-monday {
+.signup-form-monday,
+.login-form-monday {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,14 +46,4 @@
 
 .signup-form-monday .btn-signup:hover {
     background-color: #005bb5;
-}
-
-.google-login {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.google-login h2 {
-    margin-bottom: 20px;
-    color: #1d1d1d;
 }

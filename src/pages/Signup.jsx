@@ -37,36 +37,35 @@ export function Signup() {
 
     return (
         <div className='signup-container'>
-        <form className="signup-form-monday" onSubmit={onSignup}>
-        <h2>Sign Up</h2>
-            <input
-                type='text'
-                name='fullname'
-                value={credentials.fullname}
-                placeholder='Fullname'
-                onChange={handleChange}
-                required
-            />
-            <input
-                type='text'
-                name='email'
-                value={credentials.email}
-                placeholder='work email'
-                onChange={handleChange}
-                required
-            />
-            <input
-                type='password'
-                name='password'
-                value={credentials.password}
-                placeholder='Password'
-                onChange={handleChange}
-                required
-            />
-            <ImgUploader onUploaded={onUploaded} />
-            <button>Signup</button>
-        </form>
+            <form className='signup-form-monday' onSubmit={onSignup}>
+                <h2>Sign Up</h2>
+                <input
+                    type='text'
+                    name='fullname'
+                    value={credentials.fullname}
+                    placeholder='Fullname'
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type='text'
+                    name='email'
+                    value={credentials.email}
+                    placeholder='work email'
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type='password'
+                    name='password'
+                    value={credentials.password}
+                    placeholder='Password'
+                    onChange={handleChange}
+                    required
+                />
+                <ImgUploader onUploaded={onUploaded} />
+                <button>Signup</button>
+            </form>
         </div>
-
     )
 }
