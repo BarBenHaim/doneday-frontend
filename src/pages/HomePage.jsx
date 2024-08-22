@@ -195,19 +195,15 @@ export function HomePage() {
                     </div>
                 </div>
                 <div className='boost-your-team'>
-                    <div className='boost-text'>
-                        <h1>The Work OS that lets you shape workflows, your way</h1>
-                    </div>
-                    <div className='boost-text'>
-                        <p>
-                            Boost your team’s alignment, efficiency, and productivity by customizing any workflow to fit
-                            your needs.
-                        </p>
-                    </div>
+                    <h1>The Work OS that lets you shape workflows, your way</h1>
+                    <p>
+                        Boost your team’s alignment, efficiency, and productivity by customizing any workflow to fit
+                        your needs.
+                    </p>
                 </div>
             </div>
 
-            <section className='foter'>
+            <footer className='footer'>
                 <h2>Deliver your best work with doneday.com</h2>
                 <p>No credit card needed ✦ Unlimited time on Free plan</p>
                 <button className='get-start-btn' onClick={onGetStart}>
@@ -216,7 +212,7 @@ export function HomePage() {
                         <MoveArrowRight style={{ marginLeft: '8px', marginTop: '2px' }} />
                     </span>
                 </button>
-            </section>
+            </footer>
         </section>
     )
 }
