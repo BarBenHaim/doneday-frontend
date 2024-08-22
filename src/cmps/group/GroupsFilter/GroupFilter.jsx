@@ -9,7 +9,7 @@ import { GroupAdvancedFilter } from './GroupAdvancedFilter'
 import { addGroup, addTask, getEmptyTask } from '../../../store/actions/board.action'
 import { showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service'
 
-export function GroupFilter({ setFilterBy }) {
+export function GroupFilter({ setFilterBy = () => {} }) {
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
     const groups = currBoard.groups || []
@@ -59,117 +59,115 @@ export function GroupFilter({ setFilterBy }) {
     }
 
     return (
-        <>
-            <section className='board-filter'>
-                <SplitButton
-                    style={{ fontSize: '14px' }}
-                    children={'New ' + boardLabelName}
-                    onClick={() => onAddTask(`New ${boardLabelName}`)}
-                    size='small'
-                    secondaryDialogContent={
-                        <SplitButtonMenu id='split-menu'>
-                            <MenuItem icon={Group} title='Add group' onClick={() => onAddGroup()} />
-                        </SplitButtonMenu>
-                    }
-                />
+        <section className='board-filter'>
+            <SplitButton
+                style={{ fontSize: '14px' }}
+                children={'New ' + boardLabelName}
+                onClick={() => onAddTask(`New ${boardLabelName}`)}
+                size='small'
+                secondaryDialogContent={
+                    <SplitButtonMenu id='split-menu'>
+                        <MenuItem icon={Group} title='Add group' onClick={() => onAddGroup()} />
+                    </SplitButtonMenu>
+                }
+            />
 
-                <div className='header-filter'>
-                    {!isSearchActive ? (
-                        <div className='search' onClick={() => setIsSearchActive(true)}>
-                            <button className='filter-item search'>
-                                <i
-                                    className='fa-solid fa-magnifying-glass'
-                                    style={{
-                                        fontSize: '16px',
-                                        color: 'gray',
-                                    }}
-                                ></i>
-                                Search
-                            </button>
-                        </div>
-                    ) : (
-                        <div className=' search '>
-                            <input
-                                type='text'
-                                name='txt'
-                                placeholder='Search this board'
-                                autoFocus
-                                onBlur={() => setIsSearchActive(false)}
-                                onChange={ev => handleSearchClick(ev)}
-                            />
-                        </div>
-                    )}
-                </div>
+            <div className='header-filter'>
+                {!isSearchActive ? (
+                    <div className='search' onClick={() => setIsSearchActive(true)}>
+                        <button className='filter-item search'>
+                            <i
+                                className='fa-solid fa-magnifying-glass'
+                                style={{
+                                    fontSize: '16px',
+                                    color: 'gray',
+                                }}
+                            ></i>
+                            Search
+                        </button>
+                    </div>
+                ) : (
+                    <div className=' search '>
+                        <input
+                            type='text'
+                            name='txt'
+                            placeholder='Search this board'
+                            autoFocus
+                            onBlur={() => setIsSearchActive(false)}
+                            onChange={ev => handleSearchClick(ev)}
+                        />
+                    </div>
+                )}
+            </div>
 
-                <div className='person-filter'>
-                    <Tooltip
-                        content='Filter board by person'
-                        modifiers={[
-                            {
-                                name: 'preventOverflow',
-                                options: {
-                                    mainAxis: false,
-                                },
+            <div className='person-filter'>
+                <Tooltip
+                    content='Filter board by person'
+                    modifiers={[
+                        {
+                            name: 'preventOverflow',
+                            options: {
+                                mainAxis: false,
                             },
-                            {
-                                name: 'flip',
-                                options: {
-                                    fallbackPlacements: [],
-                                },
+                        },
+                        {
+                            name: 'flip',
+                            options: {
+                                fallbackPlacements: [],
                             },
-                        ]}
-                        withMaxWidth
-                    >
-                        <GroupPersonFilter setFilterBy={setFilterBy} />
-                    </Tooltip>
-                </div>
+                        },
+                    ]}
+                    withMaxWidth
+                >
+                    <GroupPersonFilter setFilterBy={setFilterBy} />
+                </Tooltip>
+            </div>
 
-                <div className='filter-filter'>
-                    <Tooltip
-                        content='Filter board by anyting'
-                        modifiers={[
-                            {
-                                name: 'preventOverflow',
-                                options: {
-                                    mainAxis: false,
-                                },
+            <div className='filter-filter'>
+                <Tooltip
+                    content='Filter board by anyting'
+                    modifiers={[
+                        {
+                            name: 'preventOverflow',
+                            options: {
+                                mainAxis: false,
                             },
-                            {
-                                name: 'flip',
-                                options: {
-                                    fallbackPlacements: [],
-                                },
+                        },
+                        {
+                            name: 'flip',
+                            options: {
+                                fallbackPlacements: [],
                             },
-                        ]}
-                        withMaxWidth
-                    >
-                        <GroupAdvancedFilter setFilterBy={setFilterBy} />
-                    </Tooltip>
-                </div>
+                        },
+                    ]}
+                    withMaxWidth
+                >
+                    <GroupAdvancedFilter setFilterBy={setFilterBy} />
+                </Tooltip>
+            </div>
 
-                <div className='filter-sort'>
-                    <Tooltip
-                        content='Sort board by any column'
-                        modifiers={[
-                            {
-                                name: 'preventOverflow',
-                                options: {
-                                    mainAxis: false,
-                                },
+            <div className='filter-sort'>
+                <Tooltip
+                    content='Sort board by any column'
+                    modifiers={[
+                        {
+                            name: 'preventOverflow',
+                            options: {
+                                mainAxis: false,
                             },
-                            {
-                                name: 'flip',
-                                options: {
-                                    fallbackPlacements: [],
-                                },
+                        },
+                        {
+                            name: 'flip',
+                            options: {
+                                fallbackPlacements: [],
                             },
-                        ]}
-                        withMaxWidth
-                    >
-                        <GruopSort setFilterBy={setFilterBy} />
-                    </Tooltip>
-                </div>
-            </section>
-        </>
+                        },
+                    ]}
+                    withMaxWidth
+                >
+                    <GruopSort setFilterBy={setFilterBy} />
+                </Tooltip>
+            </div>
+        </section>
     )
 }

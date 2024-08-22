@@ -64,7 +64,7 @@ export function BoardDetails() {
         }
     }
 
-    const setFilterBy = arr => {
+    function setFilterBy(arr) {
         setBoardsToDisplay(arr)
     }
 

@@ -107,7 +107,7 @@ export function Priority() {
                     filterUnits='userSpaceOnUse'
                     color-interpolation-filters='sRGB'
                 >
-                    <feFlood flood-opacity='0' result='BackgroundImageFix' />
+                    <feFlood floodOpacity='0' result='BackgroundImageFix' />
                     <feColorMatrix
                         in='SourceAlpha'
                         type='matrix'
@@ -130,7 +130,7 @@ export function Priority() {
                     filterUnits='userSpaceOnUse'
                     color-interpolation-filters='sRGB'
                 >
-                    <feFlood flood-opacity='0' result='BackgroundImageFix' />
+                    <feFlood floodOpacity='0' result='BackgroundImageFix' />
                     <feColorMatrix
                         in='SourceAlpha'
                         type='matrix'
@@ -168,7 +168,7 @@ export function Status() {
                     filterUnits='userSpaceOnUse'
                     color-interpolation-filters='sRGB'
                 >
-                    <feFlood flood-opacity='0' result='BackgroundImageFix' />
+                    <feFlood floodOpacity='0' result='BackgroundImageFix' />
                     <feColorMatrix
                         in='SourceAlpha'
                         type='matrix'
@@ -214,7 +214,7 @@ export function Timeline() {
                     filterUnits='userSpaceOnUse'
                     color-interpolation-filters='sRGB'
                 >
-                    <feFlood flood-opacity='0' result='BackgroundImageFix' />
+                    <feFlood floodOpacity='0' result='BackgroundImageFix' />
                     <feColorMatrix
                         in='SourceAlpha'
                         type='matrix'
@@ -256,7 +256,7 @@ export function Files() {
                     filterUnits='userSpaceOnUse'
                     color-interpolation-filters='sRGB'
                 >
-                    <feFlood flood-opacity='0' result='BackgroundImageFix' />
+                    <feFlood floodOpacity='0' result='BackgroundImageFix' />
                     <feColorMatrix
                         in='SourceAlpha'
                         type='matrix'
@@ -309,7 +309,7 @@ export function Collaborators() {
                     filterUnits='userSpaceOnUse'
                     color-interpolation-filters='sRGB'
                 >
-                    <feFlood flood-opacity='0' result='BackgroundImageFix' />
+                    <feFlood floodOpacity='0' result='BackgroundImageFix' />
                     <feColorMatrix
                         in='SourceAlpha'
                         type='matrix'
@@ -350,7 +350,7 @@ export function Txt() {
                     filterUnits='userSpaceOnUse'
                     color-interpolation-filters='sRGB'
                 >
-                    <feFlood flood-opacity='0' result='BackgroundImageFix' />
+                    <feFlood floodOpacity='0' result='BackgroundImageFix' />
                     <feColorMatrix
                         in='SourceAlpha'
                         type='matrix'
@@ -398,7 +398,7 @@ export function Number() {
                     filterUnits='userSpaceOnUse'
                     color-interpolation-filters='sRGB'
                 >
-                    <feFlood flood-opacity='0' result='BackgroundImageFix' />
+                    <feFlood floodOpacity='0' result='BackgroundImageFix' />
                     <feColorMatrix
                         in='SourceAlpha'
                         type='matrix'
@@ -441,7 +441,7 @@ export function Drop() {
                     filterUnits='userSpaceOnUse'
                     color-interpolation-filters='sRGB'
                 >
-                    <feFlood flood-opacity='0' result='BackgroundImageFix' />
+                    <feFlood floodOpacity='0' result='BackgroundImageFix' />
                     <feColorMatrix
                         in='SourceAlpha'
                         type='matrix'
