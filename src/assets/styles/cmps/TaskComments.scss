@@ -24,11 +24,6 @@
     background-color: whitesmoke;
     transition: right 0.3s ease;
     animation: slideOut 0.3s forwards;
-
-    // .tabs-container {
-    //     display: flex;
-    //     width: 100%;
-    // }
 }
 
 .root-activity-modal.open {
@@ -38,24 +33,6 @@
 .root-activity-modal.close {
     animation: slideOut 0.3s forwards;
 }
-
-// .activity-modal-popover {
-//     .main-header {
-//         display: flex;
-//         justify-content: space-between;
-//         align-items: center;
-//         padding: 20px;
-//         padding-block-start: 30px;
-//         border-bottom: 1px solid #e0e0e0;
-//     }
-//     .tabs-container {
-//         padding: 0;
-//         .monday-style-tab-list__item {
-//             flex: 1;
-//             width: 100%;
-//         }
-//     }
-// }
 
 .task-title {
     font-size: 1.25rem;
@@ -259,5 +236,5 @@
     color: #ffffff;
     padding: 2px 4px;
     font-size: 0.5625rem;
-    line-height:9px;
+    line-height: 9px;
 }

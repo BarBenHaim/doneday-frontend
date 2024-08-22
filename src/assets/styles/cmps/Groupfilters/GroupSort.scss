@@ -1,65 +1,54 @@
 .sort-content {
-  // position: fixed;
-  // top: 50px;
-  // left: 45;
-  // background-color: #fff;
-
-  // padding: 20px;
-  // border: 1px solid #e0e0e0;
-  // border-radius: 8px;
-  width: 550px;
-  height: 145px;
-  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  // z-index: 1000;
+    width: 550px;
+    height: 145px;
 }
 
 .close {
-  color: #aaa;
-  font-size: 28px;
-  font-weight: bold;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .sort-by {
-  color: rgba(128, 128, 128, 0.742);
-  font-family: $font-family-primary;
-  font-size: 18px;
-  font-weight: 500;
-  // margin-bottom: 16px;
+    color: rgba(128, 128, 128, 0.742);
+    font-family: $font-family-primary;
+    font-size: 18px;
+    font-weight: 500;
 }
 
 .sort-options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .sort-option {
-  font-family: $font-family-primary;
-  display: flex;
-  font-family: $font-family-primary;
-  flex-direction: column;
+    font-family: $font-family-primary;
+    display: flex;
+    font-family: $font-family-primary;
+    flex-direction: column;
 
-  width: 48%;
+    width: 48%;
 }
 
 .sort-option label {
-  margin-bottom: 8px;
-  font-family: $font-family-primary;
-  font-size: 14px;
-  color: #333;
+    margin-bottom: 8px;
+    font-family: $font-family-primary;
+    font-size: 14px;
+    color: #333;
 }
 
 .sort-option select {
-  padding: 8px;
-  font-size: 14px;
-  font-family: $font-family-primary;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+    padding: 8px;
+    font-size: 14px;
+    font-family: $font-family-primary;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }

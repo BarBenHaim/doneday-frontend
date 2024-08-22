@@ -1,13 +1,5 @@
 import { storageService } from '../async-storage.service'
-import {
-    createBoard,
-    createBoards,
-    createGroup,
-    createMember,
-    createTask,
-    makeId,
-    saveToStorage,
-} from '../util.service'
+import { createBoards, makeId, saveToStorage } from '../util.service'
 import { userService } from '../user'
 
 const STORAGE_KEY = 'board'
@@ -134,7 +126,6 @@ async function addGroup(boardId, groupTitle) {
 }
 async function addActivity(boardId, activity) {
     const board = await getById(boardId)
-    // const activity = getEmptyGroup(groupTitle)
     board.activitiess.unshift(activity)
     await storageService.put(STORAGE_KEY, board)
     return activity
@@ -222,7 +213,6 @@ function _createBoardDemo(boardTitle, boardLabel) {
             'Manage any type of project. Assign owners, set timelines and keep track of where your project stands.',
         isStarred: false,
         archivedAt: null,
-        // createdBy,
         label: boardLabel,
         members: [],
         groups: [

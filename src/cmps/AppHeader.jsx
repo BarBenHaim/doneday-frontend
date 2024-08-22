@@ -43,7 +43,6 @@ export function AppHeader() {
                             {' '}
                             logout
                         </Button>
-                        {/* <Link to={`user/${user._id}`}> */}
                         <Button kind={Button.kinds.TERTIARY}>
                             <img
                                 className='app-logo'
@@ -59,7 +58,6 @@ export function AppHeader() {
                                 aria-hidden='true'
                             />
                         </Button>
-                        {/* </Link> */}
                     </div>
                 )}
             </div>

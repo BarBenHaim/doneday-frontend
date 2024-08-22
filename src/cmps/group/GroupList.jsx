@@ -20,6 +20,7 @@ export function GroupList({ boardsToDisplay, view }) {
             </section>
         )
     }
+
     const { boardId } = useParams()
     const currBoard = useSelector(storeState => storeState.boardModule.boards.find(board => board._id === boardId))
     const [collapsedStates, setCollapsedStates] = useState({})

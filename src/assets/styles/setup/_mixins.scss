@@ -48,7 +48,6 @@
     }
 }
 
-// Mixin for removing hover efects on iphone screen
 @mixin hover-supported {
     @media not all and (pointer: coarse) {
         &:hover {
@@ -56,8 +55,6 @@
         }
     }
 }
-
-// Define the mixin
 @mixin vibe-heading($element, $font-weight: regular) {
     @if $element == h1 {
         font-size: rem(32px);

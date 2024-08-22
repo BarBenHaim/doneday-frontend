@@ -1,15 +1,15 @@
 .activity-modal-popover {
-    height: 100%; // Set height to 100%
+    height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
 
     .activity-header {
         display: grid;
-        grid-template-rows: auto auto; 
+        grid-template-rows: auto auto;
         position: sticky;
-        top: 0; 
-        background-color: white; 
+        top: 0;
+        background-color: white;
         z-index: 100;
         padding: 16px 10px 0;
         font-family: $font-family-primary;
@@ -17,7 +17,7 @@
         border-bottom: 1px solid #e0e0e0;
 
         .header-title {
-            grid-row: 1; // Place in the first row
+            grid-row: 1;
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -38,15 +38,11 @@
         }
 
         .tab-list {
-            grid-row: 2; // Place in the second row
+            grid-row: 2;
             display: flex;
             flex-grow: 1;
             .tabs-container {
                 padding: 0;
-                // .am-monday-style-tab-list__item {
-                //     flex: 1;
-                //     width: 100%;
-                // }
             }
             .am-tab-title {
                 font-size: 1rem;
@@ -54,8 +50,6 @@
                 gap: 2px;
                 align-items: center;
             }
-            
         }
     }
 }
-

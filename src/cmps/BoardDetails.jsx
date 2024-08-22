@@ -6,10 +6,24 @@ import { GroupFilter } from './group/GroupsFilter/GroupFilter'
 import { useSelector } from 'react-redux'
 import { Delete, Home, NavigationChevronDown } from 'monday-ui-react-core/icons'
 import StarIcon from './svgs/starIcon'
-import { Avatar, AvatarGroup, Button, Dialog, DialogContentContainer, Divider, EditableHeading, Menu, MenuButton, MenuItem, MenuTitle, Tab, TabList, TextArea, } from 'monday-ui-react-core'
+import {
+    Avatar,
+    AvatarGroup,
+    Button,
+    Dialog,
+    DialogContentContainer,
+    Divider,
+    EditableHeading,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuTitle,
+    Tab,
+    TabList,
+    TextArea,
+} from 'monday-ui-react-core'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { UserMsg } from './UserMsg'
-import {SOCKET_EMIT_SET_TOPIC,socketService,} from '../services/socket.service'
+import { SOCKET_EMIT_SET_TOPIC, socketService } from '../services/socket.service'
 import { useDispatch } from 'react-redux'
 import { debounce } from '../services/util.service'
 
@@ -39,8 +53,8 @@ export function BoardDetails() {
 
     useEffect(() => {
         if (currBoard) {
-        setBoardsToDisplay(currBoard?.groups || [])
-        setIsStarredBoard(currBoard?.isStarred)
+            setBoardsToDisplay(currBoard?.groups || [])
+            setIsStarredBoard(currBoard?.isStarred)
         }
     }, [currBoard])
 
@@ -151,7 +165,9 @@ export function BoardDetails() {
                                                 value={currBoard.description}
                                                 weight='normal'
                                                 style={{ marginBottom: '10px' }}
-                                                onChange={e => debouncedUpdateField(currBoard, 'description', e.target.value)}
+                                                onChange={e =>
+                                                    debouncedUpdateField(currBoard, 'description', e.target.value)
+                                                }
                                             />
                                             <div
                                                 className='board-details-edit-divider'
@@ -256,7 +272,6 @@ export function BoardDetails() {
                     </header>
 
                     <GroupList boardsToDisplay={boardsToDisplay} view={view} />
-                    {/* <UserMsg /> */}
                 </>
             )}
         </section>

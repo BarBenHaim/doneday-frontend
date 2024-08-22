@@ -14,6 +14,7 @@ import {
     socketService,
 } from '../services/socket.service'
 import { useDispatch } from 'react-redux'
+import { Dashboard } from './Dashboard'
 
 export function BoardIndex() {
     const [isCollapsed, setIsCollapsed] = useState(false)
