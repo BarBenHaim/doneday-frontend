@@ -138,36 +138,26 @@ export function UpdatedComments({ task, boardId, groupId, loggedinUser, onUpdate
                                             <span className='comment-time'>{moment(comment.createdAt).fromNow()}</span>
                                             <div className='comment-actions'>
                                                 {
-                                                    loggedinUser._id === comment.byMember._id && (
-                                                        <MenuButton
-                                                            componentPosition='bottom-end'
-                                                            dialogPaddingSize='small'
-                                                            zIndex={5}
-                                                        >
-                                                            <Menu id='menu' size='medium'>
-                                                                <MenuItem
-                                                                    onClick={() =>
-                                                                        startEditingComment(comment._id, comment.title)
-                                                                    }
-                                                                    icon={Edit}
-                                                                    title='Edit update'
-                                                                />
-                                                                <MenuItem
-                                                                    onClick={() => handleDeleteComment(comment._id)}
-                                                                    icon={Delete}
-                                                                    title='Delete update'
-                                                                />
-                                                            </Menu>
-                                                        </MenuButton>
-                                                    )
-
-                                                    // <button onClick={() => handleDeleteComment(comment._id)}>
-                                                    //     Delete
-                                                    // </button>
-                                                    // <button
-                                                    //     onClick={() => startEditingComment(comment._id, comment.title)}>
-                                                    //     Edit
-                                                    // </button>
+                                                    <MenuButton
+                                                        componentPosition='bottom-end'
+                                                        dialogPaddingSize='small'
+                                                        zIndex={5}
+                                                    >
+                                                        <Menu id='menu' size='medium'>
+                                                            <MenuItem
+                                                                onClick={() =>
+                                                                    startEditingComment(comment._id, comment.title)
+                                                                }
+                                                                icon={Edit}
+                                                                title='Edit update'
+                                                            />
+                                                            <MenuItem
+                                                                onClick={() => handleDeleteComment(comment._id)}
+                                                                icon={Delete}
+                                                                title='Delete update'
+                                                            />
+                                                        </Menu>
+                                                    </MenuButton>
                                                 }
                                             </div>
                                         </div>
