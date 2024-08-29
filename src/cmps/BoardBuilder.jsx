@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { addExistingBoard } from '../store/actions/board.action.js'
 import { Announcement, Microphone, Night } from 'monday-ui-react-core/icons'
-import { BreadcrumbLoader } from './BreadcrumbLoader.jsx'
 import { generateBoard } from '../services/board/board.service.remote.js'
 import { AiLoader } from './AiLoader.jsx'
 
@@ -77,7 +76,7 @@ export function BoardBuilder() {
 
     return (
         <>
-            <AiLoader isLoading={loading} />
+            <AiLoader isLoading={!loading} />
             {!loading && (
                 <section className='board-builder'>
                     <h2 className='board-builder-title'>Generate your project in seconds</h2>

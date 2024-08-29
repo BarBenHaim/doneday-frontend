@@ -19,7 +19,7 @@ export function AiLoader({ isLoading = true }) {
     return (
         <div className='ai-loading-overlay'>
             <div className='ai-loading-content'>
-                <img className='ai-icon' src={`../../src/assets/img/project/openAI_Logo.svg`} alt='AI Logo' />
+                <img className='ai-icon' src={'img/OpenAI_Logo.svg'} alt='Loader' />
                 <h2 className='ai-title' style={{ display: 'inline-block', position: 'relative' }}>
                     Generating your
                     <span style={{ position: 'absolute', opacity: 1 }}>{'.'.repeat(dots)}</span>
