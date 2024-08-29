@@ -22,7 +22,6 @@ import {
     TabList,
     TextArea,
 } from 'monday-ui-react-core'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { SOCKET_EMIT_SET_TOPIC, socketService } from '../services/socket.service'
 import { useDispatch } from 'react-redux'
 import { debounce } from '../services/util.service'
@@ -78,9 +77,8 @@ export function BoardDetails() {
     async function onUpdateBoard(board) {
         try {
             await updateBoard(board)
-            showSuccessMsg('Board updated')
         } catch (err) {
-            showErrorMsg('Cannot update board')
+            console.log(err)
         }
     }
 
@@ -90,7 +88,7 @@ export function BoardDetails() {
             setIsStarredBoard(isStarredBoard => !isStarredBoard)
             onUpdateField(currBoard, 'isStarred', !currBoard.isStarred)
         } catch (err) {
-            showErrorMsg('Cannot toggle star')
+            console.log(err)
         }
     }
 
@@ -98,9 +96,8 @@ export function BoardDetails() {
         try {
             await removeBoard(currBoardId)
             navigate(`/board`)
-            showSuccessMsg('board removed')
         } catch (err) {
-            showErrorMsg('Cannot remove board')
+            console.log(err)
         }
     }
 

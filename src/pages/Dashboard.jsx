@@ -51,9 +51,7 @@ const calculatePriorityCounts = boards => {
 }
 
 export function Dashboard() {
-    useEffect(() => {
-        loadBoards()
-    }, [])
+    useEffect(() => {}, [])
 
     const boards = useSelector(storeState => storeState.boardModule.boards)
     const statusData = useMemo(() => calculateStatusPercentages(boards), [boards])

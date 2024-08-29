@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 export function BreadcrumbLoader() {
-    const steps = ['Building Board', 'Groups', 'Tasks']
+    const steps = ['Board', 'Groups', 'Tasks']
     const [activeStep, setActiveStep] = useState(0)
 
     useEffect(() => {

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { addExistingBoard } from '../store/actions/board.action.js'
-import { Microphone, Night } from 'monday-ui-react-core/icons'
+import { Announcement, Microphone, Night } from 'monday-ui-react-core/icons'
 import { BreadcrumbLoader } from './BreadcrumbLoader.jsx'
 import { generateBoard } from '../services/board/board.service.remote.js'
+import { AiLoader } from './AiLoader.jsx'
 
 export function BoardBuilder() {
     const [description, setDescription] = useState('')
@@ -76,18 +77,44 @@ export function BoardBuilder() {
 
     return (
         <>
-            {loading && <BreadcrumbLoader />}
-            <div className='board-builder-container flex align-center justify-center'>
-                <input value={description} onChange={handleInputChange} placeholder='Project description...' />
-                <br />
-                <button className='night-icon' onClick={handleGenerateButtonClick} disabled={loading}>
-                    {loading ? 'Generating...' : <Night size={18} />}
-                </button>
-                <button className='mic-icon' onClick={handleVoiceCommand} disabled={loading || isRecording}>
-                    {isRecording ? 'Recording...' : <Microphone size={18} />}
-                </button>
-                {error && <p style={{ color: 'grey', fontSize: '0.775rem', margin: '0' }}>{error}</p>}
-            </div>
+            <AiLoader isLoading={loading} />
+            {!loading && (
+                <section className='board-builder'>
+                    <h2 className='board-builder-title'>Generate your project in seconds</h2>
+                    <div className='board-builder-wrapper'>
+                        <div className='input-button-group'>
+                            <button
+                                className='icon-button voice-button'
+                                onClick={handleVoiceCommand}
+                                disabled={loading || isRecording}
+                            >
+                                {isRecording ? <Announcement size={18} /> : <Microphone size={18} />}
+                            </button>
+                            <input
+                                value={description}
+                                onChange={handleInputChange}
+                                placeholder='Describe your project...'
+                                className='description-input'
+                            />
+                            <button
+                                className='icon-button generate-button'
+                                onClick={handleGenerateButtonClick}
+                                disabled={loading}
+                            >
+                                {loading ? (
+                                    'Generating...'
+                                ) : (
+                                    <span className='generate-button'>
+                                        <Night size={18} />
+                                        Generate
+                                    </span>
+                                )}
+                            </button>
+                        </div>
+                        {error && <p className='error-message'>{error}</p>}
+                    </div>
+                </section>
+            )}
         </>
     )
 }

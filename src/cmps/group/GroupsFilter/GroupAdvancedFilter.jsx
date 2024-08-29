@@ -122,7 +122,6 @@ export function GroupAdvancedFilter({ setFilterBy }) {
                     zIndex={4}
                     content={
                         <DialogContentContainer>
-                            <div className='filter-filter'></div>
                             <div className='advanced-filter-modal'>
                                 <div className='advanced-filter-content'>
                                     <section className='filter-header'>

@@ -1,0 +1,59 @@
+.ai-loading-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 0px 7px rgba(155, 155, 155, 0.2);
+    z-index: 9999;
+    max-width: 400px;
+    width: 100%;
+    .ai-loading-content {
+        .ai-icon {
+            width: 40px;
+            margin: 0 auto;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .ai-title {
+            margin: 0 0 10px;
+            text-align: center;
+            font-size: 1.3rem;
+            color: #000000b9;
+        }
+    }
+}
+
+.breadcrumb-container {
+    display: flex;
+    justify-content: center;
+    margin-block-start: 5px;
+}
+
+.breadcrumb-step {
+    color: #141414;
+    font-size: 1rem;
+    border-radius: 5px;
+    margin: 0 5px;
+    opacity: 0;
+    transition: 0.3s;
+
+    &.isActive {
+        opacity: 1;
+    }
+
+    &.completed {
+        opacity: 1;
+    }
+
+    &:not(:last-child)::after {
+        content: '>';
+        font-size: rem(10px);
+        margin-left: 10px;
+        font-family: 'Font Awesome 6 Free';
+        color: #aaa;
+    }
+}
