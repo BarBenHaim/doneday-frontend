@@ -21,6 +21,8 @@ export function AiLoader({ isLoading = true }) {
         }
     }, [isLoading])
 
+    if (!isLoading) return null
+
     return (
         <div className='ai-loading-overlay'>
             <div className='ai-loading-content'>
