@@ -7,7 +7,6 @@ import { login } from '../store/actions/user.actions'
 export function Login() {
     const [users, setUsers] = useState([])
     const [credentials, setCredentials] = useState({ email: '', password: '' })
-    const [isManualEntry, setIsManualEntry] = useState(false)
 
     const navigate = useNavigate()
 
@@ -23,7 +22,7 @@ export function Login() {
     async function onLogin(ev = null) {
         if (ev) ev.preventDefault()
 
-        if (!credentials.email || !credentials.password) return
+        if (!credentials.email) return
         await login(credentials)
         navigate('/board')
     }
@@ -40,11 +39,14 @@ export function Login() {
                 <h2>Login</h2>
                 <select name='email' value={credentials.email} onChange={handleChange}>
                     <option value=''>Select Existing User</option>
-                    {users.map(user => (
-                        <option key={user._id} value={user.email}>
-                            {user.fullname}
-                        </option>
-                    ))}
+                    {users.map(
+                        user =>
+                            user.fullname === 'Bar Ben Haim' && (
+                                <option key={user._id} value={user.email}>
+                                    {user.fullname}
+                                </option>
+                            )
+                    )}
                 </select>
 
                 <input
@@ -55,14 +57,7 @@ export function Login() {
                     onChange={handleChange}
                     required
                 />
-                <input
-                    type='password'
-                    name='password'
-                    value={credentials.password}
-                    placeholder='Password'
-                    onChange={handleChange}
-                    required
-                />
+
                 <button type='submit'>Login</button>
             </form>
         </section>

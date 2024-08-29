@@ -3,6 +3,13 @@ import { BreadcrumbLoader } from './BreadcrumbLoader'
 
 export function AiLoader({ isLoading = true }) {
     const [dots, setDots] = useState(1)
+    const [imageLoaded, setImageLoaded] = useState(false)
+
+    useEffect(() => {
+        const img = new Image()
+        img.src = 'img/OpenAI_Logo.svg'
+        img.onload = () => setImageLoaded(true)
+    }, [])
 
     useEffect(() => {
         if (isLoading) {
@@ -19,7 +26,7 @@ export function AiLoader({ isLoading = true }) {
     return (
         <div className='ai-loading-overlay'>
             <div className='ai-loading-content'>
-                <img className='ai-icon' src={'img/OpenAI_Logo.svg'} alt='Loader' />
+                {imageLoaded && <img className='ai-icon' src={'img/OpenAI_Logo.svg'} alt='Loader' />}
                 <h2 className='ai-title' style={{ display: 'inline-block', position: 'relative' }}>
                     Generating your
                     <span style={{ position: 'absolute', opacity: 1 }}>{'.'.repeat(dots)}</span>
