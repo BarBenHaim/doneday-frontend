@@ -76,8 +76,8 @@ export function BoardBuilder() {
 
     return (
         <>
-            <AiLoader isLoading={loading} />
-            {!loading && (
+            <AiLoader isLoading={!loading} />
+            {loading && (
                 <section className='board-builder'>
                     <h2 className='board-builder-title'>Generate your project in seconds</h2>
                     <div className='board-builder-wrapper'>

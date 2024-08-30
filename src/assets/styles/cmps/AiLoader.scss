@@ -4,11 +4,11 @@
     align-items: center;
     margin: 0 auto;
     border-radius: 10px;
-    box-shadow: 0 0 4px 0 rgb(197, 197, 197);
+    box-shadow: -4px 4px 5px 0px rgb(232 232 232);
     z-index: 9999;
     max-width: 400px;
     width: 100%;
-    margin-block-end: 13px;
+    margin-block-end: 12px;
 
     .ai-loading-content {
         .ai-icon {
@@ -16,14 +16,14 @@
             width: 35px;
             margin: 0 auto;
             margin-bottom: 8px;
-            opacity: 0.8;
         }
 
         .ai-title {
             margin: 0;
             text-align: center;
             font-size: 1.3rem;
-            color: #000000b9;
+            font-weight: 600;
+            color: #444444;
         }
     }
 }
@@ -31,8 +31,7 @@
 .breadcrumb-container {
     display: flex;
     justify-content: center;
-    margin-block-start: 5px;
-    margin-block-end: 4px;
+    margin-block: 5px;
 }
 
 .breadcrumb-step {

@@ -31,7 +31,7 @@ export function AiLoader({ isLoading = true }) {
                         className='ai-icon'
                         src={loadedImage.src}
                         alt='Loader'
-                        style={{ opacity: isLoading ? 1 : 0 }}
+                        style={{ opacity: isLoading ? 0.9 : 0 }}
                     />
                 )}
                 <h2 className='ai-title' style={{ display: 'inline-block', position: 'relative' }}>
